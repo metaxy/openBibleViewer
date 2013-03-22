@@ -27,7 +27,7 @@ void ModuleApi::activateModule(const int verseTableID)
     //DEBUG_FUNC_NAME;
     //myDebug() << verseTableID;
 
-    m_actions->setCurrentVerseTableID(verseTableID);
+    m_actions->setActiveItem(verseTableID);
 
     QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
     foreach(QWebElement paraElement, collection) {
@@ -38,6 +38,12 @@ void ModuleApi::activateModule(const int verseTableID)
     }
     m_actions->reloadActive();
 }
+void ModuleApi::deleteModule(const int verseTableID)
+{
+    DEBUG_FUNC_NAME
+    m_actions->removeModuleFromVerseTable(verseTableID);
+}
+
 void ModuleApi::setFrame(QWebFrame *frame)
 {
     m_frame = frame;

@@ -118,7 +118,6 @@ SearchableModule * Form::searchableModule() const
 }
 void Form::activated()
 {
-    m_parentSubWindow->update();
 }
 void Form::actTitle()
 {

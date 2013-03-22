@@ -72,8 +72,6 @@ Form::FormType BookForm::type() const
 
 void BookForm::activated()
 {
-    m_parentSubWindow->update();
-    m_view->update();
     actTitle();
 }
 

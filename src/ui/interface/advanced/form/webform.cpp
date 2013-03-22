@@ -27,6 +27,7 @@ WebForm::WebForm(QWidget *parent) :
     connect(m_ui->lineEdit, SIGNAL(returnPressed()), SLOT(changeLocation()));
     connect(m_view, SIGNAL(urlChanged(QUrl)), this, SLOT(adjustLocation()));
     connect(m_view, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
+    connect(m_view, SIGNAL(loadFinished(bool)), m_view, SLOT(update()));
 
     m_ui->toolButton_back->setIcon(m_view->pageAction(QWebPage::Back)->icon());
     m_ui->toolButton_back->setToolTip(m_view->pageAction(QWebPage::Back)->toolTip());
@@ -40,6 +41,7 @@ WebForm::WebForm(QWidget *parent) :
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_view, SLOT(forward()));
     connect(m_ui->toolButton_back, SIGNAL(clicked()), m_view, SLOT(back()));
     connect(m_ui->toolButton_reloadStop, SIGNAL(clicked()), m_view, SLOT(reload()));
+
 
     m_ui->toolButton_back->setShortcut(QKeySequence::Back);
     m_ui->toolButton_forward->setShortcut(QKeySequence::Forward);
@@ -142,8 +144,6 @@ void WebForm::adjustLocation()
 
 void WebForm::activated()
 {
-    m_parentSubWindow->update();
-    m_view->update();
     actTitle();
 }
 void WebForm::actTitle()

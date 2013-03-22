@@ -159,6 +159,9 @@ void ModuleSelectUI::showContextMenu(const QPoint point)
         contextMenu->addAction(actionOpenInNewTab);
 
         contextMenu->addSeparator();
+        contextMenu->addAction(actionOpenPV);
+        contextMenu->addAction(actionOpenPH);
+        contextMenu->addSeparator();
         contextMenu->addAction(actionSettings);
         contextMenu->exec(QCursor::pos());
     }

@@ -84,6 +84,10 @@ public:
      * @return moduleID
      */
     int newModule();
+
+    void addParallelH(const int moduleID);
+    void addParallelV(const int moduleID);
+
     bool verseTableLoaded();
 private slots:
     void showBibleListMenu();
@@ -117,6 +121,9 @@ public slots:
     void forwardSearchInText(SearchResult *result);
     void forwardClear();
     void reloadIf(const VerseUrl &url);
+
+    void forwardDeleteModule(const int itemID);
+    void deleteModule(const int itemID);
 
     void activated();
 

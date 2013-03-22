@@ -34,7 +34,7 @@ void VerseModuleManager::init()
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
-    connect(m_actions, SIGNAL(_setCurrentVerseTableID(int)), this, SLOT(setCurrentVerseTableID(int)));
+    connect(m_actions, SIGNAL(_setActiveItem(int)), this, SLOT(setActiveItem(int)));
 }
 
 void VerseModuleManager::createDocks()
@@ -112,10 +112,10 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
     }
     Q_ASSERT(window != nullptr);
     Form *f = m_windowManager->getForm(window);
-    //todo: can
+
     if(f->type() == Form::BibleForm) {
         BibleForm *form = (BibleForm*) f;
-        parseUrl(form, url);
+        parseUrl(form, url, mod);
     } else if(f->type() == Form::CommentaryForm) {
         CommentaryForm *form = (CommentaryForm*) f;
         parseUrl(form, url);
@@ -139,8 +139,9 @@ void VerseModuleManager::parseUrl(QString url, const Actions::OpenLinkModifiers 
         }
     }
 }
-void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url)
+void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url, const Actions::OpenLinkModifiers mod)
 {
+    DEBUG_FUNC_NAME
     //only if there is nothing at all
     if(!f->verseTableLoaded()) {
         if(url.ranges().first().module() == VerseUrlRange::LoadModuleByID) {
@@ -151,6 +152,10 @@ void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url)
     }
 
     if(f->verseTableLoaded()) {
+        myDebug() << "table loaded";
+        if(mod == Actions::OpenParallelH) f->addParallelH(url.ranges().first().moduleID());
+        if(mod == Actions::OpenParallelV) f->addParallelV(url.ranges().first().moduleID());
+
         f->parseUrl(url);
     } else {
         myWarning() << "verseTable not loaded";
@@ -200,7 +205,7 @@ QuickJumpDockWidget * VerseModuleManager::quickJumpDockWidget()
 {
     return m_quickJumpDockWidget;
 }
-void VerseModuleManager::setCurrentVerseTableID(const int verseTableID)
+void VerseModuleManager::setActiveItem(const int verseTableID)
 {
     if(m_windowManager->activeForm()->type() == Form::BibleForm) {
         ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setActiveItem(verseTableID);

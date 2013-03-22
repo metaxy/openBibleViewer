@@ -32,7 +32,6 @@ TextRange RawToTextRangeParser::toTextRange(ChapterBlock* b)
             }
             range.addVerse(v);
         } else if(c->metaData().type == RMetaData::CaptionBlock) {
-            myDebug() << "parse caption";
             CaptionBlock *vb = (CaptionBlock*) c;
             add = parseCaption(vb);
         }

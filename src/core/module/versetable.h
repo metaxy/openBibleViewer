@@ -55,18 +55,29 @@ public:
 
     TextRanges *lastTextRanges();
 
-    /*void setLastUrl(const VerseUrl &url);
-    VerseUrl lastVerseUrl();*/
-
     void clearData();
 
     bool contains(const int moduleID);
+
+    QPoint topRight() const;
+    QPoint bottomLeft() const;
+
+    void removeModule(const int id);
+
+
 private:
     inline QString title(TextRangesVerseModule *module, const QString &active, const int bibleListID) const;
     int countInCol(const int col) const;
     int m_activeItem;
     TextRanges *m_lastTextRanges;
    /* VerseUrl m_lastUrl;*/
+    void removeRow(int id);
+    void removeCol(int id);
+
+    void removeUnneededCols();
+    void removeUnneededRows();
+
+    void removeUnneeded();
 
 };
 

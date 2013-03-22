@@ -693,6 +693,9 @@ void AdvancedInterface::createToolBars()
     QShortcut *sFullScreen = new QShortcut(QKeySequence(tr("F11", "Enable/Disable Fullscreen mode")), this);
     connect(sFullScreen, SIGNAL(activated()), m_actions, SLOT(toggleFullScreen()));
 
+    QShortcut *sReload = new QShortcut(QKeySequence(tr("F5", "Reload")), this);
+    connect(sReload , SIGNAL(activated()), m_actions, SLOT(reloadCurrentRange()));
+
     toolBarSetText();
 }
 

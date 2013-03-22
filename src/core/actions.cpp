@@ -154,9 +154,9 @@ void Actions::searchInText()
     emit _searchInText();
 }
 
-void Actions::setCurrentVerseTableID(const int verseTableID)
+void Actions::setActiveItem(const int verseTableID)
 {
-    emit _setCurrentVerseTableID(verseTableID);
+    emit _setActiveItem(verseTableID);
 }
 
 void Actions::reloadIf(const VerseUrl &url)
@@ -177,4 +177,8 @@ void Actions::toggleFullScreen()
     emit _toggleFullScreen();
 }
 
-
+void Actions::removeModuleFromVerseTable(const int itemID)
+{
+    DEBUG_FUNC_NAME
+    emit _removeModuleFromVerseTable(itemID);
+}

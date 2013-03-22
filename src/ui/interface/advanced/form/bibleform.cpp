@@ -75,6 +75,8 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_reloadIf(VerseUrl)), this, SLOT(reloadIf(VerseUrl)));
     connect(m_actions, SIGNAL(_moduleChanged(int)), this, SLOT(moduleChanged(int)));
 
+      connect(m_actions, SIGNAL(_removeModuleFromVerseTable(int)), this, SLOT(forwardDeleteModule(int)));
+
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
@@ -111,6 +113,17 @@ int BibleForm::newModule()
 
     return defaultModuleID;
 }
+void BibleForm::addParallelH(const int moduleID)
+{
+    DEBUG_FUNC_NAME
+    m_moduleManager->newTextRangesVerseModule(moduleID, m_verseTable->bottomLeft(), m_verseTable);
+}
+
+void BibleForm::addParallelV(const int moduleID)
+{
+    DEBUG_FUNC_NAME
+    m_moduleManager->newTextRangesVerseModule(moduleID, m_verseTable->topRight(), m_verseTable);
+}
 
 void BibleForm::parseUrl(const QString &string)
 {
@@ -145,6 +158,7 @@ void BibleForm::parseUrl(const QString &string)
 
 void BibleForm::parseUrl(const VerseUrl &url)
 {
+    DEBUG_FUNC_NAME
     bool showStart = false;
 
     if(m_url.isValid()) {
@@ -201,6 +215,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         m_actions->setCurrentChapter(r.second.chapterIDs());
         m_actions->setTitle(verseModule()->moduleTitle());
     } else if(r.second.error() == TextRange::FatalError){ //no such module
+        //todo: should we show a error message?
         showTextRanges(r.first, r.second, url);
         m_actions->clearBooks();
         m_actions->clearChapters();
@@ -554,8 +569,6 @@ void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    m_parentSubWindow->update();
-    m_view->update();
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
     if(m_verseTable == NULL) {
         clearChapters();
@@ -1369,6 +1382,20 @@ void BibleForm::openCommentary()
         m_settings->getModuleSettings(moduleID)->stats_timesOpened++;
     }
 }
+void BibleForm::forwardDeleteModule(const int itemID)
+{
+    DEBUG_FUNC_NAME
+    if(active())
+        deleteModule(itemID);
+}
+
+void BibleForm::deleteModule(const int itemID)
+{
+    DEBUG_FUNC_NAME
+    m_verseTable->removeModule(itemID);
+    reload(true);
+}
+
 
 void BibleForm::changeEvent(QEvent *e)
 {

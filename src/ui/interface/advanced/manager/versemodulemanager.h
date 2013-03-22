@@ -57,10 +57,10 @@ public slots:
 
     void reloadCurrentRange(bool full);
 
-    void setCurrentVerseTableID(const int verseTableID);
+    void setActiveItem(const int verseTableID);
 
 private:
-    void parseUrl(BibleForm *f, const VerseUrl &url);
+    void parseUrl(BibleForm *f, const VerseUrl &url, const Actions::OpenLinkModifiers mod);
     void parseUrl(CommentaryForm *form, const VerseUrl &url);
     QWidget *m_p;
 

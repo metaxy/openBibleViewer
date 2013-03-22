@@ -77,11 +77,12 @@ signals:
     void _searchInText(SearchResult *result);
     void _searchInText();
 
-    void _setCurrentVerseTableID(const int verseTableID);
+    void _setActiveItem(const int verseTableID);
 
     void _moduleChanged(const int moduleID);
     void _setFullScreen(bool enable);
     void _toggleFullScreen();
+    void _removeModuleFromVerseTable(const int itemID);
 public slots:
 
     void previousChapter();
@@ -133,11 +134,13 @@ public slots:
     void searchInText(SearchResult *result);
     void searchInText();
 
-    void setCurrentVerseTableID(const int verseTableID);
+    void setActiveItem(const int verseTableID);
     // updates the ui if full screen was enabled/disabled
     void setFullScreen(bool enable);
     // tiggers full screen or not
     void toggleFullScreen();
+
+    void removeModuleFromVerseTable(const int itemID);
 
 };
 

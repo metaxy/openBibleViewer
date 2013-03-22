@@ -69,8 +69,6 @@ void CommentaryForm::init()
 
 void CommentaryForm::activated()
 {
-    m_parentSubWindow->update();
-    m_view->update();
     actTitle();
 }
 

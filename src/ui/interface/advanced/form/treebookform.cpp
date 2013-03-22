@@ -101,8 +101,6 @@ Form::FormType TreeBookForm::type() const
 
 void TreeBookForm::activated()
 {
-    m_parentSubWindow->update();
-    m_view->update();
     actTitle();
 }
 void TreeBookForm::actTitle()

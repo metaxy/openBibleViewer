@@ -44,9 +44,11 @@ int VerseTable::activeItem() const
 
 void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
 {
+    DEBUG_FUNC_NAME
     //if it contains already a module at point p
     //then delete the old and insert the new
     if(m_points.values().contains(p)) {
+        myDebug() << "already contains";
         const int id = m_points.key(p, -1);
         if(m_modules.contains(id) && m_modules.value(id) != NULL) {
             delete m_modules.value(id);
@@ -57,6 +59,7 @@ void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
         m_points.insert(id, p);
         m_modules.insert(id, module);
     } else {
+        myDebug() << "new";
         const int id = m_points.size();
         m_activeItem = id;
         m_points.insert(id, p);
@@ -250,7 +253,8 @@ QString VerseTable::title(TextRangesVerseModule *module, const QString &active, 
     return "<td class='verseTableTitle" + active + "' titleOf='" +
            QString::number(module->moduleID()) + "' verseTableID='" +
            QString::number(verseTableID) + "'><a href='#' onclick=\"Module.activateModule('" +
-           QString::number(verseTableID) + "');\" class='verseTableTitleLink'>" + module->moduleShortTitle() + "</a></td>";
+           QString::number(verseTableID) + "');\" class='verseTableTitleLink'>" + module->moduleShortTitle() + "</a><a href='#' onclick=\"Module.deleteModule('" +
+            QString::number(verseTableID) + "');\" class='verseTableDeleteModule'><img src='qrc:/icons/16x16/kdenlive-deleffect.png' /></a></td>";
 }
 
 bool VerseTable::hasTopBar() const
@@ -291,12 +295,90 @@ TextRanges *VerseTable::lastTextRanges()
 {
     return m_lastTextRanges;
 }
-/*void VerseTable::setLastUrl(const VerseUrl &verseUrl)
+QPoint VerseTable::topRight() const
 {
-    m_lastUrl = verseUrl;
+    int max = 0;
+    foreach(const QPoint & p, m_points) {
+        max = qMax(max, p.y());
+    }
+    return QPoint(0, max + 1);
 }
-VerseUrl VerseTable::lastVerseUrl()
+
+QPoint VerseTable::bottomLeft() const
 {
-    return m_lastUrl;
+    int max = 0;
+    foreach(const QPoint & p, m_points) {
+        max = qMax(max, p.x());
+    }
+    return QPoint(max + 1, 0);
+
 }
-*/
+void VerseTable::removeModule(const int id)
+{
+    if(m_modules.contains(id) && m_modules.value(id) != NULL) {
+        delete m_modules.value(id);
+        m_modules.remove(id);
+        m_points.remove(id);
+        if(m_points.size() >= 1) {
+             setActiveItem(m_points.keys().first());
+        }
+        removeUnneeded();
+        //currently i think the reload is the problem
+    }
+
+}
+void VerseTable::removeCol(int id)
+{
+    QMutableMapIterator<int, QPoint> i(m_points);
+     while (i.hasNext()) {
+         i.next();
+         if(i.value().x() >= id) {
+             i.value().setX(i.value().x() - 1);
+         }
+     }
+}
+
+void VerseTable::removeRow(int id)
+{
+    QMutableMapIterator<int, QPoint> i(m_points);
+     while (i.hasNext()) {
+         i.next();
+         if(i.value().y() >= id) {
+             i.value().setY(i.value().y() - 1);
+         }
+     }
+}
+
+void VerseTable::removeUnneededCols() //x
+{
+    int max = 0;
+    foreach(const QPoint & p, m_points) {
+        max = qMax(max, p.x());
+    }
+    for(int i = 0; i<= max; i++) {
+        bool contains = false;
+        foreach(const QPoint & p, m_points) {
+            if(p.x() == i) contains = true;
+        }
+        if(!contains) removeCol(i);
+    }
+}
+void VerseTable::removeUnneededRows() //y
+{
+    int max = 0;
+    foreach(const QPoint & p, m_points) {
+        max = qMax(max, p.y());
+    }
+    for(int i = 0; i<= max; i++) {
+        bool contains = false;
+        foreach(const QPoint & p, m_points) {
+            if(p.y() == i) contains = true;
+        }
+        if(!contains) removeRow(i);
+    }
+}
+void VerseTable::removeUnneeded()
+{
+    removeUnneededCols();
+    removeUnneededRows();
+}
