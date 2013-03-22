@@ -51,5 +51,6 @@
         <file>data/pdf.js/compatibility.js</file>
         <file>data/pdf.js/pdf.js</file>
         <file>data/pdf.js/l10n.js</file>
+        <file>data/css/dark_blue.css</file>
     </qresource>
 </RCC>

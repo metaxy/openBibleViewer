@@ -10,3 +10,4 @@ openBibleViewer.kdev4
 wiki/
 openbibleviewer-*.tar.gz
 *.kate-swp
+.sass-cache

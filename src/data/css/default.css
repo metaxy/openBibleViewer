@@ -1,264 +1,282 @@
 html {
-    background-color:#ffffff;
-    color:#000000;
-    padding: 0;
-    margin: 0;
-    font-family: sans-serif;
-    font-size:14px;
+  background-color: white;
+  color: black;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 14px;
 }
+
 .verseModule {
-   /* -webkit-column-count: 2;
-    -webkit-column-gap: 20px;*/
+  /* -webkit-column-count: 2;
+   -webkit-column-gap: 20px;*/
 }
-.verseTableTitle a:link, a:visited, a:active{
-    color: #000000;
+
+.verseTableTitle a:link, a:visited, a:active {
+  color: black;
 }
+
 .verseTableTitle a:hover {
-    color: #0080AF;
-    text-shadow: 1px 1px 0px #fff;
+  color: #0080af;
+  text-shadow: 1px 1px 0px #fff;
 }
-.verseTable td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active{
-    color:#0080AF;
+
+.verseTable td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active {
+  color: #0080af;
 }
-.verseTable td[class~=active] a:hover, #topTable td[class~=active] a:hover  {
-    color:#0080AF;
-    text-shadow: 1px 1px 0px #fff;
+
+.verseTable td[class~=active] a:hover, #topTable td[class~=active] a:hover {
+  color: #0080af;
+  text-shadow: 1px 1px 0px #fff;
 }
+
 .verseTable td {
-    width:100%;
+  width: 100%;
 }
+
 .verseTable {
-    padding-top:2em;
-    table-layout:fixed;
-    width:100%;
+  padding-top: 2em;
+  table-layout: fixed;
+  width: 100%;
 }
+
 #topTable {
-    margin-top:-8px;
-    table-layout:fixed;
-    position:fixed;
-    width:100%;
-    background-image: -webkit-gradient(linear,left bottom,left top, 
-                    color-stop(0.24, rgba(255,255,255,0.85)),
-                    color-stop(0.88, rgba(209,209,209,0.85))
-    );
-    border-bottom: 1px solid rgba(68,69,68,0.6);
-    
-    text-shadow: 0px 2px 5px #DFDFDF;
+  margin-top: -8px;
+  table-layout: fixed;
+  position: fixed;
+  width: 100%;
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, rgba(255, 255, 255, 0.85)), color-stop(0.88, rgba(209, 209, 209, 0.85)));
+  border-bottom: 1px solid rgba(68, 69, 68, 0.6);
+  text-shadow: 0px 2px 5px #DFDFDF;
 }
-#topTable td{
-    text-align:center; 
-    border: 1px solid #000000;
+
+#topTable td {
+  text-align: center;
+  border: 1px solid black;
 }
+
 td.rowTitle {
-    width:5em;
-    overflow: hidden;
-    word-wrap: break-word;
+  width: 5em;
+  overflow: hidden;
+  word-wrap: break-word;
 }
+
 .verseEntry .selectedEntry {
-    border-left: 2px solid #17AAFF;
-    padding-left:2px;
-    padding-top:2px;
-    padding-bottom:2px;
-    background-color: #E1E9FF;
-    font-weight:bold;
+  border-left: 2px solid #aec4ff;
+  padding-left: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #e1e9ff;
+  font-weight: bold;
+  color: black;
 }
 
 .verseEntry a.gramlink {
-    font-size: 70%;
-    vertical-align: super;
+  font-size: 70%;
+  vertical-align: super;
 }
+
 .verseEntry a.gramlink:after {
-    content: "  ";
+  content: "  ";
 }
-.verseEntry a.gramlink{
-    color: #323232;
-    text-decoration:none;
+
+.verseEntry a.gramlink {
+  color: #323232;
+  text-decoration: none;
 }
-.verseEntry a.gramlink:hover{
-    color:#0080AF;
-    text-decoration:underline;
+
+.verseEntry a.gramlink:hover {
+  color: #0080af;
+  text-decoration: underline;
 }
 
 .verseEntry a.stronglink {
-    font-size: 70%;
-    vertical-align: super;
-    color: #002B70;
-    text-decoration:none;
-    margin-right:0.5em;
+  font-size: 70%;
+  vertical-align: super;
+  color: #002b70;
+  text-decoration: none;
+  margin-right: 0.5em;
 }
 
-.verseEntry a.stronglink:hover{
-    color: #0080AF;
-    text-decoration:underline;
+.verseEntry a.stronglink:hover {
+  color: #0080af;
+  text-decoration: underline;
 }
 
 .verseEntry a.inlinestronglink {
-    color: #000000;
-    font-family: sans-serif;
-    font-size:14px;
-    text-decoration:none;
+  color: black;
+  text-decoration: none;
 }
-.verseEntry a.inlinestronglink:hover{
-    color: #0080AF;
-    text-decoration:underline;
+
+.verseEntry a.inlinestronglink:hover {
+  color: #0080af;
+  text-decoration: underline;
 }
 
 .verseEntry a.rmaclink {
-    font-size: 70%;
-    vertical-align: super;
-    margin-right:0.5em;
-    color: #700000;
-    text-decoration:none;
-    
+  font-size: 70%;
+  vertical-align: super;
+  margin-right: 0.5em;
+  color: #700000;
+  text-decoration: none;
 }
+
 .verseEntry a.rmaclink:hover {
-    color: #0080AF;
-    text-decoration:underline;
+  color: #e42b2b;
+  text-decoration: underline;
 }
 
 .verseEntry .crossreference {
-    font-size: 80%;
-    color: blue;
+  font-size: 80%;
+  color: blue;
 }
+
 .verseEntry .crossreference:before {
-    content: " [";
+  content: " [";
 }
+
 .verseEntry .crossreference:after {
-    content: "] ";
+  content: "] ";
 }
-.verseEntry .crossreference a{
-    color: blue;
+
+.verseEntry .crossreference a {
+  color: #002b70;
 }
-.verseEntry .crossreference a:hover{
-    color: green;
+
+.verseEntry .crossreference a:hover {
+  color: #0080af;
 }
 
 .verseEntry .studynote:before {
-    content: "(";
+  content: "(";
 }
+
 .verseEntry .studynote:after {
-    content: ")";
+  content: ")";
 }
+
 .verseEntry .studynote {
-    font-size: small;
-    color: #420F00;
+  font-size: small;
+  color: #420F00;
 }
+
 .verseEntry .verseNumber {
-    color: #014B88;
-    font-size: smaller;
-    vertical-align: super;
+  color: #014b88;
+  font-size: smaller;
+  vertical-align: super;
 }
+
 .verseEntry .verseNumber:after {
-    content: " ";
+  content: " ";
 }
+
 .rangeTitle {
-    font-size: 110%;
-    display: block;
-    padding-top:2em;
-    padding-bottom:2em;
+  font-size: 110%;
+  display: block;
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
+
 td .rangeTitle {
-    text-align: center;
+  text-align: center;
 }
+
 .pageBreak {
-    page-break-after: always;
+  page-break-after: always;
 }
 
 .sup {
-    font-size: 90%;
-    vertical-align: super;
+  font-size: 90%;
+  vertical-align: super;
 }
+
 .sub {
-    font-size: 90%;
-    vertical-align: bottom;
+  font-size: 90%;
+  vertical-align: bottom;
 }
 
 .underline {
-    text-decoration:underline;
+  text-decoration: underline;
 }
+
 .otquote {
-    font-style:italic;
+  font-style: italic;
 }
 
 .wordsofjesus {
-    color: red;
+  color: red;
 }
 
 /***************************************************************************/
 /* Dictionary */
-
 .dictionary {
-    background-color:#ffffff;
-    color:#000000;
-    padding: 0;
-    margin: 0;
-    font-family: sans-serif;
-    font-size:15px;
+  background-color: white;
+  color: black;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 15px;
 }
 
 .dictionary .dictEntry {
-    border-radius: 5px;
-    border: solid 1px #989898;
-    
-    padding-left: 10px;
-    padding-right: 10px;
-    
-    padding-top: 4px;
-    padding-bottom: 4px;
-    
-    margin-bottom: 5px;
+  border-radius: 5px;
+  border: solid 1px #989898;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .dictionary .crossreference {
-    color: #002B70;
-    text-decoration:none;
+  color: #002b70;
+  text-decoration: none;
 }
 
-.dictionary .crossreference a:hover{
-    color: #0080AF;
-    text-decoration:underline;
+.dictionary .crossreference a:hover {
+  color: #0080af;
+  text-decoration: underline;
 }
 
 .dictionary h3.title {
-    color: #151515;
+  color: #151515;
 }
 
 .dictionary .transliteration:before {
-     content: " (";
+  content: " (";
 }
 
 .dictionary .transliteration:after {
-     content: ") ";
+  content: ") ";
 }
-.dictionary .pronunciation {
-    
-}
+
 .dictionary .pronunciation:before {
-     content: " [";
+  content: " [";
 }
 
 .dictionary .pronunciation:after {
-     content: "] ";
+  content: "] ";
 }
+
 .dictionary .hr {
-    display: block;
+  display: block;
 }
 
 .dictionary .description {
-    white-space: wrap;
-    display: block;
+  white-space: wrap;
+  display: block;
 }
 
-.dictionary a{
-    color: #002B70;
-    text-decoration:none;
+.dictionary a {
+  color: #002b70;
+  text-decoration: none;
 }
-.dictionary a:hover{
-    color: #0080AF;
-    text-decoration:underline;
+
+.dictionary a:hover {
+  color: #0080af;
+  text-decoration: underline;
 }
-.dictionary a:visited{
-    color: #0080AF;
-}
-.verseTableDeleteModule {
+
+.dictionary a:visited {
+  color: #0080af;
 }

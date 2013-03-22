@@ -128,11 +128,13 @@ QStandardItem * NotesItemView::addNote(const QString &id, const QString &title, 
 void NotesItemView::removeNote(const QString &noteID)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
-    Q_ASSERT(list.size() == 1);
+
     if(list.isEmpty()) {
         myWarning() << "invalid noteID = " << noteID;
         return;
     }
+
+    Q_ASSERT(list.size() == 1);
     const QModelIndex index = list.first();
     m_itemModel->removeRow(index.row(), index.parent());
 }
@@ -140,11 +142,13 @@ void NotesItemView::removeNote(const QString &noteID)
 QStandardItem* NotesItemView::find(const QString &noteID)
 {
     const QModelIndexList list = m_proxyModel->match(m_itemModel->invisibleRootItem()->index(), Qt::UserRole + 1, noteID, -1, Qt::MatchExactly);
-    Q_ASSERT(list.size() == 1);
+
     if(list.isEmpty()) {
         myWarning() << "invalid noteID = " << noteID;
         return NULL;
     }
+
+    Q_ASSERT(list.size() == 1);
     myDebug() << m_itemModel->itemFromIndex(list.first());
   //  m_itemModel->itemFromIndex(m_proxyModel->mapToSource(m_treeView->indexAt(m_point)));
 

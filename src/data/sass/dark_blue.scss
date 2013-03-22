@@ -1,0 +1,25 @@
+/*****************
+ * Dark Blue
+ * *****************/
+
+
+$background-color: #1E1E1E;
+$text-color: #EFEFEF;
+
+$link-color: #3C8AFF;
+$link-color-hover: #65A8FF;
+
+$rmac-link: #700000;
+$rmac-link-hover: #700000;
+
+$crossreference-color: blue;
+$versenumber-color: #52BDFF;
+
+$selectedverse-background: #004376;
+$selectedverse-text: $text-color;
+@import "bare";
+
+//because most marks are bright
+.verseEntry .mark {
+    color: #000;
+}

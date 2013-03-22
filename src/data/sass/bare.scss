@@ -1,0 +1,261 @@
+html {
+    background-color: $background-color;
+    color: $text-color;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    font-size:14px;
+}
+.verseModule {
+   /* -webkit-column-count: 2;
+    -webkit-column-gap: 20px;*/
+}
+.verseTableTitle a:link, a:visited, a:active{
+    color: $text-color;
+}
+.verseTableTitle a:hover {
+    color: $link-color-hover;
+    text-shadow: 1px 1px 0px #fff;
+}
+.verseTable td[class~=active] a:link, a:visited, a:active, #topTable td[class~=active] a:link, a:visited, a:active{
+    color: $link-color-hover;
+}
+.verseTable td[class~=active] a:hover, #topTable td[class~=active] a:hover  {
+    color: $link-color-hover;
+    text-shadow: 1px 1px 0px #fff;
+}
+.verseTable td {
+    width:100%;
+}
+.verseTable {
+    padding-top: 2em;
+    table-layout: fixed;
+    width: 100%;
+}
+#topTable {
+    margin-top: -8px;
+    table-layout: fixed;
+    position: fixed;
+    width: 100%;
+    background-image: -webkit-gradient(linear,left bottom,left top, 
+                    color-stop(0.24, rgba(255,255,255,0.85)),
+                    color-stop(0.88, rgba(209,209,209,0.85))
+    );
+    border-bottom: 1px solid rgba(68,69,68,0.6);
+    
+    text-shadow: 0px 2px 5px #DFDFDF;
+}
+#topTable td{
+    text-align: center; 
+    border: 1px solid $text-color;
+}
+td.rowTitle {
+    width: 5em;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+.verseEntry .selectedEntry {
+    border-left: 2px solid darken($selectedverse-background, 10%);
+    padding-left:2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: $selectedverse-background;
+    font-weight: bold;
+    color: $selectedverse-text
+}
+
+.verseEntry a.gramlink {
+    font-size: 70%;
+    vertical-align: super;
+}
+.verseEntry a.gramlink:after {
+    content: "  ";
+}
+.verseEntry a.gramlink{
+    color: #323232;
+    text-decoration: none;
+}
+.verseEntry a.gramlink:hover{
+    color: $link-color-hover;
+    text-decoration: underline;
+}
+
+.verseEntry a.stronglink {
+    font-size: 70%;
+    vertical-align: super;
+    color: $link-color;
+    text-decoration: none;
+    margin-right: 0.5em;
+}
+
+.verseEntry a.stronglink:hover{
+    color: $link-color-hover;
+    text-decoration: underline;
+}
+
+.verseEntry a.inlinestronglink {
+    color: $text-color;
+    text-decoration: none;
+}
+.verseEntry a.inlinestronglink:hover{
+    color: $link-color-hover;
+    text-decoration: underline;
+}
+
+.verseEntry a.rmaclink {
+    font-size: 70%;
+    vertical-align: super;
+    margin-right:0.5em;
+    color: #700000;
+    text-decoration:none;
+    
+}
+.verseEntry a.rmaclink:hover {
+    color: $rmac-link-hover;
+    text-decoration: underline;
+}
+
+.verseEntry .crossreference {
+    font-size: 80%;
+    color: $crossreference-color;
+}
+.verseEntry .crossreference:before {
+    content: " [";
+}
+.verseEntry .crossreference:after {
+    content: "] ";
+}
+.verseEntry .crossreference a{
+    color: $link-color;
+}
+.verseEntry .crossreference a:hover{
+    color: $link-color-hover;
+}
+
+.verseEntry .studynote:before {
+    content: "(";
+}
+.verseEntry .studynote:after {
+    content: ")";
+}
+.verseEntry .studynote {
+    font-size: small;
+    color: #420F00;
+}
+.verseEntry .verseNumber {
+    color: $versenumber-color;
+    font-size: smaller;
+    vertical-align: super;
+}
+.verseEntry .verseNumber:after {
+    content: " ";
+}
+.rangeTitle {
+    font-size: 110%;
+    display: block;
+    padding-top:2em;
+    padding-bottom:2em;
+}
+td .rangeTitle {
+    text-align: center;
+}
+.pageBreak {
+    page-break-after: always;
+}
+
+.sup {
+    font-size: 90%;
+    vertical-align: super;
+}
+.sub {
+    font-size: 90%;
+    vertical-align: bottom;
+}
+
+.underline {
+    text-decoration: underline;
+}
+.otquote {
+    font-style: italic;
+}
+
+.wordsofjesus {
+    color: red;
+}
+
+/***************************************************************************/
+/* Dictionary */
+
+.dictionary {
+    background-color: $background-color;
+    color: $text-color;
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.dictionary .dictEntry {
+    border-radius: 5px;
+    border: solid 1px #989898;
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    padding-top: 4px;
+    padding-bottom: 4px;
+    
+    margin-bottom: 5px;
+}
+
+.dictionary .crossreference {
+    color: $link-color;
+    text-decoration:none;
+}
+
+.dictionary .crossreference a:hover{
+    color: $link-color-hover;
+    text-decoration:underline;
+}
+
+.dictionary h3.title {
+    color: #151515;
+}
+
+.dictionary .transliteration:before {
+     content: " (";
+}
+
+.dictionary .transliteration:after {
+     content: ") ";
+}
+.dictionary .pronunciation {
+    
+}
+.dictionary .pronunciation:before {
+     content: " [";
+}
+
+.dictionary .pronunciation:after {
+     content: "] ";
+}
+.dictionary .hr {
+    display: block;
+}
+
+.dictionary .description {
+    white-space: wrap;
+    display: block;
+}
+
+.dictionary a {
+    color: $link-color;
+    text-decoration: none;
+}
+.dictionary a:hover{
+    color: $link-color-hover;
+    text-decoration: underline;
+}
+.dictionary a:visited{
+    color: $link-color-hover;
+}
