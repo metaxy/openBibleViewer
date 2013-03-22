@@ -179,6 +179,5 @@ void Actions::toggleFullScreen()
 
 void Actions::removeModuleFromVerseTable(const int itemID)
 {
-    DEBUG_FUNC_NAME
     emit _removeModuleFromVerseTable(itemID);
 }

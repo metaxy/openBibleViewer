@@ -84,6 +84,7 @@ void VerseTableWidget::init()
             m_model->setItem(i, j, item);
         }
     }
+
     VerseTableItemDelegate *delegate = new VerseTableItemDelegate(this);
     setAll(delegate);
     delegate->init();
@@ -125,6 +126,7 @@ void VerseTableWidget::save()
     DEBUG_FUNC_NAME
     bool hadBible = m_moduleManager->verseTableLoaded(m_verseTable);
     m_verseTable->clear();
+
     //load them
     int selectedModule = -1;//the selected bible
     int lastModule = 0;
@@ -160,7 +162,7 @@ void VerseTableWidget::save()
             range.setBook(VerseUrlRange::LoadCurrentBook);
             range.setChapter(VerseUrlRange::LoadCurrentChapter);
             range.setWholeChapter();
-            url.setParam("force", "true");
+            url.setParam("ignoreModuleID", "true");
             url.addRange(range);
             m_actions->get(url);
         } else {
@@ -171,7 +173,7 @@ void VerseTableWidget::save()
             range.setBook(VerseUrlRange::LoadFirstBook);
             range.setChapter(VerseUrlRange::LoadFirstChapter);
             range.setWholeChapter();
-            url.setParam("force", "true");
+            url.setParam("ignoreModuleID", "true");
             url.addRange(range);
             m_actions->get(url);
         }

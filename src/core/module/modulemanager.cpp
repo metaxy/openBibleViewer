@@ -134,6 +134,7 @@ void ModuleManager::makeSureItHasLoaded(ModuleSettings *settings)
 }
 void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 {
+    Q_ASSERT(settings != NULL);
     if(settings == NULL)
         return;
     Module *module = new Module(parentModule);
@@ -155,6 +156,7 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 }
 void ModuleManager::initVerseModule(VerseModule *m) const
 {
+    Q_ASSERT(m != NULL);
     if(m != NULL) {
         m->setSettings(m_settings);
         m->setNotes(m_notes);
@@ -164,6 +166,7 @@ void ModuleManager::initVerseModule(VerseModule *m) const
 }
 void ModuleManager::initSimpleModule(SimpleModuleClass *m) const
 {
+    Q_ASSERT(m != NULL);
     if(m != NULL) {
         m->setSettings(m_settings);
         m->setNotes(m_notes);
@@ -263,6 +266,7 @@ void ModuleManager::checkCache(const int moduleID)
 TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
     if(!contains(moduleID)) {
+        Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
@@ -274,6 +278,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
 TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID)
 {
     if(!contains(moduleID)) {
+        Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
         return NULL;
     }
@@ -283,6 +288,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
         m = new Bible();
         initVerseModule(m);
     } else {
+        Q_ASSERT(false);
         myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
         return NULL;
     }

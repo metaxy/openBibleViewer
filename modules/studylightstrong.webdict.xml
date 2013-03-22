@@ -28,19 +28,19 @@
                     }
                     if(a[0] == 'G' || a[0] == 'g') {
                         a = a.substr(1);
-			return "http://www.studylight.org/lex/grk/gwview.cgi?n="+a;
+                        return "http://www.studylight.org/lex/grk/gwview.cgi?n="+a;
                     } else if(a[0] == 'H' || a[0] == 'h') {
                         a = a.substr(1);
-			return "http://www.studylight.org/lex/heb/hwview.cgi?n="+a;
+                        return "http://www.studylight.org/lex/heb/hwview.cgi?n="+a;
                     }
-		    return "http://www.studylight.org/";
+                    return "http://www.studylight.org/";
                  })
                 ]]>
             </parseIn>
             <parseOut>
                 <![CDATA[
                     (function(a) { 
-			return a;
+                        return a;
                     })
                  ]]>
             </parseOut>

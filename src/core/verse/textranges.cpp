@@ -272,8 +272,6 @@ TextRange::TextRangeError TextRanges::error() const
 }
 void TextRanges::setSource(const Ranges &source)
 {
-    DEBUG_FUNC_NAME;
-    myDebug() << m_source.source().toString();
     m_source = source;
 }
 

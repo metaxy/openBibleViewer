@@ -398,8 +398,8 @@ VerseUrl VerseUrl::applyUrl(const VerseUrl &url)
 {
     if(this->ranges().isEmpty())
         return url;
-    myDebug() << "this=" << this->ranges().size() << "url=" << url.ranges().size();
-
+    myDebug() << "this.size() = " << this->ranges().size() << "url.size() =" << url.ranges().size();
+    myDebug() << "this.toString()" << toString() << "url.toString()" << url.toString();
     VerseUrl newUrl = url;
     newUrl.clearRanges();
     for(int i = 0; i < url.ranges().size(); i++) {
@@ -451,6 +451,7 @@ VerseUrl VerseUrl::applyUrl(const VerseUrl &url)
         newUrl.addRange(newRange);
         //todo: active Verse
     }
+    myDebug() << "newUrl" << newUrl.toString();
     return newUrl;
 }
 void VerseUrl::setModuleID(const int moduleID)

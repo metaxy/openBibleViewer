@@ -67,7 +67,7 @@ public:
     void save();
     Form::FormType type() const;
 
-    void parseUrl(const VerseUrl &url);
+    void parseUrl(const VerseUrl &url, bool reload = false);
     void parseUrl(const QString &url);
 
     void nextChapter();
@@ -164,7 +164,7 @@ private:
     void setButtons();
     void createDefaultMenu();
     void deleteDefaultMenu();
-    void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false);
+    void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false, bool ignoreModuleID = true);
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;

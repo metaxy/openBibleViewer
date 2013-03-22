@@ -36,7 +36,6 @@ Bible::Bible()
 }
 Bible::~Bible()
 {
-    DEBUG_FUNC_NAME
     m_versification.clear();
     m_bibleModule.clear();
 }

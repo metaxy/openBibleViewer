@@ -44,9 +44,9 @@ int VerseTable::activeItem() const
 
 void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
 {
-    DEBUG_FUNC_NAME
     //if it contains already a module at point p
     //then delete the old and insert the new
+    myDebug() << "before points = " << m_points << " modules = " << m_modules;
     if(m_points.values().contains(p)) {
         myDebug() << "already contains";
         const int id = m_points.key(p, -1);
@@ -55,17 +55,23 @@ void VerseTable::addModule(TextRangesVerseModule* module, const QPoint &p)
             m_modules.remove(id);
             m_points.remove(id);
         }
-
+        //id or m_activeItem ???
         m_points.insert(id, p);
         m_modules.insert(id, module);
     } else {
         myDebug() << "new";
-        const int id = m_points.size();
+
+        int id = 0;
+        foreach(int i, m_points.keys()) {
+            id = qMax(id, i);
+        }
+        id++;
+
         m_activeItem = id;
         m_points.insert(id, p);
         m_modules.insert(id, module);
     }
-    myDebug() << "points = " << m_points << " modules = " << m_modules;
+    myDebug() << "after points = " << m_points << " modules = " << m_modules;
     setLastTextRanges(m_lastTextRanges);
 }
 
@@ -297,19 +303,23 @@ TextRanges *VerseTable::lastTextRanges()
 }
 QPoint VerseTable::topRight() const
 {
+    myDebug() << "m_points" << m_points;
     int max = 0;
     foreach(const QPoint & p, m_points) {
         max = qMax(max, p.y());
     }
+    myDebug() << "QPoint(0, max + 1)" << QPoint(0, max + 1);
     return QPoint(0, max + 1);
 }
 
 QPoint VerseTable::bottomLeft() const
 {
+    myDebug() << "m_points" << m_points;
     int max = 0;
     foreach(const QPoint & p, m_points) {
         max = qMax(max, p.x());
     }
+    myDebug() << "QPoint(max + 1, 0)" << QPoint(max + 1, 0);
     return QPoint(max + 1, 0);
 
 }
@@ -329,6 +339,7 @@ void VerseTable::removeModule(const int id)
 }
 void VerseTable::removeCol(int id)
 {
+
     QMutableMapIterator<int, QPoint> i(m_points);
      while (i.hasNext()) {
          i.next();
@@ -351,6 +362,7 @@ void VerseTable::removeRow(int id)
 
 void VerseTable::removeUnneededCols() //x
 {
+    myDebug() << "before m_points" << m_points;
     int max = 0;
     foreach(const QPoint & p, m_points) {
         max = qMax(max, p.x());
@@ -362,9 +374,11 @@ void VerseTable::removeUnneededCols() //x
         }
         if(!contains) removeCol(i);
     }
+    myDebug() << "after m_points" << m_points;
 }
 void VerseTable::removeUnneededRows() //y
 {
+    myDebug() << "before m_points" << m_points;
     int max = 0;
     foreach(const QPoint & p, m_points) {
         max = qMax(max, p.y());
@@ -376,6 +390,7 @@ void VerseTable::removeUnneededRows() //y
         }
         if(!contains) removeRow(i);
     }
+    myDebug() << "after m_points" << m_points;
 }
 void VerseTable::removeUnneeded()
 {

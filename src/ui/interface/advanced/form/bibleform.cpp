@@ -156,7 +156,7 @@ void BibleForm::parseUrl(const QString &string)
     }
 }
 
-void BibleForm::parseUrl(const VerseUrl &url)
+void BibleForm::parseUrl(const VerseUrl &url, bool reload)
 {
     DEBUG_FUNC_NAME
     bool showStart = false;
@@ -170,8 +170,12 @@ void BibleForm::parseUrl(const VerseUrl &url)
             m_url.setModuleID(verseModule()->moduleID());
         }
     }
-
     m_url.removeNo();
+
+    //fix reload
+    if(reload && verseTableLoaded()) {
+        m_url.setModuleID(verseModule()->moduleID());
+    }
 
     Ranges ranges;
     foreach(VerseUrlRange range, m_url.ranges()) {
@@ -179,13 +183,14 @@ void BibleForm::parseUrl(const VerseUrl &url)
     }
     ranges.setSource(m_url);
 
-    showRanges(ranges, m_url, showStart);
+    showRanges(ranges, m_url, showStart, url.hasParam("ignoreModuleID"));
 
     if(m_url.hasParam("searchInCurrentText")) {
         m_actions->searchInText();
     }
 }
-void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart)
+
+void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart, bool ignoreModuleID)
 {
     DEBUG_FUNC_NAME;
     myDebug() << "showStart = " << showStart;
@@ -200,7 +205,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 
     const int newID = ranges.getList().first().moduleID();
 
-    if(verseModule()->moduleID() != newID) {
+    if(verseModule()->moduleID() != newID && !ignoreModuleID) {
         const QPoint p = m_verseTable->m_points.value(m_verseTable->activeItem());
         m_moduleManager->newTextRangesVerseModule(moduleID, p, m_verseTable);
     }
@@ -239,7 +244,42 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         }
     }
 }
+void BibleForm::reload(bool full)
+{
+    const QPoint p = m_view->page()->mainFrame()->scrollPosition();
 
+    if(full) {
+        m_verseTable->clearData();
+    }
+ /*   VerseUrl n = m_url;
+    QList<VerseUrlRange> ranges;
+    if(n.ranges().empty())
+        return;
+
+    foreach(VerseUrlRange r, n.ranges()) {
+        r.setModule(VerseUrlRange::LoadCurrentModule);
+        ranges << r;
+    }
+
+    n.clearRanges();
+    n.addRanges(ranges);
+    myDebug() << "old url = " << m_url.toString() << "new url = " << n.toString();
+    m_url = n;*/
+    parseUrl(m_url, true);
+
+    m_view->page()->mainFrame()->setScrollPosition(p);
+}
+void BibleForm::reloadIf(const VerseUrl &url)
+{
+    if(!m_verseTable || !verseModule() || !verseModule()->lastTextRanges()) {
+        return;
+    }
+
+    VerseUrlRange r = url.ranges().first();
+    if(verseModule()->moduleID() == r.moduleID() && verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
+        reload(false);
+    }
+}
 void BibleForm::nextChapter()
 {
     if(!verseTableLoaded())
@@ -1346,27 +1386,6 @@ void BibleForm::moduleChanged(const int moduleID)
 
     if(m_verseTable->contains(moduleID)) {
         reload(true);
-    }
-}
-void BibleForm::reload(bool full)
-{
-    const QPoint p = m_view->page()->mainFrame()->scrollPosition();
-    if(full) {
-        m_verseTable->clearData();
-    }
-    if(!m_url.ranges().isEmpty())
-        parseUrl(m_url);
-    m_view->page()->mainFrame()->setScrollPosition(p);
-}
-void BibleForm::reloadIf(const VerseUrl &url)
-{
-    if(!m_verseTable || !verseModule() || !verseModule()->lastTextRanges()) {
-		return;
-	}
-
-	VerseUrlRange r = url.ranges().first();
-    if(verseModule()->moduleID() == r.moduleID() && verseModule()->lastTextRanges()->contains(r.bookID(), r.chapterID())) {
-        reload(false);
     }
 }
 

@@ -49,7 +49,7 @@ QWidget * VerseTableItemDelegate::createEditor(QWidget *parent,
     myDebug() << index.data(Qt::UserRole + 2).toInt()  << index.data(Qt::UserRole + 3).toInt();
 
     if(index.data(Qt::UserRole + 3).toInt() > 0) {
-            combo->setCurrentIndex(index.data(Qt::UserRole + 3).toInt());
+        combo->setCurrentIndex(index.data(Qt::UserRole + 3).toInt());
     } else {
         combo->setCurrentIndex(0);
     }

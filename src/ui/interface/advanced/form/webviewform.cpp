@@ -246,7 +246,6 @@ void WebViewForm::showStringResponse(StringResponse *res)
 void WebViewForm::showUrlResponse(UrlResponse *res)
 {
     myDebug() << res->url();
-    myDebug() << "block rules empty = " << res->blockRules().isEmpty();
     if(!res->blockRules().isEmpty()) {
         m_view->setBlockRules(res->blockRules());
     }

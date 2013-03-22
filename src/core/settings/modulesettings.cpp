@@ -123,7 +123,6 @@ QSharedPointer<Versification> ModuleSettings::loadVersification()
         ret = QSharedPointer<Versification>(new Versification_Cache(map));
     }
     v11n = ret.toWeakRef();
-    myDebug() << ret << v11n;
     return ret;
 }
 

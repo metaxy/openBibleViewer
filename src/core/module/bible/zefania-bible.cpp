@@ -403,7 +403,7 @@ QString ZefaniaBible::path(const int book)
 
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)
 {
-    myDebug() << bookID << path(bookID);
+    //myDebug() << bookID << path(bookID);
 
     ZefaniaXmlReader reader(path(bookID), m_versification);
 
