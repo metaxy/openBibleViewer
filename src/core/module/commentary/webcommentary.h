@@ -17,6 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/metainfo.h"
 #include <QtScript/QScriptEngine>
 #include <QtCore/QUrl>
+#include "src/core/blockrules.h"
 struct WebCommentaryBooksData
 {
     int bookID;
@@ -42,6 +43,8 @@ public:
     bool loaded() const;
 
     CommentaryModule::LinkPolicy linkPolicy() const;
+
+    BlockRules blockRules() const;
 private:
     int loadModuleData(const int moduleID, const QString &fileName);
     int currentBook();
@@ -61,6 +64,9 @@ private:
 
     QString m_url;
 
+    QString m_css;
+
+
 
     int m_loadedModuleID;
     int m_moduleID;
@@ -70,6 +76,8 @@ private:
     QHash<int, WebCommentaryBooksData> m_books;
 
     QString bookName(int bookID);
+
+    BlockRules m_blockRules;
 };
 
 #endif // WEBCOMMENTARY_H

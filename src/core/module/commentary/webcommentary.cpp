@@ -40,8 +40,8 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
 
 int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
 {
-    DEBUG_FUNC_NAME
-
+    DEBUG_FUNC_NAME;
+    myDebug() << m_modulePath;
     m_moduleID = moduleID;
     m_modulePath = fileName;
 
@@ -60,10 +60,12 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
         return 1;
     }
     file.close();
-    QDomElement docElem = doc.documentElement();
+    myDebug() << doc.toString();
 
+    QDomElement docElem = doc.documentElement();
     QDomNode n = docElem.firstChild();
     while(!n.isNull()) {
+        myDebug() << "n.nodeName()" << n.nodeName();
         if(n.nodeName() == "meta") {
             QDomNode n2 = n.firstChild();
             while(!n2.isNull()) {
@@ -83,6 +85,7 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
         } else if(n.nodeName() == "data") {
             QDomNode n2 = n.firstChild().firstChild();
             while(!n2.isNull()) {
+                myDebug() << n2.nodeName();
                 if(n2.nodeName() == "url") {
                     m_url = n2.firstChild().toText().data();
                 } else if(n2.nodeName() == "parseInBook") {
@@ -93,6 +96,12 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
                     m_parseVerseScript = QScriptProgram(n2.firstChild().toCDATASection().data());
                 } else if(n2.nodeName() == "parseOut") {
                     m_parseOutScript = QScriptProgram(n2.firstChild().toCDATASection().data());
+                } else if(n2.nodeName() == "blackListUrl") {
+                    myDebug() << n2.firstChild().toText().data().trimmed().split('\n');
+                    m_blockRules.m_blackListUrl = n2.firstChild().toText().data().trimmed().split('\n');
+                } else if(n2.nodeName() == "filterBySelector") {
+                    myDebug() << n2.firstChild().toText().data().trimmed().split('\n');
+                    m_blockRules.m_filterBySelector = n2.firstChild().toText().data().trimmed().split('\n');
                 } else if(n2.nodeName() == "books") {
                     QDomNode n3 = n2.firstChild();
                     int i = 0;
@@ -111,7 +120,6 @@ int WebCommentary::loadModuleData(const int moduleID, const QString &fileName)
         }
         n = n.nextSibling();
     }
-
     if(!m_v11nName.isEmpty()) {
         settings->versificationFile = "";
         settings->versificationName = m_v11nName;
@@ -198,7 +206,7 @@ void WebCommentary::clearData()
 }
 Response * WebCommentary::readStart()
 {
-    return new UrlResponse(m_url);
+    return new UrlResponse(m_url, m_blockRules);
 }
 Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, const int startVerseID, const int endVerseID)
 {
@@ -206,7 +214,7 @@ Response * WebCommentary::readVerseRange(const int bookID,const int chapterID, c
     QScriptValueList args;
     args << bookID << bookName(bookID) << chapterID << startVerseID << endVerseID;
     QScriptValue url = fun.call(QScriptValue(), args);
-    return new UrlResponse(url.toString());
+    return new UrlResponse(url.toString(), m_blockRules);
 }
 
 Response * WebCommentary::readChapter(const int bookID, const int chapterID)
@@ -215,7 +223,7 @@ Response * WebCommentary::readChapter(const int bookID, const int chapterID)
     QScriptValueList args;
     args << bookID << bookName(bookID) << chapterID;
     QScriptValue url = fun.call(QScriptValue(), args);
-    return new UrlResponse(url.toString());
+    return new UrlResponse(url.toString(), m_blockRules);
 }
 
 Response * WebCommentary::readBook(const int bookID)
@@ -224,7 +232,7 @@ Response * WebCommentary::readBook(const int bookID)
     QScriptValueList args;
     args << bookID << bookName(bookID);
     QScriptValue url = fun.call(QScriptValue(), args);
-    return new UrlResponse(url.toString());
+    return new UrlResponse(url.toString(), m_blockRules);
 }
 CommentaryModule::LinkPolicy WebCommentary::linkPolicy() const
 {

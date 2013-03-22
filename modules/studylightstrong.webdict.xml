@@ -8,7 +8,19 @@
     </meta>
     <data>
         <site>
-	    <url>http://www.studylight.org/lex/</url>
+            <url>http://www.studylight.org/lex/</url>
+            <blackListUrl>
+                bmp.outreach.com
+                ag.christianbook.com
+                google-analytics.com
+                facebook.com
+            </blackListUrl>
+            <filterBySelector> 
+                .advertisement
+                .navigation
+                .header
+                .content_right
+            </filterBySelector>
             <parseIn><![CDATA[
                 (function(a) { 
                     if(a.indexOf(" ") > 0) {
@@ -32,7 +44,8 @@
                     })
                  ]]>
             </parseOut>
-
+           
         </site>
     </data>
+    
 </module>

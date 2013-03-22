@@ -16,6 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 UrlResponse::UrlResponse(const QString &url) : m_url(url)
 {
 }
+UrlResponse::UrlResponse(const QString &url,const BlockRules &rules) : m_url(url), m_blockRules(rules)
+{
+
+}
 bool UrlResponse::isValid() const
 {
     return true;
@@ -27,4 +31,8 @@ Response::ResponseType UrlResponse::type() const
 QString UrlResponse::url() const
 {
     return m_url;
+}
+BlockRules UrlResponse::blockRules()
+{
+    return m_blockRules;
 }

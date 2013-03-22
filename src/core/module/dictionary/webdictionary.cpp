@@ -68,6 +68,12 @@ void WebDictionary::loadModuleData(const int moduleID, const QString &name)
                     m_parseScript = n2.firstChild().toCDATASection().data();
                 } else if(n2.nodeName() == "parseOut") {
                     m_parseOutScript = n2.firstChild().toCDATASection().data();
+                } else if(n2.nodeName() == "blackListUrl") {
+                    myDebug() << n2.firstChild().toText().data().trimmed().split('\n');
+                    m_blockRules.m_blackListUrl = n2.firstChild().toText().data().trimmed().split('\n');
+                } else if(n2.nodeName() == "filterBySelector") {
+                    myDebug() << n2.firstChild().toText().data().trimmed().split('\n');
+                    m_blockRules.m_filterBySelector = n2.firstChild().toText().data().trimmed().split('\n');
                 }
                 n2 = n2.nextSibling();
             }
@@ -90,7 +96,7 @@ Response* WebDictionary::getEntry(const QString &entry)
     QScriptValueList args;
     args << entry;
     QScriptValue url = fun.call(QScriptValue(), args);
-    return new UrlResponse(url.toString());
+    return new UrlResponse(url.toString(), m_blockRules);
 }
 
 QStringList WebDictionary::getAllKeys()

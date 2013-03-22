@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/response.h"
 #include "src/core/module/simplemodule.h"
 #include "src/core/module/searchablemodule.h"
+
 class CommentaryModule : public SimpleModule
 {
 public:

@@ -14,6 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef COMMENTARY_H
 #define COMMENTARY_H
 #include "src/core/module/versemodule.h"
+
 class Commentary : public VerseModule
 {
 public:

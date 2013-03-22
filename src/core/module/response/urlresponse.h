@@ -15,17 +15,21 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define URLRESPONSE_H
 #include "src/core/module/response/response.h"
 #include <QtCore/QString>
+#include "src/core/blockrules.h"
 class UrlResponse : public Response
 {
 public:
     UrlResponse(const QString &url);
-
+    UrlResponse(const QString &url, const BlockRules &rules);
     bool isValid() const;
     Response::ResponseType type() const;
 
     QString url() const;
+
+    BlockRules blockRules();
 private:
     QString m_url;
+    BlockRules m_blockRules;
 };
 
 #endif // URLRESPONSE_H

@@ -16,9 +16,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QWebElement>
 WebView::WebView(QWidget *parent) :
-    QWebView(parent)
+    QWebView(parent), m_doBlocking(false)
 {
-    this->setRenderHints(QPainter::HighQualityAntialiasing | QPainter::TextAntialiasing);
+    m_networManager = new NetworkAccessManager(this);
+    this->page()->setNetworkAccessManager(m_networManager);
+
+
 }
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
 {
@@ -32,7 +35,6 @@ void WebView::scrollToAnchor(const QString &anchor)
 #else
     page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
 #endif
-
 }
 
 void WebView::mouseReleaseEvent(QMouseEvent *event)
@@ -76,4 +78,39 @@ bool WebView::hasSelection() const
     #else
       return true;
     #endif
+}
+void WebView::setBlockRules(const BlockRules &rules)
+{
+    DEBUG_FUNC_NAME
+    m_networManager->setBlockRules(rules);
+    //currently block only mainFrame
+    connect(this->page()->mainFrame(), SIGNAL(loadFinished(bool)), this, SLOT(applyHidingRules(bool)));
+}
+
+void WebView::applyHidingRules(bool ok)
+{
+    DEBUG_FUNC_NAME
+    if (!ok)
+        return;
+    if(!m_networManager->m_doBlock) {
+        return;
+    }
+    QWebFrame * frame = this->page()->mainFrame();
+
+
+    QWebElement document = frame->documentElement();
+
+    // HIDE RULES
+    Q_FOREACH(const QString & filter, m_networManager->m_blockRules.m_filterBySelector)
+    {
+        QWebElementCollection elements = document.findAll(filter);
+
+        Q_FOREACH(QWebElement el, elements)
+        {
+            if (el.isNull())
+                continue;
+            myDebug() << "Hide element: " << el.localName();
+            el.removeFromDocument();
+        }
+    }
 }

@@ -209,11 +209,11 @@ set( openBibleViewer_SRCS
     src/ui/biblepassageframe.cpp
 	src/ui/qtwin.cpp
     src/ui/moduleselectui.cpp
-
+    src/ui/web/networkaccessmanager.cpp
     src/ui/updateschecker.cpp
     
     src/ui/context.cpp
-
+    src/core/blockrules.cpp
     
     )
 if(WIN32)
@@ -346,7 +346,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/manager/searchmanager.h
     src/ui/biblepassageframe.h
 
-
+    src/ui/web/networkaccessmanager.h
     src/ui/updateschecker.h
     src/ui/context.h
 

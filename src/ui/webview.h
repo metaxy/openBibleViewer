@@ -18,6 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
 #include <QtGui/QContextMenuEvent>
+#include "src/ui/web/networkaccessmanager.h"
+#include "src/core/blockrules.h"
 
 class WebView : public QWebView
 {
@@ -27,6 +29,8 @@ public:
 
     void scrollToAnchor(const QString &anchor);
     bool hasSelection() const;
+
+    void setBlockRules(const BlockRules &rules);
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -35,10 +39,15 @@ signals:
     void contextMenuRequested(QContextMenuEvent * ev);
     void linkMiddleOrCtrlClicked(const QUrl &url);
     void linkShiftClicked(const QUrl &url);
+private slots:
+    void applyHidingRules(bool ok);
 private:
     bool mouseReleased(const QPoint &pos);
     Qt::KeyboardModifiers m_keyboardModifiers;
     Qt::MouseButtons m_pressedButtons;
+
+    NetworkAccessManager *m_networManager;
+    bool m_doBlocking;
 };
 
 #endif // WEBVIEW_H

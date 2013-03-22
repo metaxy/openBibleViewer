@@ -218,19 +218,19 @@ void WebViewForm::openInNewS()
 bool WebViewForm::showResponse(Response *res)
 {
     if(res != NULL && res->isValid()) {
-	if(res->type() == Response::StringReponse) {
-	    showStringResponse((StringResponse*) res);
-	} else if(res->type() == Response::UrlReponse) {
-	    showUrlResponse((UrlResponse*) res);
-	} else if(res->type() == Response::HtmlResponse) {
-	    showHtmlResponse((HtmlResponse*) res);
-	} else if(res->type() == Response::TextRangesResponse) {
-	    showTextRangesResponse((TextRangesResponse*) res);
-	} else {
-	    return false;
-	}
+        if(res->type() == Response::StringReponse) {
+            showStringResponse((StringResponse*) res);
+        } else if(res->type() == Response::UrlReponse) {
+            showUrlResponse((UrlResponse*) res);
+        } else if(res->type() == Response::HtmlResponse) {
+            showHtmlResponse((HtmlResponse*) res);
+        } else if(res->type() == Response::TextRangesResponse) {
+            showTextRangesResponse((TextRangesResponse*) res);
+        } else {
+            return false;
+        }
     } else {
-	return false;
+        return false;
     }
     delete res;
     return true;
@@ -246,6 +246,10 @@ void WebViewForm::showStringResponse(StringResponse *res)
 void WebViewForm::showUrlResponse(UrlResponse *res)
 {
     myDebug() << res->url();
+    myDebug() << "block rules empty = " << res->blockRules().isEmpty();
+    if(!res->blockRules().isEmpty()) {
+        m_view->setBlockRules(res->blockRules());
+    }
     m_view->load(QUrl(res->url()));
     actTitle();
 }

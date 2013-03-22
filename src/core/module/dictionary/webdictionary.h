@@ -20,6 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtScript/QScriptEngine>
 #include <QtCore/QUrl>
 #include <QtXml/QDomDocument>
+#include "src/core/blockrules.h"
 
 class WebDictionary : public DictionaryModule
 {
@@ -50,6 +51,7 @@ private:
     int m_loadedModuleID;
 
     QScriptEngine myEngine;
+    BlockRules m_blockRules;
 };
 
 #endif // WEBDICTIONARY_H
