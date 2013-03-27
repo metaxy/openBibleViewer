@@ -62,7 +62,7 @@ find_package( CLucene1 REQUIRED)
 option( OBV_USE_QUAZIP "Use QuaZip" OFF)
 
 IF(OBV_USE_QUAZIP)
-	find_package( QuaZip REQUIRED)
+  find_package( QuaZip REQUIRED)
 endif()
 
 if(UNIX)
