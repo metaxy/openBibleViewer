@@ -48,3 +48,10 @@ void ModuleApi::setFrame(QWebFrame *frame)
 {
     m_frame = frame;
 }
+int ModuleApi::getModuleIdByName(const QString &name)
+{
+    foreach(ModuleSettings *set, m_settings->m_moduleSettings) {
+        if(set->moduleName == name) return set->moduleID;
+    }
+    return 0;
+}

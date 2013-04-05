@@ -52,5 +52,7 @@
         <file>data/pdf.js/pdf.js</file>
         <file>data/pdf.js/l10n.js</file>
         <file>data/css/dark_blue.css</file>
+        <file>data/html/consoleform.html</file>
+        <file>data/js/underscore-min.js</file>
     </qresource>
 </RCC>

@@ -23,14 +23,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
  */
 class SearchResult
 {
+
 public:
     SearchResult();
-    void addHit(SearchHit hit);
-    QList<SearchHit> hits();
-    QList<SearchHit> hits(SearchHit::SearchHitType type);
+
+    void addHit(const SearchHit &hit);
     SearchQuery searchQuery;
     void sort();
 
+    QList<SearchHit> hits();
+    QList<SearchHit> hits(SearchHit::SearchHitType type);
 private:
     QList<SearchHit> m_hits;
     QMap<int, int> m_type;

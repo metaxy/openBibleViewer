@@ -17,6 +17,11 @@ Actions::Actions(QObject *parent) :
     QObject(parent)
 {
 }
+void Actions::debug(const QString &s)
+{
+    qDebug() << s;
+}
+
 void Actions::previousChapter()
 {
     emit _previousChapter();

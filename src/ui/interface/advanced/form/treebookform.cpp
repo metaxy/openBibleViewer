@@ -55,7 +55,7 @@ void TreeBookForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
-    const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
     const int chapter = m_settings->session.file()->value(a + "chapter").toInt();
     const QVariant v = m_settings->session.file()->value(a + "hist1");

@@ -24,6 +24,8 @@ class ModuleApi : public QObject, public BasicClass
 public slots:
     void activateModule(const int verseTableID);
     void deleteModule(const int verseTableID);
+
+    int getModuleIdByName(const QString &name);
 signals:
     void setActiveItem(const int verseTableID);
 public:

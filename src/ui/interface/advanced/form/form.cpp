@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "commentaryform.h"
 #include "treebookform.h"
 #include "bookform.h"
+#include "consoleform.h"
 Form::Form(QWidget *parent) :
     QWidget(parent),
     m_id(-1),
@@ -61,6 +62,10 @@ Form * Form::createForm(QWidget *widget, const Form::FormType type)
 
         case Form::TreeBookForm:
             ret = new ::TreeBookForm(widget);
+            ret->setRole(Form::BookRole);
+            break;
+        case Form::ConsoleForm:
+            ret = new ::ConsoleForm(widget);
             ret->setRole(Form::BookRole);
             break;
         default:

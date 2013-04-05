@@ -41,7 +41,7 @@ void BookForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
-    const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();
 
     int moduleID = m_moduleManager->m_moduleMap->UIDtoID(uid);
@@ -128,12 +128,5 @@ void BookForm::showContextMenu(QContextMenuEvent* ev)
 
     contextMenu->addAction(dbg);
     contextMenu->exec(ev->globalPos());
+}
 
-}
-void BookForm::debugger()
-{
-    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *i = new QWebInspector;
-    i->setPage(m_view->page());
-    i->showNormal();
-}

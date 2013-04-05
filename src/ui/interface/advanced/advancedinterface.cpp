@@ -758,6 +758,9 @@ void AdvancedInterface::quick(QString text)
     } else if(text.compare("new bible", Qt::CaseInsensitive) == 0) {
         m_windowManager->newBibleSubWindow();
         return;
+    } else if(text.compare("new console", Qt::CaseInsensitive) == 0) {
+        m_windowManager->newConsoleSubWindow();
+        return;
     }
 
 

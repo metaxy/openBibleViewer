@@ -129,7 +129,7 @@ void DictionaryForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
-    const QPoint scroll = m_settings->session.file()->value(a + "scrool").toPoint();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
 
     const QString k = m_settings->session.file()->value(a + "key").toString();
     const QString uid = m_settings->session.file()->value(a + "uid").toString();

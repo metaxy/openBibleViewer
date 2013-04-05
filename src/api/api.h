@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "moduleapi.h"
 #include "notesapi.h"
+#include "searchapi.h"
 class Api : public QObject, public BasicClass
 {
     Q_OBJECT
@@ -25,9 +26,11 @@ public:
     void init();
     NotesApi* notesApi() const;
     ModuleApi* moduleApi() const;
+    SearchApi* searchApi() const;
 private:
     NotesApi *m_notesApi;
     ModuleApi *m_moduleApi;
+    SearchApi *m_searchApi;
 };
 
 #endif // API_H

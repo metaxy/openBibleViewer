@@ -18,6 +18,7 @@ Api::Api(QObject *parent) :
 {
     m_moduleApi = NULL;
     m_notesApi = NULL;
+    m_searchApi = NULL;
 }
 void Api::init()
 {
@@ -26,6 +27,11 @@ void Api::init()
 
     m_notesApi = new NotesApi(this);
     setAll(m_notesApi);
+    m_notesApi->init();
+
+    m_searchApi = new SearchApi(this);
+    setAll(m_searchApi);
+
 }
 Api::~Api()
 {
@@ -37,6 +43,10 @@ Api::~Api()
         delete m_moduleApi;
         m_moduleApi = NULL;
     }
+    if(m_searchApi != NULL) {
+        delete m_searchApi;
+        m_searchApi = NULL;
+    }
 }
 
 ModuleApi* Api::moduleApi() const
@@ -46,4 +56,8 @@ ModuleApi* Api::moduleApi() const
 NotesApi* Api::notesApi() const
 {
     return m_notesApi;
+}
+SearchApi* Api::searchApi() const
+{
+    return m_searchApi;
 }

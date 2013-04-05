@@ -404,20 +404,10 @@ void BibleForm::save()
 
 void BibleForm::attachApi()
 {
-    //DEBUG_FUNC_NAME
-    QWebFrame * frame = m_view->page()->mainFrame();
-    {
-        QFile file(":/data/js/tools.js");
-        if(!file.open(QFile::ReadOnly | QFile::Text))
-            return;
-        QTextStream stream(&file);
-        QString jquery = stream.readAll();
-        file.close();
-        frame->evaluateJavaScript(jquery);
-    }
-
-    frame->addToJavaScriptWindowObject("Module", m_api->moduleApi());
-    m_api->moduleApi()->setFrame(frame);
+    addJS(":/data/js/tools.js");
+    addJS(":/data/js/jquery-1.4.2.min.js");
+    addJS(":/data/js/underscore-min.js");
+    addModuleApi();
 }
 
 void BibleForm::historySetUrl(QString url)

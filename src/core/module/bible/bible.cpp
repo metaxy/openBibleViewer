@@ -451,10 +451,13 @@ Response* Bible::readRanges(const Ranges &ranges, bool ignoreModuleID)
 
 void Bible::search(SearchQuery query, SearchResult *result)
 {
-    DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME;
+
+    if(!loaded())  loadModuleData(m_moduleID);
+
     if(!loaded())
         return;
-
+    myDebug() << "loaded!";
     if(!m_bibleModule->hasIndex())
         m_bibleModule->buildIndex();
 

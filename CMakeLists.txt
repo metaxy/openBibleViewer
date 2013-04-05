@@ -148,6 +148,7 @@ set( openBibleViewer_SRCS
 
     src/api/moduleapi.cpp
     src/api/notesapi.cpp
+    src/api/searchapi.cpp
     src/api/api.cpp
 
     src/ui/dialog/searchdialog.cpp
@@ -185,6 +186,7 @@ set( openBibleViewer_SRCS
     src/ui/interface/advanced/form/webviewform.cpp
     src/ui/interface/advanced/form/commentaryform.cpp
     src/ui/interface/advanced/form/treebookform.cpp
+    src/ui/interface/advanced/form/consoleform.cpp
 
     src/ui/webview.cpp
     src/ui/historylineedit.cpp
@@ -254,6 +256,7 @@ set ( openBibleViewer_UIS
     src/ui/interface/advanced/form/webform.ui
     src/ui/interface/advanced/form/dictionaryform.ui
     src/ui/interface/advanced/form/treebookform.ui
+    src/ui/interface/advanced/form/consoleform.ui
 
     src/ui/interface/advanced/versetablewidget.ui
 
@@ -285,6 +288,7 @@ set ( openBibleViewer_RSCS
 set ( openBibleViewer_MOCS
     src/api/moduleapi.h
     src/api/notesapi.h
+    src/api/searchapi.h
     src/api/api.h
     
     src/ui/dialog/searchdialog.h
@@ -330,7 +334,7 @@ set ( openBibleViewer_MOCS
     src/ui/interface/advanced/form/webviewform.h
     src/ui/interface/advanced/form/commentaryform.h
     src/ui/interface/advanced/form/treebookform.h
-
+    src/ui/interface/advanced/form/consoleform.h
 
     src/ui/interface/advanced/advancedinterface.h
     src/ui/webview.h

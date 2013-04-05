@@ -75,6 +75,13 @@ public slots:
 
 
 protected:
+
+    virtual void addJS(const QString &url);
+
+    void addModuleApi();
+    void addSearchApi();
+    void addNotesApi();
+    void addActionsApi();
     QString m_contextMenuUrl;
     QString m_contextMenuText;
 

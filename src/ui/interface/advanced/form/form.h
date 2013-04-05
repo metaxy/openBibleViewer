@@ -33,7 +33,8 @@ public:
         WebForm = 2,
         BookForm = 3,
         CommentaryForm = 4,
-        TreeBookForm = 5
+        TreeBookForm = 5,
+        ConsoleForm = 6
     };
 
     enum FormRole {

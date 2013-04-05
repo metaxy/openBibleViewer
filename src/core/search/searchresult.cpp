@@ -43,7 +43,7 @@ SearchResult::SearchResult()
 /**
   Adds a new hit to the search result.
 */
-void SearchResult::addHit(SearchHit hit)
+void SearchResult::addHit(const SearchHit &hit)
 {
     m_hits << hit;
 }

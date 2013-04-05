@@ -84,7 +84,7 @@ signals:
     void _toggleFullScreen();
     void _removeModuleFromVerseTable(const int itemID);
 public slots:
-
+    void debug(const QString &s);
     void previousChapter();
     void nextChapter();
 

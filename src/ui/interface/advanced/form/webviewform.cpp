@@ -279,3 +279,35 @@ QString WebViewForm::getStyleSheetUrl()
     myDebug() << "!!! no style sheet url";
     return QString();
 }
+
+void WebViewForm::addJS(const QString &url)
+{
+    QFile file(url);
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+        return;
+    QTextStream stream(&file);
+    m_view->page()->mainFrame()->evaluateJavaScript(stream.readAll());
+    file.close();
+}
+
+void WebViewForm::addModuleApi()
+{
+    QWebFrame * frame = m_view->page()->mainFrame();
+    frame->addToJavaScriptWindowObject("Module", m_api->moduleApi());
+    m_api->moduleApi()->setFrame(frame);
+}
+
+void WebViewForm::addSearchApi()
+{
+    m_view->page()->mainFrame()->addToJavaScriptWindowObject("Search", m_api->searchApi());
+}
+
+void WebViewForm::addNotesApi()
+{
+    m_view->page()->mainFrame()->addToJavaScriptWindowObject("Notes", m_api->notesApi());
+}
+
+void WebViewForm::addActionsApi()
+{
+    m_view->page()->mainFrame()->addToJavaScriptWindowObject("Actions", m_actions);
+}

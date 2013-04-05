@@ -41,7 +41,6 @@ public slots:
     void activated();
 private slots:
     void showContextMenu(QContextMenuEvent* ev);
-    void debugger();
 private:
     Ui::BookForm *ui;
     void actTitle();

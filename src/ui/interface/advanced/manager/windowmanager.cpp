@@ -137,7 +137,10 @@ void WindowManager::newCommentarySubWindow()
 {
     newSubWindow(Form::CommentaryForm);
 }
-
+void WindowManager::newConsoleSubWindow()
+{
+    newSubWindow(Form::ConsoleForm);
+}
 QMdiSubWindow* WindowManager::needWindow(Form::FormType type)
 {
    return needWindow(type, [type](Form *f){ return f->type() == type;});
@@ -511,7 +514,7 @@ void WindowManager::tile()
         }
 
     }
-    myDebug() << usableWindowList();
+    //myDebug() << usableWindowList();
     //m_area->updateScrollBars();
     setEnableReload(true);
 }
@@ -797,6 +800,8 @@ void WindowManager::restore()
             t = Form::CommentaryForm;
         }  else if(type == "tbook") {
             t = Form::TreeBookForm;
+        } else if(type == "console") {
+            t = Form::ConsoleForm;
         }
         QMdiSubWindow *w = newSubWindow(t, max);
 

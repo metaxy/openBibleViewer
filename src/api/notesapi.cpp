@@ -44,7 +44,6 @@ QString NotesApi::addTextNote(const QString &title, const QString &text)
     m_notes->setRef(newID, noteRef);
     m_notes->insertID(newID);
     return newID;
-
 }
 
 void NotesApi::removeNote(const QString &noteID)

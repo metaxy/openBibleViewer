@@ -39,14 +39,13 @@ public:
     };
     SearchHitType type() const;
     void setType(SearchHitType type);
-    QVariant value(SearchHitKey v) const;
     void setValue(SearchHitKey k, QVariant value);
 
-
-
+     QMap<int, QVariant> m_map;
+public slots:
+    QVariant value(SearchHitKey v) const;
 private:
     SearchHitType m_type;
-    QMap<int, QVariant> m_map;
 
 };
 

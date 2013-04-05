@@ -80,6 +80,7 @@ public slots:
     void newDictionarySubWindow();
     void newBookSubWindow();
     void newCommentarySubWindow();
+    void newConsoleSubWindow();
     QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
     void closeSubWindow();
 

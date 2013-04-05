@@ -14,7 +14,6 @@ function verseGetSelection () {
     console.log("getting verseselection");
     console.log(window.getSelection().type);
     /*if(window.getSelection().type == 'Range') {*/
-        console.log("its a range");
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
             console.log("and range 0 is not null");
@@ -65,12 +64,15 @@ function AdVerseSelection() {
     this.startVerse = -1;
 }
 function adVerseGetSelection () {
+    var x = document.getElementById("OBV_INSERT");
+    x.parentNode.removeChild(x);
+    
     if(window.getSelection().type == 'Range') {
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
             var node = document.createElement('span');
             node.appendChild(document.createTextNode("!-_OPENBIBLEVIEWER_INSERT_-!"));
-            node.id = 'OBV_INSERT';
+            node.class = 'OBV_INSERT';
             this.selectedText = window.getSelection().toString();
             a.insertNode(node);
             var start = a.startContainer;
@@ -94,4 +96,10 @@ function adVerseGetSelection () {
             x.parentNode.removeChild(x);
         }
     }
+}
+function ReplaceContentInContainer(selector, content) {
+  var nodeList = document.querySelectorAll(selector);
+  for (var i = 0, length = nodeList.length; i < length; i++) {
+     nodeList[i].innerHTML = content;
+  }
 }
