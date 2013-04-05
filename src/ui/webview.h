@@ -31,6 +31,8 @@ public:
     bool hasSelection() const;
 
     void setBlockRules(const BlockRules &rules);
+
+    void load(const QUrl &url);
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -41,6 +43,8 @@ signals:
     void linkShiftClicked(const QUrl &url);
 private slots:
     void applyHidingRules(bool ok);
+
+    void f(QNetworkReply* r);
 private:
     bool mouseReleased(const QPoint &pos);
     Qt::KeyboardModifiers m_keyboardModifiers;

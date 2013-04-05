@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebFrame>
 #include "src/core/dbghelper.h"
 #include <QWebElement>
+#include <QNetworkReply>
 WebView::WebView(QWidget *parent) :
     QWebView(parent), m_doBlocking(false)
 {
@@ -113,4 +114,23 @@ void WebView::applyHidingRules(bool ok)
             el.removeFromDocument();
         }
     }
+}
+
+void WebView::load(const QUrl &url)
+{
+    NetworkAccessManager *sep = new NetworkAccessManager(this);
+    connect(sep, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(f(QNetworkReply*)));
+
+    sep->get(QNetworkRequest(url));
+}
+/**
+ * @brief WebView::fn filters the html from unneed elems
+ * @param r
+ */
+void WebView::f(QNetworkReply *r)
+{
+    setContent(r->readAll(),"text/html",r->url());
+    applyHidingRules(true);
+    sender()->deleteLater();
 }

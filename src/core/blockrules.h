@@ -10,6 +10,7 @@ public:
 
     QStringList m_blackListUrl;
 
+
     bool isEmpty();
 
 };
