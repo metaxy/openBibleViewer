@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define WEBVIEW_H
 
 #include <QWebView>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
-#include <QtGui/QContextMenuEvent>
+#include <QMenu>
+#include <QAction>
+#include <QContextMenuEvent>
 #include "src/ui/web/networkaccessmanager.h"
 #include "src/core/blockrules.h"
 

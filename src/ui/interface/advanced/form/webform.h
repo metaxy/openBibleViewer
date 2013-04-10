@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define WEBFORM_H
 
 #include <QWidget>
-#include <QtGui/QLineEdit>
+#include <QLineEdit>
 #include "webviewform.h"
 #include "src/core/module/webpage.h"
 namespace Ui

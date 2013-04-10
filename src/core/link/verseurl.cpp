@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "verseurl.h"
 #include "src/core/moduletools.h"
-#include <QtCore/QStringList>
+#include <QStringList>
 #include "src/core/dbghelper.h"
 VerseUrl::VerseUrl() : m_params(), m_ranges(), m_isValid(true)
 {

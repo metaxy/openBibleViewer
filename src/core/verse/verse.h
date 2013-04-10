@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSE_H
 #define VERSE_H
-#include <QtCore/QString>
+#include <QString>
 class Verse
 {
 public:

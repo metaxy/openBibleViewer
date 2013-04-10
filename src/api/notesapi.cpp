@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
 #include "notesapi.h"
-#include <QtCore/QDateTime>
+#include <QDateTime>
 NotesApi::NotesApi(QObject* parent) :
     QObject(parent)
 {

@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef STRONGURL_H
 #define STRONGURL_H
 #include "src/core/link/url.h"
-#include <QtCore/QList>
+#include <QList>
 
 class StrongUrl : public Url
 {

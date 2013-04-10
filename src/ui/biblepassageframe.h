@@ -21,8 +21,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/core/link/verseurl.h"
 #include "src/ui/recursivproxymodel.h"
-#include <QtGui/QToolButton>
-#include <QtGui/QMenu>
+#include <QToolButton>
+#include <QMenu>
 namespace Ui
 {
 class BiblePassageFrame;

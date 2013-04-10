@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BOOKDOCKWIDGET_H
 #define BOOKDOCKWIDGET_H
 
-#include <QtGui/QDockWidget>
-#include <QtCore/QStringList>
+#include <QDockWidget>
+#include <QStringList>
 #include "dockwidget.h"
 namespace Ui
 {

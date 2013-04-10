@@ -13,13 +13,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULESETTINGS_H
 #define MODULESETTINGS_H
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtCore/QVariant>
-#include <QtCore/QStringList>
-#include <QtCore/QSettings>
-#include <QtCore/QSharedPointer>
-#include <QtGui/QIcon>
+#include <QString>
+#include <QMap>
+#include <QVariant>
+#include <QStringList>
+#include <QSettings>
+#include <QSharedPointer>
+#include <QIcon>
 #include "src/core/verse/versification.h"
 #include "src/core/verse/versification/versification_kjv.h"
 #include "src/core/verse/versification/versification_cache.h"

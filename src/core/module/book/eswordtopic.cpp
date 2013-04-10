@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/ESwordRtfOutput.h"
 #include "src/core/rtftools.h"
-#include <QtCore/QTemporaryFile>
+#include <QTemporaryFile>
 ESwordTopic::ESwordTopic() : m_bookTree(NULL)
 {
 }

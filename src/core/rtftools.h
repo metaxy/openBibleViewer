@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef RTFTOOLS_H
 #define RTFTOOLS_H
-#include <QtCore/QString>
+#include <QString>
 
 class RtfTools
 {

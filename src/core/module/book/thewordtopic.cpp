@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/htmlresponse.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
-#include <QtCore/QTemporaryFile>
+#include <QTemporaryFile>
 TheWordTopic::TheWordTopic() : m_bookTree(NULL), m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }

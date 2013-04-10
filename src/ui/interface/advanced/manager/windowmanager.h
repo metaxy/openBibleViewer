@@ -16,15 +16,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <functional>
 #include <QObject>
-#include <QtGui/QMdiArea>
+#include <QMdiArea>
 #include <QtWebKit/QWebView>
-#include <QtGui/QVBoxLayout>
+#include <QVBoxLayout>
 #include "src/ui/interface/advanced/mdiarea.h"
 
 #include "src/core/basicclass.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/core/dbghelper.h"
-#include "src/api/api.h"
 
 #include "bookmarksmanager.h"
 #include "notesmanager.h"
@@ -35,6 +34,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/interface/advanced/form/bookform.h"
 #include "src/ui/interface/advanced/form/commentaryform.h"
 #include "src/ui/interface/advanced/form/treebookform.h"
+
+class Api;
 /**
   * WindowManager controlls all subwindows or tabs. It opens them and provides access to the forms.
   * Also it manages the tiling.

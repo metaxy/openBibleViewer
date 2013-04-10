@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef TEXTFRAGMENT_H
 #define TEXTFRAGMENT_H
 #include "rblock.h"
-#include <QtCore/QString>
+#include <QString>
 class TextFragment : public RBlock
 {
 public:

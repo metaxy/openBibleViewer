@@ -15,12 +15,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MODULEDOWNLOADDIALOG_H
 
 #include <QDialog>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
-#include <QtGui/QTreeWidgetItem>
+#include <QStringList>
+#include <QMap>
+#include <QTreeWidgetItem>
 #include <QtNetwork/QHttp>
-#include <QtCore/QFile>
-#include <QtGui/QProgressDialog>
+#include <QFile>
+#include <QProgressDialog>
 #include "src/core/settings/settings.h"
 
 namespace Ui

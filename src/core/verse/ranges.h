@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define RANGES_H
 #include "src/core/verse/range.h"
 #include "src/core/link/verseurl.h"
-#include <QtCore/QList>
+#include <QList>
 class Ranges
 {
 public:

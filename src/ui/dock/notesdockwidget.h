@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define NOTESDOCKWIDGET_H
 
 #include <QDockWidget>
-#include <QtCore/QStringList>
+#include <QStringList>
 #include "dockwidget.h"
 #include "src/core/verseselection.h"
 #include "src/core/link/urlconverter.h"

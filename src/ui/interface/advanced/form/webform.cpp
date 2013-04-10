@@ -13,10 +13,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webform.h"
 #include "ui_webform.h"
-#include <QtGui/QToolBar>
-#include <QtGui/QPrinter>
+#include <QToolBar>
+#include <QPrinter>
 #include <QtWebKit/QWebHistory>
-#include <QtCore/QPointer>
+#include <QPointer>
 
 WebForm::WebForm(QWidget *parent) :
     WebViewForm(parent),

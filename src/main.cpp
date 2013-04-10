@@ -14,16 +14,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /****************************************************************************
   Icons from: http://www.oxygen-icons.org/
 *****************************************************************************/
-#include <QtGui/QApplication>
-#include <QtCore/QTranslator>
-#include <QtCore/QSettings>
-#include <QtCore/QLocale>
-#include <QtCore/QTextStream>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
-#include <QtCore/QLibraryInfo>
-#include <QtCore/QFSFileEngine>
-#include <QtCore/QDir>
+#include <QApplication>
+#include <QTranslator>
+#include <QSettings>
+#include <QLocale>
+#include <QTextStream>
+#include <QFile>
+#include <QFileInfo>
+#include <QLibraryInfo>
+#include <QFSFileEngine>
+#include <QDir>
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
 #include "src/ui/qtwin.h"

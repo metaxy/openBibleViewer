@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webcommentary.h"
 #include "src/core/module/response/urlresponse.h"
-#include <QtCore/QFile>
+#include <QFile>
 #include <QDomDocument>
 
 WebCommentary::WebCommentary()

@@ -12,10 +12,10 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "notesitemview.h"
-#include <QtCore/QPointer>
+#include <QPointer>
 #include "src/core/dbghelper.h"
-#include <QtGui/QMenu>
-#include <QtGui/QApplication>
+#include <QMenu>
+#include <QApplication>
 NotesItemView::NotesItemView(Notes *notes, QTreeView *treeView) :  m_treeView(treeView), m_notes(notes)
 {
     m_itemModel = new QStandardItemModel(m_treeView);

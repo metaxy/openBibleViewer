@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webviewform.h"
-#include <QtCore/QPointer>
+#include <QPointer>
 #include <QPrinter>
 #include <QFileInfo>
 #include <QTextStream>
@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QFileDialog>
 #include <QTextDocumentWriter>
 #include <QtWebKit/QWebInspector>
-#include <QtGui/QClipboard>
+#include <QClipboard>
 #include "src/ui/dialog/moduleselectdialog.h"
 
 WebViewForm::WebViewForm(QWidget *parent) :

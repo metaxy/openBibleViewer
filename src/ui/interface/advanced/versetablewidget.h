@@ -14,10 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSETABLEWIDGET_H
 #define VERSETABLEWIDGET_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QComboBox>
-#include <QtGui/QDialogButtonBox>
-#include <QtGui/QStandardItemModel>
+#include <QDialog>
+#include <QComboBox>
+#include <QDialogButtonBox>
+#include <QStandardItemModel>
 
 #include "src/core/basicclass.h"
 #include "src/core/dbghelper.h"

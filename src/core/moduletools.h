@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULETOOLS_H
 #define MODULETOOLS_H
-#include <QtCore/QString>
-#include <QtCore/QHash>
+#include <QString>
+#include <QHash>
 class ModuleTools
 {
 public:

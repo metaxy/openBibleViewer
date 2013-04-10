@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEURLRANGE_H
 #define BIBLEURLRANGE_H
-#include <QtCore/QString>
+#include <QString>
 #include "src/core/verse/range.h"
 
 class VerseUrlRange

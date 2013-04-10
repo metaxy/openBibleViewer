@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SEARCHHIT_H
 #define SEARCHHIT_H
-#include <QtCore/QString>
-#include <QtCore/QVariant>
-#include <QtCore/QMap>
+#include <QString>
+#include <QVariant>
+#include <QMap>
 /**
  * SearchHit represents a hit of a search.
  */

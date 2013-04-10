@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef ZefaniaLex_H
 #define ZefaniaLex_H
-#include <QtCore/QDir>
-#include <QtGui/QMessageBox>
+#include <QDir>
+#include <QMessageBox>
 #include <QtXml/QXmlStreamReader>
 
 #include "src/core/link/strongurl.h"

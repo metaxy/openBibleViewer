@@ -13,15 +13,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTE_H
 #define BIBLEQUOTE_H
-#include <QtCore/QFile>
-#include <QtCore/QMap>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QTextCodec>
-#include <QtCore/QString>
-#include <QtCore/QDir>
-#include <QtGui/QProgressDialog>
-#include <QtGui/QMessageBox>
+#include <QFile>
+#include <QMap>
+#include <QString>
+#include <QStringList>
+#include <QTextCodec>
+#include <QString>
+#include <QDir>
+#include <QProgressDialog>
+#include <QMessageBox>
 
 #include "src/core/verse/chapter.h"
 #include "src/core/module/bible/biblemodule.h"

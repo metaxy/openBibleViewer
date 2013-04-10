@@ -13,15 +13,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEMANAGER_H
 #define MODULEMANAGER_H
-#include <QtCore/QFileInfoList>
-#include <QtCore/QList>
-#include <QtCore/QDir>
-#include <QtCore/QObject>
-#include <QtCore/QSharedPointer>
+#include <QFileInfoList>
+#include <QList>
+#include <QDir>
+#include <QObject>
+#include <QSharedPointer>
 
-#include <QtGui/QStandardItemModel>
-#include <QtGui/QProgressDialog>
-#include <QtGui/QApplication>
+#include <QStandardItemModel>
+#include <QProgressDialog>
+#include <QApplication>
 
 #include "src/core/settings/settings.h"
 

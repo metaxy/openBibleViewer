@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #ifndef VERSION_H
 #define VERSION_H
-#include <QtCore/QString>
+#include <QString>
 class Version
 {
 public:

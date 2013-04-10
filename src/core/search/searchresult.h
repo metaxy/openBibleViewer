@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHRESULT_H
 #include "searchhit.h"
 #include "src/core/search/searchquery.h"
-#include <QtCore/QList>
-#include <QtCore/QString>
-#include <QtGui/QListWidget>
+#include <QList>
+#include <QString>
+#include <QListWidget>
 /**
  * SearchResult represents the results for a search. It contains all the all the hits (SearchHit) and the query (SearchQuery)
  */

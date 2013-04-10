@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define RANGE_H
 #include "src/core/verse/rangeenum.h"
 
-#include <QtCore/QList>
+#include <QList>
 //todo: add chapter=none
 class Range
 {

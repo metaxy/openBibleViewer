@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSIFICATION_CACHE_H
 #define VERSIFICATION_CACHE_H
-#include <QtCore/QString>
+#include <QString>
 #include "src/core/verse/versification.h"
 class Versification_Cache : public Versification
 {

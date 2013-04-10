@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEMODEL_H
 #define MODULEMODEL_H
-#include <QtGui/QStandardItemModel>
+#include <QStandardItemModel>
 
 #include "src/core/module/module.h"
 #include "src/core/settings/settings.h"

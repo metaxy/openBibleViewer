@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchmanager.h"
-#include <QtCore/QPointer>
+#include <QPointer>
 #include <CLucene.h>
 SearchManager::SearchManager(QObject *parent) :
     QObject(parent)

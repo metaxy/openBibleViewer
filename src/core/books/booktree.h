@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BOOKTREE_H
 #define BOOKTREE_H
-#include <QtCore/QList>
-#include <QtCore/QString>
+#include <QList>
+#include <QString>
 class BookTree
 {
 public:

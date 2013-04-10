@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDockWidget>
 #include "dockwidget.h"
 #include "src/core/verseselection.h"
-#include <QtGui/QTreeWidgetItem>
+#include <QTreeWidgetItem>
 namespace Ui
 {
 class BookmarksDockWidget;

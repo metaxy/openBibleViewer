@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MDISUBWINDOW_H
 #define MDISUBWINDOW_H
 
-#include <QtGui/QMdiSubWindow>
+#include <QMdiSubWindow>
 
 class MdiSubWindow : public QMdiSubWindow
 {

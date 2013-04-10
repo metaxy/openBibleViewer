@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/module/searchablemodule.h"
 #include <QtScript/QScriptEngine>
-#include <QtCore/QUrl>
+#include <QUrl>
 #include <QtXml/QDomDocument>
 #include "src/core/blockrules.h"
 

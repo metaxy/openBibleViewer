@@ -14,10 +14,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MARKLIST_H
 #define MARKLIST_H
 
-#include <QtGui/QDialog>
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QItemSelectionModel>
-#include <QtGui/QTreeView>
+#include <QDialog>
+#include <QSortFilterProxyModel>
+#include <QItemSelectionModel>
+#include <QTreeView>
 #include "src/core/basicclass.h"
 namespace Ui
 {

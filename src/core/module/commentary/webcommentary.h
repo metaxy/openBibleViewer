@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/commentary/commentarymodule.h"
 #include "src/core/module/metainfo.h"
 #include <QtScript/QScriptEngine>
-#include <QtCore/QUrl>
+#include <QUrl>
 #include "src/core/blockrules.h"
 struct WebCommentaryBooksData
 {

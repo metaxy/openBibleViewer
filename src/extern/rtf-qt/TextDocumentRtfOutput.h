@@ -25,8 +25,8 @@ class QTextCursor;
 class QTextDocument;
 class QTextImageFormat;
 
-#include <QtCore/QStack>
-#include <QtGui/QTextCharFormat>
+#include <QStack>
+#include <QTextCharFormat>
 
 namespace RtfReader
 {

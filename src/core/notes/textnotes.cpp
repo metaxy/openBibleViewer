@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "textnotes.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QDir>
+#include <QDir>
 TextNotes::TextNotes()
 {
     DEBUG_FUNC_NAME

@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/textranges.h"
 #include "src/core/link/verseurl.h"
 
-#include <QtCore/QPoint>
+#include <QPoint>
 #include <utility>
 /**
  * VerseTable represents a list of VerseModules to display them in one window. It is a some kind of a parallel view.

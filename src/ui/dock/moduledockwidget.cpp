@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduledockwidget.h"
 #include "ui_moduledockwidget.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QPointer>
-#include <QtGui/QMenu>
+#include <QPointer>
+#include <QMenu>
 
 ModuleDockWidget::ModuleDockWidget(QWidget *parent) :
     DockWidget(parent),

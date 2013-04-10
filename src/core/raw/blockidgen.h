@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BLOCKIDGEN_H
 #define BLOCKIDGEN_H
 #include "src/core/obvcore.h"
-#include <QtCore/QMutex>
+#include <QMutex>
 class BlockIDGen
 {
 public:

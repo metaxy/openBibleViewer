@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_quickjumpdockwidget.h"
 #include "src/core/link/biblelink.h"
 #include "src/core/dbghelper.h"
-#include <QtGui/QKeyEvent>
+#include <QKeyEvent>
 
 QuickJumpDockWidget::QuickJumpDockWidget(QWidget *parent) :
     DockWidget(parent),

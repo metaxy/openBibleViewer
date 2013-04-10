@@ -18,12 +18,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include "src/core/link/urlconverter.h"
 #include "src/ui/dialog/biblepassagedialog.h"
-#include <QtGui/QClipboard>
-#include <QtGui/QMessageBox>
-#include <QtGui/QTreeWidgetItem>
-#include <QtGui/QMenu>
-#include <QtCore/QMimeData>
-#include <QtCore/QPointer>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QTreeWidgetItem>
+#include <QMenu>
+#include <QMimeData>
+#include <QPointer>
 #include "src/core/moduletools.h"
 #include "src/core/verse/reftext.h"
 BookmarksDockWidget::BookmarksDockWidget(QWidget *parent) :

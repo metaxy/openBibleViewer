@@ -19,8 +19,8 @@
 
 //#include <quazip.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QXmlStreamWriter>
+#include <QDebug>
+#include <QXmlStreamWriter>
 
 static const QString officeNamespace("urn:oasis:names:tc:opendocument:xmlns:office:1.0");
 static const QString textNamespace("urn:oasis:names:tc:opendocument:xmlns:text:1.0");

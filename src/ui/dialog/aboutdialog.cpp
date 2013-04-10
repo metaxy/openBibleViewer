@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
-#include <QtGui/QDesktopServices>
-#include <QtCore/QUrl>
+#include <QDesktopServices>
+#include <QUrl>
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent),
     m_ui(new Ui::AboutDialog)

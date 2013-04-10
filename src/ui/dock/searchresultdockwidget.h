@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCHRESULTDOCKWIDGET_H
 #define SEARCHRESULTDOCKWIDGET_H
 
-#include <QtGui/QDockWidget>
-#include <QtGui/QListWidgetItem>
+#include <QDockWidget>
+#include <QListWidgetItem>
 #include "dockwidget.h"
 #include "src/core/search/searchresult.h"
 #include "src/core/basicclass.h"

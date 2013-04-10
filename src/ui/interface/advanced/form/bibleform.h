@@ -13,20 +13,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEFORM_H
 #define BIBLEFORM_H
-#include <QtCore/QDir>
-#include <QtCore/QScopedPointer>
+#include <QDir>
+#include <QScopedPointer>
 
-#include <QtGui/QMenu>
-#include <QtGui/QCursor>
-#include <QtGui/QMessageBox>
-#include <QtGui/QPrinter>
-#include <QtGui/QClipboard>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMdiArea>
-#include <QtGui/QTextDocumentWriter>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QToolBar>
-#include <QtGui/QContextMenuEvent>
+#include <QMenu>
+#include <QCursor>
+#include <QMessageBox>
+#include <QPrinter>
+#include <QClipboard>
+#include <QColorDialog>
+#include <QMdiArea>
+#include <QTextDocumentWriter>
+#include <QCloseEvent>
+#include <QToolBar>
+#include <QContextMenuEvent>
 
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebElementCollection>

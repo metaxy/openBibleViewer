@@ -18,11 +18,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/basicclass.h"
 #include "src/ui/interface/advanced/manager/bookmarksmanager.h"
 #include "src/ui/interface/advanced/manager/notesmanager.h"
-#include "src/api/api.h"
 #include "src/core/dbghelper.h"
 #include "src/core/module/searchablemodule.h"
 #include "src/ui/interface/advanced/mdisubwindow.h"
-
+class Api;
 class Form : public QWidget, public BasicClass
 {
     Q_OBJECT

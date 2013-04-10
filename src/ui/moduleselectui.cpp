@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/moduletools.h"
 #include "src/core/link/verseurl.h"
 #include "src/ui/modulemodel.h"
-#include <QtCore/QPointer>
-#include <QtGui/QMenu>
+#include <QPointer>
+#include <QMenu>
 ModuleSelectUI::ModuleSelectUI(BasicClass *parent, QWidget *parentWidget) : QObject(parentWidget), m_style(ModuleSelectUI::JustSelect)
 {
     copy(parent);

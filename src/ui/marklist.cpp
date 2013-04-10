@@ -17,8 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/urlconverter2.h"
 #include "src/core/verse/reftext.h"
 #include "src/core/moduletools.h"
-#include <QtGui/QMenu>
-#include <QtGui/QCursor>
+#include <QMenu>
+#include <QCursor>
 MarkList::MarkList(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MarkList)

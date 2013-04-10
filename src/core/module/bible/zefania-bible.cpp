@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "CLucene/clucene-config.h"
 #include "src/core/search/searchtools.h"
-#include <QtGui/QTextDocument> //!!!
+#include <QTextDocument> //!!!
 #include <QtXml/QXmlStreamReader>
 
 #include "src/core/obvcore.h" //???
@@ -413,6 +413,7 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     TextRange ret = parser.toTextRange(&block);
     ret.setModuleID(m_moduleID);
     ret.setBookID(bookID);
+    ret.filter(startVerse, endVerse);
     return ret;
 }
 

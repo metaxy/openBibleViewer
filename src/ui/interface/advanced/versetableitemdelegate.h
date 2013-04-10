@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define VERSETABLEITEMDELEGATE_H
 
 #include <QItemDelegate>
-#include <QtCore/QStringList>
-#include <QtCore/QTimer>
-#include <QtGui/QComboBox>
+#include <QStringList>
+#include <QTimer>
+#include <QComboBox>
 
 #include "src/core/basicclass.h"
 #include "src/core/dbghelper.h"

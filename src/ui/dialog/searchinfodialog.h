@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCHINFODIALOG_H
 #define SEARCHINFODIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 #include "src/core/search/searchresult.h"
 #include "src/core/verse/versification.h"
 namespace Ui

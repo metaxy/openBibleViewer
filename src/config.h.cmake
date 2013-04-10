@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #define _AV_LANG "en;de;ru;cs;tr;sk;it"
 #define _AV_LANG_NAME "English;German;Russian;Czech;Turkish;Slovak;Italian"

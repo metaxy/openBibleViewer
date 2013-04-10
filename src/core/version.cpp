@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "version.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QStringList>
+#include <QStringList>
 
 Version::Version(const QString& versionString)
 {

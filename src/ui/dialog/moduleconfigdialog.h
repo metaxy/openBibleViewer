@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef MODULECONFIGDIALOG_H
 #define MODULECONFIGDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 #include "src/core/settings/modulesettings.h"
 #include "src/core/basicclass.h"

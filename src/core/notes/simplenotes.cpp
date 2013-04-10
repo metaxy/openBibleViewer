@@ -12,11 +12,11 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplenotes.h"
-#include <QtCore/QPointer>
+#include <QPointer>
 
-#include <QtCore/QDateTime>
-#include <QtGui/QClipboard>
-#include <QtGui/QMessageBox>
+#include <QDateTime>
+#include <QClipboard>
+#include <QMessageBox>
 #include "src/core/link/urlconverter2.h"
 #include "src/ui/dialog/biblepassagedialog.h"
 SimpleNotes::SimpleNotes()

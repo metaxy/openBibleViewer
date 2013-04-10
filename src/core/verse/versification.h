@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSIFICATION_H
 #define VERSIFICATION_H
-#include <QtCore/QStringList>
-#include <QtCore/QFlags>
-#include <QtCore/QMap>
+#include <QStringList>
+#include <QFlags>
+#include <QMap>
 #include "src/core/verse/versification/bookv11n.h"
 #include "src/core/verse/versificationextendeddata.h"
 class Versification : public QObject

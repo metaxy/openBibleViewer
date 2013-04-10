@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SESSION_H
 #define SESSION_H
-#include <QtCore/QVariant>
-#include <QtCore/QSettings>
+#include <QVariant>
+#include <QSettings>
 class Session
 {
 public:

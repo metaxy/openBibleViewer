@@ -14,9 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef CHAPTER_H
 #define CHAPTER_H
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
+#include <QString>
+#include <QStringList>
+#include <QMap>
 #include "src/core/verse/verse.h"
 /**
   * Chapter represents a verse chapter.

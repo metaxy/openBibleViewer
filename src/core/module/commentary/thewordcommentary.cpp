@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include "src/core/verse/reftext.h"
 
-#include <QtCore/QTemporaryFile>
+#include <QTemporaryFile>
 TheWordCommentary::TheWordCommentary() : m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }

@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "xmlnotes.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QDir>
+#include <QDir>
 XmlNotes::XmlNotes()
 {
     m_isLoaded = false;

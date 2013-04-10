@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define NOTESMANAGER_H
 
 #include <QObject>
-#include <QtCore/QHash>
+#include <QHash>
 #include "src/core/basicclass.h"
 #include "src/core/verseselection.h"
 #include "src/ui/dock/notesdockwidget.h"

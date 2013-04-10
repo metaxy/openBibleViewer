@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 
 
-#include <QtGui/QFileDialog>
+#include <QFileDialog>
 
 ModuleConfigDialog::ModuleConfigDialog(QWidget *parent) :
     QDialog(parent),

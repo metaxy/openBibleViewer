@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEQUOTEDICT_H
 #define BIBLEQUOTEDICT_H
-#include <QtCore/QTextDecoder>
-#include <QtCore/QDir>
-#include <QtGui/QProgressDialog>
+#include <QTextDecoder>
+#include <QDir>
+#include <QProgressDialog>
 
 #include "src/core/module/dictionary/dictionarymodule.h"
 /**

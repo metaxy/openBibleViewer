@@ -14,21 +14,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef ADVANCEDINTERFACE_H
 #define ADVANCEDINTERFACE_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QSizePolicy>
-#include <QtGui/QMessageBox>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QScrollBar>
-#include <QtGui/QFileDialog>
-#include <QtGui/QKeySequence>
-#include <QtGui/QLineEdit>
-#include <QtGui/QCloseEvent>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QSizePolicy>
+#include <QMessageBox>
+#include <QDesktopServices>
+#include <QScrollBar>
+#include <QFileDialog>
+#include <QKeySequence>
+#include <QLineEdit>
+#include <QCloseEvent>
 
-#include <QtCore/QScopedPointer>
-#include <QtCore/QTimer>
-
-#include "src/api/api.h"
+#include <QScopedPointer>
+#include <QTimer>
 
 #include "src/core/moduletools.h"
 #include "src/core/dbghelper.h"
@@ -49,7 +47,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/noteseditor.h"
 #include "src/ui/marklist.h"
 
-#include <QtCore/QPointer>
+#include <QPointer>
+class Api;
 namespace Ui
 {
 class AdvancedInterface;

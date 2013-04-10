@@ -25,8 +25,8 @@ class QTextCursor;
 class QTextDocument;
 class QTextImageFormat;
 
-#include <QtCore/QStack>
-#include <QtGui/QTextCharFormat>
+#include <QStack>
+#include <QTextCharFormat>
 #include "TextDocumentRtfOutput.h"
 #include "src/core/settings/settings.h"
 

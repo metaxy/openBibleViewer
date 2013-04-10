@@ -13,10 +13,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "bibleform.h"
 #include "ui_bibleform.h"
+#include <QPointer>
+
 #include "src/core/verse/reftext.h"
-#include <QtCore/QPointer>
 #include "src/core/link/urlconverter2.h"
 #include "src/core/module/response/textrangesresponse.h"
+#include "src/api/api.h"
+
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
     m_verseTable(NULL),

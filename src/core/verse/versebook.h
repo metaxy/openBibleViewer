@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSEBOOK_H
 #define VERSEBOOK_H
-#include <QtCore/QHash>
+#include <QHash>
 #include "src/core/verse/chapter.h"
 class VerseBook
 {

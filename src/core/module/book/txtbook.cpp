@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "txtbook.h"
-#include <QtCore/QFileInfo>
+#include <QFileInfo>
 #include "src/core/module/response/htmlresponse.h"
 TxtBook::TxtBook()
 {

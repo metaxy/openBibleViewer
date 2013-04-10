@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef UPDATESCHECKER_H
 #define UPDATESCHECKER_H
 
-#include <QtCore/QObject>
+#include <QObject>
 #include "src/core/basicclass.h"
 #include <QtNetwork/QNetworkReply>
 

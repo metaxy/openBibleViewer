@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "src/core/module/modulemanager.h"
-#include <QtCore/QPointer>
+#include <QPointer>
 
 #include "src/ui/interface/simple/simpleinterface.h"
 #include "src/ui/interface/advanced/advancedinterface.h"

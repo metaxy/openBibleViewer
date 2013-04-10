@@ -15,9 +15,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define THEWORDBIBLE_H
 #include "src/core/module/bible/biblemodule.h"
 
-#include <QtCore/QFileInfo>
-#include <QtGui/QProgressDialog>
-#include <QtCore/QDir>
+#include <QFileInfo>
+#include <QProgressDialog>
+#include <QDir>
 #include <utility>
 
 #include "src/core/verse/versification/versification_kjv.h"

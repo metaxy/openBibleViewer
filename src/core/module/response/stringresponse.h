@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef STRINGRESPONSE_H
 #define STRINGRESPONSE_H
 #include "src/core/module/response/response.h"
-#include <QtCore/QString>
+#include <QString>
 class StringResponse : public Response
 {
 public:

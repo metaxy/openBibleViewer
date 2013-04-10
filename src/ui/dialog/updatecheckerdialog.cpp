@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "updatecheckerdialog.h"
 #include "ui_updatecheckerdialog.h"
-#include <QtGui/QDesktopServices>
-#include <QtCore/QUrl>
+#include <QDesktopServices>
+#include <QUrl>
 
 UpdateCheckerDialog::UpdateCheckerDialog(QWidget *parent) :
     QDialog(parent),

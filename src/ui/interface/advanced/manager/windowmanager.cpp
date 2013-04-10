@@ -12,9 +12,10 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "windowmanager.h"
-#include <QtCore/qmath.h>
-#include <QtGui/QScrollBar>
+#include <qmath.h>
+#include <QScrollBar>
 #include "src/ui/interface/advanced/subwindowfilter.h"
+#include "src/api/api.h"
 
 WindowManager::WindowManager(QObject *parent) :
     QObject(parent)

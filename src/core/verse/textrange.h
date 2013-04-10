@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef TEXTRANGE_H
 #define TEXTRANGE_H
-#include <QtCore/QString>
-#include <QtCore/QList>
-#include <QtCore/QMap>
+#include <QString>
+#include <QList>
+#include <QMap>
 #include "src/core/verse/verse.h"
 /**
  * @brief Eigenlich its ein Kapitel mit ein paar Versen.
@@ -52,6 +52,8 @@ public:
 
     void setError(const TextRange::TextRangeError error);
     TextRange::TextRangeError error() const;
+
+    void filter(const int startVerse, const int endVerse);
 
 private:
     QMap<int, Verse> m_verse;

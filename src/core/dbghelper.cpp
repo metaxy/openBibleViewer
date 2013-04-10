@@ -18,7 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifdef DBGHELPER_USES_PRINTF
 #include <stdio.h>
 #else
-#include <QtCore/QtDebug>
+#include <QtDebug>
 #endif
 
 int DbgHelper::indent = 0;

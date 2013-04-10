@@ -17,12 +17,12 @@
 
 #include "TheWordRtfOutput.h"
 
-#include <QtGui/QTextCursor>
-#include <QtGui/QTextDocument>
-#include <QtCore/QDebug>
-#include <QtCore/QUrl>
-#include <QtCore/QUuid>
-#include <QtGui/QTextDocumentFragment>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QDebug>
+#include <QUrl>
+#include <QUuid>
+#include <QTextDocumentFragment>
 #include "src/core/link/verseurl.h"
 #include "src/core/verse/reftext.h"
 namespace RtfReader

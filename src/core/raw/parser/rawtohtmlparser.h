@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef RAWTOHTMLPARSER_H
 #define RAWTOHTMLPARSER_H
-#include <QtCore/QString>
+#include <QString>
 #include "src/core/raw/bookblock.h"
 #include "src/core/raw/brfragment.h"
 #include "src/core/raw/captionblock.h"
@@ -30,7 +30,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/raw/xreffragment.h"
 #include "src/core/raw/mediablock.h"
 #include "src/core/settings/moduledisplaysettings.h"
-#include <QtCore/QSharedPointer>
+#include <QSharedPointer>
 
 class RawToHtmlParser
 {

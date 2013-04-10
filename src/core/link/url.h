@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef URL_H
 #define URL_H
-#include <QtCore/QString>
+#include <QString>
 class Url
 {
 public:

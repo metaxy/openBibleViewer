@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SEARCHMANAGER_H
 #define SEARCHMANAGER_H
-#include <QtCore/QHash>
+#include <QHash>
 #include "windowmanager.h"
 #include "src/ui/dock/advancedsearchresultdockwidget.h"
 

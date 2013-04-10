@@ -15,15 +15,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define MAINWINDOW_H
 
 
-#include <QtCore/QSettings>
+#include <QSettings>
 
-#include <QtCore/QLibraryInfo>
-#include <QtCore/QDir>
-#include <QtCore/QTranslator>
+#include <QLibraryInfo>
+#include <QDir>
+#include <QTranslator>
 
-#include <QtGui/QToolBar>
-#include <QtGui/QMessageBox>
-#include <QtGui/QMainWindow>
+#include <QToolBar>
+#include <QMessageBox>
+#include <QMainWindow>
 
 #include "config.h"
 #include "src/core/version.h"

@@ -16,7 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/biblelink.h"
 #include "src/core/module/bible/biblequote.h"
 #include "src/core/link/strongurl.h"
-#include <QtGui/QShortcut>
+#include "src/api/api.h"
+#include <QShortcut>
 AdvancedInterface::AdvancedInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::AdvancedInterface)

@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BOOKV11N_H
 #define BOOKV11N_H
-#include <QtCore/QStringList>
+#include <QStringList>
 class BookV11N
 {
 public:

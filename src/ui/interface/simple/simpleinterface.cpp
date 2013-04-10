@@ -19,10 +19,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/moduletools.h"
 #include "src/core/search/search.h"
 #include "src/core/module/response/textrangesresponse.h"
-#include <QtCore/QPointer>
-#include <QtGui/QDesktopServices>
-#include <QtGui/QMessageBox>
-#include <QtGui/QKeyEvent>
+#include <QPointer>
+#include <QDesktopServices>
+#include <QMessageBox>
+#include <QKeyEvent>
 #include <QtWebKit/QWebView>
 SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),

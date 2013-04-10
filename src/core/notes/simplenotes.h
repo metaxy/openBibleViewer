@@ -15,11 +15,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SIMPLENOTES_H
 
 #include <QObject>
-#include <QtGui/QLineEdit>
-#include <QtGui/QTextBrowser>
-#include <QtGui/QTreeView>
-#include <QtGui/QPushButton>
-#include <QtGui/QLabel>
+#include <QLineEdit>
+#include <QTextBrowser>
+#include <QTreeView>
+#include <QPushButton>
+#include <QLabel>
 
 #include <QtWebKit/QWebFrame>
 #include "src/core/settings/settings.h"

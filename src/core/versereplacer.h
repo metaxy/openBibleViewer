@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef VERSEREPLACER_H
 #define VERSEREPLACER_H
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtCore/QStringList>
+#include <QString>
+#include <QMap>
+#include <QStringList>
 #include "src/core/verse/verse.h"
 class VerseReplacer
 {

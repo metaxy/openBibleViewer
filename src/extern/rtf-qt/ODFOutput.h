@@ -20,7 +20,7 @@
 
 #include "AbstractRtfOutput.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 //class QuaZip;
 //class QuaZipFile;

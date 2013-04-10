@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef BIBLEMODULE_H
 #define BIBLEMODULE_H
-#include <QtCore/QFile>
-#include <QtCore/QString>
-#include <QtCore/QMap>
+#include <QFile>
+#include <QString>
+#include <QMap>
 
 #include "src/core/search/searchresult.h"
 #include "src/core/search/searchquery.h"

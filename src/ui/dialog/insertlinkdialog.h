@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include "src/core/basicclass.h"
-#include <QtGui/QTreeView>
-#include <QtGui/QSortFilterProxyModel>
+#include <QTreeView>
+#include <QSortFilterProxyModel>
 #include "src/ui/biblepassageframe.h"
 
 namespace Ui

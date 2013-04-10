@@ -15,10 +15,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_notesdockwidget.h"
 #include "src/core/dbghelper.h"
 #include "src/ui/dialog/biblepassagedialog.h"
-#include <QtGui/QClipboard>
-#include <QtGui/QMenu>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMessageBox>
+#include <QClipboard>
+#include <QMenu>
+#include <QColorDialog>
+#include <QMessageBox>
 #include "src/core/moduletools.h"
 NotesDockWidget::NotesDockWidget(QWidget *parent) :
     DockWidget(parent),

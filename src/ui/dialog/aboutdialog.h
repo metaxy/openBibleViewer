@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
-#include <QtGui/QDialog>
-#include <QtCore/QString>
+#include <QDialog>
+#include <QString>
 
 namespace Ui
 {

@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULE_H
 #define MODULE_H
-#include <QtCore/QString>
+#include <QString>
 #include "src/core/settings/settings.h"
 #include "src/core/module/dictionary/dictionarymodule.h"
 #include "src/core/module/bible/biblemodule.h"

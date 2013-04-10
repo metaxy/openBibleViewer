@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SETTINGSLOADER_H
 #define SETTINGSLOADER_H
-#include <QtCore/QSettings>
+#include <QSettings>
 #include "src/core/settings/settings.h"
 
 class SettingsLoader

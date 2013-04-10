@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SIMPLEINTERFACE_H
 
 #include <QWidget>
-#include <QtCore/QUrl>
+#include <QUrl>
 
 #include "src/ui/interface/interface.h"
 #include "src/ui/dock/moduledockwidget.h"

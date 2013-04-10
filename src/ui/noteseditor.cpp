@@ -17,10 +17,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "ui_noteseditor.h"
 #include "noteseditor.h"
-#include <QtGui/QFileDialog>
-#include <QtGui/QFontDatabase>
-#include <QtGui/QInputDialog>
-#include <QtGui/QColorDialog>
+#include <QFileDialog>
+#include <QFontDatabase>
+#include <QInputDialog>
+#include <QColorDialog>
 #include "ui_inserthtmldialog.h"
 #include "highlighter.h"
 #define FORWARD_ACTION(action1, action2) \

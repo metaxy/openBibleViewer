@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef DBGHELPER_H
 #define DBGHELPER_H
 
-#include <QtCore/QtDebug>
+#include <QtDebug>
 #include "config.h"
 
 #ifdef OBV_NO_DEBUG_OUTPUT
@@ -39,7 +39,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 /*#endif*/
 
 
-#include <QtCore/QString>
+#include <QString>
 /**
  * DbgHelper is a debug helper, it shows the debug output more clearly
  */

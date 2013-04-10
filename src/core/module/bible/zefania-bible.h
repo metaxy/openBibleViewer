@@ -13,12 +13,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef ZEFANIABIBLE_H
 #define ZEFANIABIBLE_H
-#include <QtCore/QFile>
-#include <QtCore/QMap>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <QFile>
+#include <QMap>
+#include <QString>
+#include <QStringList>
 
-#include <QtGui/QProgressDialog>
+#include <QProgressDialog>
 
 #include <QtXml/QtXml>
 

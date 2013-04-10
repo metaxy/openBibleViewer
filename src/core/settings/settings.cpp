@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "src/core/settings/settings.h"
 #include "src/core/dbghelper.h"
-#include <QtCore/QUrl>
-#include <QtCore/QDir>
-#include <QtCore/QCryptographicHash>
+#include <QUrl>
+#include <QDir>
+#include <QCryptographicHash>
 Settings::Settings()
 {
     homePath = "";

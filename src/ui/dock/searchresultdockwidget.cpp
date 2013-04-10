@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "searchresultdockwidget.h"
-#include <QtGui/QMessageBox>
-#include <QtCore/QPointer>
+#include <QMessageBox>
+#include <QPointer>
 #include "ui_searchresultdockwidget.h"
 #include "src/core/search/searchhit.h"
 #include "src/ui/dialog/searchinfodialog.h"

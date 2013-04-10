@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef ICONCACHE_H
 #define ICONCACHE_H
 #include "src/core/singleton.h"
-#include <QtGui/QStyle>
-#include <QtGui/QApplication>
+#include <QStyle>
+#include <QApplication>
 class IconCache : public Singleton<IconCache>
 {
     friend class Singleton<IconCache>;

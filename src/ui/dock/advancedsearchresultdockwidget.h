@@ -14,9 +14,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef ADVANCEDSEARCHRESULTDOCKWIDGET_H
 #define ADVANCEDSEARCHRESULTDOCKWIDGET_H
 
-#include <QtGui/QDockWidget>
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QItemSelectionModel>
+#include <QDockWidget>
+#include <QSortFilterProxyModel>
+#include <QItemSelectionModel>
 #include "dockwidget.h"
 #include "src/core/search/searchresult.h"
 namespace Ui

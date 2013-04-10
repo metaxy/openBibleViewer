@@ -14,16 +14,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "dictionaryform.h"
 #include "ui_dictionaryform.h"
 
-#include <QtGui/QCompleter>
-#include <QtCore/QScopedPointer>
-#include <QtGui/QPrinter>
-#include <QtCore/QPointer>
-#include <QtGui/QTextDocumentWriter>
+#include <QCompleter>
+#include <QScopedPointer>
+#include <QPrinter>
+#include <QPointer>
+#include <QTextDocumentWriter>
 #include "src/core/module/dictionary/webdictionary.h"
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/module/response/htmlresponse.h"
-#include <QtGui/QClipboard>
+#include <QClipboard>
 
 DictionaryForm::DictionaryForm(QWidget *parent) :
     WebViewForm(parent),

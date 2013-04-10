@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef SEARCHQUERY_H
 #define SEARCHQUERY_H
-#include <QtCore/QString>
+#include <QString>
 /**
  * SearchQuery represents a search query. It consists mainly of a range and a query string.
  */

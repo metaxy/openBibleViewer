@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef STRONGDOCKWIDGET_H
 #define STRONGDOCKWIDGET_H
 
-#include <QtGui/QDockWidget>
-#include <QtCore/QUrl>
+#include <QDockWidget>
+#include <QUrl>
 #include "dockwidget.h"
 namespace Ui
 {

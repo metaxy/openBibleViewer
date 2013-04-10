@@ -16,8 +16,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/modulesettings.h"
 #include "src/core/settings/session.h"
 #include "src/core/verse/versification.h"
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
+#include <QStringList>
+#include <QMap>
 /**
  * Settings represents the global settings.
  */

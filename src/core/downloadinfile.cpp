@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "downloadinfile.h"
-#include <QtCore/QDir>
+#include <QDir>
 #include "src/core/dbghelper.h"
 DownloadInFile::DownloadInFile(QObject *parent, QNetworkAccessManager *manager) :
     QObject(parent)

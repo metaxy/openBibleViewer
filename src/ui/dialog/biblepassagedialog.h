@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/settings.h"
 #include "src/core/basicclass.h"
 #include "src/ui/biblepassageframe.h"
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui
 {

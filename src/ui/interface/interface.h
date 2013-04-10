@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define INTERFACE_H
 
 #include <QWidget>
-#include <QtGui/QMenuBar>
-#include <QtGui/QToolBar>
+#include <QMenuBar>
+#include <QToolBar>
 #include "src/core/module/modulemanager.h"
 #include "src/core/settings/settings.h"
 #include "src/core/notes/notes.h"

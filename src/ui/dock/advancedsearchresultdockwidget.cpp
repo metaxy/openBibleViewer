@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "advancedsearchresultdockwidget.h"
 #include "ui_advancedsearchresultdockwidget.h"
-#include <QtGui/QSortFilterProxyModel>
-#include <QtGui/QMessageBox>
-#include <QtCore/QPointer>
+#include <QSortFilterProxyModel>
+#include <QMessageBox>
+#include <QPointer>
 #include "src/core/link/verseurl.h"
 #include "src/ui/dialog/searchinfodialog.h"
 #include "src/core/dbghelper.h"

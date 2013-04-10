@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "versetableitemdelegate.h"
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGroupBox>
+#include <QHBoxLayout>
+#include <QGroupBox>
 VerseTableItemDelegate::VerseTableItemDelegate(QObject *parent)
     : QItemDelegate(parent)
 {

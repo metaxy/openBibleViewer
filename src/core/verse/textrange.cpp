@@ -106,3 +106,13 @@ TextRange::TextRangeError TextRange::error() const
 {
     return m_error;
 }
+void TextRange::filter(const int startVerse, const int endVerse)
+{
+    QMutableMapIterator<int, Verse> i(m_verse);
+    while(i.hasNext()) {
+        i.next();
+        if(i.key() <= startVerse || i.key() >= endVerse) {
+            i.remove();
+        }
+    }
+}

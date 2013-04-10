@@ -14,12 +14,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include <QtCore/QFile>
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtGui/QProgressDialog>
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
+#include <QProgressDialog>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include "src/core/settings/settings.h"
 #include "src/core/settings/modulesettings.h"

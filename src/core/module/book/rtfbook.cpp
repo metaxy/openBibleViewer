@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "rtfbook.h"
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TextDocumentRtfOutput.h"
-#include <QtCore/QFileInfo>
+#include <QFileInfo>
 #include "src/core/module/response/htmlresponse.h"
 RTFBook::RTFBook()
 {

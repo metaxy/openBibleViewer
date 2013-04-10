@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef URLRESPONSE_H
 #define URLRESPONSE_H
 #include "src/core/module/response/response.h"
-#include <QtCore/QString>
+#include <QString>
 #include "src/core/blockrules.h"
 class UrlResponse : public Response
 {

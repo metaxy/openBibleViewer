@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef SEARCHTOOLS_H
 #define SEARCHTOOLS_H
 #include "config.h"
-#include <QtCore/QString>
+#include <QString>
 #include "CLucene/clucene-config.h"
 #ifdef Q_WS_WIN
 #include <tchar.h>

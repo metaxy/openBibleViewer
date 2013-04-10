@@ -24,8 +24,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/bible/thewordbible.h"
 #include "src/core/module/bible/swordbible.h"
 
-#include <QtCore/QDir>
-#include <QtGui/QTextDocument>
+#include <QDir>
+#include <QTextDocument>
 
 #include "src/core/module/response/textrangesresponse.h"
 Bible::Bible()

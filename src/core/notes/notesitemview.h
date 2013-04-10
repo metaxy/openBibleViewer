@@ -13,8 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef NOTESITEMVIEW_H
 #define NOTESITEMVIEW_H
-#include <QtGui/QTreeView>
-#include <QtGui/QStandardItemModel>
+#include <QTreeView>
+#include <QStandardItemModel>
 #include "src/core/notes/notes.h"
 #include "src/ui/recursivproxymodel.h"
 class NotesItemView : public QObject

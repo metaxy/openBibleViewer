@@ -15,8 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ACTIONS_H
 
 #include <QObject>
-#include <QtCore/QString>
-#include <QtCore/QUrl>
+#include <QString>
+#include <QUrl>
 #include "src/core/link/verseurl.h"
 #include "src/core/verse/textranges.h"
 #include "src/core/verse/versification.h"

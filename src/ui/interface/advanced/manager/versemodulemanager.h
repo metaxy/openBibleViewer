@@ -14,8 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLEMANAGER_H
 #define BIBLEMANAGER_H
 
-#include <QtCore/QObject>
-#include <QtCore/QHash>
+#include <QObject>
+#include <QHash>
 #include "src/ui/dock/dockwidget.h"
 #include "src/core/basicclass.h"
 #include "src/ui/dock/bookdockwidget.h"

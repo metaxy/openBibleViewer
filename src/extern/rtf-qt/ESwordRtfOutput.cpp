@@ -17,11 +17,11 @@
 
 #include "ESwordRtfOutput.h"
 
-#include <QtGui/QTextCursor>
-#include <QtGui/QTextDocument>
-#include <QtCore/QDebug>
-#include <QtCore/QUrl>
-#include <QtCore/QUuid>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QDebug>
+#include <QUrl>
+#include <QUuid>
 #include "src/core/link/verseurl.h"
 #include "src/core/verse/reftext.h"
 namespace RtfReader

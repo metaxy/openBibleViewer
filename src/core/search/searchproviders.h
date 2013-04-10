@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #ifndef SEARCHPROVIDERS_H
 #define SEARCHPROVIDERS_H
-#include <QtCore/QList>
+#include <QList>
 #include "searchprovider.h"
 class SearchProviders
 {

@@ -13,9 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "updateschecker.h"
 #include <QtNetwork/QNetworkAccessManager>
-#include <QtGui/QMessageBox>
+#include <QMessageBox>
 #include <QtXml/QDomDocument>
-#include <QtCore/QPointer>
+#include <QPointer>
 #include "config.h"
 #include "src/core/dbghelper.h"
 #include "src/core/version.h"
