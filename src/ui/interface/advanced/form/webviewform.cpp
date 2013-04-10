@@ -23,7 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QtWebKit/QWebInspector>
 #include <QClipboard>
 #include "src/ui/dialog/moduleselectdialog.h"
-
+#include "src/api/api.h"
 WebViewForm::WebViewForm(QWidget *parent) :
     Form(parent)
 {

@@ -114,6 +114,7 @@ public:
     BookBlock readBookBlock(const int bookID);
     ChapterBlock readChapterBlock(const int bookID, const int chapterID);
     void buildIndex(const QString &indexPath);
+
 private:
     BlockIDGen m_idGen;
     enum TagName {
@@ -156,19 +157,15 @@ private:
     QMap<int, QString> m_strongsPrefix;
     void genStrongsPrefix(const int bookID);
 
+    QString m_fileName;
+    QSharedPointer<Versification> m_versification;
     QXmlStreamReader *m_xml;
     QFile *m_file;
-    QString m_fileName;
-
-    bool m_rightToLeft;
-    QSharedPointer<Versification> m_versification;
-
 
     void create();
     void destroy();
 
     QString m_strongAdd;
-
 };
 
 #endif // ZEFANIABIBLE_H
