@@ -12,6 +12,9 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "api.h"
+#include "moduleapi.h"
+#include "notesapi.h"
+#include "searchapi.h"
 
 Api::Api(QObject *parent) :
     QObject(parent)

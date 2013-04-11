@@ -19,7 +19,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/urlconverter2.h"
 #include "src/core/module/response/textrangesresponse.h"
 #include "src/api/api.h"
-
+#include "src/api/moduleapi.h"
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
     m_verseTable(NULL),

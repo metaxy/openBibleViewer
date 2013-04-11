@@ -50,6 +50,8 @@ void ConsoleForm::attach()
     addJS(":/data/js/tools.js");
     addJS(":/data/js/jquery-1.4.2.min.js");
     addJS(":/data/js/underscore-min.js");
+    QWebFrame * frame = m_view->page()->mainFrame();
+    m_view->page()->mainFrame()->addToJavaScriptWindowObject("Search", m_api->searchApi());
     addModuleApi();
     addSearchApi();
     addNotesApi();
