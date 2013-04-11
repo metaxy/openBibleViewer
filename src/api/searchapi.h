@@ -10,7 +10,7 @@ class SearchApi : public QObject, public BasicClass
     Q_OBJECT
 public:
     explicit SearchApi(QObject *parent = 0);
-
+    QString name() const;
 signals:
     
 public slots:

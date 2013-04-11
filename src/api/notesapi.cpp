@@ -50,5 +50,8 @@ void NotesApi::removeNote(const QString &noteID)
 {
     m_notes->removeNote(noteID);
 }
-
+QString NotesApi::name() const
+{
+    return "Notes";
+}
 

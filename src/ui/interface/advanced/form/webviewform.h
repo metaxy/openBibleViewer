@@ -78,10 +78,11 @@ protected:
 
     virtual void addJS(const QString &url);
 
-    void addModuleApi();
-    void addSearchApi();
-    void addNotesApi();
-    void addActionsApi();
+    template <typename T> void addApi(T *t)
+    {
+        m_view->page()->mainFrame()->addToJavaScriptWindowObject(t->name(), t);
+    }
+
     QString m_contextMenuUrl;
     QString m_contextMenuText;
 

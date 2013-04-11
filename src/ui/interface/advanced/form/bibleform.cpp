@@ -410,7 +410,7 @@ void BibleForm::attachApi()
     addJS(":/data/js/tools.js");
     addJS(":/data/js/jquery-1.4.2.min.js");
     addJS(":/data/js/underscore-min.js");
-    addModuleApi();
+    addApi(m_api->moduleApi());
 }
 
 void BibleForm::historySetUrl(QString url)

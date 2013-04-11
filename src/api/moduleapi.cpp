@@ -55,3 +55,7 @@ int ModuleApi::getModuleIdByName(const QString &name)
     }
     return 0;
 }
+QString ModuleApi::name() const
+{
+    return "Module";
+}

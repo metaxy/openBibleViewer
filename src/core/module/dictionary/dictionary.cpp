@@ -50,6 +50,9 @@ int Dictionary::loadModuleData(const int moduleID)
 }
 Response* Dictionary::getEntry(const QString &string) const
 {
+    if(m_dictionaryModule.isNull()) {
+        return new StringResponse("Not found");
+    }
     if(string.contains(" ") && m_dictionaryModule->responseType() == Response::StringReponse) {
         QString ret;
         const QStringList parts = string.split(" ");

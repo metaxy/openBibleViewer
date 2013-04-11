@@ -134,7 +134,7 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
     } else if(type == ModuleTools::TheWordDictionaryModule) {
         ret = QSharedPointer<DictionaryModule>(new TheWordDictionary());
     } else {
-        myWarning() << "invalid type";
+        myWarning() << "invalid type" << type;
     }
     m_dictionaryModule = ret.toWeakRef();
     return ret;
@@ -149,7 +149,7 @@ QSharedPointer<BookModule> Module::newBookModule(const ModuleTools::ModuleType t
     } else if(type == ModuleTools::PDFBookModule) {
         ret = QSharedPointer<PDFBook>(new PDFBook());
     } else {
-        myWarning() << "invalid type";
+        myWarning() << "invalid type" << type;
     }
     m_bookModule = ret.toWeakRef();
     return ret;
@@ -164,7 +164,7 @@ QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::
     } else if(type == ModuleTools::ESwordCommentaryModule) {
         ret = QSharedPointer<ESwordCommentary>(new ESwordCommentary());
     } else {
-        myWarning() << "invalid type";
+        myWarning() << "invalid type" << type;
     }
     m_commentaryModule = ret.toWeakRef();
     return ret;

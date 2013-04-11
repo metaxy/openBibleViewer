@@ -32,6 +32,8 @@ public:
     explicit ModuleApi(QObject *parent = 0);
     virtual ~ModuleApi();
     void setFrame(QWebFrame *frame);
+
+    QString name() const;
 private:
     QWebFrame *m_frame;
 };

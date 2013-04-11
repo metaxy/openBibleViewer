@@ -1,6 +1,9 @@
 #include "consoleform.h"
 #include "ui_consoleform.h"
-
+#include "src/api/moduleapi.h"
+#include "src/api/notesapi.h"
+#include "src/api/searchapi.h"
+#include "src/api/api.h"
 ConsoleForm::ConsoleForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::ConsoleForm)
@@ -50,12 +53,11 @@ void ConsoleForm::attach()
     addJS(":/data/js/tools.js");
     addJS(":/data/js/jquery-1.4.2.min.js");
     addJS(":/data/js/underscore-min.js");
-    QWebFrame * frame = m_view->page()->mainFrame();
-    m_view->page()->mainFrame()->addToJavaScriptWindowObject("Search", m_api->searchApi());
-    addModuleApi();
-    addSearchApi();
-    addNotesApi();
-    addActionsApi();
+
+    addApi(m_api->searchApi());
+    addApi(m_api->moduleApi());
+    addApi(m_api->notesApi());
+    addApi(m_actions);
 }
 void ConsoleForm::showContextMenu(QContextMenuEvent* ev)
 {

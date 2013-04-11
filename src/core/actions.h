@@ -38,7 +38,7 @@ public:
         OpenParallelH,
         OpenParallelV
     };
-
+    QString name() const;
 signals:
     void _previousChapter();
     void _nextChapter();

@@ -17,6 +17,10 @@ Actions::Actions(QObject *parent) :
     QObject(parent)
 {
 }
+QString Actions::name() const
+{
+    return "Actions";
+}
 void Actions::debug(const QString &s)
 {
     qDebug() << s;
