@@ -28,11 +28,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QTextDocument>
 
 #include "src/core/module/response/textrangesresponse.h"
-Bible::Bible()
+Bible::Bible() : m_loaded(false), m_bookID(0)
 {
-    m_bookID = 0;
-    m_loaded = false;
-    m_lastTextRanges = NULL;
 }
 Bible::~Bible()
 {

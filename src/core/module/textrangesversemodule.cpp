@@ -13,9 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "textrangesversemodule.h"
 
-TextRangesVerseModule::TextRangesVerseModule()
+TextRangesVerseModule::TextRangesVerseModule() : m_lastTextRanges(nullptr)
 {
-    m_lastTextRanges = NULL;
 }
 
 void TextRangesVerseModule::setLastTextRanges(TextRanges *textRanges)
