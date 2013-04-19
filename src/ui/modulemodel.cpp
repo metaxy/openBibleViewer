@@ -13,12 +13,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "modulemodel.h"
 
-ModuleModel::ModuleModel(QObject *parent)
+ModuleModel::ModuleModel(QObject *parent) :  m_moduleModel(new QStandardItemModel(parent)), m_settings(nullptr)
 {
-    m_moduleModel = new QStandardItemModel(parent);
-    m_settings = NULL;
     //m_moduleModel->setHeaderData(0, Qt::Horizontal, QObject::tr("Module"));
-
 }
 ModuleModel::~ModuleModel()
 {
@@ -61,29 +58,31 @@ QStandardItemModel* ModuleModel::itemModel() const
 {
     return m_moduleModel;
 }
-void ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *settings)
+bool ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *settings)
 {
-    QStandardItem *item = nullptr;
-    bool show = true;
     ModuleTools::ModuleCategory cat = ModuleTools::getCategory(settings->moduleType);
-    if(!m_catFilter.isEmpty()) {
-        show = false;
-        if(m_catFilter.contains(cat)) {
-            show = true;
-        }
-    }
-    if(cat == ModuleTools::FolderCategory) show = true;
+    if(cat != ModuleTools::FolderCategory &&
+            !m_catFilter.isEmpty() &&
+            !m_catFilter.contains(cat)) return false;
 
-    if(show == true) {
-        item = new QStandardItem(settings->name(false));
-        item->setData(QString::number(settings->moduleID));
-        item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
-        item->setIcon(settings->icon());
-        parentItem->appendRow(item);
-        //recursive
-        foreach(ModuleSettings * s, settings->children()) {
-            createModuleItem(item, s);
-        }
+    QStandardItem *item = new QStandardItem(settings->name(false));
+    item->setData(QString::number(settings->moduleID));
+    item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
+    item->setIcon(settings->icon());
+
+
+    bool atLeastOne = false;
+    bool noneChildren = (cat != ModuleTools::FolderCategory);
+    foreach(ModuleSettings * s, settings->children()) {
+        noneChildren = false;
+        atLeastOne = atLeastOne || createModuleItem(item, s);
     }
+
+    if(!atLeastOne && !noneChildren) {
+        delete item;
+        return false;
+    }
+    parentItem->appendRow(item);
+    return true;
 }
 

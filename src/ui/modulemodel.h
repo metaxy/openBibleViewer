@@ -38,7 +38,7 @@ public:
 private:
     QStandardItemModel *m_moduleModel;
     Settings *m_settings;
-    void createModuleItem(QStandardItem *parentItem, ModuleSettings *settings);
+    bool createModuleItem(QStandardItem *parentItem, ModuleSettings *settings);
 
     QList<ModuleTools::ModuleCategory> m_catFilter;
 };
