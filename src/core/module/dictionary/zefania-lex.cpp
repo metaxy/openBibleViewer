@@ -86,7 +86,7 @@ MetaInfo ZefaniaLex::readInfo(const QString &name)
 
     file.close();
     delete m_xml;
-    m_xml = NULL;
+    m_xml = nullptr;
 
     return info;
 }
@@ -105,7 +105,7 @@ Response * ZefaniaLex::getEntry(const QString &key)
         }
         const QString index = indexPath();
         const QString queryText = "key:" + key;
-        const TCHAR* stop_words[] = { NULL };
+        const TCHAR* stop_words[] = { nullptr };
         standard::StandardAnalyzer analyzer(stop_words);
         IndexReader* reader = IndexReader::open(index.toStdString().c_str());
         IndexSearcher s(reader);
@@ -180,8 +180,8 @@ int ZefaniaLex::buildIndex()
 
 
     m_refText.setSettings(m_settings);
-    IndexWriter* writer = NULL;
-    const TCHAR* stop_words[] = { NULL };
+    IndexWriter* writer = nullptr;
+    const TCHAR* stop_words[] = { nullptr };
     standard::StandardAnalyzer an(stop_words);
 
     //open the xml file
@@ -271,7 +271,7 @@ int ZefaniaLex::buildIndex()
 
     file.close();
     delete m_xml;
-    m_xml = NULL;
+    m_xml = nullptr;
     return 0;
 }
 QString ZefaniaLex::parseTitle()

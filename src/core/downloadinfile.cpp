@@ -15,11 +15,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include "src/core/dbghelper.h"
 DownloadInFile::DownloadInFile(QObject *parent, QNetworkAccessManager *manager) :
-    QObject(parent)
+    QObject(parent), m_manager(manager), m_file(nullptr), m_reply(nullptr)
 {
-    m_manager = manager;
-    m_file = NULL;
-    m_reply = NULL;
 }
 
 void DownloadInFile::setUrl(const QUrl &url)

@@ -39,7 +39,7 @@ bool RTFBook::hasIndex() const
 void RTFBook::buildIndex()
 {
     QTextDocument rtfDocument;
-    RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+    RtfReader::Reader *reader = new RtfReader::Reader( nullptr );
     bool result = reader->open(m_path);
     if(result) {
         RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( &rtfDocument );
@@ -70,7 +70,7 @@ int RTFBook::loadModuleData(const int moduleID, const QString &path)
 Response* RTFBook::readAll()
 {
     QTextDocument rtfDocument;
-    RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+    RtfReader::Reader *reader = new RtfReader::Reader( nullptr );
     reader->open(m_path);
     RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput( &rtfDocument );
     reader->parseTo( output );

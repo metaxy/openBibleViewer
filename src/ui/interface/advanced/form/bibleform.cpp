@@ -22,7 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/api/moduleapi.h"
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
-    m_verseTable(NULL),
+    m_verseTable(nullptr),
     m_ui(new Ui::BibleForm)
 {
     m_ui->setupUi(this);
@@ -45,10 +45,10 @@ BibleForm::BibleForm(QWidget *parent) :
 BibleForm::~BibleForm()
 {
     delete m_ui;
-    m_ui = NULL;
+    m_ui = nullptr;
 
     delete m_verseTable;
-    m_verseTable = NULL;
+    m_verseTable = nullptr;
 }
 Form::FormType BibleForm::type() const
 {
@@ -375,7 +375,7 @@ void BibleForm::save()
         while(i.hasNext()) {
             i.next();
             TextRangesVerseModule *b = i.value();
-            if(b != NULL && b->moduleID() >= 0) {
+            if(b != nullptr && b->moduleID() >= 0) {
                 VerseUrl bibleUrl = b->lastTextRanges()->source().source();
                 bibleUrl.setModuleID(b->moduleID());
 
@@ -482,7 +482,7 @@ void BibleForm::readBook(int id)
 
 void BibleForm::setChapters(int bookID, QSharedPointer<Versification> v11n)
 {
-    if(v11n == NULL)
+    if(v11n == nullptr)
         return;
     const int count = v11n->maxChapter().value(bookID, 0);
     QStringList chapters;
@@ -590,13 +590,13 @@ void BibleForm::activated()
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
     m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
-    if(m_verseTable == NULL) {
+    if(m_verseTable == nullptr) {
         clearChapters();
         clearBooks();
         m_actions->setTitle("");
         m_verseTable = m_moduleManager->newVerseTable();
         return;
-    } else if(verseModule() == NULL) {
+    } else if(verseModule() == nullptr) {
         m_moduleManager->newTextRangesVerseModule(-1, QPoint(0, 0), m_verseTable);
         return;
     }
@@ -613,7 +613,7 @@ void BibleForm::activated()
     m_actions->setTitle(verseModule()->moduleTitle());
     m_actions->setCurrentModule(verseModule()->moduleID());
 
-    if(verseModule()->lastTextRanges() != NULL) {
+    if(verseModule()->lastTextRanges() != nullptr) {
         m_actions->updateChapters(verseModule()->lastTextRanges()->minBookID(), verseModule()->versification());
         m_actions->updateBooks(verseModule()->versification());
 
@@ -765,7 +765,7 @@ void BibleForm::forwardSearchInText(SearchResult *res)
 void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
-    if(res == NULL)
+    if(res == nullptr)
         return;
     if(res->searchQuery.queryType == SearchQuery::Simple) {
         QString s = res->searchQuery.searchText;
@@ -1372,7 +1372,7 @@ void BibleForm::moduleChanged(const int moduleID)
 void BibleForm::openCommentary()
 {
     QAction *s = (QAction*) sender();
-    if(s != NULL) {
+    if(s != nullptr) {
         int moduleID = s->data().toInt();
         VerseUrl url = m_lastSelection.url();
         url.setModuleID(moduleID);

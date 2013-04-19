@@ -18,15 +18,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/ESwordRtfOutput.h"
 #include "src/core/rtftools.h"
 #include <QTemporaryFile>
-ESwordTopic::ESwordTopic() : m_bookTree(NULL)
+ESwordTopic::ESwordTopic() : m_bookTree(nullptr)
 {
 }
 ESwordTopic::~ESwordTopic()
 {
     m_db.close();
-    if(m_bookTree != NULL) {
+    if(m_bookTree != nullptr) {
         delete m_bookTree;
-        m_bookTree = NULL;
+        m_bookTree = nullptr;
     }
 }
 MetaInfo ESwordTopic::readInfo(const QString &name)
@@ -94,9 +94,9 @@ int ESwordTopic::loadModuleData(const int moduleID, const QString &path)
         return 1;
     }
     int counter = 0;
-    if(m_bookTree != NULL) {
+    if(m_bookTree != nullptr) {
         delete m_bookTree;
-        m_bookTree = NULL;
+        m_bookTree = nullptr;
     }
     m_bookTree = new BookTree();
     QSqlQuery query("select Title from Topics", m_db);
@@ -112,7 +112,7 @@ int ESwordTopic::loadModuleData(const int moduleID, const QString &path)
 Response* ESwordTopic::readChapter(const int chapterID)
 {
     DEBUG_FUNC_NAME
-    QTextDocument *rtfDocument = new QTextDocument( NULL );
+    QTextDocument *rtfDocument = new QTextDocument( nullptr );
     myDebug() << chapterID << m_chapterData.value(chapterID);
     QSqlQuery query("select Title,Notes from Topics where Title = '"+ m_chapterData.value(chapterID)+ "'", m_db);
 
@@ -124,7 +124,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
             myDebug() << query.value(1).toString();
             out << RtfTools::toValidRTF(query.value(1).toString());
             file.close();
-            RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+            RtfReader::Reader *reader = new RtfReader::Reader( nullptr );
             bool result = reader->open(file.fileName());
             if(result) {
                 RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );
@@ -147,7 +147,7 @@ Response* ESwordTopic::readChapter(const int chapterID)
                     QTextStream out(&file);
                     out << RtfTools::toValidRTF(query.value(1).toString());
                     file.close();
-                    RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+                    RtfReader::Reader *reader = new RtfReader::Reader( nullptr );
                     bool result = reader->open(file.fileName());
                     if(result) {
                         RtfReader::ESwordRtfOutput *output = new RtfReader::ESwordRtfOutput( rtfDocument );

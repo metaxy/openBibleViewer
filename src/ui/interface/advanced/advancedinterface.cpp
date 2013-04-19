@@ -28,7 +28,7 @@ AdvancedInterface::AdvancedInterface(QWidget *parent) :
 AdvancedInterface::~AdvancedInterface()
 {
     //DEBUG_FUNC_NAME;
-    if(ui != NULL) {
+    if(ui != nullptr) {
         delete ui;
         ui = 0;
     }

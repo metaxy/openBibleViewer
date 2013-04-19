@@ -17,11 +17,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "searchapi.h"
 
 Api::Api(QObject *parent) :
-    QObject(parent)
+    QObject(parent), m_moduleApi(nullptr), m_notesApi(nullptr), m_searchApi(nullptr)
 {
-    m_moduleApi = NULL;
-    m_notesApi = NULL;
-    m_searchApi = NULL;
 }
 void Api::init()
 {
@@ -38,17 +35,17 @@ void Api::init()
 }
 Api::~Api()
 {
-    if(m_moduleApi != NULL) {
+    if(m_moduleApi != nullptr) {
         delete m_moduleApi;
-        m_moduleApi = NULL;
+        m_moduleApi = nullptr;
     }
-    if(m_notesApi != NULL) {
+    if(m_notesApi != nullptr) {
         delete m_moduleApi;
-        m_moduleApi = NULL;
+        m_moduleApi = nullptr;
     }
-    if(m_searchApi != NULL) {
+    if(m_searchApi != nullptr) {
         delete m_searchApi;
-        m_searchApi = NULL;
+        m_searchApi = nullptr;
     }
 }
 

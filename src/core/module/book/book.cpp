@@ -44,7 +44,7 @@ Response* Book::getAll()
     if(m_loaded)
         return m_bookModule->readAll();
     else
-        return NULL;
+        return nullptr;
 }
 
 int Book::loadModuleData(int moduleID)
@@ -53,7 +53,7 @@ int Book::loadModuleData(int moduleID)
     m_module = m_map->module(moduleID);
 
     //not valid module
-    if(moduleID < 0 || m_module == NULL) {
+    if(moduleID < 0 || m_module == nullptr) {
         return 1;
     }
 
@@ -70,7 +70,7 @@ int Book::loadModuleData(int moduleID)
         m_bookModule = m_module->m_bookModule;
     }
 
-    if(m_bookModule == NULL) {
+    if(m_bookModule.isNull()) {
         return 1;
     }
     ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);

@@ -13,9 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webpage.h"
 
-WebPage::WebPage()
+WebPage::WebPage() : m_loaded(false)
 {
-    m_loaded = false;
 }
 void WebPage::loadModuleData(const int moduleID, const QString &name)
 {

@@ -26,7 +26,7 @@ WindowManager::WindowManager(QObject *parent) :
 WindowManager::~WindowManager()
 {
     delete m_currentWindowID;
-    m_currentWindowID = NULL;
+    m_currentWindowID = nullptr;
 }
 
 void WindowManager::setMdiArea(MdiArea *area)
@@ -155,11 +155,11 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type, std::function<bool
     QMdiSubWindow *activeWindow = activeSubWindow();
     if(usableWindowList().isEmpty()) {
         return newSubWindow(type);
-    } else if(activeForm() != NULL) {
+    } else if(activeForm() != nullptr) {
         if(activeFunc(activeForm())) {
             return activeWindow;
         } else {
-            QMdiSubWindow *window = NULL;
+            QMdiSubWindow *window = nullptr;
             foreach(QMdiSubWindow * w, usableWindowList()) {
                 if(w == activeWindow)
                     continue;
@@ -191,9 +191,9 @@ QMdiSubWindow* WindowManager::needWindow(Form::FormType type, ModuleTools::Conte
 {
     if(usableWindowList().isEmpty()) {
         return newSubWindow(type);
-    } else if(activeForm() != NULL) {
+    } else if(activeForm() != nullptr) {
         if(activeForm()->type() != type) {
-            QMdiSubWindow *window = NULL;
+            QMdiSubWindow *window = nullptr;
             foreach(QMdiSubWindow * w, usableWindowList()) {
                 Form *f = getForm(w);
                 if(f->type() == type) {
@@ -225,7 +225,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
         Form *f = getForm(w);
         if(f->type() == Form::DictionaryForm) {
             DictionaryForm *form = (DictionaryForm*)(f);
-            if(form->dictionary() != NULL) {
+            if(form->dictionary() != nullptr) {
                 const int moduleID = form->dictionary()->moduleID();
                 if(m_settings->getModuleSettings(moduleID)->defaultModule == d) {
                     return w;
@@ -233,7 +233,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(ModuleTools::DefaultModule d)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
@@ -247,7 +247,7 @@ QMdiSubWindow* WindowManager::hasDictWindow(const int moduleID)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void WindowManager::activate(QMdiSubWindow *w)
@@ -298,7 +298,7 @@ QMdiSubWindow * WindowManager::activeSubWindow()
         if(QMdiSubWindow *activeSubWindow = m_area->activeSubWindow())
             return activeSubWindow;
     }
-    return NULL;
+    return nullptr;
 }
 
 Form * WindowManager::activeForm()
@@ -308,8 +308,8 @@ Form * WindowManager::activeForm()
 
 Form * WindowManager::getForm(QMdiSubWindow *w) const
 {
-    if(w == NULL)
-        return NULL;
+    if(w == nullptr)
+        return nullptr;
 
     return w->widget()->findChild<Form *>("mdiForm");
 }
@@ -675,8 +675,8 @@ int WindowManager::closingWindow()
 
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
-    if(!m_enableReload || window == NULL) {
-        //my() << "reload is not enabled or window == NULL";
+    if(!m_enableReload || window == nullptr) {
+        //my() << "reload is not enabled or window == nullptr";
         return 1;
     }
 
@@ -697,7 +697,7 @@ void WindowManager::mdiAreaResized()
 {
     if(m_area->viewMode() == QMdiArea::SubWindowView) {
         const QMdiSubWindow * w = m_area->activeSubWindow();
-        if(w != NULL && w->isMaximized()) {
+        if(w != nullptr && w->isMaximized()) {
             return;
         } else {
             QTimer::singleShot(1, this, SLOT(autoLayout()));
@@ -821,12 +821,12 @@ void WindowManager::restore()
 
 ModuleTools::ContentType WindowManager::contentType(QMdiSubWindow* window)
 {
-    if(window == NULL)
+    if(window == nullptr)
         return ModuleTools::UnkownContent;
 
     Form *f = getForm(window);
 
-    if(f == NULL)
+    if(f == nullptr)
         return ModuleTools::UnkownContent;
 
     return contentType(f);
@@ -848,7 +848,7 @@ ModuleTools::ContentType WindowManager::contentType(DictionaryForm *form)
 {
     if(form->dictionary()) {
         ModuleSettings *s = m_settings->getModuleSettings(form->dictionary()->moduleID());
-        if(s != NULL)
+        if(s != nullptr)
             return s->contentType;
     }
     return ModuleTools::UnkownContent;
@@ -864,7 +864,7 @@ ModuleTools::ContentType WindowManager::contentType(BibleForm *form)
 {
     if(form) {
         ModuleSettings *s = m_settings->getModuleSettings(form->verseModule()->moduleID());
-        if(s != NULL)
+        if(s != nullptr)
             return s->contentType;
     }
     return ModuleTools::UnkownContent;

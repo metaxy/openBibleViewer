@@ -23,10 +23,8 @@ using namespace lucene::queryParser;
 using namespace lucene::document;
 using namespace lucene::search;
 
-BibleQuote::BibleQuote()
+BibleQuote::BibleQuote() : m_moduleID(-1), m_codec(nullptr)
 {
-    m_moduleID = -1;
-    m_codec = NULL;
 }
 BibleQuote::~BibleQuote()
 {
@@ -147,7 +145,7 @@ MetaInfo BibleQuote::readInfo(QFile &file)
     m_moduleShortName.clear();
     //int countlines = 0;
 
-    if(m_codec == NULL) {
+    if(m_codec == nullptr) {
         loadCodec();
     }
 
@@ -314,18 +312,12 @@ void BibleQuote::buildIndex()
     QDir dir("/");
     dir.mkpath(index);
 
-    if(m_codec == NULL) {
-        QString encoding;
-        if(m_settings->getModuleSettings(m_moduleID)->encoding == "Default" || m_settings->getModuleSettings(m_moduleID)->encoding.isEmpty()) {
-            encoding = m_settings->encoding;
-        } else {
-            encoding = m_settings->getModuleSettings(m_moduleID)->encoding;
-        }
-        m_codec = QTextCodec::codecForName(encoding.toStdString().c_str());
+    if(m_codec == nullptr) {
+       loadCodec();
     }
 
-    IndexWriter* writer = NULL;
-    const TCHAR* stop_words[] = { NULL };
+    IndexWriter* writer = nullptr;
+    const TCHAR* stop_words[] = { nullptr };
     standard::StandardAnalyzer an(stop_words);
     if(IndexReader::indexExists(index.toStdString().c_str())) {
         if(IndexReader::isLocked(index.toStdString().c_str())) {
@@ -416,7 +408,7 @@ void BibleQuote::search(const SearchQuery &query, SearchResult *res) const
 {
     DEBUG_FUNC_NAME
     const QString index = indexPath();
-    const TCHAR* stop_words[] = { NULL };
+    const TCHAR* stop_words[] = { nullptr };
     standard::StandardAnalyzer analyzer(stop_words);
 
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
@@ -522,7 +514,7 @@ QString BibleQuote::encodingName()
 {
     ModuleSettings *settings = m_settings->getModuleSettings(m_moduleID);
 
-    if(settings == NULL) {
+    if(settings == nullptr) {
         return m_settings->encoding;
     } else {
         if(settings->encoding == "Default" || settings->encoding.isEmpty()) {

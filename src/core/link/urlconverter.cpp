@@ -74,7 +74,7 @@ VerseUrl UrlConverter::convert()
         if(m_setBookNames) {
             for(int i = 0; i < bookIDs.size(); i++) {
                 QSharedPointer<Versification> v11n;
-                if(m_v11n == NULL) {
+                if(m_v11n.isNull()) {
                     v11n = m_settings->getV11N(moduleIDs.at(i));
                 } else {
                     v11n = m_v11n;

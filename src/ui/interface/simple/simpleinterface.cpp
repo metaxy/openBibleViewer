@@ -331,9 +331,9 @@ bool SimpleInterface::eventFilter(QObject *obj, QEvent *event)
 SimpleInterface::~SimpleInterface()
 {
     delete ui;
-    if(m_module != NULL) {
+    if(m_module != nullptr) {
         delete m_module;
-        m_module = NULL;
+        m_module = nullptr;
     }
 }
 void SimpleInterface::settingsChanged(Settings oldSettings, Settings newSettings, bool modifedModuleSettings)

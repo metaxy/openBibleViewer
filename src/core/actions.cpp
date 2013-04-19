@@ -104,13 +104,13 @@ void Actions::setTitle(const QString &title)
 
 void Actions::updateChapters(int bookID, QSharedPointer<Versification> v11n)
 {
-    if(v11n != NULL)
+    if(!v11n.isNull())
         emit _updateChapters(bookID, v11n);
 }
 
 void Actions::updateBooks(QSharedPointer<Versification> v11n)
 {
-    if(v11n != NULL)
+    if(!v11n.isNull())
         emit _updateBooks(v11n);
 }
 

@@ -17,14 +17,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/extern/rtf-qt/rtfreader.h"
 #include "src/extern/rtf-qt/TheWordRtfOutput.h"
 #include <QTemporaryFile>
-TheWordTopic::TheWordTopic() : m_bookTree(NULL), m_compressed(false), m_contentType(RtfTools::RTFContent)
+TheWordTopic::TheWordTopic() : m_bookTree(nullptr), m_compressed(false), m_contentType(RtfTools::RTFContent)
 {
 }
 TheWordTopic::~TheWordTopic()
 {
-    if(m_bookTree != NULL) {
+    if(m_bookTree != nullptr) {
         delete m_bookTree;
-        m_bookTree = NULL;
+        m_bookTree = nullptr;
     }
 }
 
@@ -109,9 +109,9 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
         }
     }
 
-    if(m_bookTree != NULL) {
+    if(m_bookTree != nullptr) {
         delete m_bookTree;
-        m_bookTree = NULL;
+        m_bookTree = nullptr;
     }
     m_bookTree = new BookTree();
     QHash<int, BookTree*> map;
@@ -122,7 +122,7 @@ int TheWordTopic::loadModuleData(const int moduleID, const QString &path)
         const int pid = query.value(1).toInt();
         const QString subject = query.value(2).toString();
         BookTree *parent = map.value(pid);
-        if(parent != NULL) {
+        if(parent != nullptr) {
             map.insert(id, parent->addChildren(id, subject));
         } else {
             map.insert(id, m_bookTree->addChildren(id, subject));
@@ -139,7 +139,7 @@ Response* TheWordTopic::readChapter(const int chapterID)
     bool haveRtf = false;
     bool haveRvf = false;
     QString ret;
-    QTextDocument *rtfDocument = new QTextDocument( NULL );
+    QTextDocument *rtfDocument = new QTextDocument( nullptr );
     QSqlQuery query("select topic_id,data from content where topic_id = "+ QString::number(chapterID), m_db);
     while (query.next()) {
         if(m_contentType == RtfTools::RTFContent) {
@@ -182,7 +182,7 @@ void TheWordTopic::readRtf(const QVariant &value, QTextDocument *rtfDocument)
             out << RtfTools::toValidRTF(value.toString());
         }
         file.close();
-        RtfReader::Reader *reader = new RtfReader::Reader( NULL );
+        RtfReader::Reader *reader = new RtfReader::Reader( nullptr );
         bool result = reader->open(file.fileName());
         if(result) {
             RtfReader::TheWordRtfOutput *output = new RtfReader::TheWordRtfOutput( rtfDocument, "" );

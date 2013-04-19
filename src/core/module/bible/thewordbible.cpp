@@ -112,7 +112,7 @@ int TheWordBible::loadBibleData(const int id, const QString &path)
             } else {
                 write->close();
                 delete write;
-                write = NULL;
+                write = nullptr;
                 book++;
                 chapter = 0;
                 verse = 0;
@@ -277,7 +277,7 @@ MetaInfo TheWordBible::readInfo(const QString &fileName)
 void TheWordBible::search(const SearchQuery &query, SearchResult *res) const
 {
     const QString index = indexPath();
-    const TCHAR* stop_words[] = { NULL };
+    const TCHAR* stop_words[] = { nullptr };
     standard::StandardAnalyzer analyzer(stop_words);
     IndexReader* reader = IndexReader::open(index.toStdString().c_str());
     IndexSearcher s(reader);
@@ -322,8 +322,8 @@ void TheWordBible::buildIndex()
     QDir dir("/");
     dir.mkpath(index);
 
-    IndexWriter* writer = NULL;
-    const TCHAR* stop_words[] = { NULL };
+    IndexWriter* writer = nullptr;
+    const TCHAR* stop_words[] = { nullptr };
     standard::StandardAnalyzer an(stop_words);
     if(IndexReader::indexExists(index.toStdString().c_str())) {
         if(IndexReader::isLocked(index.toStdString().c_str())) {

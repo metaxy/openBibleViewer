@@ -48,7 +48,7 @@ int Bible::loadModuleData(const int moduleID)
     m_module = m_map->module(moduleID);
 
     //not valid module
-    if(moduleID < 0 || m_module == NULL) {
+    if(moduleID < 0 || m_module == nullptr) {
         myWarning() << "invalid bibleID = " << moduleID;
         return 1;
     }
@@ -67,7 +67,7 @@ int Bible::loadModuleData(const int moduleID)
     } else {
         m_bibleModule = m_module->m_bibleModule;
     }
-    if(m_bibleModule == NULL) {
+    if(m_bibleModule == nullptr) {
         myWarning() << "invalid module";
         return 1;
     }

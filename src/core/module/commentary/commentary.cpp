@@ -13,9 +13,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "commentary.h"
 
-Commentary::Commentary()
+Commentary::Commentary() : m_loaded(false)
 {
-    m_loaded = false;
 }
 Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {

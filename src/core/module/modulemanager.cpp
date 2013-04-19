@@ -28,20 +28,20 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 ModuleManager::ModuleManager()
 {
     m_moduleMap = QSharedPointer<ModuleMap>(new ModuleMap());
-    m_rootModule = NULL;
+    m_rootModule = nullptr;
 }
 ModuleManager::~ModuleManager()
 {
     //DEBUG_FUNC_NAME
     m_moduleMap.clear();
 
-    if(m_rootModule != NULL) {
+    if(m_rootModule != nullptr) {
         delete m_rootModule;
-        m_rootModule = NULL;
+        m_rootModule = nullptr;
     }
-    if(m_moduleDisplaySettings != NULL) {
+    if(m_moduleDisplaySettings != nullptr) {
         delete m_moduleDisplaySettings;
-        m_moduleDisplaySettings = NULL;
+        m_moduleDisplaySettings = nullptr;
     }
 }
 
@@ -121,7 +121,7 @@ int ModuleManager::loadAllModules()
     m_rootModule->setModuleType(ModuleTools::NoneType);
 
     ModuleSettings *rootModuleSettings = m_settings->getModuleSettings(-1);//it the invisble root item
-    if(rootModuleSettings != NULL) {
+    if(rootModuleSettings != nullptr) {
         foreach(ModuleSettings * s, rootModuleSettings->children()) {
             loadModule(m_rootModule, s);
         }
@@ -145,8 +145,8 @@ void ModuleManager::makeSureItHasLoaded(ModuleSettings *settings)
 }
 void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 {
-    Q_ASSERT(settings != NULL);
-    if(settings == NULL)
+    Q_ASSERT(settings != nullptr);
+    if(settings == nullptr)
         return;
     Module *module = new Module(parentModule);
     module->setSettings(m_settings);
@@ -167,8 +167,8 @@ void ModuleManager::loadModule(Module *parentModule, ModuleSettings *settings)
 }
 void ModuleManager::initVerseModule(VerseModule *m) const
 {
-    Q_ASSERT(m != NULL);
-    if(m != NULL) {
+    Q_ASSERT(m != nullptr);
+    if(m != nullptr) {
         m->setSettings(m_settings);
         m->setNotes(m_notes);
         m->setModuleMap(m_moduleMap);
@@ -177,8 +177,8 @@ void ModuleManager::initVerseModule(VerseModule *m) const
 }
 void ModuleManager::initSimpleModule(SimpleModuleClass *m) const
 {
-    Q_ASSERT(m != NULL);
-    if(m != NULL) {
+    Q_ASSERT(m != nullptr);
+    if(m != nullptr) {
         m->setSettings(m_settings);
         m->setNotes(m_notes);
         m->setModuleMap(m_moduleMap);
@@ -279,7 +279,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
     if(!contains(moduleID)) {
         Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
-        return NULL;
+        return nullptr;
     }
 
     TextRangesVerseModule *m = newTextRangesVerseModule(moduleID);
@@ -291,9 +291,9 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
     if(!contains(moduleID)) {
         Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
-        return NULL;
+        return nullptr;
     }
-    TextRangesVerseModule *m = NULL;
+    TextRangesVerseModule *m = nullptr;
     //currently we have only bibles
     if(getModule(moduleID)->moduleClass() == ModuleTools::BibleModuleClass) {
         m = new Bible();
@@ -301,7 +301,7 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
     } else {
         Q_ASSERT(false);
         myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
-        return NULL;
+        return nullptr;
     }
 
     ModuleTools::ModuleType type = getModule(moduleID)->moduleType();

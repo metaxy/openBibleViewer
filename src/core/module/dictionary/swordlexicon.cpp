@@ -16,18 +16,17 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/stringresponse.h"
 SwordLexicon::SwordLexicon()
 {
-    m_loaded = false;
 #ifdef BUILD_WITH_SWORD
-    m_library = NULL;
-    m_target = NULL;
+    m_library = nullptr;
+    m_target = nullptr;
 #endif
 }
 SwordLexicon::~SwordLexicon()
 {
     #ifdef BUILD_WITH_SWORD
-    if(m_target != NULL) {
+    if(m_target != nullptr) {
         delete m_target;
-        m_target = NULL;
+        m_target = nullptr;
     }
 #endif
 }

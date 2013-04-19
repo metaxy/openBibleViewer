@@ -96,7 +96,7 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
                     text += desc;
                 }
                 myDebug() << text;
-				QPointer<UpdateCheckerDialog> dlg = new UpdateCheckerDialog(NULL);
+                QPointer<UpdateCheckerDialog> dlg = new UpdateCheckerDialog(nullptr);
 				setAll(dlg);
 				dlg->setText(text);
 				dlg->setUrl(link);
