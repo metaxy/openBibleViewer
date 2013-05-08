@@ -18,6 +18,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/verse/versification.h"
 #include <QStringList>
 #include <QMap>
+#include <QHash>
 /**
  * Settings represents the global settings.
  */
@@ -68,7 +69,7 @@ public:
     /**
       * Replace homePath and settingsPath to make it more portable.
       */
-    QString savableUrl(QString url) const;
+    QString savableUrl(const QString &url);
     /**
       * Recover Urls which were saved with savableUrl().
       */
@@ -76,11 +77,11 @@ public:
     /**
      * Generate a hash from a string. Use it only for urls, because they are transformed by savableUrl().
      */
-    QString hash(const QString& path) const;
+    QString hash(const QString& path);
     /**
       * Returns the path to the versification.
       */
-    QString v11nFile(const QString &path) const;
+    QString v11nFile(const QString &path);
     /**
       * It generates a new module id.
       */
@@ -93,6 +94,9 @@ public:
     
     void removeModule(const int moduleID);
     void removeModule(ModuleSettings* module);
+
+private:
+    QHash<QString, QString> m_cache;
 };
 
 #endif // SETTINGS_H

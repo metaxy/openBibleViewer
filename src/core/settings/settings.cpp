@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QDir>
 #include <QCryptographicHash>
+#include <QHash>
 Settings::Settings() :
     homePath(""),
     moreCompactUI(false)
@@ -46,23 +47,27 @@ QSharedPointer<Versification> Settings::getV11N(const int moduleID) const
         return defaultVersification;
     return v11n;
 }
-QString Settings::savableUrl(QString url) const
+QString Settings::savableUrl(const QString &url)
 {
-    if(url.startsWith(homePath)) {
-        url.replace(homePath, "?obvHomePath?");
-        const QByteArray ba = QUrl::toPercentEncoding(url);
-        return QString(ba.constData());
+    if(m_cache.contains(url)) return m_cache[url];
+
+    QString ret(url);
+    if(ret.startsWith(homePath)) {
+        ret.replace(homePath, "?obvHomePath?");
+        const QByteArray ba = QUrl::toPercentEncoding(ret);
+        ret = QString(ba.constData());
+    } else if(ret.startsWith(QDir::homePath())) {
+        ret.replace(QDir::homePath(), "?homePath?");
+        const QByteArray ba = QUrl::toPercentEncoding(ret);
+        ret = QString(ba.constData());
     }
-    if(url.startsWith(QDir::homePath())) {
-        url.replace(QDir::homePath(), "?homePath?");
-        const QByteArray ba = QUrl::toPercentEncoding(url);
-        return QString(ba.constData());
-    }
-    return url;
+    m_cache.insert(url, ret);
+    return ret;
 }
 
 QString Settings::recoverUrl(QString url) const
 {
+    //don't cache, because we do this only once
     url = QUrl::fromPercentEncoding(url.toLocal8Bit());
     if(url.startsWith("?obvHomePath?")) {
         url.replace("?obvHomePath?", homePath);
@@ -75,14 +80,14 @@ QString Settings::recoverUrl(QString url) const
     return url;
 }
 
-QString Settings::hash(const QString &path) const
+QString Settings::hash(const QString &path)
 {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(savableUrl(path).toLocal8Bit());
     return QString(hash.result().toHex());
 }
 
-QString Settings::v11nFile(const QString &path) const
+QString Settings::v11nFile(const QString &path)
 {
     return homePath + "v11n/" + hash(path) + "/v11n.ini";
 }
