@@ -11,3 +11,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
+#include "src/core/notes/notes.h"
+#include "src/core/link/urlconverter.h"
+VerseUrl Notes::getLink(const QString &noteID, QSharedPointer<ModuleMap> map, Settings *settings)
+{
+    if(m_cache.contains(noteID)) return m_cache[noteID];
+    const QString link = getRef(noteID, "link");
+    VerseUrl url;
+    url.fromStringUrl(link);
+    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+    urlConverter.setSettings(settings);
+    urlConverter.setModuleMap(map.data());
+    const VerseUrl newUrl = urlConverter.convert();
+    m_cache[noteID] = newUrl;
+    return newUrl;
+}

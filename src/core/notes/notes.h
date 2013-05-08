@@ -14,6 +14,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef NOTES_H
 #define NOTES_H
 #include "src/core/search/searchresult.h"
+#include "src/core/link/verseurl.h"
+#include "src/core/module/modulemap.h"
 /**
  Notes represents a note system
 */
@@ -148,6 +150,14 @@ public:
       */
     virtual void search(SearchQuery query, SearchResult *result) const = 0;
 
+    /**
+     * @brief getLink
+     * It is cached.
+     * @return link of note
+     */
+    VerseUrl getLink(const QString &noteID, QSharedPointer<ModuleMap> map, Settings *settings);
+private:
+        QHash<QString, VerseUrl> m_cache;
 
 };
 

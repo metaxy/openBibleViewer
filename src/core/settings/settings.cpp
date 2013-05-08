@@ -18,8 +18,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QCryptographicHash>
 #include <QHash>
 Settings::Settings() :
-    homePath(""),
-    moreCompactUI(false)
+    moreCompactUI(false),
+    homePath("")
 {
 }
 Settings::~Settings()
@@ -34,7 +34,7 @@ ModuleSettings * Settings::getModuleSettings(int moduleID) const
         return m_moduleSettings.value(moduleID);
     } else {
         myWarning() << "no modulesettings found " << m_moduleSettings.keys() << moduleID;
-        return NULL;
+        return nullptr;
     }
 }
 QSharedPointer<Versification> Settings::getV11N(const int moduleID) const

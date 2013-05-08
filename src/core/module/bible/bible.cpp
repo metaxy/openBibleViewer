@@ -244,15 +244,14 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     QMap<int, Verse> verseMap = rawRange.verseMap();
 
     bool currentVerse = false;
-
+    QStringList idList = m_notes->getIDList();
     //formatting
     QMutableMapIterator<int, Verse> it(verseMap);
     while(it.hasNext()) {
         it.next();
         //main formatting
         if(m_notes != 0 && m_moduleDisplaySettings->showNotes() == true) {
-            for(int n = 0; n < m_notes->getIDList().size(); ++n) {
-                const QString noteID = m_notes->getIDList().at(n);
+            foreach(const QString noteID, idList) {
                 if(m_notes->getType(noteID) == "text") {
                     const QString link = m_notes->getRef(noteID, "link");
                     VerseUrl url;
@@ -261,7 +260,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
                     urlConverter.setSettings(m_settings);
                     urlConverter.setModuleMap(m_map.data());
                     VerseUrl newUrl = urlConverter.convert();
-                    if(newUrl.contains(m_moduleID, bookID, chapterID, it.key())) {
+                    if(m_notes->getLink(noteID, m_map, m_settings).contains(m_moduleID, bookID, chapterID, it.key())) {
                         //myDebug() << "append note icon";
                         it.value().append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
                     }
@@ -303,21 +302,11 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
     if(m_notes != 0 && m_moduleDisplaySettings->showMarks() == true) {
         //myDebug() << "insert notes";
         VerseReplacer replacer;
-        for(int n = 0; n <  m_notes->getIDList().size(); ++n) {
-            const QString noteID = m_notes->getIDList().at(n);
+        foreach(const QString &noteID, idList) {
             if(m_notes->getType(noteID) == QLatin1String("mark")) {
-                const QString link = m_notes->getRef(noteID, "link");
-                //myDebug() << "link = " << link;
-                VerseUrl url;
-                url.fromStringUrl(link);
-                UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-                urlConverter.setSettings(m_settings);
-                urlConverter.setModuleMap(m_map.data());
-                VerseUrl newUrl = urlConverter.convert();
-
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
-                if(newUrl.contains(m_moduleID, bookID, chapterID)) {
+                if(m_notes->getLink(noteID, m_map, m_settings).contains(m_moduleID, bookID, chapterID)) {
                     //myDebug() << "insert note id = " << noteID << " link " << link;
                     if(m_notes->getRef(noteID, "start") == m_notes->getRef(noteID, "end")) {
                         VerseSelection::SelectionPosInTextType type = VerseSelection::typeFromString(m_notes->getRef(noteID, "selection_pos_type"));
