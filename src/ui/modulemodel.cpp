@@ -64,7 +64,6 @@ bool ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
     if(cat != ModuleTools::FolderCategory &&
             !m_catFilter.isEmpty() &&
             !m_catFilter.contains(cat)) return false;
-
     QStandardItem *item = new QStandardItem(settings->name(false));
     item->setData(QString::number(settings->moduleID));
     item->setToolTip(ModuleTools::moduleTypeName(settings->moduleType) + " - " + settings->modulePath + " (" + QString::number(settings->moduleID) + ")");
@@ -75,7 +74,8 @@ bool ModuleModel::createModuleItem(QStandardItem *parentItem, ModuleSettings *se
     bool noneChildren = (cat != ModuleTools::FolderCategory);
     foreach(ModuleSettings * s, settings->children()) {
         noneChildren = false;
-        atLeastOne = atLeastOne || createModuleItem(item, s);
+        bool a = createModuleItem(item, s);
+        atLeastOne = atLeastOne || a;
     }
 
     if(!atLeastOne && !noneChildren) {

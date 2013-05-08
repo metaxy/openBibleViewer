@@ -44,7 +44,7 @@ void ModuleMap::insert(Module *module)
     m_data.insert(module->moduleID(), module);
 }
 /**
- * Returns NULL if not found.
+ * Returns nullptr if not found.
  */
 Module * ModuleMap::moduleByUID(const QString &uid)
 {
@@ -53,7 +53,7 @@ Module * ModuleMap::moduleByUID(const QString &uid)
             return m;
         }
     }
-    return NULL;
+    return nullptr;
 }
 /**
  * @brief ModuleMap::UIDtoID
