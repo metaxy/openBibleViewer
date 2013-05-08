@@ -16,9 +16,10 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QDir>
 #include <QCryptographicHash>
-Settings::Settings()
+Settings::Settings() :
+    homePath(""),
+    moreCompactUI(false)
 {
-    homePath = "";
 }
 Settings::~Settings()
 {
