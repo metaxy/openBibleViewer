@@ -1,15 +1,17 @@
+body, html {
+    padding: 0;
+    margin : 0;
+}
+
 html {
     background-color: $background-color;
     color: $text-color;
-    padding: 0;
-    margin: 0;
     font-family: sans-serif;
-    font-size:14px;
+    font-size: 14px;
 }
-.verseModule {
-   /* -webkit-column-count: 2;
-    -webkit-column-gap: 20px;*/
+.verseModule + .topTable{
 }
+
 .verseTableTitle a:link, a:visited, a:active{
     color: $text-color;
 }
@@ -29,11 +31,13 @@ html {
 }
 .verseTable {
     padding-top: 2em;
+    padding-left: 5px;
+    padding-right: 5px;
     table-layout: fixed;
     width: 100%;
 }
+
 #topTable {
-    margin-top: -8px;
     table-layout: fixed;
     position: fixed;
     width: 100%;
@@ -47,8 +51,9 @@ html {
 }
 #topTable td{
     text-align: center; 
-    border: 1px solid $text-color;
+  //  border: 1px solid $text-color;
 }
+
 td.rowTitle {
     width: 5em;
     overflow: hidden;

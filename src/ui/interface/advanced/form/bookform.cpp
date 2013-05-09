@@ -77,7 +77,8 @@ void BookForm::activated()
 
 void BookForm::actTitle()
 {
-    if(m_book == NULL) {
+    //todo: if book is deleted from settings it crashes
+    if(m_book) {
         m_actions->setTitle(m_book->moduleTitle());
         m_actions->setCurrentModule(m_book->moduleID());
     }

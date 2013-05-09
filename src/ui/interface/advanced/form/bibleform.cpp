@@ -197,8 +197,6 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 {
     DEBUG_FUNC_NAME;
     myDebug() << "showStart = " << showStart;
-
-    std::pair<QString, TextRanges> r;
     //m_verseTable->currentVerseTableID();
     const int moduleID = ranges.getList().first().moduleID();
 
@@ -213,7 +211,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
         m_moduleManager->newTextRangesVerseModule(moduleID, p, m_verseTable);
     }
 
-    r = m_verseTable->readRanges(ranges);
+    std::pair<QString, TextRanges> r = m_verseTable->readRanges(ranges);
 
     if(!r.second.error()) {
         showTextRanges(r.first, r.second, url);

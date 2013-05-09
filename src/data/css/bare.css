@@ -1,11 +1,9 @@
 /*
 Syntax error: Undefined variable: "$background-color".
-        on line 2 of /home/paul/c++/openBibleViewer/src/data/sass/bare.scss
-
-1: /home/paul/c++/openBibleViewer/src/data/sass/bare.scss
+        on line 7 of /home/paul/c++/openBibleViewer/src/data/sass/bare.scss
 
 Backtrace:
-/home/paul/c++/openBibleViewer/src/data/sass/bare.scss:2
+/home/paul/c++/openBibleViewer/src/data/sass/bare.scss:7
 /usr/lib/ruby/gems/1.9.1/gems/sass-3.2.3/lib/sass/script/variable.rb:49:in `_perform'
 /usr/lib/ruby/gems/1.9.1/gems/sass-3.2.3/lib/sass/script/node.rb:40:in `perform'
 /usr/lib/ruby/gems/1.9.1/gems/sass-3.2.3/lib/sass/tree/visitors/perform.rb:296:in `visit_prop'
@@ -76,4 +74,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined variable: \"$background-color\".\A         on line 2 of /home/paul/c++/openBibleViewer/src/data/sass/bare.scss\A \A 1: /home/paul/c++/openBibleViewer/src/data/sass/bare.scss"; }
+  content: "Syntax error: Undefined variable: \"$background-color\".\A         on line 7 of /home/paul/c++/openBibleViewer/src/data/sass/bare.scss"; }

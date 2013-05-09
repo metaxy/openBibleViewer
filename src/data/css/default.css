@@ -1,15 +1,13 @@
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
 html {
   background-color: white;
   color: black;
-  padding: 0;
-  margin: 0;
   font-family: sans-serif;
   font-size: 14px;
-}
-
-.verseModule {
-  /* -webkit-column-count: 2;
-   -webkit-column-gap: 20px;*/
 }
 
 .verseTableTitle a:link, a:visited, a:active {
@@ -36,12 +34,13 @@ html {
 
 .verseTable {
   padding-top: 2em;
+  padding-left: 5px;
+  padding-right: 5px;
   table-layout: fixed;
   width: 100%;
 }
 
 #topTable {
-  margin-top: -8px;
   table-layout: fixed;
   position: fixed;
   width: 100%;
@@ -52,7 +51,6 @@ html {
 
 #topTable td {
   text-align: center;
-  border: 1px solid black;
 }
 
 td.rowTitle {

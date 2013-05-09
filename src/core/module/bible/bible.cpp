@@ -223,13 +223,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         endVerse = -1;
     }
 
-    //todo: hack for biblequote
-    /*if(moduleType() == ModuleTools::BibleQuoteModule)  {
-        endVerse++;
-        if(startVerse != 0)
-            startVerse++;
-    }**/
-
     //myDebug() << "startVerse = " << startVerse << " endVerse = " << endVerse;
     //myDebug() << "selected verse = " << range.selectedVerse();
 
@@ -253,13 +246,6 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         if(m_notes != 0 && m_moduleDisplaySettings->showNotes() == true) {
             foreach(const QString noteID, idList) {
                 if(m_notes->getType(noteID) == "text") {
-                    const QString link = m_notes->getRef(noteID, "link");
-                    VerseUrl url;
-                    url.fromStringUrl(link);
-                    UrlConverter urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-                    urlConverter.setSettings(m_settings);
-                    urlConverter.setModuleMap(m_map.data());
-                    VerseUrl newUrl = urlConverter.convert();
                     if(m_notes->getLink(noteID, m_map, m_settings).contains(m_moduleID, bookID, chapterID, it.key())) {
                         //myDebug() << "append note icon";
                         it.value().append("<a href='note://" + noteID + "'><img src='qrc:/icons/16x16/view-pim-notes.png' class='noteIcon' title='" + m_notes->getTitle(noteID) + "' /></a>");
