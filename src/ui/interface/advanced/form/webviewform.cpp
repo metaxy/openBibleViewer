@@ -267,12 +267,13 @@ void WebViewForm::showTextRangesResponse(TextRangesResponse *res)
 }
 void WebViewForm::loadStyleSheet(QString url)
 {
+    DEBUG_FUNC_NAME
     if(url.isEmpty()) {
         url = getStyleSheetUrl();
         if(url.isEmpty())
-            url = ":/data/css/default.css";
+            url = "qrc:/data/css/default.css";
     }
-    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
+    m_view->settings()->setUserStyleSheetUrl(QUrl(url));
 }
 QString WebViewForm::getStyleSheetUrl()
 {

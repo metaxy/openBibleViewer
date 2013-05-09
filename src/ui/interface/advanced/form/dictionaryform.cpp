@@ -198,7 +198,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
         showHtml(m_dictionary->moduleTitle());
     } else {
         m_key = key;
-	showResponse(m_dictionary->getEntry(key));
+        showResponse(m_dictionary->getEntry(key));
     }
     selectKey(m_key);
     m_actions->setTitle(m_dictionary->moduleTitle());
@@ -208,10 +208,9 @@ void DictionaryForm::showStringResponse(StringResponse *res)
 {
     QString data = res->data();
     if(!data.contains("<html>")) {
-	data.prepend("<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body><div class='dictionary'>");
-	data.append("</div></body></html>");
+        data.prepend("<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body><div class='dictionary'>");
+        data.append("</div></body></html>");
     }
-
     loadStyleSheet();
     m_view->setHtml(data);
     actTitle();
@@ -357,15 +356,9 @@ void DictionaryForm::setButtons()
 
 void DictionaryForm::showHtml(QString html)
 {
-    if(m_dictionary->moduleType() != ModuleTools::WebDictionaryModule) {
-        QString cssFile;
-        if(m_dictionary)
-            cssFile = m_settings->getModuleSettings(m_dictionary->moduleID())->styleSheet;
-        if(cssFile.isEmpty())
-            cssFile = ":/data/css/default.css";
-        m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
-    }
+    loadStyleSheet();
     m_view->setHtml(html);
+    actTitle();
 }
 
 QString DictionaryForm::key() const

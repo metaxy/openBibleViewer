@@ -151,6 +151,7 @@ private slots:
     void openCommentary();
 protected:
     virtual void changeEvent(QEvent *e);
+    virtual QString getStyleSheetUrl();
 private:
     History m_browserHistory;
 

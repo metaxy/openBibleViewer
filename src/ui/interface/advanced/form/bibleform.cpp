@@ -626,20 +626,17 @@ void BibleForm::activated()
         //m_verseTable->setLastUrl(m_lastUrl);
     }
 }
+QString BibleForm::getStyleSheetUrl()
+{
+    return m_settings->getModuleSettings(verseModule()->moduleID())->styleSheet;
+}
 
 void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
-    //myDebug() << " windowID = " << m_id;
+    Q_ASSERT(m_moduleManager->verseTableLoaded(m_verseTable));
     QWebFrame * frame = m_view->page()->mainFrame();
-    {
-        QString cssFile;
-        if(m_moduleManager->verseTableLoaded(m_verseTable))
-            cssFile = m_settings->getModuleSettings(verseModule()->moduleID())->styleSheet;
-        if(cssFile.isEmpty())
-            cssFile = ":/data/css/default.css";
-        m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
-    }
+    loadStyleSheet();
     //todo: often it isn't real html but some fragments and sometimes it's a whole html page
     //eg biblequote
 
@@ -653,14 +650,12 @@ void BibleForm::showText(const QString &text)
 
     m_view->setHtml(text);
 
-
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
         if(m_verseTable->hasTopBar())
-            frame->scroll(0, -40); //due to the biblelist bar on top
-        //todo: it could be that the top bar has a width more than 40px
-        //because the user zoomed in.
+            frame->scroll(0, -40 * m_view->zoomFactor());
     }
+
     //some BibleQuote Hacks
     if(verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
         QWebElementCollection collection = frame->documentElement().findAll("img");
