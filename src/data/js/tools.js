@@ -60,28 +60,37 @@ function verseGetSelection () {
 
 
 function AdVerseSelection() {
-    this.getSelection = adVerseGetSelection;
+    this.getSelect = adVerseGetSelection;
     this.startVerse = -1;
+    this.startVerseText = "";
+    this.startVerseContent = "";
+    this.selectedText = "not exec";
 }
 function adVerseGetSelection () {
-    var x = document.getElementById("OBV_INSERT");
-    x.parentNode.removeChild(x);
-    
+    removeSelectionStuff();
+    this.selectedText = "not a range"
     if(window.getSelection().type == 'Range') {
         var a = window.getSelection().getRangeAt(0);
+        this.selectedText = "a null";
         if(a != null) {
+            this.selectedText = "not null";
             var node = document.createElement('span');
             node.appendChild(document.createTextNode("!-_OPENBIBLEVIEWER_INSERT_-!"));
-            node.class = 'OBV_INSERT';
-            this.selectedText = window.getSelection().toString();
+            node.id = 'OBV_INSERT';
             a.insertNode(node);
+            
+            this.selectedText = window.getSelection().toString();
+            
+            
             var start = a.startContainer;
             var end = a.endContainer;
             var it = start;
+            //we are going out
             while(true) {
                 var e = it.parentNode;
                 if(e == null)
                     break;
+                //if we are at the verse level then save suff
                 if(e.getAttribute("verseID") != null) {
                     this.startVerse = e.getAttribute("verseID");
                     this.startVerseText = e.textContent;
@@ -91,10 +100,15 @@ function adVerseGetSelection () {
                     it = e;
                 }
             }
-
-            var x = document.getElementById("OBV_INSERT");
-            x.parentNode.removeChild(x);
+            //todo: it makes the selection wrong (visual bug)
+            removeSelectionStuff();
         }
+    }
+}
+function removeSelectionStuff() {
+    var x = document.getElementById("OBV_INSERT");
+    if(x != null) {
+        x.parentNode.removeChild(x);
     }
 }
 function ReplaceContentInContainer(selector, content) {

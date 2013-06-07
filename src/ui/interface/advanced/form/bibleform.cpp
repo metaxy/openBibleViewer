@@ -1291,11 +1291,15 @@ VerseSelection BibleForm::verseSelection()
         }
     }
     myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
-    //do not this stuff with BibleQuote because some modules have wired html stuff.
+    //do not this stuff with BibleQuote because some modules have weird html stuff.
     if(s.canBeUsedForMarks() == false && verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
         //now the ultimative alogrithm
-        f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection();adVerseSelection.getSelection();");
+        myDebug() << f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+        myDebug() << "adVerseSelection.startVerse" << f->evaluateJavaScript("adVerseSelection.startVerse;").toString();
+        myDebug() << "adVerseSelection.startVerseText;" << f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+        myDebug() << "adVerseSelection.startVerseContent;" << f->evaluateJavaScript("adVerseSelection.startVerseContent;").toString();
+        myDebug() << "adVerseSelection.selectedText;"<< f->evaluateJavaScript("adVerseSelection.selectedText;").toString();
 
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
         const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
@@ -1327,6 +1331,7 @@ VerseSelection BibleForm::verseSelection()
             s.setCanBeUsedForMarks(true);
         //todo: end
         myDebug() << "longest = " << longestString << " count = " << count;
+        f->evaluateJavaScript("removeSelectionStuff()");
 
     }
     return s;
