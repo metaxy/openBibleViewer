@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "searchapi.h"
 
 Api::Api(QObject *parent) :
-    QObject(parent), m_moduleApi(nullptr), m_notesApi(nullptr), m_searchApi(nullptr)
+    QObject(parent), m_notesApi(nullptr), m_moduleApi(nullptr), m_searchApi(nullptr)
 {
 }
 void Api::init()

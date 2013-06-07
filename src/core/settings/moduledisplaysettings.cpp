@@ -13,23 +13,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduledisplaysettings.h"
 
-ModuleDisplaySettings::ModuleDisplaySettings()
+ModuleDisplaySettings::ModuleDisplaySettings() :
+    m_marksCat(),
+    m_loadNotes(false),
+    m_showMarks(false),
+    m_showNotes(false),
+    m_showStudyNotes(false),
+    m_showBottomToolBar(false),
+    m_showStrong(false),
+    m_showRefLinks(false),
+    m_showRMAC(false),
+    m_showCaptions(false),
+    m_showProlog(false),
+    m_showMedia(false),
+    m_showGram(false),
+    m_showStrongInline(false)
 {
-    m_loadNotes = false;
-    m_showMarks = false;
-    m_showNotes = false;
-    m_showStudyNotes = false;
-    m_showBottomToolBar = false;
-    m_showStrong = false;
-    m_showRefLinks = false;
-
-    m_showRMAC = false;
-    m_showCaptions = false;
-    m_showProlog = false;
-    m_showMedia = false;
-    m_showGram = false;
-
-    m_showStrongInline = false;
 }
 
 void ModuleDisplaySettings::setLoadNotes(bool loadNotes)
@@ -158,4 +157,12 @@ void ModuleDisplaySettings::setShowStrongInline(bool b)
 bool ModuleDisplaySettings::showStrongInline() const
 {
     return m_showStrongInline;
+}
+void ModuleDisplaySettings::setMarksFilter(const QString &cat)
+{
+    m_marksCat = cat;
+}
+bool ModuleDisplaySettings::isIncluded(const QString &cat)
+{
+    return cat.isEmpty() || m_marksCat == cat;
 }

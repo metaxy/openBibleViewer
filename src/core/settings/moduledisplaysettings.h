@@ -13,7 +13,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #ifndef MODULEDISPLAYSETTINGS_H
 #define MODULEDISPLAYSETTINGS_H
-
+#include <QString>
 class ModuleDisplaySettings
 {
 public:
@@ -73,6 +73,8 @@ public:
     void setShowStrongInline(bool b);
     bool showStrongInline() const;
 
+    void setMarksFilter(const QString &cat);
+    bool isIncluded(const QString &cat);
 
 
 private:
@@ -91,6 +93,8 @@ private:
     bool m_showGram;
 
     bool m_showStrongInline;
+
+    QString m_marksCat;
 
 
 

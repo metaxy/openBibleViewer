@@ -289,7 +289,7 @@ TextRange Bible::readRange(const Range &range, bool ignoreModuleID)
         //myDebug() << "insert notes";
         VerseReplacer replacer;
         foreach(const QString &noteID, idList) {
-            if(m_notes->getType(noteID) == QLatin1String("mark")) {
+            if(m_notes->getType(noteID) == "mark" && m_moduleDisplaySettings->isIncluded(m_notes->getRef(noteID, "cat"))) {
                 const QString pre = "<span class=\"mark\" style=\"" + m_notes->getRef(noteID, "style") + "\">";
                 const QString ap = "</span>";
                 if(m_notes->getLink(noteID, m_map, m_settings).contains(m_moduleID, bookID, chapterID)) {
