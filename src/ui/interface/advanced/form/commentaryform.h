@@ -52,6 +52,9 @@ private slots:
 
     void get(QUrl url);
     void newGet(QUrl url);
+
+    void openInBrowser();
+    void saveLocal();
 private:
     Ui::CommentaryForm *ui;
     Commentary *m_com;

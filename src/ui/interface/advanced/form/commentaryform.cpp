@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/urlconverter2.h"
 #include <QClipboard>
 #include <QWebElement>
+#include <QDesktopServices>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm),
@@ -35,7 +36,8 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
 
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
-
+    connect(ui->toolButton_openInBrowser, SIGNAL(clicked()), this, SLOT(openInBrowser()));
+    connect(ui->toolButton_saveLocal, SIGNAL(clicked()), this, SLOT(saveLocal()));
     ui->toolButton_backward->setShortcut(QKeySequence::Back);
     ui->toolButton_forward->setShortcut(QKeySequence::Forward);
     setButtons();
@@ -55,6 +57,7 @@ Form::FormType CommentaryForm::type() const
 {
     return Form::CommentaryForm;
 }
+
 
 void CommentaryForm::init()
 {
@@ -248,6 +251,13 @@ void CommentaryForm::setButtons()
         ui->toolButton_forward->setDisabled(false);
     } else {
         ui->toolButton_forward->setDisabled(true);
+    }
+    if(m_lastUrl.isEmpty()) {
+        ui->toolButton_openInBrowser->hide();
+        ui->toolButton_saveLocal->hide();
+    } else {
+        ui->toolButton_openInBrowser->show();
+        ui->toolButton_saveLocal->show();
     }
 }
 void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
@@ -443,4 +453,13 @@ void CommentaryForm::newGet(QUrl url)
         m_actions->newGet(transformUrl(url.toString()));
     }
 
+}
+void CommentaryForm::saveLocal()
+{
+
+}
+void CommentaryForm::openInBrowser()
+{
+    if(m_lastUrl.isEmpty()) return;
+    QDesktopServices::openUrl(m_lastUrl);
 }

@@ -105,5 +105,6 @@
         <file>icons/16x16/text-html.png</file>
         <file>icons/16x16/page-2sides.png</file>
         <file>icons/16x16/kdenlive-deleffect.png</file>
+        <file>icons/16x16/internet-web-browser.png</file>
     </qresource>
 </RCC>

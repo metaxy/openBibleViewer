@@ -87,6 +87,7 @@ protected:
     QString m_contextMenuText;
 
     QString m_styleSheet;
+    QUrl m_lastUrl;
 
 };
 
