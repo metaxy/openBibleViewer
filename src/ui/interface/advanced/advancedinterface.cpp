@@ -343,6 +343,11 @@ QMenuBar* AdvancedInterface::menuBar()
     QAction *actionNewBookSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Book Window"), menuNewSubWindow);
     connect(actionNewBookSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newBookSubWindow()));
 
+    QAction *actionNewCommentarySubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Commentary Window"), menuNewSubWindow);
+    connect(actionNewCommentarySubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newCommentarySubWindow()));
+
+    QAction *actionNewConsoleSubWindow = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("New Console Window"), menuNewSubWindow);
+    connect(actionNewConsoleSubWindow, SIGNAL(triggered()), m_windowManager, SLOT(newConsoleSubWindow()));
 
     menuNewSubWindow->addAction(actionNewBibleSubWindow);
     menuNewSubWindow->addAction(actionNewWebSubWindow);

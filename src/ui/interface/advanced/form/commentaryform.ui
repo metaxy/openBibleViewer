@@ -49,6 +49,28 @@
        <item>
         <widget class="QLineEdit" name="lineEdit"/>
        </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_openInBrowser">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../../icons.qrc">
+           <normaloff>:/icons/16x16/internet-web-browser.png</normaloff>:/icons/16x16/internet-web-browser.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_saveLocal">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../../icons.qrc">
+           <normaloff>:/icons/16x16/download.png</normaloff>:/icons/16x16/download.png</iconset>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

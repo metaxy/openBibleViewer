@@ -217,6 +217,7 @@ void WebViewForm::openInNewS()
 }
 bool WebViewForm::showResponse(Response *res)
 {
+    m_lastUrl.clear();
     if(res != NULL && res->isValid()) {
         if(res->type() == Response::StringReponse) {
             showStringResponse((StringResponse*) res);
@@ -249,7 +250,8 @@ void WebViewForm::showUrlResponse(UrlResponse *res)
     if(!res->blockRules().isEmpty()) {
         m_view->setBlockRules(res->blockRules());
     }
-    m_view->load(QUrl(res->url()));
+    m_lastUrl = QUrl(res->url());
+    m_view->load(m_lastUrl);
     actTitle();
 }
 
