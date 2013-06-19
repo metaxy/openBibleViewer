@@ -108,6 +108,7 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
     {
         return QNetworkAccessManager::createRequest(op, req, outgoingData);
     }
+
     // if we blocked something then we should hide it
     QWebFrame* frame = qobject_cast<QWebFrame*>(req.originatingObject());
     if (frame)

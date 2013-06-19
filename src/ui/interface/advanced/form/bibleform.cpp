@@ -1296,10 +1296,10 @@ VerseSelection BibleForm::verseSelection()
         //now the ultimative alogrithm
         myDebug() << f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
         const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
-        myDebug() << "adVerseSelection.startVerse" << f->evaluateJavaScript("adVerseSelection.startVerse;").toString();
+       /* myDebug() << "adVerseSelection.startVerse" << f->evaluateJavaScript("adVerseSelection.startVerse;").toString();
         myDebug() << "adVerseSelection.startVerseText;" << f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
         myDebug() << "adVerseSelection.startVerseContent;" << f->evaluateJavaScript("adVerseSelection.startVerseContent;").toString();
-        myDebug() << "adVerseSelection.selectedText;"<< f->evaluateJavaScript("adVerseSelection.selectedText;").toString();
+        myDebug() << "adVerseSelection.selectedText;"<< f->evaluateJavaScript("adVerseSelection.selectedText;").toString();*/
 
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
         const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);

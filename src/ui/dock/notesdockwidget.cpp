@@ -164,6 +164,7 @@ void NotesDockWidget::newStyleMark(VerseSelection selection, QString style, QSha
 }
 void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versification> v11n)
 {
+
     DEBUG_FUNC_NAME
     const QStringList id = m_notes->getIDList();
     for(int i = 0; i < id.size(); i++) {
@@ -188,9 +189,18 @@ void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versif
                 }
                 if(m_notes->getRef(noteID, "start").toInt() <= start && end <= m_notes->getRef(noteID, "end").toInt()) {
                     myDebug() << "remove = " << m_notes->getRef(noteID, "start");
+                  /*  if(selection.type == VerseSelection::RepeatOfLongestString) {
+                        int repeat = m_notes->getRef(noteID, "repeat").toInt();
+                        QString longestString = m_notes->getRef(noteID, "longest_string");
+                    } else if(selection.type == VerseSelection::ShortestString) {
+
+                        ref["startString"] = selection.shortestStringInStartVerse;
+                        ref["endString"] = selection.shortestStringInEndVerse;
+                    }
+
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
-                    m_actions->reloadIf(newUrl);
+                    m_actions->reloadIf(newUrl);*/
                 }
             }
         }

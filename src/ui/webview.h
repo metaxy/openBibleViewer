@@ -44,7 +44,7 @@ signals:
 private slots:
     void applyHidingRules(bool ok);
 
-    void f(QNetworkReply* r);
+    void filter(QNetworkReply* r);
 private:
     bool mouseReleased(const QPoint &pos);
     Qt::KeyboardModifiers m_keyboardModifiers;

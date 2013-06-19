@@ -120,7 +120,7 @@ void WebView::load(const QUrl &url)
 {
     NetworkAccessManager *sep = new NetworkAccessManager(this);
     connect(sep, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(f(QNetworkReply*)));
+            this, SLOT(filter(QNetworkReply*)));
 
     sep->get(QNetworkRequest(url));
 }
@@ -128,7 +128,7 @@ void WebView::load(const QUrl &url)
  * @brief WebView::fn filters the html from unneed elems
  * @param r
  */
-void WebView::f(QNetworkReply *r)
+void WebView::filter(QNetworkReply *r)
 {
     setContent(r->readAll(),"text/html",r->url());
     applyHidingRules(true);
