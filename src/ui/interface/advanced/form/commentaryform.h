@@ -65,6 +65,7 @@ private:
     void actTitle();
 
     QString transformUrl(const QString &url);
+    QUrl transformUrlForCache(QUrl url);
 };
 
 #endif // COMMENTARYFORM_H

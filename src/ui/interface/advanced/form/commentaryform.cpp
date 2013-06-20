@@ -23,6 +23,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QClipboard>
 #include <QWebElement>
 #include <QDesktopServices>
+#include <QCryptographicHash>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm),
@@ -454,10 +455,31 @@ void CommentaryForm::newGet(QUrl url)
     }
 
 }
+void CommentaryForm::showUrlResponse(UrlResponse *res)
+{
+    myDebug() << res->url();
+    m_lastUrl = QUrl(res->url());
+
+    if(!res->blockRules().isEmpty()) {
+        m_view->setBlockRules(res->blockRules());
+    }
+    //todo: use caches
+    m_view->load(m_lastUrl);
+    actTitle();
+}
+
 void CommentaryForm::saveLocal()
 {
-
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(transformUrlForCache(m_lastUrl).toLocal8Bit());
+    const QString dir = m_settings->homePath + "/webcache/" + QString(hash.result().toHex());
+    //todo: download files
 }
+Qurl CommentaryForm::transformUrlForCache(QUrl url)
+{
+    return url;
+}
+
 void CommentaryForm::openInBrowser()
 {
     if(m_lastUrl.isEmpty()) return;
