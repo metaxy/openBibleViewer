@@ -16,10 +16,16 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 #include <QWebElement>
 #include <QNetworkReply>
+#include <QNetworkDiskCache>
 WebView::WebView(QWidget *parent) :
     QWebView(parent), m_doBlocking(false)
 {
     m_networManager = new NetworkAccessManager(this);
+    QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
+ //  QString dataPath =
+    diskCache->setCacheDirectory("/home/paul/testaaa");
+   diskCache->setMaximumCacheSize(5*1024*1024); // 5Mo
+   m_networManager->setCache(diskCache);
     this->page()->setNetworkAccessManager(m_networManager);
 
 
@@ -121,11 +127,12 @@ void WebView::load(const QUrl &url)
     NetworkAccessManager *sep = new NetworkAccessManager(this);
     connect(sep, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(filter(QNetworkReply*)));
-
-    sep->get(QNetworkRequest(url));
+    QNetworkRequest req(url);
+    req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
+    sep->get(req);
 }
 /**
- * @brief WebView::fn filters the html from unneed elems
+ * @brief WebView::filter filters the html from unneed elems
  * @param r
  */
 void WebView::filter(QNetworkReply *r)
@@ -134,3 +141,4 @@ void WebView::filter(QNetworkReply *r)
     applyHidingRules(true);
     sender()->deleteLater();
 }
+
