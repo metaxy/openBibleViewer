@@ -20,12 +20,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPrintDialog>
 #include <QFileDialog>
 #include <QTextDocumentWriter>
-#include <QtWebKit/QWebInspector>
+
 #include <QClipboard>
 #include "src/ui/dialog/moduleselectdialog.h"
 #include "src/api/api.h"
 WebViewForm::WebViewForm(QWidget *parent) :
-    Form(parent)
+    Form(parent), m_inspector(nullptr)
 {
     m_view = new WebView(this);
     m_view->setObjectName("webView");
@@ -42,6 +42,14 @@ WebViewForm::WebViewForm(QWidget *parent) :
 #endif
     m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 }
+WebViewForm::~WebViewForm()
+{
+    if(m_inspector != nullptr) {
+        delete m_inspector;
+        m_inspector = nullptr;
+    }
+}
+
 void WebViewForm::copy()
 {
     m_view->page()->triggerAction(QWebPage::Copy);
@@ -125,10 +133,14 @@ void WebViewForm::zoomOut()
 
 void WebViewForm::debugger()
 {
-    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *i = new QWebInspector;
-    i->setPage(m_view->page());
-    i->showNormal();
+    if(m_inspector == nullptr) {
+        m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
+        m_inspector = new QWebInspector;
+        m_inspector->setPage(m_view->page());
+        m_inspector->showNormal();
+    } else {
+        m_inspector->showNormal();
+    }
 }
 
 void WebViewForm::openInNewTab()

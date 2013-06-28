@@ -60,17 +60,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QToolButton" name="toolButton_saveLocal">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../icons.qrc">
-           <normaloff>:/icons/16x16/download.png</normaloff>:/icons/16x16/download.png</iconset>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
     </layout>

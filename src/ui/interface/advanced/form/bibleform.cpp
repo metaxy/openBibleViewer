@@ -1102,14 +1102,6 @@ void BibleForm::copyWholeVerse(void)
     }
 }
 
-void BibleForm::debugger()
-{
-    m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-    QWebInspector *i = new QWebInspector;
-    i->setPage(m_view->page());
-    i->showNormal();
-}
-
 void BibleForm::newColorMark()
 {
     if(!m_moduleManager->verseTableLoaded(m_verseTable)) {

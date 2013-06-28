@@ -38,7 +38,6 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(ui->toolButton_openInBrowser, SIGNAL(clicked()), this, SLOT(openInBrowser()));
-    connect(ui->toolButton_saveLocal, SIGNAL(clicked()), this, SLOT(saveLocal()));
     ui->toolButton_backward->setShortcut(QKeySequence::Back);
     ui->toolButton_forward->setShortcut(QKeySequence::Forward);
     setButtons();
@@ -255,10 +254,8 @@ void CommentaryForm::setButtons()
     }
     if(m_lastUrl.isEmpty()) {
         ui->toolButton_openInBrowser->hide();
-        ui->toolButton_saveLocal->hide();
     } else {
         ui->toolButton_openInBrowser->show();
-        ui->toolButton_saveLocal->show();
     }
 }
 void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
@@ -463,21 +460,8 @@ void CommentaryForm::showUrlResponse(UrlResponse *res)
     if(!res->blockRules().isEmpty()) {
         m_view->setBlockRules(res->blockRules());
     }
-    //todo: use caches
     m_view->load(m_lastUrl);
     actTitle();
-}
-
-void CommentaryForm::saveLocal()
-{
-    QCryptographicHash hash(QCryptographicHash::Md5);
-    hash.addData(transformUrlForCache(m_lastUrl).toLocal8Bit());
-    const QString dir = m_settings->homePath + "/webcache/" + QString(hash.result().toHex());
-    //todo: download files
-}
-Qurl CommentaryForm::transformUrlForCache(QUrl url)
-{
-    return url;
 }
 
 void CommentaryForm::openInBrowser()

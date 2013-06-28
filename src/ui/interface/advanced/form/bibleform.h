@@ -98,7 +98,7 @@ signals:
     void onClose();
 
 public slots:
-    void historySetUrl(QString url);
+
     void backward();
     void forward();
 
@@ -120,10 +120,10 @@ public slots:
     void forwardSetCurrentChapter(const QSet<int> &chapterID);
     void forwardSearchInText(SearchResult *result);
     void forwardClear();
-    void reloadIf(const VerseUrl &url);
+
 
     void forwardDeleteModule(const int itemID);
-    void deleteModule(const int itemID);
+
 
     void activated();
 
@@ -131,9 +131,20 @@ public slots:
 
     void evaluateJavaScript(const QString &js);
 
+
+
+
+    void reload(bool full);
+private slots:
+    void moduleChanged(const int moduleID);
+    void openCommentary();
+
+    void historySetUrl(QString url);
+    void searchInText(SearchResult *res);
+    void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
+
     void showContextMenu(QContextMenuEvent* ev);
     void copyWholeVerse();
-    void debugger();
     void newColorMark();
     void newCustomColorMark();
     void newBoldMark();
@@ -142,13 +153,9 @@ public slots:
     void removeMark();
     void newNoteWithLink();
     void newBookmark();
-    void showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url);
-    void searchInText(SearchResult *res);
+    void deleteModule(const int itemID);
+    void reloadIf(const VerseUrl &url);
 
-    void reload(bool full);
-private slots:
-    void moduleChanged(const int moduleID);
-    void openCommentary();
 protected:
     virtual void changeEvent(QEvent *e);
     virtual QString getStyleSheetUrl();
@@ -170,7 +177,6 @@ private:
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;
 
-    QWebInspector *m_inspector;
     VerseTable *m_verseTable;
     Ui::BibleForm *m_ui;
 

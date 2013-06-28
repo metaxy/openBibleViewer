@@ -19,12 +19,15 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/textrangesresponse.h"
+#include <QWebInspector>
 class WebViewForm : public Form
 {
     Q_OBJECT
 public:
     explicit WebViewForm(QWidget *parent = 0);
-
+    virtual ~WebViewForm();
+    //hack needed by biblequote scrool to in advancedinterface.cpp
+    //todo: make proctected
     WebView *m_view;
 signals:
     
@@ -88,6 +91,8 @@ protected:
 
     QString m_styleSheet;
     QUrl m_lastUrl;
+
+    QWebInspector * m_inspector;
 
 };
 

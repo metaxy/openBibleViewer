@@ -54,7 +54,7 @@ private slots:
     void newGet(QUrl url);
 
     void openInBrowser();
-    void saveLocal();
+    void showUrlResponse(UrlResponse *res);
 private:
     Ui::CommentaryForm *ui;
     Commentary *m_com;
@@ -65,7 +65,6 @@ private:
     void actTitle();
 
     QString transformUrl(const QString &url);
-    QUrl transformUrlForCache(QUrl url);
 };
 
 #endif // COMMENTARYFORM_H
