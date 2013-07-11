@@ -1,2 +1,2 @@
 cd ../src/locales
-lupdate -extensions cpp,h,ui ../core ../ui ../module ../api -ts @ts-files
+lupdate -extensions cpp,h,ui ../core ../ui ../api -ts @ts-files
