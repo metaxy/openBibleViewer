@@ -237,17 +237,17 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="343"/>
         <source>New Book Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Buchfenster</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="346"/>
         <source>New Commentary Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Neues Kommentarfenster</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="349"/>
         <source>New Console Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Konsole</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="374"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="497"/>
         <source>Layout windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenster anordnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="518"/>
@@ -345,7 +345,7 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="906"/>
         <source>Quick open</source>
-        <translation type="unfinished"></translation>
+        <translation>Schnellöffner</translation>
     </message>
     <message>
         <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt; Official Website&lt;/a&gt; &lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
@@ -404,35 +404,35 @@
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="689"/>
         <source>Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Befehl</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="696"/>
         <source>Esc</source>
         <comment>Focus QuickOpen</comment>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="699"/>
         <source>F11</source>
         <comment>Enable/Disable Fullscreen mode</comment>
-        <translation type="unfinished"></translation>
+        <translation>F11</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="702"/>
         <source>F5</source>
         <comment>Reload</comment>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="849"/>
         <source>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt;Official Website&lt;/a&gt;&lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Bug report&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>openBibleViewer &lt;br /&gt; version: %1 build: %2&lt;br /&gt; &lt;a href=&apos;http://openbv.uucyc.name/&apos;&gt;Official Website&lt;/a&gt;&lt;br /&gt;&lt;a href=&apos;https://github.com/metaxy/openBibleViewer/issues&apos;&gt;Fehler melden&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="904"/>
         <source>Add and edit modules</source>
-        <translation type="unfinished"></translation>
+        <translation>Module bearbeiten</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/advancedinterface.cpp" line="905"/>
@@ -488,7 +488,7 @@
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="57"/>
         <source>Search failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Suche fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../ui/dock/advancedsearchresultdockwidget.cpp" line="61"/>
@@ -621,43 +621,43 @@
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="901"/>
         <source>Open in Commentary</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in Kommentar</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="933"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>In neuen Tab öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="936"/>
         <source>Open here</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="939"/>
         <source>Copy Text</source>
-        <translation type="unfinished">Kopiere Text</translation>
+        <translation>Text kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="942"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="946"/>
         <source>Open in</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="949"/>
         <source>Open in new</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in neuem</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="1023"/>
         <location filename="../ui/interface/advanced/form/bibleform.cpp" line="1027"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswählen</translation>
     </message>
 </context>
 <context>
@@ -768,22 +768,22 @@
     <message>
         <location filename="../ui/interface/advanced/form/bookform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bookform.cpp" line="108"/>
         <source>Not loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht geladen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bookform.cpp" line="117"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/bookform.cpp" line="126"/>
         <source>Debugger</source>
-        <translation type="unfinished">Debugger</translation>
+        <translation>Debugger</translation>
     </message>
 </context>
 <context>
@@ -839,63 +839,63 @@
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.ui" line="38"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="265"/>
         <source>Select All</source>
-        <translation type="unfinished">Alles auswählen</translation>
+        <translation>Alles auswählen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="268"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="280"/>
         <source>Debugger</source>
-        <translation type="unfinished">Debugger</translation>
+        <translation>Debugger</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="293"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>In neuem Tab öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="296"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="299"/>
         <source>Copy Text</source>
-        <translation type="unfinished">Kopiere Text</translation>
+        <translation>Kopiere Text</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="302"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="306"/>
         <source>Open in</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="309"/>
         <source>Open in new</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in neuem</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="388"/>
         <location filename="../ui/interface/advanced/form/commentaryform.cpp" line="392"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswählen</translation>
     </message>
 </context>
 <context>
@@ -903,17 +903,17 @@
     <message>
         <location filename="../ui/interface/advanced/form/consoleform.ui" line="16"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/consoleform.cpp" line="79"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/consoleform.cpp" line="88"/>
         <source>Debugger</source>
-        <translation type="unfinished">Debugger</translation>
+        <translation>Debugger</translation>
     </message>
 </context>
 <context>
@@ -958,7 +958,7 @@
         <location filename="../core/moduletools.cpp" line="168"/>
         <location filename="../core/moduletools.cpp" line="197"/>
         <source>Folder</source>
-        <translation type="unfinished">Ordner</translation>
+        <translation>Ordner</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="169"/>
@@ -982,63 +982,63 @@
         <location filename="../core/moduletools.cpp" line="170"/>
         <location filename="../core/moduletools.cpp" line="199"/>
         <source>Sword Lexicon</source>
-        <translation type="unfinished"></translation>
+        <translation>Sword Lexikon</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="170"/>
         <source>*.txt Book</source>
-        <translation type="unfinished"></translation>
+        <translation>*.txt Buch</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="171"/>
         <location filename="../core/moduletools.cpp" line="203"/>
         <source>Web Commentary</source>
-        <translation type="unfinished"></translation>
+        <translation>Webkommentar</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="171"/>
         <location filename="../core/moduletools.cpp" line="205"/>
         <source>The Word Commentary</source>
-        <translation type="unfinished"></translation>
+        <translation>TheWord Kommentar</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="171"/>
         <location filename="../core/moduletools.cpp" line="207"/>
         <source>*.rtf Book</source>
-        <translation type="unfinished"></translation>
+        <translation>*.rtf Buch</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="172"/>
         <source>TheWord Topic File</source>
-        <translation type="unfinished"></translation>
+        <translation>TheWord Topic</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="172"/>
         <location filename="../core/moduletools.cpp" line="211"/>
         <source>e-Sword Topic File</source>
-        <translation type="unfinished"></translation>
+        <translation>e-Sword Topic</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="172"/>
         <location filename="../core/moduletools.cpp" line="213"/>
         <source>TheWord Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>TheWord Wörterbuch</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="172"/>
         <location filename="../core/moduletools.cpp" line="215"/>
         <source>PDF</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="201"/>
         <source>Txt Book</source>
-        <translation type="unfinished"></translation>
+        <translation>Txt</translation>
     </message>
     <message>
         <location filename="../core/moduletools.cpp" line="209"/>
         <source>TheWord Topic Module</source>
-        <translation type="unfinished"></translation>
+        <translation>TheWord Topic</translation>
     </message>
 </context>
 <context>
@@ -1078,53 +1078,53 @@
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="372"/>
         <source>Select All</source>
-        <translation type="unfinished">Alles auswählen</translation>
+        <translation>Alles auswählen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="386"/>
         <source>Copy</source>
-        <translation type="unfinished">Kopieren</translation>
+        <translation>Kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="400"/>
         <source>Debugger</source>
-        <translation type="unfinished">Debugger</translation>
+        <translation>Debugger</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="419"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>In neuen Tab öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="422"/>
         <source>Open here</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="425"/>
         <source>Copy Text</source>
-        <translation type="unfinished">Kopiere Text</translation>
+        <translation>Text kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="428"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="432"/>
         <source>Open in</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="435"/>
         <source>Open in new</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen in neuem</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="514"/>
         <location filename="../ui/interface/advanced/form/dictionaryform.cpp" line="518"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswählen</translation>
     </message>
 </context>
 <context>
@@ -1136,7 +1136,7 @@
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="14"/>
         <source>Downloading module</source>
-        <translation type="unfinished"></translation>
+        <translation>Module herunterladen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/downloadprogressdialog.ui" line="44"/>
@@ -1776,7 +1776,7 @@
     <message>
         <location filename="../ui/dock/marksdockwidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
@@ -1799,12 +1799,12 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="365"/>
         <source>Show Strongs Inline</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Strongs platzsparender</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="376"/>
         <source>Advanced</source>
-        <translation type="unfinished">Erweitert</translation>
+        <translation>Erweitert</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="391"/>
@@ -1922,12 +1922,12 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="404"/>
         <source>ISO 639-2</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO 639-2</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="411"/>
         <source>Language</source>
-        <translation type="unfinished">Sprache</translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.ui" line="309"/>
@@ -2020,7 +2020,7 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="42"/>
         <source>Default Commentary</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard Kommentar</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="46"/>
@@ -2080,17 +2080,17 @@
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="53"/>
         <source>Book</source>
-        <translation type="unfinished"></translation>
+        <translation>Buch</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="54"/>
         <source>Commentary</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="55"/>
         <source>Tree Book</source>
-        <translation type="unfinished"></translation>
+        <translation>Buch mit Inhaltsverzeichnis</translation>
     </message>
     <message>
         <location filename="../ui/dialog/moduleconfigdialog.cpp" line="197"/>
@@ -2167,7 +2167,7 @@
     <message>
         <location filename="../ui/dialog/moduledownloaddialog.cpp" line="157"/>
         <source>Nothing selected to download. Please select a module.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nichts ausgewählt zum herunterladen. Bitte ein Modul auswählen.</translation>
     </message>
     <message>
         <source>Dictionarys</source>
@@ -2202,7 +2202,7 @@
     <message>
         <location filename="../ui/dialog/moduleselectdialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -2210,32 +2210,32 @@
     <message>
         <location filename="../ui/moduleselectui.cpp" line="34"/>
         <source>Module</source>
-        <translation type="unfinished">Module</translation>
+        <translation>Module</translation>
     </message>
     <message>
         <location filename="../ui/moduleselectui.cpp" line="132"/>
         <source>Configure</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../ui/moduleselectui.cpp" line="140"/>
         <source>Open module</source>
-        <translation type="unfinished">Öffne Modul</translation>
+        <translation>Öffne Modul</translation>
     </message>
     <message>
         <location filename="../ui/moduleselectui.cpp" line="144"/>
         <source>Open module in new tab</source>
-        <translation type="unfinished">Öffne Module in neuem Fenster</translation>
+        <translation>Öffne Module in neuem Fenster</translation>
     </message>
     <message>
         <location filename="../ui/moduleselectui.cpp" line="148"/>
         <source>Open vertical parallel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne Modul vertikal parallel</translation>
     </message>
     <message>
         <location filename="../ui/moduleselectui.cpp" line="153"/>
         <source>Open horizontal parallel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne Modul horizontal parallel</translation>
     </message>
 </context>
 <context>
@@ -2834,7 +2834,7 @@
     <message>
         <location filename="../core/module/dictionary/theworddictionary.cpp" line="30"/>
         <source>This module is encrypted.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Das Modul ist verschlüsselt.</translation>
     </message>
     <message>
         <location filename="../core/settings/settings.cpp" line="129"/>
@@ -3016,7 +3016,7 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="62"/>
         <source>Add Virtual Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Virtuellen Ordner hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="69"/>
@@ -3053,7 +3053,7 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="187"/>
         <source>Show References</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Referenzen anzeigen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="194"/>
@@ -3068,33 +3068,33 @@
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="215"/>
         <source>Show Strong numbers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Strongs anzeigen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="222"/>
         <source>Show Robinson&apos;s Morphological Analysis Codes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Robinson&apos;s Morphological Analysis Codes anzeigen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="229"/>
         <source>Show Strong numbers inline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige Strongs platzsparender</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="285"/>
         <location filename="../ui/dialog/settingsdialog.ui" line="306"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktiviert</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="292"/>
         <source>Check for Updates</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Auf neue Versionen überprüfen</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="299"/>
         <source>Compact Interface</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kompakte Oberfläche</translation>
     </message>
     <message>
         <location filename="../ui/dialog/settingsdialog.ui" line="201"/>
@@ -3332,12 +3332,12 @@
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="243"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">In neuen Tab öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="246"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffnen</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="249"/>
@@ -3347,23 +3347,23 @@
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="252"/>
         <source>Copy Link</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Text kopieren</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="256"/>
         <source>Open in</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffnen in</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="259"/>
         <source>Open in new</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffnen in neuem</translation>
     </message>
     <message>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="338"/>
         <location filename="../ui/interface/advanced/form/treebookform.cpp" line="342"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Alles auswählen</translation>
     </message>
 </context>
 <context>
