@@ -1,2 +1,2 @@
-sh build-obv-deb-stable.sh
-sh build-obv-stable.sh
+sh deb-stable.sh
+sh rpm-stable.sh

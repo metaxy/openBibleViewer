@@ -1,4 +1,5 @@
-VERSION=0.7.1
+BVERSION=$(git for-each-ref refs/tags --sort=-authordate --format='%(refname)' --count=1)
+VERSION=${BVERSION#"refs/tags/"}
 REPPATH=/home/paul/c++/openBibleViewer
 BUILDPATH=/home/paul/build/home:metaxy:stable/openBibleViewer
 TAR=openBibleViewer-$VERSION.tar.bz2
