@@ -1,18 +1,20 @@
 # Pavel Fric, 2011.
+# Pavel Fric <pavelfric@seznam.cz>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-14 19:22+0000\n"
-"PO-Revision-Date: 2011-04-15 17:36+0000\n"
+"POT-Creation-Date: 2013-07-11 08:21+0000\n"
+"PO-Revision-Date: 2013-07-11 12:38+0000\n"
 "Last-Translator: fri <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-18 10:24+0000\n"
-"X-Generator: Launchpad (build 12821)\n"
+"X-Launchpad-Export-Date: 2013-07-12 09:28+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 "X-Qt-Contexts: true\n"
+"Language: cs\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
 
@@ -21,315 +23,384 @@ msgctxt "AboutDialog|"
 msgid "About"
 msgstr "O programu"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:218
-#: ../ui/interface/advanced/advancedinterface.cpp:220
+#: ../ui/interface/advanced/advancedinterface.cpp:258
+#: ../ui/interface/advanced/advancedinterface.cpp:260
 msgctxt "AdvancedInterface|"
 msgid "openBibleViewer"
 msgstr "openBibleViewer"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:308
+#: ../ui/interface/advanced/advancedinterface.cpp:328
 msgctxt "AdvancedInterface|"
 msgid "File"
 msgstr "Soubor"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:311
+#: ../ui/interface/advanced/advancedinterface.cpp:343
 msgctxt "AdvancedInterface|"
-msgid "New SubWindow"
-msgstr "Nové podokno"
+msgid "New Book Window"
+msgstr "Nové okno pro knihu"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:316
+#: ../ui/interface/advanced/advancedinterface.cpp:346
+msgctxt "AdvancedInterface|"
+msgid "New Commentary Window"
+msgstr "Nové okno pro poznámky"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:349
+msgctxt "AdvancedInterface|"
+msgid "New Console Window"
+msgstr "Nové okno pro konzoli"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:358
 msgctxt "AdvancedInterface|"
 msgid "Close SubWindow"
 msgstr "Zavřít podokno"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:321
+#: ../ui/interface/advanced/advancedinterface.cpp:364
 msgctxt "AdvancedInterface|"
 msgid "Save As"
 msgstr "Uložit jako"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:326
+#: ../ui/interface/advanced/advancedinterface.cpp:369
 msgctxt "AdvancedInterface|"
 msgid "Print"
 msgstr "Tisk"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:331
+#: ../ui/interface/advanced/advancedinterface.cpp:374
 msgctxt "AdvancedInterface|"
 msgid "Print Preview"
 msgstr "Náhled tisku"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:336
+#: ../ui/interface/advanced/advancedinterface.cpp:379
 msgctxt "AdvancedInterface|"
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:349
+#: ../ui/interface/advanced/advancedinterface.cpp:392
 msgctxt "AdvancedInterface|"
 msgid "Edit"
 msgstr "Úpravy"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:352
+#: ../ui/interface/advanced/advancedinterface.cpp:395
 msgctxt "AdvancedInterface|"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:357
+#: ../ui/interface/advanced/advancedinterface.cpp:400
 msgctxt "AdvancedInterface|"
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:362
-#: ../ui/interface/advanced/advancedinterface.cpp:571
-#: ../ui/interface/advanced/advancedinterface.cpp:739
+#: ../ui/interface/advanced/advancedinterface.cpp:405
+#: ../ui/interface/advanced/advancedinterface.cpp:644
+#: ../ui/interface/advanced/advancedinterface.cpp:892
 msgctxt "AdvancedInterface|"
 msgid "Search"
 msgstr "Hledat"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:367
+#: ../ui/interface/advanced/advancedinterface.cpp:410
 msgctxt "AdvancedInterface|"
 msgid "Find Next"
 msgstr "Najít další"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:372
+#: ../ui/interface/advanced/advancedinterface.cpp:415
 msgctxt "AdvancedInterface|"
 msgid "Find Previous"
 msgstr "Najít předchozí"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:377
+#: ../ui/interface/advanced/advancedinterface.cpp:420
 msgctxt "AdvancedInterface|"
 msgid "Next Chapter"
 msgstr "Další kapitola"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:382
+#: ../ui/interface/advanced/advancedinterface.cpp:425
 msgctxt "AdvancedInterface|"
 msgid "Previous Chapter"
 msgstr "Předchozí kapitola"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:399
+#: ../ui/interface/advanced/advancedinterface.cpp:442
 msgctxt "AdvancedInterface|"
 msgid "View"
 msgstr "Pohled"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:402
-#: ../ui/interface/advanced/advancedinterface.cpp:587
-#: ../ui/interface/advanced/advancedinterface.cpp:746
-#: ../ui/interface/advanced/advancedinterface.cpp:747
+#: ../ui/interface/advanced/advancedinterface.cpp:445
+#: ../ui/interface/advanced/advancedinterface.cpp:660
+#: ../ui/interface/advanced/advancedinterface.cpp:899
+#: ../ui/interface/advanced/advancedinterface.cpp:900
 msgctxt "AdvancedInterface|"
 msgid "Zoom In"
 msgstr "Přiblížit"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:407
-#: ../ui/interface/advanced/advancedinterface.cpp:590
-#: ../ui/interface/advanced/advancedinterface.cpp:748
-#: ../ui/interface/advanced/advancedinterface.cpp:749
+#: ../ui/interface/advanced/advancedinterface.cpp:450
+#: ../ui/interface/advanced/advancedinterface.cpp:663
+#: ../ui/interface/advanced/advancedinterface.cpp:901
+#: ../ui/interface/advanced/advancedinterface.cpp:902
 msgctxt "AdvancedInterface|"
 msgid "Zoom Out"
 msgstr "Oddálit"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:412
+#: ../ui/interface/advanced/advancedinterface.cpp:455
 msgctxt "AdvancedInterface|"
 msgid "Tabbed View"
 msgstr "Pohled s kartami"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:417
+#: ../ui/interface/advanced/advancedinterface.cpp:460
 msgctxt "AdvancedInterface|"
 msgid "Sub Window View"
 msgstr "Pohled s podokny"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:422
+#: ../ui/interface/advanced/advancedinterface.cpp:465
 msgctxt "AdvancedInterface|"
 msgid "Cascade"
 msgstr "Překrývat"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:426
+#: ../ui/interface/advanced/advancedinterface.cpp:474
 msgctxt "AdvancedInterface|"
 msgid "Tile"
 msgstr "Klást jedno vedle druhého"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:430
+#: ../ui/interface/advanced/advancedinterface.cpp:482
 msgctxt "AdvancedInterface|"
 msgid "Tile Vertical"
 msgstr "Uspořádat svisle"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:434
+#: ../ui/interface/advanced/advancedinterface.cpp:490
 msgctxt "AdvancedInterface|"
 msgid "Tile Horizontal"
 msgstr "Uspořádat vodorovně"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:449
-#: ../ui/interface/advanced/advancedinterface.cpp:485
-#: ../ui/interface/advanced/advancedinterface.cpp:579
-#: ../ui/interface/advanced/advancedinterface.cpp:743
+#: ../ui/interface/advanced/advancedinterface.cpp:497
+msgctxt "AdvancedInterface|"
+msgid "Layout windows"
+msgstr "Rozvrhnout okna"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:518
+#: ../ui/interface/advanced/advancedinterface.cpp:554
+#: ../ui/interface/advanced/advancedinterface.cpp:652
+#: ../ui/interface/advanced/advancedinterface.cpp:896
 msgctxt "AdvancedInterface|"
 msgid "Notes"
 msgstr "Poznámky"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:452
+#: ../ui/interface/advanced/advancedinterface.cpp:521
 msgctxt "AdvancedInterface|"
 msgid "Notes Editor"
 msgstr "Upravit poznámky"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:456
+#: ../ui/interface/advanced/advancedinterface.cpp:525
 msgctxt "AdvancedInterface|"
 msgid "Mark List"
 msgstr "Seznam značek"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:460
+#: ../ui/interface/advanced/advancedinterface.cpp:529
 msgctxt "AdvancedInterface|"
 msgid "Mark Categories"
 msgstr "Skupiny značek"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:469
+#: ../ui/interface/advanced/advancedinterface.cpp:538
 msgctxt "AdvancedInterface|"
 msgid "Docks"
 msgstr "Panely"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:472
-#: ../ui/interface/advanced/advancedinterface.cpp:593
-#: ../ui/interface/advanced/advancedinterface.cpp:750
+#: ../ui/interface/advanced/advancedinterface.cpp:541
+#: ../ui/interface/advanced/advancedinterface.cpp:666
+#: ../ui/interface/advanced/advancedinterface.cpp:903
 msgctxt "AdvancedInterface|"
 msgid "Module"
 msgstr "Modul"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:479
+#: ../ui/interface/advanced/advancedinterface.cpp:548
 msgctxt "AdvancedInterface|"
 msgid "Books"
 msgstr "Knihy"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:491
+#: ../ui/interface/advanced/advancedinterface.cpp:560
 msgctxt "AdvancedInterface|"
 msgid "Dictionay"
 msgstr "Slovník"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:497
-#: ../ui/interface/advanced/advancedinterface.cpp:574
-#: ../ui/interface/advanced/advancedinterface.cpp:741
+#: ../ui/interface/advanced/advancedinterface.cpp:566
+#: ../ui/interface/advanced/advancedinterface.cpp:647
+#: ../ui/interface/advanced/advancedinterface.cpp:894
 msgctxt "AdvancedInterface|"
 msgid "Bookmarks"
 msgstr "Záložky"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:503
+#: ../ui/interface/advanced/advancedinterface.cpp:572
 msgctxt "AdvancedInterface|"
 msgid "Quick Jump"
 msgstr "Rychlý skok"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:509
+#: ../ui/interface/advanced/advancedinterface.cpp:578
 msgctxt "AdvancedInterface|"
 msgid "Search Results"
 msgstr "Výsledky hledání"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:524
+#: ../ui/interface/advanced/advancedinterface.cpp:593
 msgctxt "AdvancedInterface|"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:527
+#: ../ui/interface/advanced/advancedinterface.cpp:596
 msgctxt "AdvancedInterface|"
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:535
+#: ../ui/interface/advanced/advancedinterface.cpp:604
 msgctxt "AdvancedInterface|"
 msgid "Help"
 msgstr "Nápověda"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:537
+#: ../ui/interface/advanced/advancedinterface.cpp:606
 msgctxt "AdvancedInterface|"
 msgid "About"
 msgstr "O programu"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:541
+#: ../ui/interface/advanced/advancedinterface.cpp:610
 msgctxt "AdvancedInterface|"
 msgid "Online Help"
 msgstr "Nápověda na internetu"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:569
-#: ../ui/interface/advanced/advancedinterface.cpp:738
+#: ../ui/interface/advanced/advancedinterface.cpp:642
+#: ../ui/interface/advanced/advancedinterface.cpp:891
 msgctxt "AdvancedInterface|"
 msgid "Main Tool Bar"
 msgstr "Hlavní nástrojový pruh"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:584
-#: ../ui/interface/advanced/advancedinterface.cpp:745
+#: ../ui/interface/advanced/advancedinterface.cpp:657
+#: ../ui/interface/advanced/advancedinterface.cpp:898
 msgctxt "AdvancedInterface|"
 msgid "New Window"
 msgstr "Nové okno"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:611
-#: ../ui/interface/advanced/advancedinterface.cpp:752
+#: ../ui/interface/advanced/advancedinterface.cpp:684
 msgctxt "AdvancedInterface|"
-msgid "Search Bar"
-msgstr "Pruh pro hledání"
+msgid "Quick Bar"
+msgstr "Rychlý pruh"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:669
+#: ../ui/interface/advanced/advancedinterface.cpp:689
 msgctxt "AdvancedInterface|"
-msgid "http://openbv.uucyc.name/faq.html"
-msgstr "http://openbv.uucyc.name/faq.html"
-
-#: ../ui/interface/advanced/advancedinterface.cpp:694
-msgctxt "AdvancedInterface|"
-msgid "About openBibleViewer"
-msgstr "O programu openBibleViewer"
+msgid "Command"
+msgstr "Příkaz"
 
 #: ../ui/interface/advanced/advancedinterface.cpp:696
+msgctxt "AdvancedInterface|Focus QuickOpen"
+msgid "Esc"
+msgstr "Esc"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:699
+msgctxt "AdvancedInterface|Enable/Disable Fullscreen mode"
+msgid "F11"
+msgstr "F11"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:702
+msgctxt "AdvancedInterface|Reload"
+msgid "F5"
+msgstr "F5"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:849
 #, qt-format
 msgctxt "AdvancedInterface|"
 msgid ""
 "openBibleViewer <br /> version: %1 build: %2<br /> <a "
-"href='http://openbv.uucyc.name/'> Official Website</a> <br /><a "
+"href='http://openbv.uucyc.name/'>Official Website</a><br /><a "
 "href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>"
 msgstr ""
 "openBibleViewer <br /> verze: %1 sestavení: %2<br /> <a "
-"href='http://openbv.uucyc.name/'> Stránky</a> <br /><a "
+"href='http://openbv.uucyc.name/'>Stránky</a> <br /><a "
 "href='https://github.com/metaxy/openBibleViewer/issues'>Hlášení chyb</a>"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:740
+#: ../ui/interface/advanced/advancedinterface.cpp:904
+msgctxt "AdvancedInterface|"
+msgid "Add and edit modules"
+msgstr "Přidat a upravit moduly"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:905
+msgctxt "AdvancedInterface|"
+msgid "Search Bar"
+msgstr "Pruh pro hledání"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:906
+msgctxt "AdvancedInterface|"
+msgid "Quick open"
+msgstr "Rychlé otevření"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:823
+msgctxt "AdvancedInterface|"
+msgid "http://openbv.uucyc.name/faq.html"
+msgstr "http://openbv.uucyc.name/faq.html"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:331
+msgctxt "AdvancedInterface|"
+msgid "New Subwindow"
+msgstr "Nové podokno"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:333
+msgctxt "AdvancedInterface|"
+msgid "New Bible Window"
+msgstr "Nové okno pro Bibli"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:337
+msgctxt "AdvancedInterface|"
+msgid "New Web Window"
+msgstr "Nové okno pro internet"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:340
+msgctxt "AdvancedInterface|"
+msgid "New Dictionary Window"
+msgstr "Nové okno pro slovník"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:848
+msgctxt "AdvancedInterface|"
+msgid "About openBibleViewer"
+msgstr "O programu openBibleViewer"
+
+#: ../ui/interface/advanced/advancedinterface.cpp:893
 msgctxt "AdvancedInterface|"
 msgid "Search in current module."
 msgstr "Hledat v nynějším modulu"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:742
+#: ../ui/interface/advanced/advancedinterface.cpp:895
 msgctxt "AdvancedInterface|"
 msgid "Show/Hide the bookmarks dock."
 msgstr "Ukázat/Skrýt panel se záložkami"
 
-#: ../ui/interface/advanced/advancedinterface.cpp:744
+#: ../ui/interface/advanced/advancedinterface.cpp:897
 msgctxt "AdvancedInterface|"
 msgid "Show/Hide the notes dock."
 msgstr "Ukázat/Skrýt panel s poznámkami"
-
-#: ../ui/interface/advanced/advancedinterface.cpp:751
-msgctxt "AdvancedInterface|"
-msgid "Add and edit the modules"
-msgstr "Přidat a upravit moduly"
 
 #: ../ui/interface/advanced/advancedinterface.ui:20
 msgctxt "AdvancedInterface|"
 msgid "WindowForm"
 msgstr "Podoba okna"
 
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:36
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:40
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:38
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:42
 msgctxt "AdvancedSearchResultDockWidget|"
 msgid "Result"
 msgstr "Výsledek"
 
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:55
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:57
+msgctxt "AdvancedSearchResultDockWidget|"
+msgid "Search failed"
+msgstr "Hledání se nezdařilo"
+
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:61
 #, qt-format
 msgctxt "AdvancedSearchResultDockWidget|"
 msgid "Search: %1"
 msgstr "Hledání: %1"
 
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:83
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:91
 msgctxt "AdvancedSearchResultDockWidget|"
 msgid "Notes"
 msgstr "Poznámky"
 
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:124
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:136
 msgctxt "AdvancedSearchResultDockWidget|"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../ui/dock/advancedsearchresultdockwidget.cpp:124
+#: ../ui/dock/advancedsearchresultdockwidget.cpp:136
 msgctxt "AdvancedSearchResultDockWidget|"
 msgid "No search information available."
 msgstr "Nejsou dostupné žádné informace o hledání."
@@ -344,169 +415,176 @@ msgctxt "AdvancedSearchResultDockWidget|"
 msgid "Info"
 msgstr "Informace"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:427
-msgctxt "BibleForm|"
-msgid "Print"
-msgstr "Tisk"
-
-#: ../ui/interface/advanced/form/bibleform.cpp:444
-msgctxt "BibleForm|"
-msgid "Save output"
-msgstr "Uložit výstup"
-
-#: ../ui/interface/advanced/form/bibleform.cpp:444
-msgctxt "BibleForm|"
-msgid ""
-"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"
-msgstr ""
-"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)"
-
-#: ../ui/interface/advanced/form/bibleform.cpp:576
+#: ../ui/interface/advanced/form/bibleform.cpp:774
+#: ../ui/interface/advanced/form/bibleform.cpp:855
 msgctxt "BibleForm|"
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:579
+#: ../ui/interface/advanced/form/bibleform.cpp:777
 msgctxt "BibleForm|"
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:583
+#: ../ui/interface/advanced/form/bibleform.cpp:781
 msgctxt "BibleForm|"
 msgid "Mark this"
 msgstr "Označit"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:586
+#: ../ui/interface/advanced/form/bibleform.cpp:784
 msgctxt "BibleForm|"
 msgid "Yellow"
 msgstr "Žlutá"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:591
+#: ../ui/interface/advanced/form/bibleform.cpp:789
 msgctxt "BibleForm|"
 msgid "Green"
 msgstr "Zelená"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:596
+#: ../ui/interface/advanced/form/bibleform.cpp:794
 msgctxt "BibleForm|"
 msgid "Blue"
 msgstr "Modrá"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:601
+#: ../ui/interface/advanced/form/bibleform.cpp:799
 msgctxt "BibleForm|"
 msgid "Orange"
 msgstr "Oranžová"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:606
+#: ../ui/interface/advanced/form/bibleform.cpp:804
 msgctxt "BibleForm|"
 msgid "Violet"
 msgstr "Fialová"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:611
+#: ../ui/interface/advanced/form/bibleform.cpp:809
 msgctxt "BibleForm|"
 msgid "Custom Color"
 msgstr "Vlastní barva"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:616
+#: ../ui/interface/advanced/form/bibleform.cpp:814
 msgctxt "BibleForm|"
 msgid "Bold"
 msgstr "Tučné"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:620
+#: ../ui/interface/advanced/form/bibleform.cpp:818
 msgctxt "BibleForm|"
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:624
+#: ../ui/interface/advanced/form/bibleform.cpp:822
 msgctxt "BibleForm|"
 msgid "Underline"
 msgstr "Podtržení"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:629
+#: ../ui/interface/advanced/form/bibleform.cpp:827
 msgctxt "BibleForm|"
 msgid "Remove Mark"
 msgstr "Odstranit značku"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:632
+#: ../ui/interface/advanced/form/bibleform.cpp:830
 msgctxt "BibleForm|"
 msgid "Add Bookmark"
 msgstr "Přidat záložku"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:635
+#: ../ui/interface/advanced/form/bibleform.cpp:833
 msgctxt "BibleForm|"
 msgid "Add Note"
 msgstr "Přidat poznámku"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:658
-#: ../ui/interface/advanced/form/bibleform.cpp:668
+#: ../ui/interface/advanced/form/bibleform.cpp:875
+#: ../ui/interface/advanced/form/bibleform.cpp:885
 msgctxt "BibleForm|"
 msgid "Copy Verse"
 msgstr "Kopírovat verše"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:671
+#: ../ui/interface/advanced/form/bibleform.cpp:888
 #, qt-format
 msgctxt "BibleForm|e.g Copy Verse 1-2 or Copy Verse 2"
 msgid "Copy Verse %1"
 msgstr "Kopírovat verše %1"
 
-#: ../ui/interface/advanced/form/bibleform.cpp:680
+#: ../ui/interface/advanced/form/bibleform.cpp:897
 msgctxt "BibleForm|"
 msgid "Debugger"
 msgstr "Ladič"
 
-#: ../ui/interface/advanced/biblelistitemdelegate.cpp:22
-msgctxt "BibleListItemDelegate|"
-msgid "None"
-msgstr "Žádný"
+#: ../ui/interface/advanced/form/bibleform.cpp:901
+msgctxt "BibleForm|"
+msgid "Open in Commentary"
+msgstr "Otevřít v poznámkách"
 
-#: ../ui/interface/advanced/biblelistwidget.ui:14
-msgctxt "BibleListWidget|"
-msgid "Bible List"
-msgstr "Seznam s Biblemi"
+#: ../ui/interface/advanced/form/bibleform.cpp:933
+msgctxt "BibleForm|"
+msgid "Open in new tab"
+msgstr "Otevřít v nové kartě"
 
-#: ../ui/interface/advanced/biblelistwidget.ui:22
-#: ../ui/interface/advanced/biblelistwidget.ui:46
-#: ../ui/interface/advanced/biblelistwidget.ui:61
-#: ../ui/interface/advanced/biblelistwidget.ui:85
-msgctxt "BibleListWidget|"
-msgid "..."
-msgstr "..."
+#: ../ui/interface/advanced/form/bibleform.cpp:936
+msgctxt "BibleForm|"
+msgid "Open here"
+msgstr "Otevřít zde"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:939
+msgctxt "BibleForm|"
+msgid "Copy Text"
+msgstr "Kopírovat text"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:942
+msgctxt "BibleForm|"
+msgid "Copy Link"
+msgstr "Kopírovat odkaz"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:946
+msgctxt "BibleForm|"
+msgid "Open in"
+msgstr "Otevřít v"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:949
+msgctxt "BibleForm|"
+msgid "Open in new"
+msgstr "Otevřít v nové"
+
+#: ../ui/interface/advanced/form/bibleform.cpp:1023
+#: ../ui/interface/advanced/form/bibleform.cpp:1027
+msgctxt "BibleForm|"
+msgid "Select"
+msgstr "Vybrat"
 
 #: ../ui/dialog/biblepassagedialog.ui:17
 msgctxt "BiblePassageDialog|"
 msgid "Bible Passage"
 msgstr "Část Bible"
 
-#: ../ui/biblepassageframe.cpp:37
+#: ../ui/biblepassageframe.cpp:43
 msgctxt "BiblePassageFrame|"
 msgid "Module"
 msgstr "Modul"
 
-#: ../ui/biblepassageframe.cpp:148
+#: ../ui/biblepassageframe.cpp:171
 msgctxt "BiblePassageFrame|"
 msgid "Delete"
 msgstr "Smazat"
 
-#: ../ui/biblepassageframe.cpp:155
+#: ../ui/biblepassageframe.cpp:178
 msgctxt "BiblePassageFrame|"
 msgid "Type"
 msgstr "Typ"
 
-#: ../ui/biblepassageframe.cpp:156 ../ui/biblepassageframe.cpp:176
+#: ../ui/biblepassageframe.cpp:179 ../ui/biblepassageframe.cpp:199
 msgctxt "BiblePassageFrame|"
 msgid "One Verse"
 msgstr "Jeden verš"
 
-#: ../ui/biblepassageframe.cpp:160 ../ui/biblepassageframe.cpp:180
+#: ../ui/biblepassageframe.cpp:183 ../ui/biblepassageframe.cpp:203
 msgctxt "BiblePassageFrame|"
 msgid "Verse Range"
 msgstr "Rozsah verše"
 
-#: ../ui/biblepassageframe.cpp:164 ../ui/biblepassageframe.cpp:184
+#: ../ui/biblepassageframe.cpp:187 ../ui/biblepassageframe.cpp:207
 msgctxt "BiblePassageFrame|"
 msgid "Chapter"
 msgstr "Kapitola"
 
-#: ../ui/biblepassageframe.cpp:174
+#: ../ui/biblepassageframe.cpp:197
 msgctxt "BiblePassageFrame|"
 msgid "New"
 msgstr "Nový"
@@ -516,7 +594,17 @@ msgctxt "BiblePassageFrame|"
 msgid "Frame"
 msgstr "Rámeček"
 
-#: ../ui/biblepassageframe.ui:31
+#: ../ui/biblepassageframe.ui:45
+msgctxt "BiblePassageFrame|"
+msgid "Bible Passage"
+msgstr "Část Bible"
+
+#: ../ui/biblepassageframe.ui:59
+msgctxt "BiblePassageFrame|"
+msgid "Replace"
+msgstr "Nahradit"
+
+#: ../ui/biblepassageframe.ui:66
 msgctxt "BiblePassageFrame|"
 msgid "Add"
 msgstr "Přidat"
@@ -525,6 +613,26 @@ msgstr "Přidat"
 msgctxt "BookDockWidget|"
 msgid "Book Select"
 msgstr "Výběr knihy"
+
+#: ../ui/interface/advanced/form/bookform.ui:14
+msgctxt "BookForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/bookform.cpp:108
+msgctxt "BookForm|"
+msgid "Not loaded"
+msgstr "Nenahráno"
+
+#: ../ui/interface/advanced/form/bookform.cpp:117
+msgctxt "BookForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/bookform.cpp:126
+msgctxt "BookForm|"
+msgid "Debugger"
+msgstr "Ladič"
 
 #: ../ui/dock/bookmarksdockwidget.cpp:112
 msgctxt "BookmarksDockWidget|"
@@ -551,12 +659,12 @@ msgctxt "BookmarksDockWidget|"
 msgid "Remove"
 msgstr "Odstranit"
 
-#: ../ui/dock/bookmarksdockwidget.cpp:186 ../ui/dock/bookmarksdockwidget.cpp:199
+#: ../ui/dock/bookmarksdockwidget.cpp:187
 msgctxt "BookmarksDockWidget|"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../ui/dock/bookmarksdockwidget.cpp:186 ../ui/dock/bookmarksdockwidget.cpp:199
+#: ../ui/dock/bookmarksdockwidget.cpp:187
 msgctxt "BookmarksDockWidget|"
 msgid "This Bookmark is invalid."
 msgstr "Tato záložka je neplatná."
@@ -566,45 +674,274 @@ msgctxt "BookmarksDockWidget|"
 msgid "Bookmarks"
 msgstr "Záložky"
 
-#: ../ui/dock/bookmarksdockwidget.ui:54
+#: ../ui/dock/bookmarksdockwidget.ui:57
 msgctxt "BookmarksDockWidget|"
 msgid "Title"
 msgstr "Název"
 
-#: ../module/module.cpp:105 ../module/module.cpp:113
+#: ../ui/interface/advanced/form/commentaryform.ui:14
+msgctxt "CommentaryForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/commentaryform.ui:38
+msgctxt "CommentaryForm|"
+msgid "..."
+msgstr "..."
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:265
+msgctxt "CommentaryForm|"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:268
+msgctxt "CommentaryForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:280
+msgctxt "CommentaryForm|"
+msgid "Debugger"
+msgstr "Ladič"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:293
+msgctxt "CommentaryForm|"
+msgid "Open in new tab"
+msgstr "Otevřít v nové kartě"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:296
+msgctxt "CommentaryForm|"
+msgid "Open"
+msgstr "Otevřít"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:299
+msgctxt "CommentaryForm|"
+msgid "Copy Text"
+msgstr "Kopírovat text"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:302
+msgctxt "CommentaryForm|"
+msgid "Copy Link"
+msgstr "Kopírovat odkaz"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:306
+msgctxt "CommentaryForm|"
+msgid "Open in"
+msgstr "Otevřít v"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:309
+msgctxt "CommentaryForm|"
+msgid "Open in new"
+msgstr "Otevřít v nové"
+
+#: ../ui/interface/advanced/form/commentaryform.cpp:388
+#: ../ui/interface/advanced/form/commentaryform.cpp:392
+msgctxt "CommentaryForm|"
+msgid "Select"
+msgstr "Vybrat"
+
+#: ../ui/interface/advanced/form/consoleform.ui:16
+msgctxt "ConsoleForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/consoleform.cpp:79
+msgctxt "ConsoleForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/consoleform.cpp:88
+msgctxt "ConsoleForm|"
+msgid "Debugger"
+msgstr "Ladič"
+
+#: ../core/moduletools.cpp:166 ../core/moduletools.cpp:179
 msgctxt "Core|"
 msgid "None"
 msgstr "Žádný"
 
-#: ../module/module.cpp:105 ../module/module.cpp:115
+#: ../core/moduletools.cpp:166 ../core/moduletools.cpp:181
 msgctxt "Core|"
 msgid "BibleQuote"
 msgstr "Bible Quote"
 
-#: ../module/module.cpp:105 ../module/module.cpp:117
+#: ../core/moduletools.cpp:166 ../core/moduletools.cpp:183
 msgctxt "Core|"
 msgid "Zefania XML Bible"
 msgstr "Zefania XML Bible"
 
-#: ../module/module.cpp:106 ../module/module.cpp:119
+#: ../core/moduletools.cpp:167 ../core/moduletools.cpp:185
 msgctxt "Core|"
 msgid "Zefania Lex Module"
 msgstr "Modul Zefania Lex"
 
-#: ../module/module.cpp:106 ../module/module.cpp:121
+#: ../core/moduletools.cpp:167 ../core/moduletools.cpp:187
 msgctxt "Core|"
 msgid "BibleQuote Dictionary"
 msgstr "Slovník BibleQuote"
 
-#: ../module/module.cpp:106 ../module/module.cpp:123
+#: ../core/moduletools.cpp:167 ../core/moduletools.cpp:189
 msgctxt "Core|"
 msgid "The Word Bible"
 msgstr "Bible Word"
+
+#: ../core/moduletools.cpp:168 ../core/moduletools.cpp:197
+msgctxt "Core|"
+msgid "Folder"
+msgstr "Složka"
+
+#: ../core/moduletools.cpp:169 ../core/moduletools.cpp:191
+msgctxt "Core|"
+msgid "Sword Bible"
+msgstr "Bible Sword"
+
+#: ../core/moduletools.cpp:169 ../core/moduletools.cpp:193
+msgctxt "Core|"
+msgid "Web Page"
+msgstr "Internetová stránka"
+
+#: ../core/moduletools.cpp:169 ../core/moduletools.cpp:195
+msgctxt "Core|"
+msgid "Web Dictionary"
+msgstr "Internetový slovník"
+
+#: ../core/moduletools.cpp:170 ../core/moduletools.cpp:199
+msgctxt "Core|"
+msgid "Sword Lexicon"
+msgstr "Slovníček Sword"
+
+#: ../core/moduletools.cpp:170
+msgctxt "Core|"
+msgid "*.txt Book"
+msgstr "Kniha *.txt"
+
+#: ../core/moduletools.cpp:171 ../core/moduletools.cpp:203
+msgctxt "Core|"
+msgid "Web Commentary"
+msgstr "Internetové poznámky"
+
+#: ../core/moduletools.cpp:171 ../core/moduletools.cpp:205
+msgctxt "Core|"
+msgid "The Word Commentary"
+msgstr "Poznámky The Word"
+
+#: ../core/moduletools.cpp:171 ../core/moduletools.cpp:207
+msgctxt "Core|"
+msgid "*.rtf Book"
+msgstr "Kniha *.rtf"
+
+#: ../core/moduletools.cpp:172
+msgctxt "Core|"
+msgid "TheWord Topic File"
+msgstr "Soubor s tématem The Word"
+
+#: ../core/moduletools.cpp:172 ../core/moduletools.cpp:211
+msgctxt "Core|"
+msgid "e-Sword Topic File"
+msgstr "Soubor s tématem e-Sword"
+
+#: ../core/moduletools.cpp:172 ../core/moduletools.cpp:213
+msgctxt "Core|"
+msgid "TheWord Dictionary"
+msgstr "Slovník Word"
+
+#: ../core/moduletools.cpp:172 ../core/moduletools.cpp:215
+msgctxt "Core|"
+msgid "PDF"
+msgstr "PDF"
+
+#: ../core/moduletools.cpp:201
+msgctxt "Core|"
+msgid "Txt Book"
+msgstr "Kniha txt"
+
+#: ../core/moduletools.cpp:209
+msgctxt "Core|"
+msgid "TheWord Topic Module"
+msgstr "Modul s tématem The Word"
 
 #: ../ui/dock/dictionarydockwidget.ui:14
 msgctxt "DictionaryDockWidget|"
 msgid "Dictionary"
 msgstr "Slovník"
+
+#: ../ui/interface/advanced/form/dictionaryform.ui:14
+msgctxt "DictionaryForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/dictionaryform.ui:22
+#: ../ui/interface/advanced/form/dictionaryform.ui:36
+#: ../ui/interface/advanced/form/dictionaryform.ui:70
+msgctxt "DictionaryForm|"
+msgid "..."
+msgstr "..."
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:372
+msgctxt "DictionaryForm|"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:386
+msgctxt "DictionaryForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:400
+msgctxt "DictionaryForm|"
+msgid "Debugger"
+msgstr "Ladič"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:419
+msgctxt "DictionaryForm|"
+msgid "Open in new tab"
+msgstr "Otevřít v nové kartě"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:422
+msgctxt "DictionaryForm|"
+msgid "Open here"
+msgstr "Otevřít zde"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:425
+msgctxt "DictionaryForm|"
+msgid "Copy Text"
+msgstr "Kopírovat text"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:428
+msgctxt "DictionaryForm|"
+msgid "Copy Link"
+msgstr "Kopírovat odkaz"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:432
+msgctxt "DictionaryForm|"
+msgid "Open in"
+msgstr "Otevřít v"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:435
+msgctxt "DictionaryForm|"
+msgid "Open in new"
+msgstr "Otevřít v nové"
+
+#: ../ui/interface/advanced/form/dictionaryform.cpp:514
+#: ../ui/interface/advanced/form/dictionaryform.cpp:518
+msgctxt "DictionaryForm|"
+msgid "Select"
+msgstr "Vybrat"
+
+#: ../ui/dialog/downloadprogressdialog.ui:14
+msgctxt "DownloadProgressDialog|"
+msgid "Downloading module"
+msgstr "Stahování modulu"
+
+#: ../ui/dialog/downloadprogressdialog.ui:44
+msgctxt "DownloadProgressDialog|"
+msgid "Current File"
+msgstr "Nynější soubor"
+
+#: ../ui/dialog/downloadprogressdialog.ui:51
+msgctxt "DownloadProgressDialog|"
+msgid "Overall Progress"
+msgstr "Celkový postup"
 
 #: ../ui/dialog/inserthtmldialog.ui:14
 msgctxt "InsertHtmlDialog|"
@@ -616,7 +953,7 @@ msgctxt "InsertHtmlDialog|"
 msgid "HTML Code:"
 msgstr "Kód HTML:"
 
-#: ../ui/dialog/insertlinkdialog.cpp:46 ../ui/dialog/insertlinkdialog.cpp:96
+#: ../ui/dialog/insertlinkdialog.cpp:46 ../ui/dialog/insertlinkdialog.cpp:94
 msgctxt "InsertLinkDialog|"
 msgid "Note Title"
 msgstr "Název poznámky"
@@ -641,17 +978,17 @@ msgctxt "InsertLinkDialog|"
 msgid "Custom"
 msgstr "Vlastní"
 
-#: ../ui/mainwindow.cpp:407
+#: ../ui/mainwindow.cpp:193
 msgctxt "MainWindow|"
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../ui/mainwindow.cpp:443
+#: ../ui/mainwindow.cpp:226
 msgctxt "MainWindow|"
 msgid "Installing language failed."
 msgstr "Jazyk se nepodařilo nainstalovat."
 
-#: ../ui/mainwindow.cpp:443
+#: ../ui/mainwindow.cpp:226
 msgctxt "MainWindow|"
 msgid "Please choose another language."
 msgstr "Vyberte, prosím, jiný jazyk."
@@ -661,17 +998,17 @@ msgctxt "MainWindow|"
 msgid "openBibleViewer"
 msgstr "openBibleViewer"
 
-#: ../ui/marklist.cpp:58 ../ui/marklist.cpp:161
+#: ../ui/marklist.cpp:59 ../ui/marklist.cpp:165
 msgctxt "MarkList|"
 msgid "Mark Position"
 msgstr "Poloha značek"
 
-#: ../ui/marklist.cpp:59 ../ui/marklist.cpp:162
+#: ../ui/marklist.cpp:60 ../ui/marklist.cpp:166
 msgctxt "MarkList|"
 msgid "Module"
 msgstr "Modul"
 
-#: ../ui/marklist.cpp:106
+#: ../ui/marklist.cpp:110
 msgctxt "MarkList|"
 msgid "Delete"
 msgstr "Smazat"
@@ -681,165 +1018,340 @@ msgctxt "MarkList|"
 msgid "Mark List"
 msgstr "Seznam značek"
 
-#: ../ui/dialog/moduleconfigdialog.cpp:156
+#: ../ui/dock/marksdockwidget.ui:14
+msgctxt "MarksDockWidget|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:40
+msgctxt "ModuleConfigDialog|"
+msgid "Not a Default Module"
+msgstr "Ne výchozí modul"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:40
+msgctxt "ModuleConfigDialog|"
+msgid "Default Bible"
+msgstr "Výchozí Bible"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:41
+msgctxt "ModuleConfigDialog|"
+msgid "Default Strong Dictionary"
+msgstr "Výchozí slovník Strong"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:41
+msgctxt "ModuleConfigDialog|"
+msgid "Default Grammar Dictionary"
+msgstr "Výchozí pravopisný slovník"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:42
+msgctxt "ModuleConfigDialog|"
+msgid "Default Dictionary"
+msgstr "Výchozí slovník"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:42
+msgctxt "ModuleConfigDialog|"
+msgid "Default RMAC Module"
+msgstr "Výchozí modul RMAC"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:42
+msgctxt "ModuleConfigDialog|"
+msgid "Default Commentary"
+msgstr "Výchozí poznámky"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:46
+msgctxt "ModuleConfigDialog|"
+msgid "Unkown"
+msgstr "Neznámý"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:46
+msgctxt "ModuleConfigDialog|"
+msgid "Bible"
+msgstr "Bible"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:47
+msgctxt "ModuleConfigDialog|"
+msgid "Bible OT"
+msgstr "Bible SZ"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:47
+msgctxt "ModuleConfigDialog|"
+msgid "Bible NT"
+msgstr "Bible NZ"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:48
+msgctxt "ModuleConfigDialog|"
+msgid "Strongs"
+msgstr "Slovníky Strong"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:48
+msgctxt "ModuleConfigDialog|"
+msgid "Strongs Greek"
+msgstr "Strong řečtina"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:48
+msgctxt "ModuleConfigDialog|"
+msgid "Strongs Hebrew"
+msgstr "Strong hebrejština"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:49
+msgctxt "ModuleConfigDialog|"
+msgid "RMAC"
+msgstr "RMAC"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:50
+msgctxt "ModuleConfigDialog|"
+msgid "Word Dictionary"
+msgstr "Slovník se slovy"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:51
+msgctxt "ModuleConfigDialog|"
+msgid "Dictionary"
+msgstr "Slovník"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:52
+msgctxt "ModuleConfigDialog|"
+msgid "Gram Dictionary"
+msgstr "Slovník s mluvnicí"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:53
+msgctxt "ModuleConfigDialog|"
+msgid "Book"
+msgstr "Kniha"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:54
+msgctxt "ModuleConfigDialog|"
+msgid "Commentary"
+msgstr "Poznámky"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:55
+msgctxt "ModuleConfigDialog|"
+msgid "Tree Book"
+msgstr "Stromové zobrazení knihy"
+
+#: ../ui/dialog/moduleconfigdialog.cpp:197
 msgctxt "ModuleConfigDialog|"
 msgid "Open Bible"
 msgstr "Otevřít Bibli"
 
-#: ../ui/dialog/moduleconfigdialog.cpp:156
+#: ../ui/dialog/moduleconfigdialog.cpp:197
 msgctxt "ModuleConfigDialog|"
-msgid "Bibles (*.ini *.xml *.*)"
-msgstr "Bible (*.ini *.xml *.*)"
+msgid "Modules (*.ini *.xml *.*)"
+msgstr "Moduly (*.ini *.xml *.*)"
 
 #: ../ui/dialog/moduleconfigdialog.ui:14
 msgctxt "ModuleConfigDialog|"
 msgid "Module Config"
 msgstr "Nastavení modulu"
 
-#: ../ui/dialog/moduleconfigdialog.ui:22
+#: ../ui/dialog/moduleconfigdialog.ui:79
 msgctxt "ModuleConfigDialog|"
 msgid "Path"
 msgstr "Cesta"
 
-#: ../ui/dialog/moduleconfigdialog.ui:50
+#: ../ui/dialog/moduleconfigdialog.ui:107
 msgctxt "ModuleConfigDialog|"
 msgid "Name"
 msgstr "Název"
 
-#: ../ui/dialog/moduleconfigdialog.ui:60
+#: ../ui/dialog/moduleconfigdialog.ui:365
+msgctxt "ModuleConfigDialog|"
+msgid "Show Strongs Inline"
+msgstr "Ukázat Strongs řádkově"
+
+#: ../ui/dialog/moduleconfigdialog.ui:376
+msgctxt "ModuleConfigDialog|"
+msgid "Advanced"
+msgstr "Pokročilé"
+
+#: ../ui/dialog/moduleconfigdialog.ui:391
 msgctxt "ModuleConfigDialog|"
 msgid "Type"
 msgstr "Typ"
 
-#: ../ui/dialog/moduleconfigdialog.ui:70
+#: ../ui/dialog/moduleconfigdialog.ui:384
 msgctxt "ModuleConfigDialog|"
 msgid "Encoding"
 msgstr "Kódování znaků"
 
-#: ../ui/dialog/moduleconfigdialog.ui:80
+#: ../ui/dialog/moduleconfigdialog.ui:127
 msgctxt "ModuleConfigDialog|"
 msgid "StyleSheet"
 msgstr "Stylový list"
 
-#: ../ui/dialog/moduleconfigdialog.ui:96
+#: ../ui/dialog/moduleconfigdialog.ui:117
+msgctxt "ModuleConfigDialog|"
+msgid "Short Name"
+msgstr "Krátký název"
+
+#: ../ui/dialog/moduleconfigdialog.ui:140
+msgctxt "ModuleConfigDialog|"
+msgid "Default"
+msgstr "Výchozí"
+
+#: ../ui/dialog/moduleconfigdialog.ui:150
+msgctxt "ModuleConfigDialog|"
+msgid "Content"
+msgstr "Obsah"
+
+#: ../ui/dialog/moduleconfigdialog.ui:163
 msgctxt "ModuleConfigDialog|"
 msgid "Module"
 msgstr "Modul"
 
-#: ../ui/dialog/moduleconfigdialog.ui:102
+#: ../ui/dialog/moduleconfigdialog.ui:169
 msgctxt "ModuleConfigDialog|"
 msgid "Bible Quote"
 msgstr "Bible Quote"
 
-#: ../ui/dialog/moduleconfigdialog.ui:113
+#: ../ui/dialog/moduleconfigdialog.ui:180
 msgctxt "ModuleConfigDialog|"
 msgid "Remove Html"
 msgstr "Odstranit Html"
 
-#: ../ui/dialog/moduleconfigdialog.ui:120
+#: ../ui/dialog/moduleconfigdialog.ui:187
 msgctxt "ModuleConfigDialog|"
 msgid "remove"
 msgstr "Odstranit"
 
-#: ../ui/dialog/moduleconfigdialog.ui:138
+#: ../ui/dialog/moduleconfigdialog.ui:205
 msgctxt "ModuleConfigDialog|"
 msgid "Zefania Bible"
 msgstr "Bible Zefania"
 
-#: ../ui/dialog/moduleconfigdialog.ui:149
+#: ../ui/dialog/moduleconfigdialog.ui:216
 msgctxt "ModuleConfigDialog|"
 msgid "Text Fromatting"
 msgstr "Formátování textu"
 
-#: ../ui/dialog/moduleconfigdialog.ui:163
+#: ../ui/dialog/moduleconfigdialog.ui:230
 msgctxt "ModuleConfigDialog|"
 msgid "New line after verse"
 msgstr "Nový řádek po verši"
 
-#: ../ui/dialog/moduleconfigdialog.ui:168
+#: ../ui/dialog/moduleconfigdialog.ui:235
 msgctxt "ModuleConfigDialog|"
 msgid "Not formated text pad"
 msgstr "Neformátovaný blok textu"
 
-#: ../ui/dialog/moduleconfigdialog.ui:176
+#: ../ui/dialog/moduleconfigdialog.ui:243
 msgctxt "ModuleConfigDialog|"
 msgid "Hard Cache"
 msgstr "Pevná vyrovnávací paměť"
 
-#: ../ui/dialog/moduleconfigdialog.ui:183 ../ui/dialog/moduleconfigdialog.ui:197
+#: ../ui/dialog/moduleconfigdialog.ui:250 ../ui/dialog/moduleconfigdialog.ui:264
 msgctxt "ModuleConfigDialog|"
 msgid "enabled"
 msgstr "Povoleno"
 
-#: ../ui/dialog/moduleconfigdialog.ui:190
+#: ../ui/dialog/moduleconfigdialog.ui:257
 msgctxt "ModuleConfigDialog|"
 msgid "RAM Cache"
 msgstr "Vyrovnávací paměť RAM"
 
-#: ../ui/dialog/moduleconfigdialog.ui:210
+#: ../ui/dialog/moduleconfigdialog.ui:277
 msgctxt "ModuleConfigDialog|"
 msgid "Display"
 msgstr "Zobrazit"
 
-#: ../ui/dialog/moduleconfigdialog.ui:216
+#: ../ui/dialog/moduleconfigdialog.ui:283
 msgctxt "ModuleConfigDialog|"
 msgid "Use Parent Settings"
 msgstr "Použít ústřední nastavení"
 
-#: ../ui/dialog/moduleconfigdialog.ui:235
+#: ../ui/dialog/moduleconfigdialog.ui:330
+msgctxt "ModuleConfigDialog|"
+msgid "Show Prolog"
+msgstr "Ukázat předmluvu"
+
+#: ../ui/dialog/moduleconfigdialog.ui:404
+msgctxt "ModuleConfigDialog|"
+msgid "ISO 639-2"
+msgstr "ISO 639-2"
+
+#: ../ui/dialog/moduleconfigdialog.ui:411
+msgctxt "ModuleConfigDialog|"
+msgid "Language"
+msgstr "Jazyk"
+
+#: ../ui/dialog/moduleconfigdialog.ui:309
 msgctxt "ModuleConfigDialog|"
 msgid "Show Marks"
 msgstr "Ukázat značky"
 
-#: ../ui/dialog/moduleconfigdialog.ui:242
+#: ../ui/dialog/moduleconfigdialog.ui:344
+msgctxt "ModuleConfigDialog|"
+msgid "Show RMac"
+msgstr "Ukázat RMac"
+
+#: ../ui/dialog/moduleconfigdialog.ui:337
+msgctxt "ModuleConfigDialog|"
+msgid "Show Captions"
+msgstr "Ukázat popisky"
+
+#: ../ui/dialog/moduleconfigdialog.ui:323
 msgctxt "ModuleConfigDialog|"
 msgid "Show Notes"
 msgstr "Ukázat poznámky"
 
-#: ../ui/dialog/moduleconfigdialog.ui:249
+#: ../ui/dialog/moduleconfigdialog.ui:316
 msgctxt "ModuleConfigDialog|"
 msgid "Show Tool Bar"
 msgstr "Ukázat nástrojový pruh"
 
-#: ../ui/dialog/moduleconfigdialog.ui:256
+#: ../ui/dialog/moduleconfigdialog.ui:302
 msgctxt "ModuleConfigDialog|"
 msgid "Show Strong Number"
 msgstr "Ukázat číslo Strong"
 
-#: ../ui/dialog/moduleconfigdialog.ui:263
+#: ../ui/dialog/moduleconfigdialog.ui:358
 msgctxt "ModuleConfigDialog|"
 msgid "Show Study Notes"
 msgstr "Ukázat studijní poznámky"
 
-#: ../ui/dialog/moduleconfigdialog.ui:270
+#: ../ui/dialog/moduleconfigdialog.ui:351
 msgctxt "ModuleConfigDialog|"
 msgid "Show RefLinks"
 msgstr "Ukázat odkazy"
 
-#: ../ui/dialog/moduleconfigdialog.ui:305
+#: ../ui/dialog/moduleconfigdialog.ui:41
 msgctxt "ModuleConfigDialog|"
 msgid "OK"
 msgstr "OK"
 
-#: ../ui/dialog/moduleconfigdialog.ui:325
+#: ../ui/dialog/moduleconfigdialog.ui:61
 msgctxt "ModuleConfigDialog|"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../ui/dock/moduledockwidget.ui:35 ../ui/dock/moduledockwidget.cpp:36
+#: ../ui/dock/moduledockwidget.ui:35
 msgctxt "ModuleDockWidget|"
 msgid "Module"
 msgstr "Modul"
 
-#: ../ui/dialog/moduledownloaddialog.cpp:79
+#: ../ui/dock/moduledockwidget.ui:42
+msgctxt "ModuleDockWidget|"
+msgid "Filter"
+msgstr "Filtr"
+
+#: ../ui/dialog/moduledownloaddialog.cpp:87
 msgctxt "ModuleDownloadDialog|"
 msgid "Bibles"
 msgstr "Bible"
 
-#: ../ui/dialog/moduledownloaddialog.cpp:81
+#: ../ui/dialog/moduledownloaddialog.cpp:89
 msgctxt "ModuleDownloadDialog|"
-msgid "Dictionarys"
-msgstr "Slovníky"
+msgid "Strong Dictionarys"
+msgstr "Slovníky Strong"
+
+#: ../ui/dialog/moduledownloaddialog.cpp:91
+msgctxt "ModuleDownloadDialog|"
+msgid "Additional"
+msgstr "Další"
+
+#: ../ui/dialog/moduledownloaddialog.cpp:157
+msgctxt "ModuleDownloadDialog|"
+msgid "Nothing selected to download. Please select a module."
+msgstr "Ke stažení nebylo nic vybráno. Vyberte, prosím, modul."
 
 #: ../ui/dialog/moduledownloaddialog.ui:14
 msgctxt "ModuleDownloadDialog|"
@@ -856,46 +1368,52 @@ msgctxt "ModuleDownloadDialog|"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../core/moduledownloader.cpp:94 ../core/moduledownloader.cpp:136
-#: ../core/moduledownloader.cpp:162
-msgctxt "ModuleDownloader|"
-msgid "HTTP"
-msgstr "HTTP"
+#: ../ui/dialog/moduleselectdialog.ui:14
+msgctxt "ModuleSelectDialog|"
+msgid "Dialog"
+msgstr "Dialog"
 
-#: ../core/moduledownloader.cpp:94
-#, qt-format
-msgctxt "ModuleDownloader|"
-msgid "Unable to save the file %1: %2."
-msgstr "Soubor %1 nelze uložit: %2."
+#: ../ui/moduleselectui.cpp:34
+msgctxt "ModuleSelectUI|"
+msgid "Module"
+msgstr "Modul"
 
-#: ../core/moduledownloader.cpp:102
-msgctxt "ModuleDownloader|"
-msgid "Downloading"
-msgstr "Stahuje se"
+#: ../ui/moduleselectui.cpp:132
+msgctxt "ModuleSelectUI|"
+msgid "Configure"
+msgstr "Nastavit"
 
-#: ../core/moduledownloader.cpp:103 ../core/moduledownloader.cpp:175
-#, qt-format
-msgctxt "ModuleDownloader|"
-msgid "Downloading %1 / %2. %3 MB"
-msgstr "Stahuje se %1 z %2. %3 MB"
+#: ../ui/moduleselectui.cpp:140
+msgctxt "ModuleSelectUI|"
+msgid "Open module"
+msgstr "Otevřít modul"
 
-#: ../core/moduledownloader.cpp:136 ../core/moduledownloader.cpp:163
-#, qt-format
-msgctxt "ModuleDownloader|"
-msgid "Download failed: %1."
-msgstr "Stažení se nezdařilo: %1."
+#: ../ui/moduleselectui.cpp:144
+msgctxt "ModuleSelectUI|"
+msgid "Open module in new tab"
+msgstr "Otevřít modul v nové kartě"
 
-#: ../ui/dock/notesdockwidget.ui:14
+#: ../ui/moduleselectui.cpp:148
+msgctxt "ModuleSelectUI|"
+msgid "Open vertical parallel"
+msgstr "Otevřít souběžně svisle"
+
+#: ../ui/moduleselectui.cpp:153
+msgctxt "ModuleSelectUI|"
+msgid "Open horizontal parallel"
+msgstr "Otevřít souběžně vodorovně"
+
+#: ../ui/dock/notesdockwidget.ui:20
 msgctxt "NotesDockWidget|"
 msgid "Notes"
 msgstr "Poznámky"
 
-#: ../ui/dock/notesdockwidget.ui:256
+#: ../ui/dock/notesdockwidget.ui:271
 msgctxt "NotesDockWidget|"
 msgid "Save"
 msgstr "Uložit"
 
-#: ../ui/dock/notesdockwidget.ui:263
+#: ../ui/dock/notesdockwidget.ui:278
 msgctxt "NotesDockWidget|"
 msgid "Ctrl+S"
 msgstr "Ctrl+S"
@@ -1287,6 +1805,36 @@ msgctxt "NotesEditor|"
 msgid "Insert HTML"
 msgstr "Vložit HTML"
 
+#: ../core/notes/notesitemview.cpp:22 ../core/notes/notesitemview.cpp:28
+msgctxt "NotesItemView|"
+msgid "Note Title"
+msgstr "Název poznámky"
+
+#: ../core/notes/notesitemview.cpp:197
+msgctxt "NotesItemView|"
+msgid "Copy Text"
+msgstr "Kopírovat text"
+
+#: ../core/notes/notesitemview.cpp:201
+msgctxt "NotesItemView|"
+msgid "Paste Text"
+msgstr "Vložit text"
+
+#: ../core/notes/notesitemview.cpp:205
+msgctxt "NotesItemView|"
+msgid "New Note"
+msgstr "Nová poznámka"
+
+#: ../core/notes/notesitemview.cpp:209
+msgctxt "NotesItemView|"
+msgid "New Folder"
+msgstr "Nová složka"
+
+#: ../core/notes/notesitemview.cpp:213
+msgctxt "NotesItemView|"
+msgid "Delete"
+msgstr "Smazat"
+
 #: ../core/xbelreader.cpp:37
 msgctxt "QObject|"
 msgid "The file is not an XBEL version 1.0 file."
@@ -1297,112 +1845,76 @@ msgctxt "QObject|"
 msgid "Unknown title"
 msgstr "Neznámý název"
 
-#: ../core/notes.cpp:326
+#: ../core/notes/xmlnotes.cpp:262
 msgctxt "QObject|"
 msgid "(unnamed)"
 msgstr "(nepojmenováno)"
 
-#: ../core/simplenotes.cpp:481 ../ui/dialog/settingsdialog.cpp:207
-#: ../module/bible/zefania-bible.cpp:44 ../module/bible/zefania-bible.cpp:75
-#: ../module/bible/zefania-bible.cpp:81 ../module/bible/zefania-bible.cpp:315
-#: ../module/bible/zefania-bible.cpp:375
-#: ../module/dictionary/zefania-lex.cpp:52
-#: ../module/dictionary/zefania-lex.cpp:71
-#: ../module/dictionary/zefania-lex.cpp:156
-#: ../module/dictionary/zefania-lex.cpp:165
+#: ../core/notes/simplenotes.cpp:411 ../ui/dialog/settingsdialog.cpp:264
 msgctxt "QObject|"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../core/simplenotes.cpp:481
+#: ../core/notes/simplenotes.cpp:411
 msgctxt "QObject|"
 msgid "Cannot create mark."
 msgstr "Značku nelze vytvořit."
 
-#: ../ui/dialog/settingsdialog.cpp:179 ../ui/dialog/settingsdialog.cpp:342
+#: ../ui/dialog/settingsdialog.cpp:235 ../ui/dialog/settingsdialog.cpp:433
 msgctxt "QObject|"
 msgid "Adding Modules"
 msgstr "Přidávají se moduly"
 
-#: ../ui/dialog/settingsdialog.cpp:179 ../ui/dialog/settingsdialog.cpp:342
-#: ../module/bible/biblequote.cpp:352 ../module/bible/thewordbible.cpp:218
-#: ../module/bible/zefania-bible.cpp:294 ../module/bible/zefania-bible.cpp:658
-#: ../module/dictionary/biblequote-dict.cpp:115
+#: ../core/module/bible/biblequote.cpp:338
+#: ../core/module/bible/thewordbible.cpp:320
+#: ../core/module/bible/zefania-bible.cpp:260
+#: ../core/module/dictionary/biblequote-dict.cpp:108
+#: ../ui/dialog/settingsdialog.cpp:235 ../ui/dialog/settingsdialog.cpp:433
 msgctxt "QObject|"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../ui/dialog/settingsdialog.cpp:207
+#: ../ui/dialog/settingsdialog.cpp:264
 msgctxt "QObject|"
 msgid "It is not a folder."
 msgstr "Toto není složka."
 
-#: ../module/bible/biblequote.cpp:352
+#: ../core/module/bible/biblequote.cpp:338
 msgctxt "QObject|"
 msgid "Indexing"
 msgstr "Rejstříkuje se"
 
-#: ../module/bible/thewordbible.cpp:218 ../module/bible/zefania-bible.cpp:658
-#: ../module/dictionary/biblequote-dict.cpp:115
+#: ../core/module/bible/thewordbible.cpp:320
+#: ../core/module/bible/zefania-bible.cpp:260
+#: ../core/module/dictionary/biblequote-dict.cpp:108
 msgctxt "QObject|"
 msgid "Build index"
 msgstr "Sestavit rejstřík"
 
-#: ../module/bible/zefania-bible.cpp:44
-msgctxt "QObject|"
-msgid "Please activate Caching.(Hard or Soft Cache)"
-msgstr ""
-"Zapněte, prosím, ukládání do vyrovnávací paměti. (pevná nebo měkká "
-"vyrovnávací paměť)"
-
-#: ../module/bible/zefania-bible.cpp:75
-msgctxt "QObject|"
-msgid "Cannot read the file."
-msgstr "Soubor nelze přečíst."
-
-#: ../module/bible/zefania-bible.cpp:81
-msgctxt "QObject|"
-msgid "The file is not valid."
-msgstr "Soubor není platný."
-
-#: ../module/bible/zefania-bible.cpp:294
-msgctxt "QObject|"
-msgid "Loading Bible"
-msgstr "Nahrává se Bible"
-
-#: ../module/bible/zefania-bible.cpp:315
-#: ../module/dictionary/zefania-lex.cpp:156
-msgctxt "QObject|"
-msgid "Can not read the file"
-msgstr "Soubor nelze přečíst"
-
-#: ../module/bible/zefania-bible.cpp:375
-#: ../module/dictionary/zefania-lex.cpp:165
-#, qt-format
-msgctxt "QObject|"
-msgid "The file is not valid. Errorstring: %1 in Line %2 at Position %3"
-msgstr "Tento soubor není platný. Chybový řetězec: %1 na řádku %2 v místě %3"
-
-#: ../module/dictionary/biblequote-dict.cpp:177
-#: ../module/dictionary/zefania-lex.cpp:90
+#: ../core/module/dictionary/biblequote-dict.cpp:166
+#: ../core/module/dictionary/zefania-lex.cpp:103
 msgctxt "QObject|"
 msgid "Cannot build index."
 msgstr "Nelze sestavit rejstřík."
 
-#: ../module/dictionary/biblequote-dict.cpp:207
-#: ../module/dictionary/zefania-lex.cpp:116
+#: ../core/module/dictionary/biblequote-dict.cpp:187
+#: ../core/module/dictionary/zefania-lex.cpp:122
 #, qt-format
 msgctxt "QObject|"
 msgid "Nothing found for %1"
 msgstr "Pro %1 nebylo nalezeno nic"
 
-#: ../module/dictionary/zefania-lex.cpp:52
-#: ../module/dictionary/zefania-lex.cpp:71
+#: ../core/module/dictionary/theworddictionary.cpp:30
 msgctxt "QObject|"
-msgid "The file is not valid"
-msgstr "Soubor není platný"
+msgid "This module is encrypted."
+msgstr "Tento modul je zašifrován."
 
-#: ../ui/dock/quickjumpdockwidget.ui:14
+#: ../core/settings/settings.cpp:129
+msgctxt "QObject|"
+msgid "New Folder"
+msgstr "Nová složka"
+
+#: ../ui/dock/quickjumpdockwidget.ui:20
 msgctxt "QuickJumpDockWidget|"
 msgid "Quick Jump"
 msgstr "Přejít na"
@@ -1479,28 +1991,28 @@ msgctxt "SearchInfoDialog|"
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../ui/dock/searchresultdockwidget.cpp:40
+#: ../ui/dock/searchresultdockwidget.cpp:43
 #, qt-format
 msgctxt "SearchResultDockWidget|"
 msgid "Search: %1"
 msgstr "Hledání: %1"
 
-#: ../ui/dock/searchresultdockwidget.cpp:77
+#: ../ui/dock/searchresultdockwidget.cpp:81
 msgctxt "SearchResultDockWidget|"
 msgid "Error"
 msgstr "Chyba"
 
-#: ../ui/dock/searchresultdockwidget.cpp:77
+#: ../ui/dock/searchresultdockwidget.cpp:81
 msgctxt "SearchResultDockWidget|"
 msgid "No search information available."
 msgstr "K hledání nejsou dostupné žádné údaje."
 
-#: ../ui/dock/searchresultdockwidget.cpp:112
+#: ../ui/dock/searchresultdockwidget.cpp:117
 msgctxt "SearchResultDockWidget|"
 msgid "No more Results."
 msgstr "Žádná další místa."
 
-#: ../ui/dock/searchresultdockwidget.cpp:112
+#: ../ui/dock/searchresultdockwidget.cpp:117
 msgctxt "SearchResultDockWidget|"
 msgid "Show the first result again?"
 msgstr "Ukázat znovu první výsledek hledání?"
@@ -1520,142 +2032,183 @@ msgctxt "SettingsDialog|"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: ../ui/dialog/settingsdialog.ui:30
-msgctxt "SettingsDialog|"
-msgid "General"
-msgstr "Obecné"
-
-#: ../ui/dialog/settingsdialog.ui:38
+#: ../ui/dialog/settingsdialog.ui:245
 msgctxt "SettingsDialog|"
 msgid "Language"
 msgstr "Jazyk"
 
-#: ../ui/dialog/settingsdialog.ui:48
+#: ../ui/dialog/settingsdialog.ui:255
 msgctxt "SettingsDialog|"
 msgid "Encoding"
 msgstr "Kódování znaků"
 
-#: ../ui/dialog/settingsdialog.ui:58
+#: ../ui/dialog/settingsdialog.ui:265
 msgctxt "SettingsDialog|"
 msgid "Auto Layout"
 msgstr "Automatické rozvržení"
 
-#: ../ui/dialog/settingsdialog.ui:68
+#: ../ui/dialog/settingsdialog.ui:275
 msgctxt "SettingsDialog|"
 msgid "Interface"
 msgstr "Rozhraní"
 
-#: ../ui/dialog/settingsdialog.ui:81 ../ui/dialog/settingsdialog.cpp:148
+#: ../ui/dialog/settingsdialog.ui:30 ../ui/dialog/settingsdialog.cpp:87
+#: ../ui/dialog/settingsdialog.cpp:182
 msgctxt "SettingsDialog|"
 msgid "Module"
 msgstr "Moduly"
 
-#: ../ui/dialog/settingsdialog.ui:91
+#: ../ui/dialog/settingsdialog.ui:40
 msgctxt "SettingsDialog|"
 msgid "Add File"
 msgstr "Přidat soubor"
 
-#: ../ui/dialog/settingsdialog.ui:102
+#: ../ui/dialog/settingsdialog.ui:51
 msgctxt "SettingsDialog|"
 msgid "Add Dir"
 msgstr "Přidat adresář"
 
-#: ../ui/dialog/settingsdialog.ui:113
+#: ../ui/dialog/settingsdialog.ui:62
+msgctxt "SettingsDialog|"
+msgid "Add Virtual Folder"
+msgstr "Přidat virtuální složku"
+
+#: ../ui/dialog/settingsdialog.ui:69
 msgctxt "SettingsDialog|"
 msgid "Download"
 msgstr "Stáhnout"
 
-#: ../ui/dialog/settingsdialog.ui:159
+#: ../ui/dialog/settingsdialog.ui:118
 msgctxt "SettingsDialog|"
 msgid "Edit"
 msgstr "Upravit"
 
-#: ../ui/dialog/settingsdialog.ui:170
+#: ../ui/dialog/settingsdialog.ui:129
 msgctxt "SettingsDialog|"
 msgid "Remove"
 msgstr "Odstranit"
 
-#: ../ui/dialog/settingsdialog.ui:201
+#: ../ui/dialog/settingsdialog.ui:160
 msgctxt "SettingsDialog|"
 msgid "Display"
 msgstr "Zobrazit"
 
-#: ../ui/dialog/settingsdialog.ui:210
+#: ../ui/dialog/settingsdialog.ui:187
+msgctxt "SettingsDialog|"
+msgid "Show References"
+msgstr "Ukázat odkazy"
+
+#: ../ui/dialog/settingsdialog.ui:194
 msgctxt "SettingsDialog|"
 msgid "Show Marks"
 msgstr "Ukázat značky"
 
-#: ../ui/dialog/settingsdialog.ui:217
+#: ../ui/dialog/settingsdialog.ui:208
 msgctxt "SettingsDialog|"
 msgid "Show Notes"
 msgstr "Ukázat poznámky"
 
-#: ../ui/dialog/settingsdialog.ui:224
+#: ../ui/dialog/settingsdialog.ui:215
+msgctxt "SettingsDialog|"
+msgid "Show Strong numbers"
+msgstr "Ukázat čísla Strong"
+
+#: ../ui/dialog/settingsdialog.ui:222
+msgctxt "SettingsDialog|"
+msgid "Show Robinson's Morphological Analysis Codes"
+msgstr "Ukázat kódy Robinsonova morfologického rozboru"
+
+#: ../ui/dialog/settingsdialog.ui:229
+msgctxt "SettingsDialog|"
+msgid "Show Strong numbers inline"
+msgstr "Ukázat čísla Strong řádkově"
+
+#: ../ui/dialog/settingsdialog.ui:285 ../ui/dialog/settingsdialog.ui:306
+msgctxt "SettingsDialog|"
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: ../ui/dialog/settingsdialog.ui:292
+msgctxt "SettingsDialog|"
+msgid "Check for Updates"
+msgstr "Zkontrolovat aktualizace"
+
+#: ../ui/dialog/settingsdialog.ui:299
+msgctxt "SettingsDialog|"
+msgid "Compact Interface"
+msgstr "Rozhraní zabírající málo místa"
+
+#: ../ui/dialog/settingsdialog.ui:201
 msgctxt "SettingsDialog|"
 msgid "Show Tool Bar"
 msgstr "Ukázat nástrojový pruh"
 
-#: ../ui/dialog/settingsdialog.ui:231
+#: ../ui/dialog/settingsdialog.ui:166
 msgctxt "SettingsDialog|"
-msgid "Show Strong Number"
-msgstr "Ukázat číslo Strong"
+msgid "Show Captions"
+msgstr "Ukázat popisky"
 
-#: ../ui/dialog/settingsdialog.ui:238
+#: ../ui/dialog/settingsdialog.ui:173
+msgctxt "SettingsDialog|"
+msgid "Show Prolog"
+msgstr "Ukázat předmluvu"
+
+#: ../ui/dialog/settingsdialog.ui:180
 msgctxt "SettingsDialog|"
 msgid "Show Study Notes"
 msgstr "Ukázat studijní poznámky"
 
-#: ../ui/dialog/settingsdialog.ui:245
-msgctxt "SettingsDialog|"
-msgid "Show RefLinks"
-msgstr "Ukázat odkazy"
-
-#: ../ui/dialog/settingsdialog.ui:274
+#: ../ui/dialog/settingsdialog.ui:334
 msgctxt "SettingsDialog|"
 msgid "OK"
 msgstr "OK"
 
-#: ../ui/dialog/settingsdialog.ui:291
+#: ../ui/dialog/settingsdialog.ui:351
 msgctxt "SettingsDialog|"
 msgid "Reset"
 msgstr "Nastavit znovu"
 
-#: ../ui/dialog/settingsdialog.ui:298
+#: ../ui/dialog/settingsdialog.ui:358
 msgctxt "SettingsDialog|"
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../ui/dialog/settingsdialog.cpp:111
+#: ../ui/dialog/settingsdialog.cpp:57
+msgctxt "SettingsDialog|"
+msgid "Import Sword Modules"
+msgstr "Zavést moduly Sword"
+
+#: ../ui/dialog/settingsdialog.cpp:138
 msgctxt "SettingsDialog|"
 msgid "None"
 msgstr "Žádný"
 
-#: ../ui/dialog/settingsdialog.cpp:111
+#: ../ui/dialog/settingsdialog.cpp:138
 msgctxt "SettingsDialog|"
 msgid "Tile"
 msgstr "Klást jedno vedle druhého"
 
-#: ../ui/dialog/settingsdialog.cpp:111
+#: ../ui/dialog/settingsdialog.cpp:138
 msgctxt "SettingsDialog|"
 msgid "Vertical tile"
 msgstr "Uspořádat svisle"
 
-#: ../ui/dialog/settingsdialog.cpp:111
+#: ../ui/dialog/settingsdialog.cpp:138
 msgctxt "SettingsDialog|"
 msgid "Horizontal tile"
 msgstr "Uspořádat vodorovně"
 
-#: ../ui/dialog/settingsdialog.cpp:111
+#: ../ui/dialog/settingsdialog.cpp:138
 msgctxt "SettingsDialog|"
 msgid "Cascade"
 msgstr "Překrývat"
 
-#: ../ui/dialog/settingsdialog.cpp:117
+#: ../ui/dialog/settingsdialog.cpp:144
 msgctxt "SettingsDialog|"
 msgid "Simple"
 msgstr "Jednoduché"
 
-#: ../ui/dialog/settingsdialog.cpp:117
+#: ../ui/dialog/settingsdialog.ui:237 ../ui/dialog/settingsdialog.cpp:144
 msgctxt "SettingsDialog|"
 msgid "Advanced"
 msgstr "Pokročilé"
@@ -1666,76 +2219,160 @@ msgid "Form"
 msgstr "Formulář"
 
 #: ../ui/interface/simple/simpleinterface.cpp:79
-#: ../ui/interface/simple/simpleinterface.cpp:473
+#: ../ui/interface/simple/simpleinterface.cpp:404
 msgctxt "SimpleInterface|"
 msgid "Search"
 msgstr "Hledat"
 
-#: ../ui/interface/simple/simpleinterface.cpp:81
-#: ../ui/interface/simple/simpleinterface.cpp:474
+#: ../ui/interface/simple/simpleinterface.cpp:83
+#: ../ui/interface/simple/simpleinterface.cpp:405
 msgctxt "SimpleInterface|"
 msgid "Zoom In"
 msgstr "Přiblížit"
 
-#: ../ui/interface/simple/simpleinterface.cpp:83
-#: ../ui/interface/simple/simpleinterface.cpp:475
+#: ../ui/interface/simple/simpleinterface.cpp:86
+#: ../ui/interface/simple/simpleinterface.cpp:406
 msgctxt "SimpleInterface|"
 msgid "Zoom Out"
 msgstr "Oddálit"
 
-#: ../ui/interface/simple/simpleinterface.cpp:85
-#: ../ui/interface/simple/simpleinterface.cpp:476
+#: ../ui/interface/simple/simpleinterface.cpp:89
+#: ../ui/interface/simple/simpleinterface.cpp:407
 msgctxt "SimpleInterface|"
 msgid "Module"
 msgstr "Moduly"
 
-#: ../ui/interface/simple/simpleinterface.cpp:270
+#: ../ui/interface/simple/simpleinterface.cpp:250
 msgctxt "SimpleInterface|"
 msgid "openBibleViewer"
 msgstr "openBibleViewer"
 
-#: ../core/simplenotes.cpp:116
-msgctxt "SimpleNotes|"
-msgid "Note Title"
-msgstr "Název poznámky"
-
-#: ../core/simplenotes.cpp:341 ../core/simplenotes.cpp:363
-#: ../core/simplenotes.cpp:449 ../core/simplenotes.cpp:470
-#: ../core/simplenotes.cpp:504
+#: ../core/notes/simplenotes.cpp:212 ../core/notes/simplenotes.cpp:274
+#: ../core/notes/simplenotes.cpp:290 ../core/notes/simplenotes.cpp:306
+#: ../core/notes/simplenotes.cpp:342 ../core/notes/simplenotes.cpp:384
+#: ../core/notes/simplenotes.cpp:401 ../core/notes/simplenotes.cpp:433
 msgctxt "SimpleNotes|"
 msgid "(unnamed)"
 msgstr "(nepojmenována)"
-
-#: ../core/simplenotes.cpp:384 ../core/simplenotes.cpp:402
-#: ../core/simplenotes.cpp:410
-msgctxt "SimpleNotes|"
-msgid "Folder"
-msgstr "Složka"
-
-#: ../core/simplenotes.cpp:536
-msgctxt "SimpleNotes|"
-msgid "Copy"
-msgstr "Kopírovat"
-
-#: ../core/simplenotes.cpp:540
-msgctxt "SimpleNotes|"
-msgid "New"
-msgstr "Nová"
-
-#: ../core/simplenotes.cpp:544
-msgctxt "SimpleNotes|"
-msgid "New Folder"
-msgstr "Nová složka"
-
-#: ../core/simplenotes.cpp:548
-msgctxt "SimpleNotes|"
-msgid "Delete"
-msgstr "Smazat"
 
 #: ../ui/interface/study/studyinterface.ui:16
 msgctxt "StudyInterface|"
 msgid "Form"
 msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/treebookform.ui:14
+msgctxt "TreeBookForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/treebookform.ui:39
+msgctxt "TreeBookForm|"
+msgid "..."
+msgstr "..."
+
+#: ../ui/interface/advanced/form/treebookform.cpp:139
+msgctxt "TreeBookForm|"
+msgid "Chapter"
+msgstr "Kapitola"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:215
+msgctxt "TreeBookForm|"
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:218
+msgctxt "TreeBookForm|"
+msgid "Copy"
+msgstr "Kopírovat"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:230
+msgctxt "TreeBookForm|"
+msgid "Debugger"
+msgstr "Ladič"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:243
+msgctxt "TreeBookForm|"
+msgid "Open in new tab"
+msgstr "Otevřít v nové kartě"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:246
+msgctxt "TreeBookForm|"
+msgid "Open"
+msgstr "Otevřít"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:249
+msgctxt "TreeBookForm|"
+msgid "Copy Text"
+msgstr "Kopírovat text"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:252
+msgctxt "TreeBookForm|"
+msgid "Copy Link"
+msgstr "Kopírovat odkaz"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:256
+msgctxt "TreeBookForm|"
+msgid "Open in"
+msgstr "Otevřít v"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:259
+msgctxt "TreeBookForm|"
+msgid "Open in new"
+msgstr "Otevřít v nové"
+
+#: ../ui/interface/advanced/form/treebookform.cpp:338
+#: ../ui/interface/advanced/form/treebookform.cpp:342
+msgctxt "TreeBookForm|"
+msgid "Select"
+msgstr "Vybrat"
+
+#: ../ui/dialog/updatecheckerdialog.ui:14
+msgctxt "UpdateCheckerDialog|"
+msgid "Updates available"
+msgstr "Je dostupná aktualizace"
+
+#: ../ui/dialog/updatecheckerdialog.ui:42
+msgctxt "UpdateCheckerDialog|"
+msgid "Skip"
+msgstr "Přeskočit"
+
+#: ../ui/dialog/updatecheckerdialog.ui:49
+msgctxt "UpdateCheckerDialog|"
+msgid "Download"
+msgstr "Stáhnout"
+
+#: ../ui/dialog/updatecheckerdialog.ui:56
+msgctxt "UpdateCheckerDialog|"
+msgid "Remind Later"
+msgstr "Připomenout později"
+
+#: ../ui/updateschecker.cpp:91
+msgctxt "UpdatesChecker|"
+msgid "A new version of openBibleViewer is available: "
+msgstr "Je dostupná nová verze openBibleViewe: "
+
+#: ../ui/updateschecker.cpp:93
+msgctxt "UpdatesChecker|"
+msgid "You can download it at"
+msgstr "Můžete ji stáhnout na"
+
+#: ../ui/interface/advanced/versetableitemdelegate.cpp:24
+msgctxt "VerseTableItemDelegate|"
+msgid "None"
+msgstr "Žádný"
+
+#: ../ui/interface/advanced/versetablewidget.ui:14
+msgctxt "VerseTableWidget|"
+msgid "Bible List"
+msgstr "Seznam s Biblemi"
+
+#: ../ui/interface/advanced/versetablewidget.ui:22
+#: ../ui/interface/advanced/versetablewidget.ui:46
+#: ../ui/interface/advanced/versetablewidget.ui:61
+#: ../ui/interface/advanced/versetablewidget.ui:85
+msgctxt "VerseTableWidget|"
+msgid "..."
+msgstr "..."
 
 #: ../core/verse/versification/versification_kjv.cpp:20
 msgctxt "Versification_KJV|"
@@ -2088,8 +2725,13 @@ msgstr "Abakuk"
 
 #: ../core/verse/versification/versification_kjv.cpp:360
 msgctxt "Versification_KJV|"
-msgid "Hab, Hab"
+msgid "Hab"
 msgstr "Aba"
+
+#: ../core/verse/versification/versification_kjv.cpp:400
+msgctxt "Versification_KJV|"
+msgid "Mal, Ml"
+msgstr "Mal, Ml"
 
 #: ../core/verse/versification/versification_kjv.cpp:369
 msgctxt "Versification_KJV|"
@@ -2125,11 +2767,6 @@ msgstr "Zach, Zch"
 msgctxt "Versification_KJV|"
 msgid "Malachi"
 msgstr "Malachiáš"
-
-#: ../core/verse/versification/versification_kjv.cpp:400
-msgctxt "Versification_KJV|"
-msgid "Mal, Mal, Ml"
-msgstr "Mal, Ml"
 
 #: ../core/verse/versification/versification_kjv.cpp:409
 msgctxt "Versification_KJV|"
@@ -2406,3 +3043,25 @@ msgstr "Zjevení Janovo"
 msgctxt "Versification_KJV|"
 msgid "Rev, Re"
 msgstr "ZJ"
+
+#: ../ui/interface/advanced/form/webform.ui:14
+msgctxt "WebForm|"
+msgid "Form"
+msgstr "Formulář"
+
+#: ../ui/interface/advanced/form/webviewform.cpp:67
+msgctxt "WebViewForm|"
+msgid "Print"
+msgstr "Tisk"
+
+#: ../ui/interface/advanced/form/webviewform.cpp:86
+msgctxt "WebViewForm|"
+msgid "Save output"
+msgstr "Uložit výstup"
+
+#: ../ui/interface/advanced/form/webviewform.cpp:86
+msgctxt "WebViewForm|"
+msgid ""
+"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Plain (*.txt)"
+msgstr ""
+"Open Document (*.odt);;PDF (*.pdf);;Html (*.html *.htm);;Prostý text (*.txt)"
