@@ -353,6 +353,7 @@ QMenuBar* AdvancedInterface::menuBar()
     menuNewSubWindow->addAction(actionNewWebSubWindow);
     menuNewSubWindow->addAction(actionNewDictionarySubWindow);
     menuNewSubWindow->addAction(actionNewBookSubWindow);
+    menuNewSubWindow->addAction(actionNewCommentarySubWindow);
 
     //Close Sub Window
     QAction *actionCloseSubWindow = new QAction(QIcon::fromTheme("tab-close", QIcon(":/icons/16x16/tab-close.png")), tr("Close SubWindow"), menuFile);

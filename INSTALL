@@ -8,10 +8,11 @@ openBibleViewer requires:
 - cmake
 - clucene >= 2.3.3.4
 - quazip >= 0.4.3
+- zlib
 
 Resolve Dependecies on openSUSE 12.2:
 ----------------------
-sudo zypper in libquazip1 quazip-devel zlib zlib-devel lintqt-devel automoc4 cmake libclucene2 clucene-core-devel
+sudo zypper in libquazip1 quazip-devel zlib zlib-devel libqt-devel automoc4 cmake libclucene2 clucene-core-devel
 
 
 Compile openBibleViewer from git:
