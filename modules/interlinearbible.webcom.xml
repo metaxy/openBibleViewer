@@ -18,19 +18,19 @@
               </blacklistUrl>
             <parseInBook><![CDATA[
                 (function(bookID, bookName) {
-                    return "http://interlinearbible.org/"+bookName+"/1.htm";
+                    return "http://biblehub.com/interlinear/"+bookName+"/1.htm";
                  })
                 ]]>
             </parseInBook>
             <parseInChapter><![CDATA[
                 (function(bookID, bookName, chapter) { 
-                    return "http://interlinearbible.org/"+bookName+"/"+(chapter+1)+".htm";
+                    return "http://biblehub.com/interlinear/"+bookName+"/"+(chapter+1)+".htm";
                  })
                 ]]>
             </parseInChapter>
             <parseInVerse><![CDATA[
                 (function(bookID, bookName, chapter, verse) {
-                    return "http://interlinearbible.org/"+bookName+"/"+(chapter+1)+"-"+(verse+1)+".htm";
+                    return "http://biblehub.com/interlinear/"+bookName+"/"+(chapter+1)+"-"+(verse+1)+".htm";
                  })
                 ]]>
             </parseInVerse>
