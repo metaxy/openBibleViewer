@@ -183,29 +183,6 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
     return result;
 
 }
-class TItem
-{
-public:
-    enum TType {
-        Text,
-        Link,
-        H1,
-        H2
-    };
-
-    ~TItem() {
-        foreach(TItem *x,children) {
-            delete x;
-        };
-        children.clear();
-    }
-    TItem::TType ttype;
-    QList<TItem*> children;
-    int type;
-    QString text;
-
-};
-
 RvfReader::RvfReader(const QByteArray &data) : m_data(data), m_pos(0)
 {
 

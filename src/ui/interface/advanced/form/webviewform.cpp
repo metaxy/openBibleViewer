@@ -285,9 +285,9 @@ void WebViewForm::loadStyleSheet(QString url)
     if(url.isEmpty()) {
         url = getStyleSheetUrl();
         if(url.isEmpty())
-            url = "qrc:/data/css/default.css";
+	    url = ":/data/css/default.css";
     }
-    m_view->settings()->setUserStyleSheetUrl(QUrl(url));
+    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
     myDebug() << m_view->settings()->userStyleSheetUrl();
 }
 QString WebViewForm::getStyleSheetUrl()

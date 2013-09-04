@@ -47,9 +47,9 @@ html {
   table-layout: fixed;
   position: fixed;
   width: 100%;
-  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.24, rgba(255, 255, 255, 0.85)), color-stop(0.88, rgba(209, 209, 209, 0.85)));
-  border-bottom: 1px solid rgba(68, 69, 68, 0.6);
-  text-shadow: 0px 2px 5px #DFDFDF;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(150, 150, 150, 0.6);
+  text-shadow: 0px 0px 3px #DFDFDF;
 }
 
 #topTable td {
@@ -63,7 +63,7 @@ td.rowTitle {
 }
 
 .verseEntry .selectedEntry {
-  border-left: 2px solid #002643;
+  border-left: 3px solid #002643;
   padding-left: 2px;
   padding-top: 2px;
   padding-bottom: 2px;
@@ -226,7 +226,7 @@ td .rangeTitle {
   padding-right: 10px;
   padding-top: 4px;
   padding-bottom: 4px;
-  margin-bottom: 5px;
+  margin: 5px;
 }
 
 .dictionary .crossreference {

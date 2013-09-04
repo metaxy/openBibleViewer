@@ -58,7 +58,7 @@ endif(APPLE)
 
 find_package( Qt4 REQUIRED )
 find_package( CLucene1 REQUIRED)
-
+# optional quazip, we are using by default unzip or 7za.exe on windows
 option( OBV_USE_QUAZIP "Use QuaZip" OFF)
 
 IF(OBV_USE_QUAZIP)

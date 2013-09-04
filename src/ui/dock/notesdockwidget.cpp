@@ -193,14 +193,13 @@ void NotesDockWidget::removeMark(VerseSelection selection, QSharedPointer<Versif
                         int repeat = m_notes->getRef(noteID, "repeat").toInt();
                         QString longestString = m_notes->getRef(noteID, "longest_string");
                     } else if(selection.type == VerseSelection::ShortestString) {
-
                         ref["startString"] = selection.shortestStringInStartVerse;
                         ref["endString"] = selection.shortestStringInEndVerse;
-                    }
+		    }*/
 
                     //todo: work with positions in text
                     m_notes->removeNote(noteID);
-                    m_actions->reloadIf(newUrl);*/
+		    m_actions->reloadIf(newUrl);
                 }
             }
         }
