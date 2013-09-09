@@ -58,6 +58,9 @@
           <iconset resource="../../../../icons.qrc">
            <normaloff>:/icons/16x16/internet-web-browser.png</normaloff>:/icons/16x16/internet-web-browser.png</iconset>
          </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>

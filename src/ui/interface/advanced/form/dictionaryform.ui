@@ -65,6 +65,20 @@
       <widget class="QLineEdit" name="lineEdit_input"/>
      </item>
      <item>
+      <widget class="QToolButton" name="toolButton_openInBrowser">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../../icons.qrc">
+         <normaloff>:/icons/16x16/internet-web-browser.png</normaloff>:/icons/16x16/internet-web-browser.png</iconset>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolButton_enter">
        <property name="text">
         <string>...</string>

@@ -19,12 +19,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPrinter>
 #include <QPointer>
 #include <QTextDocumentWriter>
+#include <QClipboard>
+#include <QDesktopServices>
 #include "src/core/module/dictionary/webdictionary.h"
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/module/response/htmlresponse.h"
-#include <QClipboard>
-
 DictionaryForm::DictionaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::DictionaryForm)
@@ -34,6 +34,7 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
     connect(ui->lineEdit_input, SIGNAL(returnPressed()), this, SLOT(showEntry()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(ui->toolButton_back, SIGNAL(clicked()), this, SLOT(backward()));
+    connect(ui->toolButton_openInBrowser, SIGNAL(clicked()), this, SLOT(openInBrowser()));
     ui->toolButton_back->setShortcut(QKeySequence::Back);
     ui->toolButton_forward->setShortcut(QKeySequence::Forward);
 
@@ -352,6 +353,11 @@ void DictionaryForm::setButtons()
     } else {
         ui->toolButton_forward->setDisabled(true);
     }
+    if(m_lastUrl.isEmpty()) {
+        ui->toolButton_openInBrowser->hide();
+    } else {
+        ui->toolButton_openInBrowser->show();
+    }
 }
 
 void DictionaryForm::showHtml(QString html)
@@ -588,6 +594,11 @@ void DictionaryForm::openInMenu()
 
 }
 
+void DictionaryForm::openInBrowser()
+{
+    if(m_lastUrl.isEmpty()) return;
+    QDesktopServices::openUrl(m_lastUrl);
+}
 void DictionaryForm::changeEvent(QEvent *e)
 {
     switch(e->type()) {
