@@ -32,7 +32,7 @@ class SwordBible : public BibleModule
 public:
     SwordBible();
 
-    int loadBibleData(const int moduleID, const QString &path);
+    int loadData(const int moduleID, const QString &path);
     void setSettings(Settings *settings);
     MetaInfo readInfo(const QString &fileName);
     int readBook(const int id);

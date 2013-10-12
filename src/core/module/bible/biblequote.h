@@ -40,7 +40,7 @@ public:
     BibleQuote();
     ~BibleQuote();
     int readBook(const int id);
-    int loadBibleData(const int moduleID, const QString &path);
+    int loadData(const int moduleID, const QString &path);
     MetaInfo readInfo(QFile &file);
     MetaInfo readInfo(const QString &fileName);
     void search(const SearchQuery &query, SearchResult *res) const;

@@ -72,7 +72,7 @@ int Bible::loadModuleData(const int moduleID)
         return 1;
     }
     m_bibleModule->setSettings(m_settings);
-    int loaded = m_bibleModule->loadBibleData(m_moduleID, m_module->path());
+    int loaded = m_bibleModule->loadData(m_moduleID, m_module->path());
 
     if(loaded != 0) {
         m_loaded = false;
@@ -480,14 +480,14 @@ void Bible::clearData()
 int Bible::currentBook()
 {
     if(m_lastTextRanges != 0 && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->bookIDs().isEmpty()) {
-            return *m_lastTextRanges->bookIDs().begin();
+        return *m_lastTextRanges->bookIDs().begin();
     }
     return -1;
 }
 int Bible::currentChapter()
 {
     if(m_lastTextRanges != 0  && !m_lastTextRanges->isEmpty() && !m_lastTextRanges->chapterIDs().isEmpty()) {
-            return *m_lastTextRanges->chapterIDs().begin();
+        return *m_lastTextRanges->chapterIDs().begin();
     }
     return -1;
 }

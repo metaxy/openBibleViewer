@@ -24,6 +24,7 @@ SET(
     module/dictionary/dictionarymodule.cpp
     module/dictionary/biblequote-dict.cpp
     module/dictionary/theworddictionary.cpp
+    module/dictionary/esworddictionary.cpp
     module/bible/biblemodule.cpp
     module/bible/thewordbible.cpp
     module/bible/swordbible.cpp

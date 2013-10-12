@@ -79,6 +79,8 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::ESwordTopicModule;
     } else if(fileName.endsWith(".cmtx", Qt::CaseInsensitive)) {
         return ModuleTools::ESwordCommentaryModule;
+    } else if(fileName.endsWith(".dctx", Qt::CaseInsensitive)) {
+        return ModuleTools::ESwordDictionaryModule;
     } else if(fileName.endsWith(".xml", Qt::CaseInsensitive)) {
         QFile data(fileName);
         if(data.open(QFile::ReadOnly)) {
@@ -213,6 +215,8 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "TheWord Dictionary");
     } else if(type == ModuleTools::PDFBookModule) {
         return QT_TRANSLATE_NOOP("Core", "PDF");
+    } else if(type == ModuleTools::ESwordDictionaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "e-Sword Dictionary");
     }
     return "";
 }
@@ -230,6 +234,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
         case ModuleTools::WebDictionaryModule:
         case ModuleTools::SwordLexiconModule:
         case ModuleTools::TheWordDictionaryModule:
+        case ModuleTools::ESwordDictionaryModule:
             return ModuleTools::DictionaryCategory;
 
         case ModuleTools::FolderModule:
@@ -269,6 +274,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
         case ModuleTools::WebDictionaryModule:
         case ModuleTools::SwordLexiconModule:
         case ModuleTools::TheWordDictionaryModule:
+        case ModuleTools::ESwordDictionaryModule:
             return ModuleTools::DictionaryModuleClass;
 
         case ModuleTools::WebPageModule:

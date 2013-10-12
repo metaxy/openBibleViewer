@@ -34,7 +34,7 @@ QString BibleQuote::formatFromIni(const QString &input)
 {
     return input.trimmed();
 }
-int BibleQuote::loadBibleData(const int bibleID, const QString &path)
+int BibleQuote::loadData(const int bibleID, const QString &path)
 {
     QStringList bookFullName;
     QList<QStringList> bookShortName;

@@ -38,7 +38,7 @@ void TheWordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-int TheWordBible::loadBibleData(const int id, const QString &path)
+int TheWordBible::loadData(const int id, const QString &path)
 {
     m_book.clear();
 

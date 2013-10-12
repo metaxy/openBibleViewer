@@ -32,13 +32,14 @@ WebViewForm::WebViewForm(QWidget *parent) :
     m_view->setUrl(QUrl("about:blank"));
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
     m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-    m_view->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
+    m_view->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
 #if QT_VERSION >= 0x040700
     m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
     m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
     m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
     m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
     m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
+    m_view->settings()->setAttribute(QWebSettings::JavaEnabled, false);
 #endif
     m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 }
@@ -282,12 +283,20 @@ void WebViewForm::showTextRangesResponse(TextRangesResponse *res)
 void WebViewForm::loadStyleSheet(QString url)
 {
     DEBUG_FUNC_NAME
+   /* if(url.isEmpty()) {
+        url = getStyleSheetUrl();
+        if(url.isEmpty())
+            url = ":/data/css/default.css";
+    }
+    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
+    */
     if(url.isEmpty()) {
         url = getStyleSheetUrl();
         if(url.isEmpty())
-	    url = ":/data/css/default.css";
+            url = "qrc:/data/css/default.css";
     }
-    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
+    m_view->settings()->setUserStyleSheetUrl(QUrl(url));
+
     myDebug() << m_view->settings()->userStyleSheetUrl();
 }
 QString WebViewForm::getStyleSheetUrl()

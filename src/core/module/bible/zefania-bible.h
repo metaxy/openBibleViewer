@@ -61,7 +61,7 @@ public:
     ZefaniaBible();
     ~ZefaniaBible();
     int readBook(const int id);
-    int loadBibleData(const int id, const QString &path);
+    int loadData(const int id, const QString &path);
 
 
     /**

@@ -47,6 +47,7 @@ void ESwordRtfOutput::appendText(const QString &text)
 {
     if(text.size() < 25 && text.contains('_') && text.contains(':')) {
         VerseUrl url;
+        myDebug() << text;
         if(url.fromESword(text)) {
             RefText ref(m_settings);
             appendLink2(url.toString(), ref.toString(url));
@@ -60,6 +61,7 @@ void ESwordRtfOutput::appendText(const QString &text)
 }
 void ESwordRtfOutput::appendLink(const QString &href, const QString &text)
 {
+    myDebug() << href << text;
     QString href2 = href;
     href2.remove(0,1).chop(1);
     QTextCharFormat format;
@@ -70,6 +72,7 @@ void ESwordRtfOutput::appendLink(const QString &href, const QString &text)
 }
 void ESwordRtfOutput::appendLink2(const QString &href, const QString &text)
 {
+    myDebug() << href << text;
     QTextCharFormat format;
     format.setAnchorHref(href);
     format.setAnchorName(text);

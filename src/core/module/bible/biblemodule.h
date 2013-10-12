@@ -37,7 +37,7 @@ public:
     BibleModule();
     virtual ~BibleModule();
 
-    virtual int loadBibleData(const int moduleID, const QString &path) = 0;
+    virtual int loadData(const int moduleID, const QString &path) = 0;
 
     virtual TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse) = 0;
 

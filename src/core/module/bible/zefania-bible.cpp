@@ -48,7 +48,7 @@ void ZefaniaBible::clearData()
 {
     //todo: clear data
 }
-int ZefaniaBible::loadBibleData(const int id, const QString &path)
+int ZefaniaBible::loadData(const int id, const QString &path)
 {
    // DEBUG_FUNC_NAME;
     m_moduleID = id;
@@ -398,7 +398,6 @@ QString ZefaniaBible::path(const int book)
     } else {
         return m_modulePath;
     }
-   
 }
 
 TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, int endVerse)

@@ -17,18 +17,19 @@
                  })
                 ]]>
             </parseInBook>
-            <parseInChapter><![CDATA[
-                (function(bookID, bookName, chapter) { 
-					if(bookID < 39) return "http://opentext.org/";
-
-                    return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
+	    <parseInChapter><![CDATA[
+	    (function(bookID, bookName, chapter) { 
+		  if(bookID < 39) return "http://opentext.org/";
+		  if(bookName == "John") return "http://opentext.org/texts/NT/John/view/combined-cl-ch"+(chapter+1)+".v0.html";
+                  return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
                  })
                 ]]>
             </parseInChapter>
             <parseInVerse><![CDATA[
                 (function(bookID, bookName, chapter, verse) {
-					if(bookID < 39) return "http://opentext.org/";
-                    return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
+			if(bookID < 39) return "http://opentext.org/";
+			if(bookName == "John") return "http://opentext.org/texts/NT/John/view/combined-cl-ch"+(chapter+1)+".v0.html";
+			return "http://opentext.org/texts/NT/"+bookName+"/view/clause-ch"+(chapter+1)+".v0.html";
                  })
                 ]]>
             </parseInVerse>

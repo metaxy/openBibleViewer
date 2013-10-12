@@ -1,0 +1,12 @@
+ + move all Bibles to Blocks
+ + make session really work - multiple sessions and select
+ + ESword Bibles
+ + ESword Dictionary
+ + fix webkit hangs
+ + make cache working, see src/ui/webview.cpp
+ + new search based on Blocks
+
+
+ 
+ 
+good tools: sqlitebrowser

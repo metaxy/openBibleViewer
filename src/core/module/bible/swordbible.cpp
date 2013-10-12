@@ -23,7 +23,7 @@ void SwordBible::setSettings(Settings *set)
 /**
   * Loads the Data.
   */
-int SwordBible::loadBibleData(const int id, const QString &path)
+int SwordBible::loadData(const int id, const QString &path)
 {
     DEBUG_FUNC_NAME
     m_moduleID = id;

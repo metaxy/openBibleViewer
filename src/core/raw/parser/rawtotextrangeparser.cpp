@@ -21,7 +21,7 @@ TextRange RawToTextRangeParser::toTextRange(ChapterBlock* b)
 {
     TextRange range;
     range.setChapterID(b->chapterNumber);
-    QString add;
+    QString add; // caption
     foreach(RBlock *c, b->children) {
         if(c->metaData().type == RMetaData::VerseBlock) {
             VerseBlock *vb = (VerseBlock*) c;

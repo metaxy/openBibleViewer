@@ -51,7 +51,8 @@ public:
         ESwordTopicModule = 16,
         TheWordDictionaryModule = 17,
         ESwordCommentaryModule = 18,
-        PDFBookModule = 19
+        PDFBookModule = 19,
+        ESwordDictionaryModule = 20
     };
 
     enum DefaultModule {

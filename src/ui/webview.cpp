@@ -21,11 +21,11 @@ WebView::WebView(QWidget *parent) :
     QWebView(parent), m_doBlocking(false)
 {
     m_networManager = new NetworkAccessManager(this);
-    QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
+  //  QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
  //  QString dataPath =
-    diskCache->setCacheDirectory("/home/paul/testaaa");
-   diskCache->setMaximumCacheSize(5*1024*1024); // 5Mo
-   m_networManager->setCache(diskCache);
+//  diskCache->setCacheDirectory("/home/paul/testaaa");
+ //  diskCache->setMaximumCacheSize(5*1024*1024); // 5Mo
+ //  m_networManager->setCache(diskCache);
     this->page()->setNetworkAccessManager(m_networManager);
 
 
