@@ -84,10 +84,10 @@ QString RawToHtmlParser::parseGram(GramBlock *b)
         StrongUrl url;
         url.fromText(b->strong);
         if(m_displaySettings->showStrongInline()) {
-            pre.prepend("<a class=\"inlinestronglink\" href=\""+url.toString()+"\" title=\""+ b->strong +"\">");
+            pre.prepend("<a class=\"inlinestronglink\" href=\"" + url.toString() + "\" title=\"" + b->strong + "\">");
             post.append("</a>");
         } else {
-            post += "<a class=\"stronglink\" href=\""+url.toString()+"\" title=\""+ b->strong +"\">"
+            post += "<a class=\"stronglink\" href=\"" + url.toString() + "\" title=\"" + b->strong + "\">"
                     + b->strong
                     + "</a>";
         }

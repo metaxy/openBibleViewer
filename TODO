@@ -6,7 +6,43 @@
  + make cache working, see src/ui/webview.cpp
  + new search based on Blocks
 
-
- 
  
 good tools: sqlitebrowser
+
+search structure
+
+multiple indexes:
+    chapterIndex
+        id
+        plainText
+        strongText
+        rmacText
+
+    verseIndex
+        id
+        chapterID
+        plainText
+        strogText
+        rmacText
+
+    wordIndex
+        chapterID
+        verseID
+        plain
+        strong
+        rmac
+example query
+
+"Gott ist Liebe"
+
+word oder wort in einem vers -> "plainText:word or plainText:word"
+G123 und G345 in einem Vers -> "strong:G123 or strong:G345"
+(G123 und rmac=N-gsf) und G345 in einem vers -> "[strong:G123 and rmac:n-gsf] and strong:G345
+
+
+rmac cache:
+ index ->
+    case -> Accusative
+QHash<QString, QHash<Selector,Content>>
+
+
