@@ -105,7 +105,7 @@ SET(
     iconcache.cpp
 
     rtftools.cpp
-
+    rmac.cpp
 
     link/strongurl.cpp
     link/verseurl.cpp

@@ -6,6 +6,7 @@
  * @brief The RMAC class
  * We need it for fast parsing in indexing bibles and searching.
  */
+class RMACItem;
 class RMAC
 {
 public:
@@ -32,6 +33,15 @@ public:
     //QString sSelector(RMAC::Selector) const;
 
 
+};
+class RMACCache
+{
+public:
+    void parseFromFile(const QString &fileName);
+
+    RMACItem get(const QString &key);
+private:
+    QHash<QString, RMACItem> data;
 };
 
 class RMACItem
