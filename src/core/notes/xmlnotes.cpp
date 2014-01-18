@@ -217,7 +217,7 @@ int XmlNotes::readNotes()
         QDomElement e = n.toElement();
         if(e.hasAttribute("id")) {
             const QString id = e.attribute("id", "");
-            if(id == "")
+            if(id.isEmpty())
                 continue;
             notesID << id;
             QDomNode n2 = e.firstChild();

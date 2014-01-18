@@ -459,7 +459,7 @@ void SimpleNotes::removeNotesFromData(const QStringList &ids)
     disconnect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     foreach(const QString &id, ids) {
-        if(m_noteID == "") {
+        if(m_noteID.isEmpty()) {
             setTitle(QString());
             setData(QString());
             setRef(QMap<QString, QString>());

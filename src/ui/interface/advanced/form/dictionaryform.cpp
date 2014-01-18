@@ -193,7 +193,7 @@ void DictionaryForm::showEntry(const QString &key, int moduleID)
     if(moduleID != -1)
         testDictionary(moduleID);
 
-    m_key = "";
+    m_key.clear();
 
     if(key.isEmpty()) {
         showHtml(m_dictionary->moduleTitle());

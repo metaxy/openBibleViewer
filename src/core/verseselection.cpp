@@ -13,21 +13,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "verseselection.h"
 
-VerseSelection::VerseSelection()
+VerseSelection::VerseSelection() : startVerse(0),
+    endVerse(0),
+    selectedText(""),
+    shortestStringInStartVerse(""),
+    shortestStringInEndVerse(""),
+    repeat(0),
+    moduleID(-1),
+    startChapterID(-1),
+    endChapterID(-1),
+    bookID(-1),
+    longestString(""),
+    m_readyForMarks(false)
 {
-    startVerse = 0;
-    endVerse = 0;
-    selectedText = "";
-    shortestStringInStartVerse = "";
-    shortestStringInEndVerse = "";
-    repeat = 0;
-    moduleID = -1;
-    startChapterID = -1;
-    endChapterID = -1;
-    bookID = -1;
-    repeat = -1;
-    longestString = "";
-    m_readyForMarks = false;
 }
 bool VerseSelection::canBeUsedForMarks()
 {
