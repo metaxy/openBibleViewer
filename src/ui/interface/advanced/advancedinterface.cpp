@@ -263,7 +263,6 @@ void AdvancedInterface::setTitle(const QString &title)
 
 void AdvancedInterface::closing()
 {
-    
     m_notesManager->save();
     m_bookmarksManager->save();
     m_windowManager->save();
@@ -499,9 +498,6 @@ QMenuBar* AdvancedInterface::menuBar()
     actionDoTiling->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     actionDoTiling->setShortcutContext(Qt::WidgetShortcut);
     connect(actionDoTiling, SIGNAL(triggered()), m_windowManager, SLOT(autoLayout()));
-
-
-
 
     menuView->addAction(actionZoomIn);
     menuView->addAction(actionZoomOut);

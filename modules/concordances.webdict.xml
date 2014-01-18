@@ -16,12 +16,12 @@
                     }
                     if(a[0] == 'G' || a[0] == 'g') {
                         a = a.substr(1);
-                        return "http://biblesuite.com/greek/"+ a +".htm";
+                        return "http://biblehub.com/greek/"+ a +".htm";
                     } else if(a[0] == 'H' || a[0] == 'h') {
                         a = a.substr(1);
-                        return "http://biblesuite.com/hebrew/"+ a +".htm";
+                        return "http://biblehub.com/hebrew/"+ a +".htm";
                     }
-                    return "http://biblesuite.com/";
+                    return "http://biblehub.com/";
                  })
                 ]]>
             </parseIn>
@@ -29,7 +29,7 @@
                 <![CDATA[
                     (function(a) {
                         var backup = a;
-                        var str = "http://biblesuite.com";
+                        var str = "http://biblehub.com";
                         
                         if(a.indexOf(str) === 0) {
                             a = a.substr(str.length);

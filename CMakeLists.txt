@@ -90,10 +90,10 @@ SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_WARN
 
 #we have to use toStdWString() on linux
 if(MSVC)
-	add_definitions(-DUNICODE -D_UNICODE)
-  option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
+    add_definitions(-DUNICODE -D_UNICODE)
+    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
 else()
-  option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
+    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
 endif()
 
 
@@ -102,9 +102,9 @@ if(OBV_SWORD_SUPPORT)
     include (FindSword)
     if (NOT SWORD_NOT_FOUND)
         ADD_DEFINITIONS(-DBUILD_WITH_SWORD)
-    else(NOT SWORD_NOT_FOUND)
+    else()
         set(OBV_SWORD_SUPPORT FALSE)
-    endif(NOT SWORD_NOT_FOUND)
+    endif()
 endif(OBV_SWORD_SUPPORT)
 
 set(OBV_VERSION_NUMBER "0.8.0")

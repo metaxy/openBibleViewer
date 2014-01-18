@@ -41,7 +41,6 @@ ZefaniaBible::ZefaniaBible() : m_moduleID(-1), m_modulePath(""), m_moduleName(""
 }
 ZefaniaBible::~ZefaniaBible()
 {
-    //myDebug() << "clear zefania " << m_moduleName;
     m_versification.clear();
 }
 void ZefaniaBible::clearData()

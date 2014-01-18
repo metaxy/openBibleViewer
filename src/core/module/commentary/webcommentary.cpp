@@ -31,7 +31,7 @@ std::pair<int, int> WebCommentary::minMaxVerse(const int bookID, const int chapt
 {
     std::pair<int, int> ret;
     ret.first = 0;
-    if(m_versification->maxVerse().contains(bookID) && m_versification->maxVerse().value(bookID).size() > chapterID)
+    if(m_versification->containsChapter(bookID, chapterID))
         ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
     else
         ret.second = 0;

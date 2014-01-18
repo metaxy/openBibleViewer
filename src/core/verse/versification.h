@@ -51,6 +51,10 @@ public:
     int bookCount() const;
 
     QString bookName(const int bookID, bool preferShort = false) const;
+
+    bool containsBook(const int book);
+    bool containsChapter(const int book, const int chapter);
+    bool containsVerse(const int book, const int chapter, const int verse);
     /**
       * Use it with care. It doesn't apply the filter,
       */

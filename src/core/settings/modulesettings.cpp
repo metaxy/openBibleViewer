@@ -133,6 +133,7 @@ void ModuleSettings::saveVersification()
         QSettings settings(versificationFile, QSettings::IniFormat);
         if(v11n.isNull())
             return;
+        //TODO: when saving versification, shouldn't we save only the filterd values
         const QMap<int, BookV11N> map = v11n.data()->data();
         QMapIterator<int, BookV11N> it(map);
         while(it.hasNext()) {

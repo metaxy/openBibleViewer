@@ -250,7 +250,7 @@ std::pair<int, int> TheWordCommentary::minMaxVerse(const int bookID, const int c
 {
     std::pair<int, int> ret;
     ret.first = 0;
-    if(m_versification->maxVerse().contains(bookID) && chapterID >= 0 && chapterID < m_versification->maxVerse().value(bookID).size()) {//is in bounds
+    if(m_versification->containsChapter(bookID, chapterID)) {//is in bounds
         ret.second = m_versification->maxVerse().value(bookID).at(chapterID);
     } else {
         ret.second = 0;

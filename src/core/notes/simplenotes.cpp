@@ -295,7 +295,6 @@ void SimpleNotes::newTextNote()
     m_view->addNote(newID, title, "");
 
     connect(m_notes, SIGNAL(noteAdded(QString)), this, SLOT(addNote(QString)));
-
 }
 void SimpleNotes::innerAddNewFolderNote(const QString &parent)
 {
@@ -328,7 +327,6 @@ void SimpleNotes::createNew(const QString &noteID, const QString &title, const Q
     setTitle(title);
     setData(m_notes->getData(noteID));
     setRef(m_noteRef);
-
 }
 
 void SimpleNotes::newFolder()
@@ -352,6 +350,7 @@ void SimpleNotes::addNote(const QString &id)
 {
     if(m_noteID == id)
         return;
+
     if(m_notes->getType(id) == "text") {
         m_view->addNote(id, m_notes->getTitle(id), m_notes->getRef(id).value("parent"));
     } else if(m_notes->getType(id) == "folder") {
@@ -460,9 +459,9 @@ void SimpleNotes::removeNotesFromData(const QStringList &ids)
     disconnect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString)));
 
     foreach(const QString &id, ids) {
-        if(id == m_noteID) {
-            setTitle("");
-            setData("");
+        if(m_noteID == "") {
+            setTitle(QString());
+            setData(QString());
             setRef(QMap<QString, QString>());
         }
         m_notes->removeNote(id);
@@ -479,9 +478,9 @@ void SimpleNotes::removeNote(const QString &id)
 {
     //DEBUG_FUNC_NAME
     disconnect(m_notes, SIGNAL(noteRemoved(QString,QMap<QString, QString>)), this, SLOT(removeNote(QString)));
-    if(id == m_noteID) {
-        setTitle("");
-        setData("");
+    if(m_noteID == id) {
+        setTitle(QString());
+        setData(QString());
         setRef(QMap<QString, QString>());
     }
     m_view->removeNote(id);

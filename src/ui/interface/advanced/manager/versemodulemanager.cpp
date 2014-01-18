@@ -94,12 +94,12 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
     } else if(mod == Actions::OpenInOtherWindow) {
         if(forceType){
             window = m_windowManager->needWindow(type,
-                                                 [] (Form *f) {return false;},
+                                                 [] (Form *) {return false;},
                                                  [type] (Form *f) {return f->type() == type;}
                                                  );
         } else {
             window = m_windowManager->needWindow(type,
-                                                 [](Form *f) { return false;},
+                                                 [](Form *) { return false;},
                                                  [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;}
                                                  );
         }
@@ -120,8 +120,6 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
         CommentaryForm *form = (CommentaryForm*) f;
         parseUrl(form, url);
     }
-
-
 }
 
 void VerseModuleManager::parseUrl(QString url, const Actions::OpenLinkModifiers mod)

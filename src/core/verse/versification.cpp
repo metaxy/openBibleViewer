@@ -151,3 +151,17 @@ QMap<int, BookV11N> Versification::data() const
 {
     return m_books;
 }
+bool Versification::containsBook(const int book)
+{
+    return maxVerse().contains(book);
+}
+
+bool Versification::containsChapter(const int book, const int chapter)
+{
+    return containsBook(book) && chapter >= 0 && chapter < maxVerse().value(book).size();
+}
+
+bool Versification::containsVerse(const int book, const int chapter, const int verse)
+{
+    return containsChapter(book, chapter) && verse >= 0 && verse < maxVerse().value(book).at(chapter);
+}

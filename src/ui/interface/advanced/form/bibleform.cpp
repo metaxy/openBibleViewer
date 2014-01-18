@@ -78,7 +78,7 @@ void BibleForm::init()
     connect(m_actions, SIGNAL(_reloadIf(VerseUrl)), this, SLOT(reloadIf(VerseUrl)));
     connect(m_actions, SIGNAL(_moduleChanged(int)), this, SLOT(moduleChanged(int)));
 
-      connect(m_actions, SIGNAL(_removeModuleFromVerseTable(int)), this, SLOT(forwardDeleteModule(int)));
+    connect(m_actions, SIGNAL(_removeModuleFromVerseTable(int)), this, SLOT(forwardDeleteModule(int)));
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
