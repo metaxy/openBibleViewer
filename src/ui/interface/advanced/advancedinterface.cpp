@@ -817,7 +817,7 @@ void AdvancedInterface::quick(QString text)
 void AdvancedInterface::onlineHelp()
 {
     //open the online faq
-    QDesktopServices::openUrl(tr("http://openbv.uucyc.name/faq.html"));
+    QDesktopServices::openUrl(QString("http://metaxy.github.io/openBibleViewer/"));
 }
 
 void AdvancedInterface::printFile(void)
@@ -844,7 +844,7 @@ void AdvancedInterface::showAboutDialog(void)
     QPointer<AboutDialog> aDialog = new AboutDialog(this);
     aDialog->setWindowTitle(tr("About openBibleViewer"));
     aDialog->setText(tr("openBibleViewer <br /> version: %1 build: %2<br /> "
-                        "<a href='http://openbv.uucyc.name/'>Official Website</a><br />"
+                        "<a href='http://metaxy.github.io/openBibleViewer/'>Official Website</a><br />"
                         "<a href='https://github.com/metaxy/openBibleViewer/issues'>Bug report</a>")
                      .arg(m_settings->version).arg(m_settings->build));
     aDialog->exec();

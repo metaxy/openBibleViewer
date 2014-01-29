@@ -35,6 +35,7 @@ void UpdatesChecker::checkForUpdates()
         this->deleteLater();
         return;
     }
+
     myDebug() << "checking for Updates";
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
