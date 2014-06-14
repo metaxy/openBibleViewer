@@ -87,6 +87,7 @@ ModuleID BibleForm::newModule(const ModuleID moduleID)
 {
     myDebug() << moduleID;
     m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
+    return moduleID;
 }
 ModuleID BibleForm::newModule()
 {

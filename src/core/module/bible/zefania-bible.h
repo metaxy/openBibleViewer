@@ -20,8 +20,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QProgressDialog>
 
-#include <QtXml/QtXml>
-
 #include "src/core/obvcore.h"
 #include "src/core/link/verseurl.h"
 #include "src/core/verse/verse.h"
@@ -33,21 +31,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/settings/modulesettings.h"
 
 #include "src/core/dbghelper.h"
-#include "src/core/raw/bookblock.h"
-#include "src/core/raw/chapterblock.h"
-#include "src/core/raw/blockidgen.h"
-#include "src/core/raw/mediablock.h"
-#include "src/core/raw/prologblock.h"
-#include "src/core/raw/remarksblock.h"
-#include "src/core/raw/xreffragment.h"
-#include "src/core/raw/captionblock.h"
-#include "src/core/raw/textfragment.h"
-#include "src/core/raw/brfragment.h"
-#include "src/core/raw/styleblock.h"
-#include "src/core/raw/gramblock.h"
-#include "src/core/raw/supblock.h"
-#include "src/core/raw/divblock.h"
-#include "src/core/raw/noteblock.h"
 #include "src/core/module/bible/biblemodule.h"
 
 /**
@@ -102,70 +85,4 @@ private:
     void generateCache(QList<std::pair<qint64, qint64> > list);
     QString path(const int book);
 };
-
-class ZefaniaXmlReader
-{
-public:
-    ZefaniaXmlReader(const QString &fileName, QSharedPointer<Versification> v11n);
-    ZefaniaXmlReader(const QString &fileName);
-    ~ZefaniaXmlReader();
-    MetaInfo readMetaInfo();
-    static bool cmp(const QStringRef &r, const QString &s);
-    BookBlock readBookBlock(const int bookID);
-    ChapterBlock readChapterBlock(const int bookID, const int chapterID);
-    void buildIndex(const QString &indexPath);
-
-private:
-    BlockIDGen m_idGen;
-    enum TagName {
-        Biblebook,
-        Br,
-        Caption,
-        Chapter,
-        Gram,
-        Information,
-        Media,
-        Note,
-        Prolog,
-        Remark,
-        Style,
-        Sup,
-        Vers,
-        XmlBible,
-        XRef
-        
-    };
-    bool cmp(const QStringRef &r, const TagName n);
-    MetaInfo readMetaInfo(MetaInfo ret);
-
-    BookBlock* rawReadBook(quint32 parent);
-    ChapterBlock* rawReadChapter(quint32 parent);
-    VerseBlock* rawReadVerse(quint32 parent);
-    PrologBlock* rawReadProlog(quint32 parent);
-    CaptionBlock* rawReadCaption(quint32 parent);
-    RemarksBlock* rawReadRemarks(quint32 parent);
-    XRefFragment* rawReadXRef(quint32 parent);
-    MediaBlock* rawReadMedia(quint32 parent);
-    BrFragment* rawReadBr(quint32 parent);
-    StyleBlock* rawReadStyle(quint32 parent);
-    GramBlock* rawReadGram(quint32 parent);
-    SupBlock* rawReadSup(quint32 parent);
-    DivBlock* rawReadDiv(quint32 parent);
-    NoteBlock* rawReadNote(quint32 parent);
-    TextFragment* rawReadText(quint32 parent);
-    TextFragment* rawReadChildText(quint32 parent);
-    QMap<int, QString> m_strongsPrefix;
-    void genStrongsPrefix(const int bookID);
-
-    QString m_fileName;
-    QSharedPointer<Versification> m_versification;
-    QXmlStreamReader *m_xml;
-    QFile *m_file;
-
-    void create();
-    void destroy();
-
-    QString m_strongAdd;
-};
-
 #endif // ZEFANIABIBLE_H

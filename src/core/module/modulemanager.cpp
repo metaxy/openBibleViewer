@@ -277,8 +277,8 @@ void ModuleManager::checkCache(const int moduleID)
 TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID, QPoint p, VerseTable *table)
 {
     if(!contains(moduleID)) {
-        Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
+        Q_ASSERT(false);
         return nullptr;
     }
 
@@ -289,8 +289,8 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
 TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int moduleID)
 {
     if(!contains(moduleID)) {
-        Q_ASSERT(false);
         myWarning() << "invalid moduleID = " << moduleID;
+        Q_ASSERT(false);
         return nullptr;
     }
     TextRangesVerseModule *m = nullptr;
@@ -299,8 +299,8 @@ TextRangesVerseModule * ModuleManager::newTextRangesVerseModule(const int module
         m = new Bible();
         initVerseModule(m);
     } else {
-        Q_ASSERT(false);
         myWarning() << "not a verse module " << getModule(moduleID)->moduleClass();
+        Q_ASSERT(false);
         return nullptr;
     }
 

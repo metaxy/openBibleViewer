@@ -15,6 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene.h"
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/search/searchtools.h"
+#include "src/core/zefania.h"
 
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -28,12 +29,13 @@ ZefaniaLex::ZefaniaLex() : m_refText(nullptr)
 
 MetaInfo ZefaniaLex::readInfo(const QString &name)
 {
+    DEBUG_FUNC_NAME
     QFile file(name);
     int couldBe = 0;//1 = RMac
     QString uid = "";
     QString type;
-
-    MetaInfo info;
+    ZefaniaXmlReader reader(name);
+    MetaInfo info = reader.readMetaInfo();
 
     //open the xml file
     if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -48,9 +50,7 @@ MetaInfo ZefaniaLex::readInfo(const QString &name)
                 couldBe = -1;// do not scan the keys
             }
             while(m_xml->readNextStartElement()) {
-                if(cmp(m_xml->name(), "information")) {
-                    info = readMetaInfo(info);
-                } else if(cmp(m_xml->name(), "item")) {
+                if(cmp(m_xml->name(), "item")) {
                     const QString key = m_xml->attributes().value("id").toString();
                     if(couldBe == 0) {
                         if(key.toUpper() == "A-APF" || key.toUpper() == "X-NSN" || key.toUpper() == "V-PAP-DPN") {//todo: speed
@@ -65,6 +65,7 @@ MetaInfo ZefaniaLex::readInfo(const QString &name)
             }
         }
     }
+
     if(info.name().isEmpty() && !info.subject.isEmpty()) {
         info.setName(info.subject);
     }
@@ -419,6 +420,7 @@ QString ZefaniaLex::parseSee()
 }
 MetaInfo ZefaniaLex::readMetaInfo(MetaInfo ret)
 {
+    DEBUG_FUNC_NAME
     while(m_xml->readNextStartElement()) {
         if(m_xml->name() == QLatin1String("publisher")) {
             ret.publisher = m_xml->readElementText(QXmlStreamReader::IncludeChildElements);

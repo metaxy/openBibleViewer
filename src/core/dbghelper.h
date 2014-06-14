@@ -16,17 +16,19 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QtDebug>
 #include "config.h"
-
+#undef OBV_NO_DEBUG_OUTPUT
 #ifdef OBV_NO_DEBUG_OUTPUT
 
-#ifndef QT_NO_DEBUG
-#define QT_NO_DEBUG
-#endif
+    #ifndef QT_NO_DEDBUG
+        #define QT_NO_DEBUG
+    #endif
 
-#ifndef QT_NO_DEBUG_OUTPUT
-#define QT_NO_DEBUG_OUTPUT
-#endif
-
+    #ifndef QT_NO_DEBUG_OUTPUT
+        #define QT_NO_DEBUG_OUTPUT
+    #endif
+#else
+    #undef QT_NO_DEDBUG
+    #undef QT_NO_DEBUG_OUTPUT
 #endif
 
 #define myDebug() qDebug() << Q_FUNC_INFO << " "

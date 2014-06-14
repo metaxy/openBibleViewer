@@ -458,6 +458,7 @@ void SettingsDialog::addModules(const QStringList &fileName, const QStringList &
 int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString &name)
 {
     DEBUG_FUNC_NAME
+    myDebug()  << f << parentID << name;
     QFileInfo fileInfo(f);
     if(fileInfo.suffix() == "zip") {
         QStringList files = ModuleTools::unzip(f, m_set.homePath + "modules/");
@@ -490,6 +491,8 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         MetaInfo info;
         SimpleModule *module = Module::newSimpleModule(moduleType);
         if(!module) {
+            myWarning() << "not a module";
+            //todo: remove it
             return 1;
         }
         module->setSettings(&m_set);
@@ -497,6 +500,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
         delete module;
 
         if(name.isEmpty()) {
+            myDebug() << "info.name" << info.name();
             m->moduleName = info.name();
         } else {
             m->moduleName = name;
@@ -522,6 +526,7 @@ int SettingsDialog::quiteAddModule(const QString &f, int parentID, const QString
 
 
     } else {
+        myWarning() << "cannot open the file " << f;
         //QMessageBox::critical(0, QObject::tr("Error"), QObject::tr("Cannot open the file."));
         return 1;
     }

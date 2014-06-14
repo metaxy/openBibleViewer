@@ -114,6 +114,7 @@ SET(
     link/url.cpp
     link/urlconverter.cpp
     link/urlconverter2.cpp
+    zefania.cpp
 
     books/booktree.cpp
 
