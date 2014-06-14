@@ -54,17 +54,25 @@ void SimpleModuleClass::setModuleID(const int moduleID)
 
 QString SimpleModuleClass::moduleTitle() const
 {
-    return m_settings->getModuleSettings(m_moduleID)->name(false);
+    auto *s = m_settings->getModuleSettings(m_moduleID);
+    if(Q_UNLIKELY(s == nullptr)) return QString();
+    return s->name(false);
 }
 
 QString SimpleModuleClass::moduleShortTitle() const
 {
-    return m_settings->getModuleSettings(m_moduleID)->name(true);
+    auto *s = m_settings->getModuleSettings(m_moduleID);
+    if(Q_UNLIKELY(s == nullptr)) return QString();
+
+    return s->name(true);
 }
 
 QString SimpleModuleClass::moduleUID() const
 {
-    return m_settings->getModuleSettings(m_moduleID)->moduleUID;
+    auto *s = m_settings->getModuleSettings(m_moduleID);
+    if(Q_UNLIKELY(s == nullptr)) return QString();
+
+    return s->moduleUID;
 }
 
 ModuleTools::ModuleType SimpleModuleClass::moduleType() const

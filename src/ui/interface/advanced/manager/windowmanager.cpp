@@ -676,16 +676,26 @@ int WindowManager::closingWindow()
 int WindowManager::reloadWindow(QMdiSubWindow * window)
 {
     if(!m_enableReload || window == nullptr) {
-        //my() << "reload is not enabled or window == nullptr";
         return 1;
     }
 
     if(m_area->subWindowList().isEmpty()) {
-        //myDebug() << "sub window list is empty";
         return 1;
     }
 
-    Form *form = window->widget()->findChild<Form *>("mdiForm");
+    Form *form = this->getForm(window);
+
+    if(form == nullptr) {
+        myWarning() << "form == nullptr";
+        return 1;
+    }
+
+    if(form->moduleID() != ModuleIDNotSet && m_settings->getModuleSettings(form->moduleID()) == nullptr) {
+        window->close();
+        myWarning() << "activiated an not existing module";
+        return 1;
+    }
+
     *m_currentWindowID = form->id();
     form->activated();
     m_area->setActiveSubWindow(window);
