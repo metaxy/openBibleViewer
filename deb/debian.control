@@ -2,11 +2,20 @@ Source: openbibleviewer
 Section: kde
 Priority: optional
 Maintainer: Paul Walger <metaxy@walger.name>
-Homepage: http://openbv.uucyc.name
-Build-Depends: cdbs (>= 0.4.51), debhelper (>= 7), libqt4-dev, libclucene1, cmake, libqtwebkit-dev | lzma
+Homepage: http://github.com/metaxy/openBibleViewer
+Build-Depends: 
+    cdbs (>= 0.4.51), 
+    debhelper (>= 7), 
+    libqt4-dev, 
+    libclucene-dev, 
+    libclucene-core1, 
+    cmake, 
+    libqtwebkit-dev,
+    libqtwebkit4,
+    lzma
 
 Package: openbibleviewer
 Section: kde
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqtwebkit4
 Description: A bible study tool. 

@@ -861,7 +861,8 @@ void AdvancedInterface::showMarkList()
     QPointer<MarkList> markList = new MarkList(this);
     setAll(markList);
     markList->init();
-    markList->show();
+    markList->exec();
+    delete markList;
 }
 
 void AdvancedInterface::showNotesEditor()
@@ -918,7 +919,8 @@ void AdvancedInterface::uncheck(bool b)
 
 void AdvancedInterface::changeEvent(QEvent *e)
 {
-    DEBUG_FUNC_NAME; myDebug() << e->type();
+    DEBUG_FUNC_NAME;
+    myDebug() << e->type();
 
     QWidget::changeEvent(e);
     switch(e->type()) {

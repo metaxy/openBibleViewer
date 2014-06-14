@@ -1,9 +1,4 @@
-#set(CMAKE_USER_MAKE_RULES_OVERRIDE
-   #${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
-#set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX
-  # ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
 project( openBibleViewer )
-
 cmake_minimum_required( VERSION 2.6 )
 
 #list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS} -g -ftest-coverage -fprofile-arcs")
@@ -11,14 +6,51 @@ cmake_minimum_required( VERSION 2.6 )
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 
 include(InstallRequiredSystemLibraries)
-#include(cotire)
 
+#### debug or release ####
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 
 message(STATUS "Using build type: ${CMAKE_BUILD_TYPE}")
-# config paths
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
+else()
+    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" OFF )
+endif()
+
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG QT_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_WARNING_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELWITHDEBINFO QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG)
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG_OUTPUT )
+SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_WARNING_OUTPUT )
+
+
+#### options ####
+option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
+option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
+option( OBV_USE_QUAZIP "Use QuaZip" OFF)
+
+#we have to use toStdWString() on linux
+if(MSVC)
+    add_definitions(-DUNICODE -D_UNICODE)
+    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
+else()
+    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
+endif()
+
+#### constants ####
+set(OBV_VERSION_NUMBER "0.8.0")
+set(OBV_VERSION_STATUS "stable")
+set(OBV_BUILD_DATE "2013-07-11")
+set(QT_USE_QSTRINGBUILDER "True")
+
+
+#### config paths ####
 IF(MSVC)
   #nmake definitions for less output
   #add_definitions( "/nologo /w" )
@@ -38,65 +70,36 @@ IF(MSVC)
   set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
-else(MSVC)
+else()
     set(CL_LIBS clucene-core)
-endif(MSVC)
+endif()
 
+#### definitions ####
 if(UNIX)
-	add_definitions(-std=c++0x)
-  if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_definitions( -Wall -Wextra -Wformat -g3)
-    #add_definitions ( -Wall -Wextra -Wformat -g3 -fstack-check -Weffc++)
-  endif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-  
-endif(UNIX)
+    add_definitions(-std=c++0x)
+    if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_definitions( -Wall -Wextra -Wformat -g3)
+    endif()
+endif()
 
 if(APPLE)
-    ##clang xcode 4.5.2 tested
+    #clang xcode 4.5.2 tested
     add_definitions(-std=c++11)
 endif(APPLE)
 
-find_package( Qt4 REQUIRED )
+#### packages ####
+#find_package( Qt4 REQUIRED )
+FIND_PACKAGE( Qt4 COMPONENTS QtWebKit QtGui QtCore QtXml QtNetwork QtScript QtSql REQUIRED )
 find_package( CLucene1 REQUIRED)
-# optional quazip, we are using by default unzip or 7za.exe on windows
-option( OBV_USE_QUAZIP "Use QuaZip" OFF)
 
+# optional quazip, we are using by default unzip or 7za.exe on windows
 IF(OBV_USE_QUAZIP)
   find_package( QuaZip REQUIRED)
 endif()
 
 if(UNIX)
-pkg_check_modules(ZLIB REQUIRED zlib)
+    pkg_check_modules(ZLIB REQUIRED zlib)
 endif()
-#find_package( Zlib )
-
-option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
-option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
-
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
-else()
-    option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" OFF )
-endif()
-
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG QT_DEBUG)
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG)
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_DEBUG_OUTPUT )
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELEASE QT_NO_WARNING_OUTPUT )
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_RELWITHDEBINFO QT_NO_DEBUG)
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG)
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_DEBUG_OUTPUT )
-SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_MINSIZEREL QT_NO_WARNING_OUTPUT )
-
-#we have to use toStdWString() on linux
-if(MSVC)
-    add_definitions(-DUNICODE -D_UNICODE)
-    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" OFF)
-else()
-    option( OBV_USE_WSTRING "Use toStdWString and fromWCharArray" ON)
-endif()
-
-
 
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
@@ -107,12 +110,10 @@ if(OBV_SWORD_SUPPORT)
     endif()
 endif(OBV_SWORD_SUPPORT)
 
-set(OBV_VERSION_NUMBER "0.8.0")
-set(OBV_VERSION_STATUS "stable")
-set(OBV_BUILD_DATE "2013-07-11")
-set(QT_USE_QSTRINGBUILDER "True")
+#### includes ####
 
 include(${QT_USE_FILE})
+
 add_definitions(${QT_DEFINITIONS})
 
 include_directories(
@@ -137,10 +138,10 @@ if(OBV_SWORD_SUPPORT)
         ${SWORD_INCLUDE_DIR}
     )
 endif(OBV_SWORD_SUPPORT)
+
 add_subdirectory( src/extern )
 #add_subdirectory( src/test )
 add_subdirectory( src/core )
-#Build openBibleViewer
 
 set( openBibleViewer_SRCS
     src/main.cpp
@@ -218,6 +219,7 @@ set( openBibleViewer_SRCS
     src/core/blockrules.cpp
     
     )
+    
 if(WIN32)
     set(openBibleViewer_SRCS ${openBibleViewer_SRCS} icon.rc)
 endif(WIN32)
@@ -265,9 +267,6 @@ set ( openBibleViewer_UIS
     src/ui/marklist.ui
     src/ui/markcategories.ui
     src/ui/biblepassageframe.ui
-
-
-
     )
 
 
@@ -365,15 +364,10 @@ QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
 
 if (MSVC)
     add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
-  
     set_source_files_properties(src/main.cpp PROPERTIES COMPILE_DEFINITIONS main=main)
 else ()
-  add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
+    add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
 endif ()
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-	#cotire(openBibleViewer)
-endif()
 
 if(OBV_SWORD_SUPPORT)
     set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${SWORD_LIBRARY})

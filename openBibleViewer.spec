@@ -20,7 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 %if 0%{?fedora_version}
 
 %if 0%{?fedora_version} < 14
-BuildRequires: qt-devel >= 4.6 zlib
+BuildRequires: qt-devel >= 4.6 zlib 
 %endif
 
 %if 0%{?fedora_version} >= 14
@@ -47,7 +47,7 @@ BuildRequires: libz1
 %endif
 
 
-BuildRequires: desktop-file-utils cmake clucene1-core clucene1-devel gcc-c++ unzip
+BuildRequires: desktop-file-utils cmake gcc-c++ unzip clucene1-core clucene1-devel
 
 %description
 This program allows one to work with the bible and study it.
