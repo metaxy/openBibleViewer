@@ -60,7 +60,7 @@ void BookForm::save()
     m_settings->session.file()->setValue(a + "type", "book");
     m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
-    if(m_book != NULL) {
+    if(m_book != nullptr) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_book->moduleID())->moduleUID());
     }
 }
@@ -68,6 +68,12 @@ void BookForm::save()
 Form::FormType BookForm::type() const
 {
     return Form::BookForm;
+}
+
+ModuleID BookForm::moduleID() const
+{
+    if(m_book == nullptr) return ModuleIDNotSet;
+    return m_book->moduleID();
 }
 
 void BookForm::activated()

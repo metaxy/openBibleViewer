@@ -314,4 +314,9 @@ void WebViewForm::addJS(const QString &url)
     m_view->page()->mainFrame()->evaluateJavaScript(stream.readAll());
     file.close();
 }
+ModuleID WebViewForm::moduleID() const
+{
+    return ModuleIDNotSet;
+}
+
 

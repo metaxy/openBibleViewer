@@ -67,11 +67,17 @@ DictionaryForm::DictionaryForm(QWidget *parent) :
 DictionaryForm::~DictionaryForm()
 {
     delete ui;
-    if(m_dictionary != NULL) {
+    if(m_dictionary != nullptr) {
         delete m_dictionary;
-        m_dictionary = NULL;
+        m_dictionary = nullptr;
     }
 }
+ModuleID DictionaryForm::moduleID() const
+{
+    if(m_dictionary == nullptr) return ModuleIDNotSet;
+    return m_dictionary->moduleID();
+}
+
 void DictionaryForm::init()
 {
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);

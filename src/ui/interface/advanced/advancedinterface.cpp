@@ -288,6 +288,8 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
             reloadModules = true;
         }
     }
+
+    m_windowManager->closeBadWindows();
     if(modifedModuleSettings == true) {
         reloadModules = true;
     }
@@ -297,6 +299,7 @@ void AdvancedInterface::settingsChanged(Settings oldSettings, Settings newSettin
         m_moduleManager->loadAllModules();
         m_bibleManager->moduleDockWidget()->init();
         m_dictionaryManager->dictionaryDockWidget()->init();
+
         m_actions->reloadCurrentRange(true);
 
         QApplication::restoreOverrideCursor();

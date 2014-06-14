@@ -37,6 +37,7 @@ public:
     void save();
     Form::FormType type() const;
     Dictionary* dictionary() const;
+    ModuleID moduleID() const;
     QString key() const;
 public slots:
     void activated();

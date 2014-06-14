@@ -38,6 +38,11 @@ void ConsoleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
 }
 
+ModuleID ConsoleForm::moduleID()
+{
+    return ModuleIDNotSet;
+}
+
 void ConsoleForm::restore(const QString &key)
 {
     const QString a = m_settings->session.id() + "/windows/" + key + "/";

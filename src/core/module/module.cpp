@@ -66,7 +66,7 @@ QString Module::path() const
 {
     return m_path;
 }
-int Module::moduleID() const
+ModuleID Module::moduleID() const
 {
     return m_id;
 }

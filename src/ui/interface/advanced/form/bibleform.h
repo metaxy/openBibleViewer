@@ -66,6 +66,7 @@ public:
     void restore(const QString &key);
     void save();
     Form::FormType type() const;
+    ModuleID moduleID() const;
 
     void parseUrl(const VerseUrl &url, bool reload = false);
     void parseUrl(const QString &url);
@@ -77,13 +78,13 @@ public:
     VerseTable *verseTable() const;
     virtual TextRangesVerseModule *verseModule() const;
 
-    void newModule(const int moduleID);
+    ModuleID newModule(const ModuleID moduleID);
 
     /**
      * @brief newModule() load just a (random) TextRanges Module which we can use. If there is a default module, it loads this one;
      * @return moduleID
      */
-    int newModule();
+    ModuleID newModule();
 
     void addParallelH(const int moduleID);
     void addParallelV(const int moduleID);
@@ -121,18 +122,13 @@ public slots:
     void forwardSearchInText(SearchResult *result);
     void forwardClear();
 
-
     void forwardDeleteModule(const int itemID);
-
 
     void activated();
 
     void showText(const QString &text);
 
     void evaluateJavaScript(const QString &js);
-
-
-
 
     void reload(bool full);
 private slots:

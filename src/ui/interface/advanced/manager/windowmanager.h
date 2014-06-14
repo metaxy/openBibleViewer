@@ -85,6 +85,8 @@ public slots:
     QMdiSubWindow * newSubWindow(Form::FormType type = Form::BibleForm, bool forceMax = false);
     void closeSubWindow();
 
+    void closeBadWindows();
+
 private slots:
     int closingWindow();
 

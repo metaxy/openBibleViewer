@@ -7,8 +7,7 @@ Build-Depends:
     cdbs (>= 0.4.51), 
     debhelper (>= 7), 
     libqt4-dev, 
-    libclucene-dev, 
-    libclucene-core1, 
+    libclucene1, 
     cmake, 
     libqtwebkit-dev,
     libqtwebkit4,
@@ -17,5 +16,5 @@ Build-Depends:
 Package: openbibleviewer
 Section: kde
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqtwebkit4
+Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene1, libqtwebkit4
 Description: A bible study tool. 

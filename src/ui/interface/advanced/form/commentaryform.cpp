@@ -58,6 +58,11 @@ Form::FormType CommentaryForm::type() const
     return Form::CommentaryForm;
 }
 
+ModuleID CommentaryForm::moduleID() const
+{
+    if(m_com == nullptr) return ModuleIDNotSet;
+    return m_com->moduleID();
+}
 
 void CommentaryForm::init()
 {

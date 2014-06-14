@@ -28,6 +28,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
  * That means every module with a moduleID is represented by a instance of Module.
  * But all the visible modules in the windows or tabs links only to one of that instances.
  */
+
+typedef int ModuleID;
+#define ModuleIDNotSet -1
+#define ModuleIDBad -2
+
 class Module
 {
 public:
@@ -35,13 +40,13 @@ public:
     virtual ~Module();
 
     QString path() const;
-    int moduleID() const;
+    ModuleID moduleID() const;
     QString moduleUID() const;
     ModuleTools::ModuleClass moduleClass() const;
     ModuleTools::ModuleType moduleType() const;
 
     void setPath(const QString &path);
-    void setModuleID(const int moduleID);
+    void setModuleID(const ModuleID moduleID);
     void setModuleClass(const ModuleTools::ModuleClass &c);
     void setModuleType(const ModuleTools::ModuleType &t);
 

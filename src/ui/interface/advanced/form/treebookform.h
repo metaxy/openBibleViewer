@@ -36,6 +36,8 @@ public:
 
     Form::FormType type() const;
 
+    ModuleID moduleID() const;
+
     void loadModule(const int moduleID);
 
     void showChapter(const int moduleID, const int chapterID);

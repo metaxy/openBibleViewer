@@ -33,10 +33,11 @@ public:
 
     void clear();
     /**
-     * Returns the bible at id.
-     * \param id The bibleList internal id, not the moduleID. If id == -1 then current bible.
+     * Returns the Module at id.
+     * \param id is the verseTable internal id, not the moduleID. If id == -1 then current Module.
      */
     TextRangesVerseModule * verseModule(const int id = -1) const;
+
     void addModule(TextRangesVerseModule* module, const QPoint &p);
     void setActiveItem(const int verseTableID);
     int activeItem() const;

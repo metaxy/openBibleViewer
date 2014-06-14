@@ -33,6 +33,9 @@ public:
     void init();
     void restore(const QString &key);
     void save();
+
+    ModuleID moduleID();
+
     Form::FormType type() const;
 
 private slots:

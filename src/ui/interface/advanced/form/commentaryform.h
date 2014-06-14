@@ -39,6 +39,8 @@ public:
     void parseUrl(VerseUrl url);
 
     Form::FormType type() const;
+
+    ModuleID moduleID() const;
     void activated();
 
     void showRanges(Ranges ranges, const VerseUrl &source);

@@ -41,7 +41,7 @@ public:
 
     Form::FormType type() const;
 
-
+    ModuleID moduleID() const;
 
 private:
     Ui::WebForm *m_ui;

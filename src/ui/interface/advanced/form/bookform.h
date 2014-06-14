@@ -33,6 +33,7 @@ public:
 
     Form::FormType type() const;
 
+    ModuleID moduleID() const;
 
     void loadModule(const int moduleID);
 

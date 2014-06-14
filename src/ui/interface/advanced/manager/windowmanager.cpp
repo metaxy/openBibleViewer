@@ -869,3 +869,14 @@ ModuleTools::ContentType WindowManager::contentType(BibleForm *form)
     }
     return ModuleTools::UnkownContent;
 }
+
+void WindowManager::closeBadWindows()
+{
+    foreach(QMdiSubWindow * w, m_area->subWindowList(QMdiArea::ActivationHistoryOrder)) {
+        Form *form = this->getForm(w);
+        if(form->moduleID() == ModuleIDNotSet) continue;
+        if(m_settings->getModuleSettings(form->moduleID()) == nullptr) {
+            w->close();
+        }
+    }
+}

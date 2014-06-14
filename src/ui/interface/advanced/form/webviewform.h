@@ -76,6 +76,8 @@ public slots:
     virtual QString getStyleSheetUrl();
 
 
+    virtual ModuleID moduleID() const;
+
 
 protected:
 

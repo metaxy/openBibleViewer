@@ -14,12 +14,12 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "ui_bibleform.h"
 #include <QPointer>
-
 #include "src/core/verse/reftext.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/core/module/response/textrangesresponse.h"
 #include "src/api/api.h"
 #include "src/api/moduleapi.h"
+
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
     m_verseTable(nullptr),
@@ -83,14 +83,14 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
-void BibleForm::newModule(const int moduleID)
+ModuleID BibleForm::newModule(const ModuleID moduleID)
 {
     myDebug() << moduleID;
     m_moduleManager->newTextRangesVerseModule(moduleID, QPoint(0, 0), m_verseTable);
 }
-int BibleForm::newModule()
+ModuleID BibleForm::newModule()
 {
-    int defaultModuleID = -1;
+    ModuleID defaultModuleID = ModuleIDNotSet;
     QMapIterator<int, ModuleSettings*> i(m_settings->m_moduleSettings);
     while(i.hasNext()) {
         i.next();
@@ -101,9 +101,9 @@ int BibleForm::newModule()
 
     }
     //myDebug() << "default" << defaultModuleID;
-    if(defaultModuleID == -1) {
+    if(defaultModuleID == ModuleIDNotSet) {
         auto i2 = m_moduleManager->m_moduleMap->it();
-        while(i2.hasNext() && defaultModuleID == -1) {
+        while(i2.hasNext() && defaultModuleID == ModuleIDNotSet) {
             i2.next();
             if(i2.value()->moduleClass() == ModuleTools::BibleModuleClass) {
                 defaultModuleID = i2.key();
@@ -115,6 +115,12 @@ int BibleForm::newModule()
     newModule(defaultModuleID);
 
     return defaultModuleID;
+}
+ModuleID BibleForm::moduleID() const
+{
+    auto * m = m_verseTable->verseModule();
+    if(m == nullptr) return ModuleIDNotSet;
+    return m->moduleID();
 }
 void BibleForm::addParallelH(const int moduleID)
 {

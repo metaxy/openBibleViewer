@@ -57,6 +57,11 @@ WebForm::~WebForm()
         m_page = NULL;
     }
 }
+ModuleID WebForm::moduleID() const
+{
+    return ModuleIDNotSet;
+}
+
 
 Form::FormType WebForm::type() const
 {

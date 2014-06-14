@@ -70,12 +70,13 @@ public:
 
     int *currentWindowID;
 
-
     virtual void init() = 0;
     virtual void restore(const QString &key) = 0;
     virtual void save() = 0;
     virtual FormType type() const = 0;
     virtual SearchableModule * searchableModule() const;
+
+    virtual ModuleID moduleID() const = 0;
 
 signals:
 

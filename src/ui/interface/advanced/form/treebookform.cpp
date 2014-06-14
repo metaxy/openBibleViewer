@@ -43,6 +43,11 @@ TreeBookForm::~TreeBookForm()
     }
     delete ui;
 }
+ModuleID TreeBookForm::moduleID() const
+{
+    if(m_book == nullptr) return ModuleIDNotSet;
+    return m_book->moduleID();
+}
 
 void TreeBookForm::init()
 {

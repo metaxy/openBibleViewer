@@ -7,7 +7,7 @@ Build-Depends:
     cdbs (>= 0.4.51), 
     debhelper (>= 7), 
     libqt4-dev, 
-    libclucene-dev, 
+    libclucene1, 
     cmake, 
     zlib1g-dev, 
     pkg-config, 
