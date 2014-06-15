@@ -602,7 +602,9 @@ void BibleForm::activated()
         m_verseTable = m_moduleManager->newVerseTable();
         return;
     } else if(verseModule() == nullptr) {
-        m_moduleManager->newTextRangesVerseModule(-1, QPoint(0, 0), m_verseTable);
+        //this crashes because we cannot have an module with the id -1
+        //i dont think we need this code
+        //m_moduleManager->newTextRangesVerseModule(-1, QPoint(0, 0), m_verseTable);
         return;
     }
 
