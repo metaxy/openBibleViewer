@@ -56,6 +56,7 @@ private slots:
     void newGet(QUrl url);
 
     void openInBrowser();
+    void openInBible();
     void showUrlResponse(UrlResponse *res);
 private:
     Ui::CommentaryForm *ui;

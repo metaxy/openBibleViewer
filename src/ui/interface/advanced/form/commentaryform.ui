@@ -63,6 +63,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QToolButton" name="toolButton_openInBible">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../../../../icons.qrc">
+           <normaloff>:/icons/16x16/go-jump.png</normaloff>:/icons/16x16/go-jump.png</iconset>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

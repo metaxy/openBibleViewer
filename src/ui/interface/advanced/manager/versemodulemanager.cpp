@@ -31,6 +31,7 @@ void VerseModuleManager::setWindowManager(WindowManager *windowManager)
 void VerseModuleManager::init()
 {
     connect(m_actions, SIGNAL(_get(VerseUrl,Actions::OpenLinkModifiers)), this, SLOT(parseUrl(VerseUrl,Actions::OpenLinkModifiers)));
+    connect(m_actions, SIGNAL(_getIn(VerseUrl, Actions::OpenLinkType)), this, SLOT(parseUrlIn(VerseUrl,Actions::OpenLinkType)));
     connect(m_actions, SIGNAL(_previousChapter()), this, SLOT(previousChapter()));
     connect(m_actions, SIGNAL(_nextChapter()), this, SLOT(nextChapter()));
     connect(m_actions, SIGNAL(_reloadCurrentRange(bool)), this, SLOT(reloadCurrentRange(bool)));
@@ -87,7 +88,7 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
     }
     myDebug() << "forcetype=" << forceType;
 
-    QMdiSubWindow *window;
+    QMdiSubWindow *window = nullptr;
 
     if(mod == Actions::OpenInNewWindow) {
         window = m_windowManager->newSubWindow(type);
@@ -110,16 +111,21 @@ void VerseModuleManager::parseUrl(const VerseUrl &url, const Actions::OpenLinkMo
             window = m_windowManager->needWindow(type, [](Form *f) { return f->type() == Form::CommentaryForm || f->type() == Form::BibleForm;});
         }
     }
+    this->parseUrlInWindow(url, window, mod);
+}
+void VerseModuleManager::parseUrlInWindow(const VerseUrl &url, QMdiSubWindow* window, const Actions::OpenLinkModifiers mod)
+{
     Q_ASSERT(window != nullptr);
     Form *f = m_windowManager->getForm(window);
 
     if(f->type() == Form::BibleForm) {
-        BibleForm *form = (BibleForm*) f;
-        parseUrl(form, url, mod);
+        parseUrl((BibleForm*) f, url, mod);
     } else if(f->type() == Form::CommentaryForm) {
-        CommentaryForm *form = (CommentaryForm*) f;
-        parseUrl(form, url);
+        parseUrl((CommentaryForm*) f, url);
+    } else {
+        myWarning() << "unkown window type";
     }
+
 }
 
 void VerseModuleManager::parseUrl(QString url, const Actions::OpenLinkModifiers mod)
@@ -150,7 +156,6 @@ void VerseModuleManager::parseUrl(BibleForm *f, const VerseUrl &url, const Actio
     }
 
     if(f->verseTableLoaded()) {
-        myDebug() << "table loaded";
         if(mod == Actions::OpenParallelH) f->addParallelH(url.ranges().first().moduleID());
         if(mod == Actions::OpenParallelV) f->addParallelV(url.ranges().first().moduleID());
 
@@ -165,30 +170,51 @@ void VerseModuleManager::parseUrl(CommentaryForm *form, const VerseUrl &url)
      form->parseUrl(url);
 }
 
+void VerseModuleManager::parseUrlIn(VerseUrl url, const Actions::OpenLinkType t)
+{
+    QMdiSubWindow *window = nullptr;
+    url.removeModuleID();
+    url.setOpenToTransformation(true);
+    if(t == Actions::BibleType) {
+        window = m_windowManager->needWindow(Form::BibleForm);
+    } else if(t == Actions::CommentaryType){
+        window = m_windowManager->needWindow(Form::CommentaryForm);
+    } else {
+        myWarning() << "OpenLinkType not supportet" << t;
+        return;
+    }
+    this->parseUrlInWindow(url, window);
+}
+
 void VerseModuleManager::nextChapter()
 {
-    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
-        ((BibleForm*)(m_windowManager->activeForm()))->nextChapter();
+    auto *f = m_windowManager->activeForm();
+    Q_ASSERT(f != nullptr);
+    if(f->type() == Form::BibleForm) {
+        ((BibleForm*)f)->nextChapter();
     }
 }
 
 void VerseModuleManager::previousChapter()
 {
-    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
-        ((BibleForm*)(m_windowManager->activeForm()))->previousChapter();
+    auto *f = m_windowManager->activeForm();
+    Q_ASSERT(f != nullptr);
+    if(f->type() == Form::BibleForm) {
+        ((BibleForm*)f)->previousChapter();
     }
 }
-
 
 void VerseModuleManager::reloadCurrentRange(bool full)
 {
-    if(!m_windowManager->activeForm())
+    auto *f = m_windowManager->activeForm();
+    if(f == nullptr)
         return;
-    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
-        ((BibleForm*)(m_windowManager->activeForm()))->reload(full);
+    if(f->type() == Form::BibleForm) {
+        ((BibleForm*)f)->reload(full);
     }
 
 }
+
 BookDockWidget *VerseModuleManager::bookDockWidget()
 {
     return m_bookDockWidget;
@@ -203,9 +229,11 @@ QuickJumpDockWidget * VerseModuleManager::quickJumpDockWidget()
 {
     return m_quickJumpDockWidget;
 }
+
 void VerseModuleManager::setActiveItem(const int verseTableID)
 {
-    if(m_windowManager->activeForm()->type() == Form::BibleForm) {
-        ((BibleForm*)(m_windowManager->activeForm()))->verseTable()->setActiveItem(verseTableID);
+    auto *f = m_windowManager->activeForm();
+    if(f->type() == Form::BibleForm) {
+        ((BibleForm*)f)->verseTable()->setActiveItem(verseTableID);
     }
 }

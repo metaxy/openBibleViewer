@@ -51,6 +51,7 @@ signals:
 public slots:
     void parseUrl(QString url, const Actions::OpenLinkModifiers mod);
     void parseUrl(const VerseUrl &url, const Actions::OpenLinkModifiers mod);
+    void parseUrlIn(VerseUrl url, const Actions::OpenLinkType t);
 
     void nextChapter();
     void previousChapter();
@@ -62,8 +63,8 @@ public slots:
 private:
     void parseUrl(BibleForm *f, const VerseUrl &url, const Actions::OpenLinkModifiers mod);
     void parseUrl(CommentaryForm *form, const VerseUrl &url);
+    void parseUrlInWindow(const VerseUrl &url, QMdiSubWindow* window, const Actions::OpenLinkModifiers mod = Actions::NoModifer);
     QWidget *m_p;
-
     BookDockWidget *m_bookDockWidget;
     ModuleDockWidget *m_moduleDockWidget;
     QuickJumpDockWidget * m_quickJumpDockWidget;

@@ -38,6 +38,7 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
     connect(ui->toolButton_openInBrowser, SIGNAL(clicked()), this, SLOT(openInBrowser()));
+    connect(ui->toolButton_openInBible, SIGNAL(clicked()), this, SLOT(openInBible()));
     ui->toolButton_backward->setShortcut(QKeySequence::Back);
     ui->toolButton_forward->setShortcut(QKeySequence::Forward);
     setButtons();
@@ -466,7 +467,7 @@ void CommentaryForm::showUrlResponse(UrlResponse *res)
         m_view->setBlockRules(res->blockRules());
     }
     m_view->load(m_lastUrl);
-    actTitle();
+    this->actTitle();
 }
 
 void CommentaryForm::openInBrowser()
@@ -474,3 +475,8 @@ void CommentaryForm::openInBrowser()
     if(m_lastUrl.isEmpty()) return;
     QDesktopServices::openUrl(m_lastUrl);
 }
+
+void CommentaryForm::openInBible()
+{
+    m_actions->getIn(m_url, Actions::BibleType);
+ }

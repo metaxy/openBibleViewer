@@ -488,3 +488,12 @@ void VerseUrl::removeNo()
         i.next().removeNo();
     }
 }
+
+void VerseUrl::removeModuleID()
+{
+    QMutableListIterator<VerseUrlRange> i(m_ranges);
+    while(i.hasNext()) {
+        i.next().setModule(VerseUrlRange::LoadCurrentModule);
+    }
+
+}

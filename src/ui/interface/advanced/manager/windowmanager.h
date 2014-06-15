@@ -64,6 +64,13 @@ public:
     QMdiSubWindow* needWindow(Form::FormType type);
     QMdiSubWindow* needWindow(Form::FormType type, ModuleTools::ContentType contentType);
     QMdiSubWindow* needWindow(Form::FormType type, std::function<bool (Form*)> func);
+    /**
+     * @brief needWindow
+     * @param type
+     * @param activeFunc decides if we shall use the active window
+     * @param otherFunc dedicdes which window to use, if activeFunc returned false
+     * @return the window which we selected
+     */
     QMdiSubWindow* needWindow(Form::FormType type, std::function<bool (Form*)> activeFunc, std::function<bool (Form *)> otherFunc);
     QMdiSubWindow* hasDictWindow(ModuleTools::DefaultModule d);
     QMdiSubWindow* hasDictWindow(const int moduleID);

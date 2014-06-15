@@ -65,11 +65,16 @@ void Actions::get(const VerseUrl &url)
 {
     get(url, Actions::NoModifer);
 }
+
 void Actions::newGet(const QUrl &url)
 {
     get(url, Actions::OpenInNewWindow);
 }
 
+void Actions::getIn(const VerseUrl &url, const Actions::OpenLinkType t)
+{
+    emit _getIn(url, t);
+}
 
 
 void Actions::setCurrentBook(const QSet<int> &bookID)
@@ -190,3 +195,4 @@ void Actions::removeModuleFromVerseTable(const int itemID)
 {
     emit _removeModuleFromVerseTable(itemID);
 }
+

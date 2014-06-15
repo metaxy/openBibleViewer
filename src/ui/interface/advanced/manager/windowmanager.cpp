@@ -695,6 +695,7 @@ int WindowManager::reloadWindow(QMdiSubWindow * window)
         myWarning() << "activiated an not existing module";
         return 1;
     }
+    this->closeBadWindows();
 
     *m_currentWindowID = form->id();
     form->activated();

@@ -38,6 +38,14 @@ public:
         OpenParallelH,
         OpenParallelV
     };
+    enum OpenLinkType {
+        NoType,
+        BibleType,
+        CommentaryType
+
+    };
+
+
     QString name() const;
 signals:
     void _previousChapter();
@@ -50,6 +58,7 @@ signals:
     void _get(const QString &url, const Actions::OpenLinkModifiers mod);
     void _get(const VerseUrl &url, const Actions::OpenLinkModifiers mod);
 
+    void _getIn(const VerseUrl &url, const Actions::OpenLinkType t);
 
     void _setCurrentBook(const QSet<int> &bookID);
     void _setCurrentChapter(const QSet<int> &chapterID);
@@ -97,6 +106,8 @@ public slots:
     void get(const QString &url, const Actions::OpenLinkModifiers mod);
     void get(const QUrl &url, const Actions::OpenLinkModifiers mod);
     void get(const VerseUrl &url, const Actions ::OpenLinkModifiers mod);
+
+    void getIn(const VerseUrl &url, const Actions::OpenLinkType t);
 
     void newGet(const QUrl &url);
 

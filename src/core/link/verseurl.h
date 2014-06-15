@@ -52,6 +52,8 @@ public:
     bool hasModuleID() const;
     int moduleID() const;
 
+    void removeModuleID();
+
     /**
      * @brief See VerseUrlRange::removeNo
      */
