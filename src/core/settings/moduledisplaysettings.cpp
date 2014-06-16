@@ -27,7 +27,7 @@ ModuleDisplaySettings::ModuleDisplaySettings() :
     m_showProlog(false),
     m_showMedia(false),
     m_showGram(false),
-    m_showStrongInline(false)
+    m_showStrongInline(true)
 {
 }
 

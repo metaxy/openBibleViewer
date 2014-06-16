@@ -29,102 +29,19 @@ QString RtfTools::toValidRTF(QString data)
 }
 QString RtfTools::fromRVF(const QByteArray &data)
 {
-    DEBUG_FUNC_NAME
+    //DEBUG_FUNC_NAME
     RvfReader reader(data);
     return reader.toHtml();
 }
 bool RtfTools::isRvf(const QByteArray &data)
 {
-    DEBUG_FUNC_NAME
+   // DEBUG_FUNC_NAME
     if(data.size() > 1 && data.at(0) == '-' && data.at(1) == '8') {
-        myDebug() << "yo";
+        //myDebug() << "yo";
         return true;
     }
-    myDebug() << "no";
+    //myDebug() << "no";
     return false;
-}
-
-QString RvfReader::readUntilLineEnd(const QByteArray &data)
-{
-    //myDebug() << "start" << data;
-    QByteArray n;
-    int i;
-    for(i = 0; i < data.size() - 1; i++) { // - 1 because we have to look one forward in the if for the break
-        char c = data.at(i);
-      //  myDebug() << "i=" << i << "c=" << (int)c;
-        if(c == 0x0D/*13*/ && data.at(i+1) == 0x0A/*10*/) break;
-        n.append(c);
-    }
-    myDebug() << "ret=" << QString::fromAscii(n).size() << "i="<< i;
-    return QString::fromAscii(n);
-}
-
-QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
-{
-    myDebug() << "start" << "limit pos" <<limit_pos << "mpos" << m_pos;
-    char prev = 0;
-    int i;
-    QByteArray n;
-    for(i = 0; i < limit_pos; i++) {
-        char c = data.at(i);
-        if(c == 10 && prev == 13) break;
-        n.append(c);
-        prev = c;
-    }
-    m_pos += i + 1;
-    //myDebug() << "ret" << QString::fromAscii(n);
-    return QString::fromAscii(n);
-}
-
-QString RvfReader::readText(const QByteArray &data)
-{
-    myDebug() << "start"  << "mpos" << m_pos;
-    char prev = 0;
-    int i;
-    QByteArray n;
-   // n.append(0xff);
-   // n.append(0xfe);
-    for(i = 0; i < data.size(); i++) {
-        if(i >= data.size() - 1) break;
-        char c = data.at(i);
-
-        if(c == 10 && prev == 13) break;
-
-        if(c == 41) {
-            n.append("<br />");
-            i++;
-        } else {
-            n.append(c);
-
-            if(data.at(i+1) == 0) {
-                i++;
-            }
-        }
-
-        prev = c;
-    }
-    //myDebug() << "read " << i << "charachters";
-    m_pos += i + 1;
-    //myDebug() << "ret" << QString::fromAscii(n);
-    return QString::fromAscii(n);
-}
-
-QString RvfReader::readRecord(const QByteArray &data)
-{
-    myDebug() << "mpos=" << m_pos;
-    QString ret;
-    char prev = -1;
-    int i;
-    for(i = 0; i < data.size(); i++) {
-        char c = data.at(i);
-        if(c == 10 && prev == 13) break;
-
-        ret.append(c);
-        prev = c;
-    }
-    m_pos += i + 1;
-    myDebug() << "ret" << ret;
-    return ret;
 }
 
 QByteArray RtfTools::gUncompress(const QByteArray &data)
@@ -183,10 +100,95 @@ QByteArray RtfTools::gUncompress(const QByteArray &data)
     return result;
 
 }
+
 RvfReader::RvfReader(const QByteArray &data) : m_data(data), m_pos(0)
 {
 
 }
+
+QString RvfReader::readUntilLineEnd(const QByteArray &data)
+{
+    //myDebug() << "start" << data;
+    QByteArray n;
+    int i;
+    for(i = 0; i < data.size() - 1; i++) { // - 1 because we have to look one forward in the if for the break
+        char c = data.at(i);
+      //  myDebug() << "i=" << i << "c=" << (int)c;
+        if(c == 0x0D/*13*/ && data.at(i+1) == 0x0A/*10*/) break;
+        n.append(c);
+    }
+    //myDebug() << "ret=" << QString::fromAscii(n).size() << "i="<< i;
+    return QString::fromAscii(n);
+}
+
+QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
+{
+    myDebug() << "start" << "limit pos" <<limit_pos << "mpos" << m_pos;
+    char prev = 0;
+    int i;
+    QByteArray n;
+    for(i = 0; i < limit_pos; i++) {
+        char c = data.at(i);
+        if(c == 10 && prev == 13) break;
+        n.append(c);
+        prev = c;
+    }
+    m_pos += i + 1;
+    //myDebug() << "ret" << QString::fromAscii(n);
+    return QString::fromAscii(n);
+}
+
+QString RvfReader::readText(const QByteArray &data)
+{
+    myDebug() << "start"  << "mpos" << m_pos;
+    char prev = 0;
+    int i;
+    QByteArray n;
+   // n.append(0xff);
+   // n.append(0xfe);
+    for(i = 0; i < data.size(); i++) {
+        if(i >= data.size() - 1) break;
+        char c = data.at(i);
+
+        if(c == 10 && prev == 13) break;
+
+        if(c == 41) {
+            n.append("<br />");
+            i++;
+        } else {
+            n.append(c);
+
+            if(data.at(i+1) == 0) {
+                i++;
+            }
+        }
+
+        prev = c;
+    }
+    //myDebug() << "read " << i << "charachters";
+    m_pos += i + 1;
+    //myDebug() << "ret" << QString::fromAscii(n);
+    return QString::fromAscii(n);
+}
+
+QString RvfReader::readRecord(const QByteArray &data)
+{
+    //myDebug() << "mpos=" << m_pos;
+    QString ret;
+    char prev = -1;
+    int i;
+    for(i = 0; i < data.size(); i++) {
+        char c = data.at(i);
+        if(c == 10 && prev == 13) break;
+
+        ret.append(c);
+        prev = c;
+    }
+    m_pos += i + 1;
+    //myDebug() << "ret" << ret;
+    return ret;
+}
+
 QList<int> RvfReader::startPositions()
 {
     QList<int> recordStartPositions;
@@ -201,7 +203,7 @@ QList<int> RvfReader::startPositions()
             || (c.isDigit() && QChar(m_data.at(i-1)).isSpace())) {
             QString r = readUntilLineEnd(m_data.mid(i));
             recordStartPositions << i;
-            myDebug() << "i=" << i << "r.size()=" << r.size();
+            //myDebug() << "i=" << i << "r.size()=" << r.size();
             i += r.size() + 2;
         }
     }
@@ -212,12 +214,13 @@ QList<int> RvfReader::startPositions()
 
 QString RvfReader::toHtml()
 {
-    QFile file("out.b");
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream o(&file);
-    o << m_data;
-    file.close();
-
+    #ifdef OBV_DEBUG
+        QFile file("out.b");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream o(&file);
+        o << m_data;
+        file.close();
+    #endif
     QString ret;
 
     QList<int> recordStartPositions = startPositions();

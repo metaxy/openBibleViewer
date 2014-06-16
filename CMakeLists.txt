@@ -18,6 +18,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" ON )
 else()
     option( OBV_NO_DEBUG_OUTPUT "Do not show Debug output" OFF )
+    option( OBV_DEBUG "Do not show Debug output" ON )
+
 endif()
 
 SET_PROPERTY(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS_DEBUG QT_DEBUG)
@@ -47,7 +49,6 @@ endif()
 set(OBV_VERSION_NUMBER "0.8.0")
 set(OBV_VERSION_STATUS "stable")
 set(OBV_BUILD_DATE "2013-07-11")
-set(QT_USE_QSTRINGBUILDER "True")
 
 
 #### config paths ####
@@ -62,7 +63,7 @@ IF(MSVC)
   SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
   SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
   SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
-  set( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
+  sddet( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
   set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
   

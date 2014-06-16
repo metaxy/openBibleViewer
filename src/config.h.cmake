@@ -12,7 +12,7 @@
 #cmakedefine OBV_SWORD_SUPPORT
 #cmakedefine OBV_USE_WSTRING
 #cmakedefine OBV_NO_DEBUG_OUTPUT
-
+#cmakedefine OBV_DEBUG
 
 #cmakedefine OBV_VERSION_NUMBER "@OBV_VERSION_NUMBER@"
 #cmakedefine OBV_VERSION_STATUS "@OBV_VERSION_STATUS@"

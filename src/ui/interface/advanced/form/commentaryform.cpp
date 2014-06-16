@@ -27,11 +27,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm),
-    m_url()
+    m_url(),
+    m_com(nullptr)
 {
     ui->setupUi(this);
     ui->verticalLayout->addWidget(m_view);
-    m_com = NULL;
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(changeLocation()));
     m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
@@ -48,9 +48,9 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
 CommentaryForm::~CommentaryForm()
 {
     delete ui;
-    if(m_com != NULL) {
+    if(m_com != nullptr) {
         delete m_com;
-        m_com = NULL;
+        m_com = nullptr;
     }
 }
 
@@ -83,7 +83,7 @@ void CommentaryForm::activated()
 
 void CommentaryForm::actTitle()
 {
-    if(m_com != NULL) {
+    if(m_com != nullptr) {
         m_actions->setTitle(m_com->moduleTitle());
         m_actions->setCurrentModule(m_com->moduleID());
         if(m_com->loaded()) {
@@ -94,6 +94,7 @@ void CommentaryForm::actTitle()
         }
 
     } else {
+        m_actions->setTitle(QString());
         m_actions->clearBooks();
         m_actions->clearChapters();
     }
@@ -106,12 +107,13 @@ void CommentaryForm::parseUrl(QString string)
         myWarning() << "pharsing url failed:" << string;
         return;
     }
+
     parseUrl(url);
 }
 void CommentaryForm::parseUrl(VerseUrl url)
 {
     myDebug() << url.toString();
-    if(m_com == NULL) {
+    if(m_com == nullptr) {
         myWarning() << "m_com is null";
         return;
     }
@@ -148,11 +150,10 @@ void CommentaryForm::parseUrl(VerseUrl url)
 }
 void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
 {
-    if(!m_com) {
+    if(m_com == nullptr) {
         myWarning() << "m_com is null";
         return;
     }
-    //m_com->setModuleID(ranges.getList().first().moduleID());
 
     showResponse(m_com->readRanges(ranges));
 
@@ -163,6 +164,22 @@ void CommentaryForm::showRanges(Ranges ranges, const VerseUrl &source)
     actTitle();
 }
 
+void CommentaryForm::showUrlResponse(UrlResponse *res)
+{
+    myDebug() << res->url();
+    m_lastUrl = QUrl(res->url());
+
+    if(!res->blockRules().isEmpty()) {
+        m_view->setBlockRules(res->blockRules());
+    }
+
+    m_view->load(m_lastUrl);
+    this->actTitle();
+}
+
+/*
+ * when line_edit enter is pressed
+ */
 void CommentaryForm::changeLocation()
 {
     BibleLink link(m_com->moduleID(), m_com->versification());
@@ -170,66 +187,10 @@ void CommentaryForm::changeLocation()
     url.setOpenToTransformation(false);
     parseUrl(url);
 }
+
 bool CommentaryForm::loaded()
 {
-    return m_com != NULL && m_com->loaded();
-}
-
-void CommentaryForm::save()
-{
-    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
-    m_settings->session.file()->setValue(a + "type", "commentary");
-
-    VerseUrl url = m_url;
-    url.setModuleID(m_com->moduleID());
-
-    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
-    urlConverter.setSettings(m_settings);
-    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
-    VerseUrl newUrl = urlConverter.convert();
-    m_settings->session.file()->setValue(a + "url", newUrl.toString());
-
-
-    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
-    m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
-
-    m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
-    m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
-    m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
-
-}
-
-void CommentaryForm::restore(const QString &key)
-{
-    const QString a = m_settings->session.id() + "/windows/" + key + "/";
-    const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
-    const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
-
-    const QVariant v = m_settings->session.file()->value(a + "hist1");
-    const QVariant v2 = m_settings->session.file()->value(a + "hist2");
-    if(!v.toStringList().isEmpty() || !v2.toStringList().isEmpty()) {
-        m_browserHistory.setData1(v);
-        m_browserHistory.setData2(v2);
-        m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
-        setButtons();
-    }
-    const QString url = m_settings->session.file()->value(a + "url").toString();
-    UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
-    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
-    urlConverter.convert();
-
-    if(urlConverter.moduleID() != -1) {
-        parseUrl(urlConverter.url());//these urls are handeld by this Form
-    }
-
-
-    m_view->page()->mainFrame()->setScrollPosition(scroll);
-    m_view->setZoomFactor(zoom);
-
-   /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();
-    if(url.isValid())
-        m_view->load(url);
-    */
+    return m_com != nullptr && m_com->loaded();
 }
 void CommentaryForm::historySetUrl(QString url)
 {
@@ -357,7 +318,7 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
 
         counter = 0;
         foreach(ModuleSettings* m, list) {
-            if(counter > 3)
+            if(counter > 5)
                 break;
             if(ModuleTools::typeToClass(m->moduleType) == cl
                     && !usedModules.contains(m->moduleID)) {
@@ -458,18 +419,6 @@ void CommentaryForm::newGet(QUrl url)
     }
 
 }
-void CommentaryForm::showUrlResponse(UrlResponse *res)
-{
-    myDebug() << res->url();
-    m_lastUrl = QUrl(res->url());
-
-    if(!res->blockRules().isEmpty()) {
-        m_view->setBlockRules(res->blockRules());
-    }
-    m_view->load(m_lastUrl);
-    this->actTitle();
-}
-
 void CommentaryForm::openInBrowser()
 {
     if(m_lastUrl.isEmpty()) return;
@@ -479,4 +428,61 @@ void CommentaryForm::openInBrowser()
 void CommentaryForm::openInBible()
 {
     m_actions->getIn(m_url, Actions::BibleType);
- }
+}
+
+void CommentaryForm::save()
+{
+    const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
+    m_settings->session.file()->setValue(a + "type", "commentary");
+
+    VerseUrl url = m_url;
+    url.setModuleID(m_com->moduleID());
+
+    UrlConverter urlConverter(UrlConverter::InterfaceUrl, UrlConverter::PersistentUrl, url);
+    urlConverter.setSettings(m_settings);
+    urlConverter.setModuleMap(m_moduleManager->m_moduleMap.data());
+    VerseUrl newUrl = urlConverter.convert();
+    m_settings->session.file()->setValue(a + "url", newUrl.toString());
+
+
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
+
+    m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
+    m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
+    m_settings->session.file()->setValue(a + "hist3", m_browserHistory.data3());
+
+}
+
+void CommentaryForm::restore(const QString &key)
+{
+    const QString a = m_settings->session.id() + "/windows/" + key + "/";
+    const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
+    const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
+
+    const QVariant v = m_settings->session.file()->value(a + "hist1");
+    const QVariant v2 = m_settings->session.file()->value(a + "hist2");
+    if(!v.toStringList().isEmpty() || !v2.toStringList().isEmpty()) {
+        m_browserHistory.setData1(v);
+        m_browserHistory.setData2(v2);
+        m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
+        setButtons();
+    }
+    const QString url = m_settings->session.file()->value(a + "url").toString();
+    UrlConverter2 urlConverter(UrlConverter::PersistentUrl, UrlConverter::InterfaceUrl, url);
+    urlConverter.setSM(m_settings, m_moduleManager->m_moduleMap.data());
+    urlConverter.convert();
+
+    if(urlConverter.moduleID() != -1) {
+        parseUrl(urlConverter.url());//these urls are handeld by this Form
+    }
+
+
+    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->setZoomFactor(zoom);
+
+   /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();
+    if(url.isValid())
+        m_view->load(url);
+    */
+}

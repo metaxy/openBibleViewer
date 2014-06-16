@@ -16,16 +16,49 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 Commentary::Commentary() : m_loaded(false)
 {
 }
+int Commentary::loadModuleData(const int moduleID)
+{
+    myDebug() << moduleID;
+    m_loaded = false;
+    m_module = m_map->module(moduleID);
+    m_moduleID = moduleID;
+    m_moduleType = m_module->moduleType();
+
+    if(m_module->m_commentaryModule.isNull()) {
+        m_commentaryModule = m_module->newCommentaryModule(moduleType());
+    } else {
+        m_commentaryModule = m_module->m_commentaryModule;
+    }
+
+    if(m_commentaryModule == nullptr) {
+        myWarning() << "invalid module";
+        return 1;
+    }
+    m_commentaryModule->setSettings(m_settings);
+
+    if(m_commentaryModule->loadModuleData(m_moduleID, m_module->path()) != 0) {
+        myWarning() << "loading failed";
+        return 1;
+    }
+
+    m_versification = m_commentaryModule->versification();
+    m_loadedModuleID = m_moduleID;
+    m_loaded = true;
+
+    return 0;
+}
+
 Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
 {
     Range r = ranges.getList().first();
 
-    if(!loaded() || (m_moduleID != r.moduleID() && !ignoreModuleID)) {
+    if(!loaded() || (m_moduleID != r.moduleID() && !ignoreModuleID)) {//nothing loaded here yet
         loadModuleData(r.moduleID());
     }
+
     if(!loaded()) {
         myWarning() << "failed reading because module not laoded";
-        return NULL;
+        return nullptr;
     }
 
     CompiledRange range = this->toCompiledRange(r);
@@ -36,24 +69,28 @@ Response* Commentary::readRanges(const Ranges &ranges, bool ignoreModuleID)
     } else {
         return m_commentaryModule->readVerseRange(range.bookID, range.chapterID, range.startVerse, range.endVerse);
     }
-
-
 }
+/**
+ * @brief Commentary::readStart shows the "Welcome" screen
+ * @param moduleID if moduleID == ModuleIDNotSet then it loads the current module start screen
+ * @return Response
+ */
 Response* Commentary::readStart(int moduleID)
 {
     if(!loaded()) {
-        if(moduleID == -1) moduleID = m_moduleID;
+        if(moduleID == ModuleIDNotSet) moduleID = m_moduleID;
 
         loadModuleData(moduleID);
     }
 
     if(!loaded()) {
         myWarning() << "failed reading because module not loaded";
-        return NULL;
+        return nullptr;
     }
 
     return m_commentaryModule->readStart();
 }
+
 void Commentary::search(SearchQuery query, SearchResult *result)
 {
     m_commentaryModule->search(query, result);
@@ -81,38 +118,4 @@ int Commentary::currentChapter()
 std::pair<int, int> Commentary::minMaxVerse(const int bookID, const int chapterID)
 {
     return m_commentaryModule->minMaxVerse(bookID, chapterID);
-}
-int Commentary::loadModuleData(const int moduleID)
-{
-    myDebug() << moduleID;
-    m_loaded = false;
-    m_module = m_map->module(moduleID);
-    m_moduleID = moduleID;
-    m_moduleType = m_module->moduleType();
-
-    //ModuleSettings *m = m_settings->getModuleSettings(m_moduleID);
-
-
-    if(m_module->m_commentaryModule.isNull()) {
-        m_commentaryModule = m_module->newCommentaryModule(moduleType());
-
-    } else {
-        m_commentaryModule = m_module->m_commentaryModule;
-    }
-
-    if(m_commentaryModule == NULL) {
-        myWarning() << "invalid module";
-        return 1;
-    }
-    m_commentaryModule->setSettings(m_settings);
-
-    int loaded = m_commentaryModule->loadModuleData(m_moduleID, m_module->path());
-    m_versification = m_commentaryModule->versification();
-    if(loaded != 0) {
-        myWarning() << "loading failed";
-        return 1;
-    }
-    m_loadedModuleID = m_moduleID;
-    m_loaded = true;
-    return 0;
 }

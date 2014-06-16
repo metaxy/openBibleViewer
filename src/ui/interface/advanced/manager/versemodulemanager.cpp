@@ -175,6 +175,7 @@ void VerseModuleManager::parseUrlIn(VerseUrl url, const Actions::OpenLinkType t)
     QMdiSubWindow *window = nullptr;
     url.removeModuleID();
     url.setOpenToTransformation(true);
+
     if(t == Actions::BibleType) {
         window = m_windowManager->needWindow(Form::BibleForm);
     } else if(t == Actions::CommentaryType){
@@ -190,6 +191,7 @@ void VerseModuleManager::nextChapter()
 {
     auto *f = m_windowManager->activeForm();
     Q_ASSERT(f != nullptr);
+
     if(f->type() == Form::BibleForm) {
         ((BibleForm*)f)->nextChapter();
     }
@@ -199,6 +201,7 @@ void VerseModuleManager::previousChapter()
 {
     auto *f = m_windowManager->activeForm();
     Q_ASSERT(f != nullptr);
+
     if(f->type() == Form::BibleForm) {
         ((BibleForm*)f)->previousChapter();
     }
@@ -209,10 +212,10 @@ void VerseModuleManager::reloadCurrentRange(bool full)
     auto *f = m_windowManager->activeForm();
     if(f == nullptr)
         return;
+
     if(f->type() == Form::BibleForm) {
         ((BibleForm*)f)->reload(full);
     }
-
 }
 
 BookDockWidget *VerseModuleManager::bookDockWidget()
