@@ -112,7 +112,10 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::RTFBookModule;
     } else if(fileName.endsWith(".pdf", Qt::CaseInsensitive)) {
         return ModuleTools::PDFBookModule;
+    } else if(fileName.endsWith(".cmt.mybible", Qt::CaseInsensitive)) {
+        return ModuleTools::MySwordCommentaryModule;
     }
+
     return ModuleTools::NoneType;
 }
 
@@ -171,7 +174,8 @@ QStringList ModuleTools::moduleTypeNames()
      << QT_TRANSLATE_NOOP("Core", "Sword Bible") << QT_TRANSLATE_NOOP("Core", "Web Page") << QT_TRANSLATE_NOOP("Core", "Web Dictionary")
      << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "*.txt Book")
      << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary") << QT_TRANSLATE_NOOP("Core", "*.rtf Book")
-     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File") << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary") << QT_TRANSLATE_NOOP("Core", "PDF");
+     << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File")
+     << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary") << QT_TRANSLATE_NOOP("Core", "PDF") << QT_TRANSLATE_NOOP("Core", "MySword Commentary");
     return l;
 }
 
@@ -217,7 +221,10 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "PDF");
     } else if(type == ModuleTools::ESwordDictionaryModule) {
         return QT_TRANSLATE_NOOP("Core", "e-Sword Dictionary");
+    } else if(type == ModuleTools::MySwordCommentaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "MySword Commentary");
     }
+
     return "";
 }
 ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType type)
@@ -254,6 +261,8 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
 
         case ModuleTools::WebCommentaryModule:
         case ModuleTools::TheWordCommentaryModule:
+        case ModuleTools::MySwordCommentaryModule:
+         case ModuleTools::ESwordCommentaryModule:
             return ModuleTools::CommentaryCategory;
         default:
             return ModuleTools::UnkownCategory;
@@ -292,6 +301,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
         case ModuleTools::WebCommentaryModule:
         case ModuleTools::TheWordCommentaryModule:
         case ModuleTools::ESwordCommentaryModule:
+        case ModuleTools::MySwordCommentaryModule:
             return ModuleTools::CommentaryClass;
 
         default:

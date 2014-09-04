@@ -79,7 +79,6 @@ void ModuleDockWidget::loadModuleData(QModelIndex index, Actions::OpenLinkModifi
   */
 void ModuleDockWidget::loadedModule(const int id)
 {
-    DEBUG_FUNC_NAME
     m_moduleUI->selectModule(id);
 }
 void ModuleDockWidget::filter(const QString &string)

@@ -50,6 +50,7 @@ SET(
     module/commentary/commentarymodule.cpp
     module/commentary/thewordcommentary.cpp
     module/commentary/eswordcommentary.cpp
+    module/commentary/myswordcommentary.cpp
     module/book/eswordtopic.cpp
     module/simplemodule.cpp
 

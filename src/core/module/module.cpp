@@ -26,6 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/commentary/webcommentary.h"
 #include "src/core/module/commentary/thewordcommentary.h"
 #include "src/core/module/commentary/eswordcommentary.h"
+#include "src/core/module/commentary/myswordcommentary.h"
 #include "src/core/module/book/thewordtopic.h"
 #include "src/core/module/book/eswordtopic.h"
 #include "src/core/module/book/rtfbook.h"
@@ -166,6 +167,8 @@ QSharedPointer<CommentaryModule> Module::newCommentaryModule(const ModuleTools::
         ret = QSharedPointer<TheWordCommentary>(new TheWordCommentary());
     } else if(type == ModuleTools::ESwordCommentaryModule) {
         ret = QSharedPointer<ESwordCommentary>(new ESwordCommentary());
+    } else if(type == ModuleTools::MySwordCommentaryModule) {
+        ret = QSharedPointer<MySwordCommentary>(new MySwordCommentary());
     } else {
         myWarning() << "invalid type" << type;
     }
@@ -225,6 +228,9 @@ SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
         return new ZefaniaLex();
     case ModuleTools::PDFBookModule:
         return new ZefaniaLex();
+    case ModuleTools::MySwordCommentaryModule:
+        return new MySwordCommentary();
+
     default:
         myWarning() << "could not create Module " << type;
         return NULL;

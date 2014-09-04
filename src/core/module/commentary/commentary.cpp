@@ -98,7 +98,6 @@ void Commentary::search(SearchQuery query, SearchResult *result)
 
 void Commentary::clearData()
 {
-
 }
 
 bool Commentary::loaded()
