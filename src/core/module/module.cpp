@@ -22,6 +22,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/dictionary/swordlexicon.h"
 #include "src/core/module/dictionary/theworddictionary.h"
 #include "src/core/module/dictionary/esworddictionary.h"
+#include "src/core/module/dictionary/mysworddictionary.h"
 #include "src/core/module/book/txtbook.h"
 #include "src/core/module/commentary/webcommentary.h"
 #include "src/core/module/commentary/thewordcommentary.h"
@@ -137,6 +138,8 @@ QSharedPointer<DictionaryModule> Module::newDictionaryModule(const ModuleTools::
         ret = QSharedPointer<DictionaryModule>(new TheWordDictionary());
     } else if(type == ModuleTools::ESwordDictionaryModule) {
         ret = QSharedPointer<DictionaryModule>(new ESwordDictionary());
+    } else if(type == ModuleTools::MySwordDictionaryModule) {
+        ret = QSharedPointer<DictionaryModule>(new MySwordDictionary());
     } else {
         myWarning() << "invalid type" << type;
     }
@@ -224,6 +227,8 @@ SimpleModule* Module::newSimpleModule(const ModuleTools::ModuleType type)
         return new TheWordDictionary();
     case ModuleTools::ESwordDictionaryModule:
         return new ESwordDictionary();
+    case ModuleTools::MySwordDictionaryModule:
+        return new MySwordDictionary();
     case ModuleTools::ZefaniaLexModule:
         return new ZefaniaLex();
     case ModuleTools::PDFBookModule:

@@ -114,7 +114,10 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
         return ModuleTools::PDFBookModule;
     } else if(fileName.endsWith(".cmt.mybible", Qt::CaseInsensitive)) {
         return ModuleTools::MySwordCommentaryModule;
+    } else if(fileName.endsWith(".dct.mybible", Qt::CaseInsensitive)) {
+        return ModuleTools::MySwordDictionaryModule;
     }
+
 
     return ModuleTools::NoneType;
 }
@@ -175,7 +178,8 @@ QStringList ModuleTools::moduleTypeNames()
      << QT_TRANSLATE_NOOP("Core", "Sword Lexicon") << QT_TRANSLATE_NOOP("Core", "*.txt Book")
      << QT_TRANSLATE_NOOP("Core", "Web Commentary") << QT_TRANSLATE_NOOP("Core", "The Word Commentary") << QT_TRANSLATE_NOOP("Core", "*.rtf Book")
      << QT_TRANSLATE_NOOP("Core", "TheWord Topic File") << QT_TRANSLATE_NOOP("Core", "e-Sword Topic File")
-     << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary") << QT_TRANSLATE_NOOP("Core", "PDF") << QT_TRANSLATE_NOOP("Core", "MySword Commentary");
+     << QT_TRANSLATE_NOOP("Core", "TheWord Dictionary") << QT_TRANSLATE_NOOP("Core", "PDF") << QT_TRANSLATE_NOOP("Core", "MySword Commentary")
+         << QT_TRANSLATE_NOOP("Core", "MySword Dictionary");
     return l;
 }
 
@@ -223,7 +227,10 @@ QString ModuleTools::moduleTypeName(ModuleTools::ModuleType type)
         return QT_TRANSLATE_NOOP("Core", "e-Sword Dictionary");
     } else if(type == ModuleTools::MySwordCommentaryModule) {
         return QT_TRANSLATE_NOOP("Core", "MySword Commentary");
+    } else if(type == ModuleTools::MySwordDictionaryModule) {
+        return QT_TRANSLATE_NOOP("Core", "MySword Dictionary");
     }
+
 
     return "";
 }
@@ -242,6 +249,7 @@ ModuleTools::ModuleCategory ModuleTools::getCategory(ModuleTools::ModuleType typ
         case ModuleTools::SwordLexiconModule:
         case ModuleTools::TheWordDictionaryModule:
         case ModuleTools::ESwordDictionaryModule:
+        case ModuleTools::MySwordDictionaryModule:
             return ModuleTools::DictionaryCategory;
 
         case ModuleTools::FolderModule:
@@ -284,6 +292,7 @@ ModuleTools::ModuleClass ModuleTools::typeToClass(ModuleTools::ModuleType type)
         case ModuleTools::SwordLexiconModule:
         case ModuleTools::TheWordDictionaryModule:
         case ModuleTools::ESwordDictionaryModule:
+        case ModuleTools::MySwordDictionaryModule:
             return ModuleTools::DictionaryModuleClass;
 
         case ModuleTools::WebPageModule:

@@ -53,7 +53,8 @@ public:
         ESwordCommentaryModule = 18,
         PDFBookModule = 19,
         ESwordDictionaryModule = 20,
-        MySwordCommentaryModule = 21
+        MySwordCommentaryModule = 21,
+        MySwordDictionaryModule = 22
     };
 
     enum DefaultModule {

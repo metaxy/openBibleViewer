@@ -7,6 +7,6 @@
   + add translation to moduleTypeNames() and moduleTypeName()
   + add class in typeToClass()
   + add category in getCategory()
-  + add creator in newCommentaryModule() in src/core/module.cpp or similiar
-  + add header file in  src/core/module.cpp
-  + add simple creator in newSimpleModule() in  src/core/module.cpp
+  + add creator in newCommentaryModule() in src/core/module/module.cpp or similiar
+  + add header file in  src/core/module/module.cpp
+  + add simple creator in newSimpleModule() in  src/core/module/module.cpp
