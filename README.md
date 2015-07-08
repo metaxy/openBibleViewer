@@ -15,23 +15,23 @@ See file INSTALL for detailed installation instructions.
 
 Features:
 =================
-+ over 180 ZenfaniaXML-Modules available via the Moduledownloader
-+ over 200 BibleQuote-Modules available
 + simple interface
 + Strong Numbers and Robinsons Morphological Analysis Codes available
-+ compare diffenrent translations
++ compare different translations
 + fulltext search
-+ notes
++ make notes to every verse
 + marking verses in different colors
 + make bookmarks
-+ print 
++ print documents
 + export as plain text and as HTML
 + portable version for windows
-
++ 180 ZenfaniaXML-Modules available
++ 200 BibleQuote-Modules available
 
 
 File Formats:
-=================
+================
+openBibleViewer can read files in the following formats:
 + [Zefania XML](http://sourceforge.net/projects/zefania-sharp/files/)
 + [BibleQuote](http://jesuschrist.ru/software/)
 + [Sword](http://www.crosswire.org/sword/index.jsp)
