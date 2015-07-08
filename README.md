@@ -15,40 +15,36 @@ See file INSTALL for detailed installation instructions.
 
 Features:
 =================
-* over 180 ZenfaniaXML-Modules available via the Moduledownloader
-* over 200 BibleQuote-Modules available
-* simple interface
-* Strong Numbers and Robinsons Morphological Analysis Codes available
-* compare diffenrent translations
-* fulltext search
-* notes
-* marking verses in different colors
-* make bookmarks
-* print 
-* export as plain text and as HTML
-* portable version for windows
++ over 180 ZenfaniaXML-Modules available via the Moduledownloader
++ over 200 BibleQuote-Modules available
++ simple interface
++ Strong Numbers and Robinsons Morphological Analysis Codes available
++ compare diffenrent translations
++ fulltext search
++ notes
++ marking verses in different colors
++ make bookmarks
++ print 
++ export as plain text and as HTML
++ portable version for windows
 
-Screenshoots:
-===============
 
 
 File Formats:
 =================
-* [Zefania XML](http://sourceforge.net/projects/zefania-sharp/files/)
-* [BibleQuote](http://jesuschrist.ru/software/)
-* [Sword](http://www.crosswire.org/sword/index.jsp)
-* [TheWord](http://www.theword.net/)
-* PDF
-* RTF
-* Plaintext
-* [ESword](http://www.e-sword.net/)
-* [MySword](http://www.mysword.info/)
++ [Zefania XML](http://sourceforge.net/projects/zefania-sharp/files/)
++ [BibleQuote](http://jesuschrist.ru/software/)
++ [Sword](http://www.crosswire.org/sword/index.jsp)
++ [TheWord](http://www.theword.net/)
++ PDF
++ RTF
++ Plaintext
++ [ESword](http://www.e-sword.net/)
++ [MySword](http://www.mysword.info/)
 
 
-
-Documentation:
-================
-
+Screenshoots:
+===============
 ![Simple Interace](https://metaxy.github.io/openBibleViewer/images/german.png)
 
 ![German Greek Interface](https://metaxy.github.io/openBibleViewer/images/greek-german.png)
@@ -56,6 +52,7 @@ Documentation:
 ![Greek Interface](https://metaxy.github.io/openBibleViewer/images/greek.png)
 
 ![Windows Version](https://metaxy.github.io/openBibleViewer/images/windows.png)
+
 
 
 Paul Walger
