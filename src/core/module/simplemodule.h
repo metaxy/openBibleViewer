@@ -23,9 +23,12 @@ public:
     void setSettings(Settings *settings);
     virtual MetaInfo readInfo(const QString &name) = 0;
     virtual bool loaded() const;
+    virtual bool failed() const;
+    virtual void fail(QString title, QString text);
 protected:
     Settings *m_settings;
     bool m_loaded;
+    bool m_failed;
 };
 
 #endif // SIMPLEMODULE_H

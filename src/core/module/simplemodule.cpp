@@ -12,8 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "simplemodule.h"
-
-SimpleModule::SimpleModule() : m_settings(nullptr), m_loaded(false)
+#include <QMessageBox>
+SimpleModule::SimpleModule() : m_settings(nullptr), m_loaded(false), m_failed(false)
 {
 }
 SimpleModule::~SimpleModule()
@@ -28,4 +28,14 @@ void SimpleModule::setSettings(Settings *settings)
 bool SimpleModule::loaded() const
 {
     return m_loaded;
+}
+bool SimpleModule::failed() const
+{
+    return m_failed;
+}
+void SimpleModule::fail(QString title, QString text)
+{
+    QMessageBox::warning(nullptr, title, text, QMessageBox::Ok);
+    m_failed = true;
+
 }

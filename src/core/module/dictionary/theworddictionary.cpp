@@ -23,7 +23,8 @@ TheWordDictionary::TheWordDictionary() : m_compressed(false), m_secure(false), m
 }
 Response* TheWordDictionary::getEntry(const QString &entry)
 {
-    if(!m_loaded) {
+    if(this->failed()) return nullptr;
+    if(!this->loaded()) {
         loadModuleData(m_moduleID);
     }
     if(m_secure || m_doEncrypt) {
@@ -66,10 +67,13 @@ Response* TheWordDictionary::getEntry(const QString &entry)
 
 QStringList TheWordDictionary::getAllKeys()
 {
-    if(!m_loaded) {
+    QStringList ret;
+    if(this->failed()) return ret;
+
+    if(!this->loaded()) {
         loadModuleData(m_moduleID);
     }
-    QStringList ret;
+
     QSqlQuery query("select id,subject FROM topics", m_db);
     while (query.next()) {
         const QString subject = query.value(1).toString();
@@ -93,6 +97,7 @@ int TheWordDictionary::loadModuleData(const int moduleID)
     m_db.setDatabaseName(m_settings->getModuleSettings(moduleID)->modulePath);
     if (!m_db.open()) {
         myWarning() << "could not open database " << m_settings->getModuleSettings(moduleID)->modulePath;
+        this->fail(QObject::tr("Cloud not open file"), QObject::tr("Cloud not open file: %1").arg(m_settings->getModuleSettings(moduleID)->modulePath));
         return 1;
     }
     QSqlQuery query ("select name,value from config", m_db);

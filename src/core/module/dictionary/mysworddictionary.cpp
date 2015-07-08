@@ -25,7 +25,8 @@ MySwordDictionary::MySwordDictionary()
 }
 Response* MySwordDictionary::getEntry(const QString &entry)
 {
-    if(!m_loaded) {
+    if(this->failed()) return nullptr;
+    if(!this->loaded()) {
         loadModuleData(m_moduleID);
     }
     QSqlQuery query("select data FROM dictionary WHERE word = '"+entry+"'", m_db);
@@ -54,10 +55,12 @@ Response* MySwordDictionary::getEntry(const QString &entry)
 
 QStringList MySwordDictionary::getAllKeys()
 {
+    QStringList ret;
+    if(this->failed()) return ret;
     if(!m_loaded) {
         loadModuleData(m_moduleID);
     }
-    QStringList ret;
+
     QSqlQuery query("select word FROM dictionary", m_db);
     while (query.next()) {
         const QString subject = query.value(0).toString();
@@ -80,6 +83,7 @@ int MySwordDictionary::loadModuleData(const int moduleID)
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName(m_settings->getModuleSettings(moduleID)->modulePath);
     if (!m_db.open()) {
+        this->fail(QObject::tr("Cloud not open file"), QObject::tr("Cloud not open file: %1").arg(m_settings->getModuleSettings(moduleID)->modulePath));
         myWarning() << "could not open database " << m_settings->getModuleSettings(moduleID)->modulePath;
         return 1;
     }

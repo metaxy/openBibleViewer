@@ -67,6 +67,9 @@ Response* Dictionary::getEntry(const QString &string) const
 
     }  else {
         Response *res = m_dictionaryModule->getEntry(string);
+        if(res == nullptr) {
+           return new StringResponse(QObject::tr("Could not load module"));
+        }
         if(res->type() == Response::StringReponse) {
             StringResponse *r = (StringResponse*) res;
             r->prepend("<div class='dictEntry'>");
