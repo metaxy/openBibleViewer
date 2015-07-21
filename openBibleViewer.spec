@@ -46,7 +46,6 @@ BuildRequires: libz1
 
 %endif
 
-
 BuildRequires: desktop-file-utils cmake gcc-c++ unzip clucene1-core clucene1-devel
 
 %description
@@ -73,6 +72,9 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Thu Jul 21 2015 Paul Walger
+- update to 0.8.1
+- fix broken downloads
 * Sat Dec 31 2011 Paul Walger
 - update to 0.7.0
 * Fri Oct 23 2011 Paul Walger
