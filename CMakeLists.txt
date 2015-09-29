@@ -441,9 +441,4 @@ endif(WIN32 AND NOT UNIX)
 
 set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
 
-find_program(PACKAGE_MAKER "PackageMaker")
-if(PACKAGE_MAKER)
-    set(CPACK_GENERATOR "PackageMaker")
-endif()
-
 include(CPack)
