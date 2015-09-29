@@ -1,6 +1,7 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
-SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/usr") 
+SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake") 
+SET(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/usr") 
 
 MESSAGE( STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
 MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${CMAKE_INCLUDE_PATH} )
@@ -82,7 +83,8 @@ endif(APPLE)
 #### packages ####
 #find_package( Qt4 REQUIRED )
 find_package( Qt4 COMPONENTS QtWebKit QtGui QtCore QtXml QtNetwork QtScript QtSql REQUIRED )
-find_package( CLucene REQUIRED)
+include(FindPkgConfig)
+pkg_check_modules(CLUCENE REQUIRED libclucene-core)
 
 # optional quazip, we are using by default unzip or 7za.exe on windows
 IF(OBV_USE_QUAZIP)
