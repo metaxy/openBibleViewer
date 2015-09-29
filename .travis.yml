@@ -1,21 +1,28 @@
 language: cpp
-
 compiler:
   - gcc
-
 before_install:
   - mkdir usr
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && xcode-select --install && brew install qt && brew install clucene ; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && xcode-select --install && brew
+  install qt && brew install clucene ; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then wget http://downloads.sourceforge.net/clucene/clucene-core-2.3.3.4.tar.gz && tar -zxvf clucene-core-2.3.3.4.tar.gz && cd clucene-core-2.3.3.4/ && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX='../../usr' -DBUILD_CONTRIBS_LIB=ON .. && make && make install && cd .. && cd .. ; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:$(pwd)/usr" ; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:$(pwd)/usr/lib/pkgconfig/"; fi
 before_script:
   - echo $PKG_CONFIG_PATH
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
-
-script: 
- - make 
- - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
- 
+script:
+  - make
+  - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
 os:
   - osx
   - linux
+deploy:
+  provider: bintray
+  file: "tools/bintray.json"
+  user: "metaxy"
+  dry-run: true
+  on:
+    branch: master
+    condition: $TRAVIS_OS_NAME = osx  
+  key:
+    secure: PmBDMb8GJy1GhZ9QCM1p2Qx9A0W0hBvVJSrGFfyz+btngOwbrpNhj/l233HihLY5SmAM6h7yWCwt+jMhKJezr+kxTQSxhR+piM+ZJOeD7LcKeniHGsANHSvsIDY9rNM8gk4sBcUl6jxWEYxgqpuxF5UVIrVKa6IZGE/YkMJ8KqyLSMzKXRsmLoUmYK+KzhsAT2FIb1OZLcazGZ0tuI1PyoXqQL/nhxskRudMSflFzVWPhae03rg0J91GRVxTKeiMwPxfw+atdVpF7P7RxOXieyhZCqb3gkyO1/v7PU4G9LKEtrncdRyVhF8yE28JmjjpVeq7NgM0pvP1iJtI/jbwm6eFF5HnB+77JZfNn5gW580icvllnjQdeUBQ4T+iM1xWA8Cy/0uCPiAhuFesAkfNWH1YaLMQHISUrikeKIjeOUwd6Ld6+Pp5hWLlKrdF1xRLw+EWj7x3Zj25rZ7Vr/IhFo+cBmqqlNYZWxV09BZo1XpYQdB1XufmxJ/AAxetF7/vGKymE1k8+yLcAUcHLWht/Jc8KVhrGMpPWX1vP0ydHofLAA/lSKgADmmOj5I952gMl3/eeXgioXMSiJpIzQlzFnz+JbzsDqkhVYEfCJCybIU9/nyvR7J10H2dxp6f6e5dhjvOnKrFJ9iSIoJVIY0qdJpIv6Z4HlTRmUQpItfSYEw=

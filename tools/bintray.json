@@ -1,0 +1,20 @@
+{
+  "package": {
+    "name": "osx", 
+    "repo": "openBibleViewer",
+    "subject": "metaxy",
+  },
+
+  "version": {
+    "name": "0.5",
+    "desc": "This is a version",
+    "released": "2015-01-04",
+    "vcs_tag": "0.5",
+    "attributes": [],
+    "gpgSign": false
+  },
+  "files": [
+    {"includePattern": "build_results/(.*)", "uploadPattern": "bin/$1"},
+  ],
+  "publish": true
+} 
