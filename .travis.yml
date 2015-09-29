@@ -19,7 +19,6 @@ deploy:
   provider: bintray
   file: "tools/bintray.json"
   user: "metaxy"
-  dry-run: true
   on:
     branch: master
     condition: $TRAVIS_OS_NAME = osx  
