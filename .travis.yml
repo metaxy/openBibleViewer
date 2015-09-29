@@ -7,8 +7,9 @@ before_install:
   - mkdir usr
   - if [ $TRAVIS_OS_NAME == osx ]; then brew update && xcode-select --install && brew install qt && brew install clucene ; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then wget http://downloads.sourceforge.net/clucene/clucene-core-2.3.3.4.tar.gz && tar -zxvf clucene-core-2.3.3.4.tar.gz && cd clucene-core-2.3.3.4/ && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX='../../usr' -DBUILD_CONTRIBS_LIB=ON .. && make && make install && cd .. && cd .. ; fi
-
+  - if [ $TRAVIS_OS_NAME == linux ]; export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:$(pwd)/usr" ; fi
 before_script:
+  - echo $PKG_CONFIG_PATH
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
 
 script: 
