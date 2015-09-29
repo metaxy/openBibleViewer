@@ -4,8 +4,7 @@ compiler:
   - gcc
 
 before_install:
-  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get update && sudo apt-get install -y libqt4-dev libqtwebkit-dev libclucene-dev cmake zlib1g-dev pkg-config; fi
-  - if [ $TRAVIS_OS_NAME == osc ]; then brew update && xcode-select --install && brew install qt && brew install clucene ; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && xcode-select --install && brew install qt && brew install clucene ; fi
 
 before_script:
   - cmake -DCMAKE_INSTALL_PREFIX='/usr' .
