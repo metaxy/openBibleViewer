@@ -14,18 +14,9 @@ before_script:
 
 script: 
  - make 
- - if [ $TRAVIS_OS_NAME == osx ]; cpack -G PackageMaker ; fi
+ - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G PackageMaker ; fi
  
 os:
   - osx
   - linux
   
- deploy:
-  provider: bintray
-  file: "Path to a descriptor file, containing information for the Bintray upload"
-  user: "Bintray user"
-  key: "Bintray API key"
-  dry-run: true
-  on:
-    branch: master
-    condition: $TRAVIS_OS_NAME = osx
