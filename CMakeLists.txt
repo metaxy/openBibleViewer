@@ -1,7 +1,10 @@
 project( openBibleViewer )
 cmake_minimum_required( VERSION 2.6 )
 
-set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ) 
+
+MESSAGE( STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
+MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${CMAKE_INCLUDE_PATH} )
 
 include(InstallRequiredSystemLibraries)
 
@@ -436,4 +439,10 @@ if(WIN32 AND NOT UNIX)
 endif(WIN32 AND NOT UNIX)
 
 set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
+
+find_program(PACKAGE_MAKER "PackageMaker")
+if(PACKAGE_MAKER)
+    set(CPACK_GENERATOR "PackageMaker")
+endif()
+
 include(CPack)

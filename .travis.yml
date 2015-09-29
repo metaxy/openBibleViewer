@@ -12,8 +12,10 @@ before_install:
 before_script:
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' -DCMAKE_MODULE_PATH='./usr' .
 
-script: make
-
+script: 
+ - make 
+ - if [ $TRAVIS_OS_NAME == osx ]; cpack -G PackageMaker ; fi
+ 
 os:
   - osx
   - linux
