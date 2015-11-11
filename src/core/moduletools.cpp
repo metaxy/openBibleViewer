@@ -89,9 +89,9 @@ ModuleTools::ModuleType ModuleTools::recognizeModuleType(const QString &fileName
             for(int i = 0; i < 100; i++)
                 fileData += in.readLine();
             //myDebug() << "fileData = " << fileData;
-            if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) /*&& !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
+            if(fileData.contains("XMLBIBLE", Qt::CaseInsensitive) && !(fileData.contains("x-quran", Qt::CaseInsensitive) || // i cannot allow this
                     fileData.contains("x-cult", Qt::CaseInsensitive) ||
-                    fileData.contains("x-mormon", Qt::CaseInsensitive))*/) {
+                    fileData.contains("x-mormon", Qt::CaseInsensitive) || fileData.contains("Volxbibel", Qt::CaseInsensitive))) {
                 return ModuleTools::ZefaniaBibleModule;
             } else if(fileData.contains("<dictionary", Qt::CaseInsensitive)) {
                 return ModuleTools::ZefaniaLexModule;
@@ -537,15 +537,18 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
     QFileInfo i(zipFile);
     QProcess unzip;
     #ifdef Q_WS_WIN
-        unzip.start("7za.exe e " + zipFile + " -y -o" + path + i.baseName());
+        unzip.start("7za.exe e \"" + zipFile + "\" -y -o\"" + path + i.baseName()+"\"");
     #elseif Q_WS_X11
-        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+        unzip.start("unzip -o \"" + zipFile + "\" -d\"" + path + i.baseName()+"\"");
     #elseif Q_WS_MAC
-        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+        unzip.start("unzip -o \"" + zipFile + " -d" + path + i.baseName()+"\"");
     #else
-        unzip.start("unzip -o " + zipFile + " -d" + path + i.baseName());
+        unzip.start("unzip -o \"" + zipFile + "\" -d\"" + path + i.baseName()+"\"");
     #endif
     unzip.waitForFinished(-1);
+    myDebug() << "exit code" << unzip.exitCode() << endl;
+    myDebug() << "scan for files in " << path + i.baseName() << endl;
+    myDebug() << "found following files " << ModuleTools::scan(path + i.baseName());
     return ModuleTools::scan(path + i.baseName());
 #endif
 }
