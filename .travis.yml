@@ -9,6 +9,7 @@ before_install:
 before_script:
   - echo $PKG_CONFIG_PATH
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
+  - 
 script:
   - make
   - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
