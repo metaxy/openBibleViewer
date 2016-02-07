@@ -1,18 +1,21 @@
 language: cpp
 compiler:
   - gcc
+env:
+  global:
+    secure: "ICHCfGL89H8/J6Z34o2bw9VozkXFdKvktVyAhETkkIVcdoT+8V2a+4+Sl5hfIxpw1grhgcqFmjTdWb6K40peaA7hbTG+CTkI0Le0NhFqzwH7AiyWat1LY1lu0wdPf9QukjNAlgGgOy3f59Sw48AgtEFxqFt6Uwj8pOCdHjXZUY8fRVomJl6oqdvPP+Lfm4Ug5v8CZVDS1xLMz3ciNfh8c6mOfaLX6LP97GM35/Q37KhHjZKNqncfigL+X5Cmr3Rw/Xtno2XEl7eIaQ9YxVchUUxqJU+mTtdm13KYShohtro1Ue/sXtcLSwYP/7fPmtQBMfmXMVrY0FR3lLRwBTjJwx4Es7m2dOqIDs88Vl4xvsow+zBWWMjMpZniGWzE56PR+a12RjUjEQbnqhygiQKcdY1Qp//R+0kpTNiFpIXy9BzwD9mMwnd/2EI0tbjI+wsU2wwIIGZWZpUWsHPmxrUSe9wkTh263HbeZvRAG3dEE03rluUrf+CB/NVq+FLB9PNUhtYBHHoCPsIwfFOoL7GTqmCdGW34Da+weU3aL5rELYD2jTYO4tXeO4L0MuRJIEdlMF8Djw0VbYGnEq6Hg84JWnuqyVeaNCmtguxNREgTlmhz9bNJiBrYrp5c8LIR/rpgpsW6MYMuT628PAjdHghxGs7Da8YRi3CKUFighyf2bdI="
+    secure: "YHWvVlx5wv2POltS4EfKtbI9PH0NKzv/ud1tNeFn7Zga5bi40jJ1Uqi1n+NfHYmIfhuTNh72VnVkieCcu9q2CSsbVArRAO8GTi82UD+MW+h4Pc4UjdqZVcD4DeY7txQKrrgtbG3qoEm4wT4wm3wAIgbi4uh/unGky7XrSSsVRyK4iR3KEn/WENMp+GcqVgv3d12A3diqq54HDaC9vSAKr3f0htYtuYKWbgQ2O6sBwZUph62S13nYumQAoCd+qEL/E11LH1ID/5xkXYF1ZbRYo/ojIZvgKP6mTq65ErJ2pgI5Sw+wtFYYyGWnLbZGFupqe5F0pRz9Tofbmj2HErkybXrb2CTAnuwM5s8ZGqEhga0Mdm7hx2kgBGOvj+ed34s7730cEd8vGdsZwgs+hZlLrs6g6uMnzKmCnpD9VgWKzuHWFrR6OxYnBUJ3CxTswgoChBqDcI7OvEj0Nj9cZ9F9x+i1QFefqU0uxho26y2A37Y8NszzwpOyT9oo4Zquzq2Dk6vzL9Eo/pK7XCTiYDD77EWYGAo1tU5xfkfZOxpOXbuWL38Cu4YosvfgUtoS5hzyEjxuGbVkAAqeK8OU6BumMVbUDvT0HNxku003aW3rzqhxeu0ERCUU5kAJJQkp/E274TRj63xjWH6HCjVsIHBf9AirqFttV0X/b0Lo21zGxR8="
 before_install:
   - mkdir usr
-  - if [ $TRAVIS_OS_NAME == osx ]; then brew update && xcode-select --install && brew install qt && brew install clucene ; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then wget http://downloads.sourceforge.net/clucene/clucene-core-2.3.3.4.tar.gz && tar -zxvf clucene-core-2.3.3.4.tar.gz && cd clucene-core-2.3.3.4/ && mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX='../../usr' -DBUILD_CONTRIBS_LIB=ON .. && make && make install && cd .. && cd .. ; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:$(pwd)/usr/lib/pkgconfig/" && export LIBRARY_PATH="${LIBRARY_PATH}:$(pwd)/usr/lib/" && export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:$(pwd)/usr/lib/"; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then sh travis/before-install-osx.sh ; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then  sh travis/before-install-linux.sh; fi
 before_script:
-  - echo $PKG_CONFIG_PATH
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
-  - 
 script:
   - make
   - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
+after_success:
+  - sh travis/deploy-obs.sh
 os:
   - osx
   - linux
