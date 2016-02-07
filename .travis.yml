@@ -7,8 +7,8 @@ env:
     secure: "YHWvVlx5wv2POltS4EfKtbI9PH0NKzv/ud1tNeFn7Zga5bi40jJ1Uqi1n+NfHYmIfhuTNh72VnVkieCcu9q2CSsbVArRAO8GTi82UD+MW+h4Pc4UjdqZVcD4DeY7txQKrrgtbG3qoEm4wT4wm3wAIgbi4uh/unGky7XrSSsVRyK4iR3KEn/WENMp+GcqVgv3d12A3diqq54HDaC9vSAKr3f0htYtuYKWbgQ2O6sBwZUph62S13nYumQAoCd+qEL/E11LH1ID/5xkXYF1ZbRYo/ojIZvgKP6mTq65ErJ2pgI5Sw+wtFYYyGWnLbZGFupqe5F0pRz9Tofbmj2HErkybXrb2CTAnuwM5s8ZGqEhga0Mdm7hx2kgBGOvj+ed34s7730cEd8vGdsZwgs+hZlLrs6g6uMnzKmCnpD9VgWKzuHWFrR6OxYnBUJ3CxTswgoChBqDcI7OvEj0Nj9cZ9F9x+i1QFefqU0uxho26y2A37Y8NszzwpOyT9oo4Zquzq2Dk6vzL9Eo/pK7XCTiYDD77EWYGAo1tU5xfkfZOxpOXbuWL38Cu4YosvfgUtoS5hzyEjxuGbVkAAqeK8OU6BumMVbUDvT0HNxku003aW3rzqhxeu0ERCUU5kAJJQkp/E274TRj63xjWH6HCjVsIHBf9AirqFttV0X/b0Lo21zGxR8="
 before_install:
   - mkdir usr
-  - if [ $TRAVIS_OS_NAME == osx ]; then sh travis/before-install-osx.sh ; fi
-  - if [ $TRAVIS_OS_NAME == linux ]; then  sh travis/before-install-linux.sh; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then . travis/before-install-osx.sh ; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; then  . travis/before-install-linux.sh; fi
   - echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$(lsb_release -rs) ./"
       | sudo tee /etc/apt/sources.list.d/suse.list
   - curl -s "http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$(lsb_release -rs)/Release.key"
@@ -25,7 +25,7 @@ script:
   - make
   - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
 after_success:
-  - if [ $TRAVIS_OS_NAME == linux ]; sh travis/deploy-obs.sh; fi
+  - if [ $TRAVIS_OS_NAME == linux ]; sh . travis/deploy-obs.sh; fi
 os:
   - osx
   - linux
