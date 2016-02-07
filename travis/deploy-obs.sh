@@ -1,3 +1,4 @@
+
 cat <<EOF > ~/.oscrc
 [general]
 apiurl = https://api.opensuse.org
