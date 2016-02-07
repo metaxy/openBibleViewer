@@ -16,7 +16,7 @@ script:
   - make
   - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
 after_success:
-  - sh travis/deploy-obs.sh
+  - if [ $TRAVIS_OS_NAME == linux ]; sh travis/deploy-obs.sh; fi
 os:
   - osx
   - linux
