@@ -10,6 +10,7 @@ before_install:
   - if [ $TRAVIS_OS_NAME == osx ]; then sh travis/before-install-osx.sh ; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then  sh travis/before-install-linux.sh; fi
 before_script:
+  - echo $PKG_CONFIG_PATH
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
 script:
   - make
