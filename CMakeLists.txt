@@ -92,7 +92,6 @@ if(APPLE)
 endif(APPLE)
 
 #### packages ####
-#find_package( Qt4 REQUIRED )
 find_package( Qt4 COMPONENTS QtWebKit QtGui QtCore QtXml QtNetwork QtScript QtSql REQUIRED )
 find_package( CLucene1 REQUIRED)
 

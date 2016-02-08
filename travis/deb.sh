@@ -1,8 +1,6 @@
 BUILDPATH=$OBS_BUILDPATH/openbibleviewer
 TAR=openbibleviewer-$OBS_VERSION.tar.gz
-
-echo $OBS_VERSION
-echo $BUILDPATH
+echo "Deploying Debian packages"
 
 cd $BUILDPATH
 rm openbibleviewer-*.tar.gz

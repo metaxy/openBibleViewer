@@ -1,5 +1,6 @@
 BUILDPATH=$OBS_BUILDPATH/openBibleViewer
 TAR=openBibleViewer-$OBS_VERSION.tar.bz2
+echo "Deploying RPM packages"
 
 rm $BUILDPATH/openBibleViewer-*.tar.bz2 -f
 rm $BUILDPATH/openBibleViewer.spec
