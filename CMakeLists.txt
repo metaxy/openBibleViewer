@@ -22,19 +22,6 @@ else()
 
 endif()
 
-if(APPLE)
-  set(CMAKE_INSTALL_PREFIX "/Applications")
-endif()
-
-if(UNIX AND NOT APPLE)
-  string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWERCASE)
-  set(BIN_INSTALL_DIR ".")
-  set(DOC_INSTALL_DIR "share/doc/${PROJECT_NAME_LOWERCASE}/")
-else()
-  set(BIN_INSTALL_DIR ".")
-  set(DOC_INSTALL_DIR ".")
-endif()
-
 #### options ####
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
 option( OBV_SWORD_SUPPORT "Build with sword support" OFF )
@@ -53,44 +40,6 @@ set(OBV_VERSION_NUMBER "0.8.0")
 set(OBV_VERSION_STATUS "stable")
 set(OBV_BUILD_DATE "2013-07-11")
 
-
-#### config paths ####
-IF(MSVC)
-  #nmake definitions for less output
-  #add_definitions( "/nologo /w" )
-  #set path to zlib dll
-  set( WIN_DEV_DIR "C:\\Users\\paul\\")
-  set( WIN_DEV_DIR2 "C:\\\\Users\\\\paul\\\\")
-  
-  set( MCLUCENE_DIR "${WIN_DEV_DIR2}clucene")
-  SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
-  SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
-  SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
-  sddet( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
-  set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
-  set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
-  
-  set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
-  set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
-  # no need to change
-  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
-else()
-    set(CL_LIBS clucene-core)
-endif()
-
-#### definitions ####
-if(UNIX)
-    add_definitions(-std=c++0x)
-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_definitions( -Wall -Wextra -Wformat -g3)
-    endif()
-endif()
-
-if(APPLE)
-    #clang xcode 4.5.2 tested
-    add_definitions(-std=c++11)
-endif(APPLE)
-
 #### packages ####
 find_package( Qt4 COMPONENTS QtWebKit QtGui QtCore QtXml QtNetwork QtScript QtSql REQUIRED )
 find_package( CLucene1 REQUIRED)
@@ -101,9 +50,10 @@ IF(OBV_USE_QUAZIP)
 endif()
 
 if(UNIX)
-    pkg_check_modules(ZLIB REQUIRED zlib)
+  pkg_check_modules(ZLIB REQUIRED zlib)
 endif()
 
+## Sword
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
     if (NOT SWORD_NOT_FOUND)
@@ -113,362 +63,44 @@ if(OBV_SWORD_SUPPORT)
     endif()
 endif(OBV_SWORD_SUPPORT)
 
-#### includes ####
-
-include(${QT_USE_FILE})
-
-add_definitions(${QT_DEFINITIONS})
-
-include_directories(
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${QT_QTCORE_INCLUDE_DIR}
-    ${QT_QTGUI_INCLUDE_DIR}
-    ${QT_QTXML_INCLUDE_DIR}
-    ${QT_QTNETWORK_INCLUDE_DIR}
-    ${QT_QTWEBKIT_INCLUDE_DIR}
-    ${openBibleViewer_BINARY_DIR}/src # for config file
-    ${CLUCENE1_INCLUDE_DIRS}
-    ${MCLUCENE_BIN_SHARED}
-    ${MCLUCENE_SRC_CORE}
-    ${MCLUCENE_SRC_SHARED}
-    ${QuaZip_INCLUDE_DIR}
-	${ZLIB_INCLUDE_DIR}
-    )
-
 if(OBV_SWORD_SUPPORT)
-    include_directories(
-        ${SWORD_INCLUDE_DIR}
-    )
-endif(OBV_SWORD_SUPPORT)
-
-add_subdirectory( src/extern )
-#add_subdirectory( src/test )
-add_subdirectory( src/core )
-
-set( openBibleViewer_SRCS
-    src/main.cpp
-    src/anyoption.cpp
-
-    src/api/moduleapi.cpp
-    src/api/notesapi.cpp
-    src/api/searchapi.cpp
-    src/api/api.cpp
-
-    src/ui/dialog/searchdialog.cpp
-    src/ui/dialog/settingsdialog.cpp
-    src/ui/dialog/aboutdialog.cpp
-    src/ui/dialog/biblepassagedialog.cpp
-    src/ui/dialog/moduleconfigdialog.cpp
-    src/ui/dialog/moduledownloaddialog.cpp
-    src/ui/dialog/searchinfodialog.cpp
-    src/ui/dialog/insertlinkdialog.cpp
-    src/ui/dialog/downloadprogressdialog.cpp
-    src/ui/dialog/updatecheckerdialog.cpp
-    src/ui/dialog/moduleselectdialog.cpp
-
-    src/ui/dock/dockwidget.cpp
-    src/ui/dock/dictionarydockwidget.cpp
-    src/ui/dock/searchresultdockwidget.cpp
-    src/ui/dock/notesdockwidget.cpp
-    src/ui/dock/bookmarksdockwidget.cpp
-    src/ui/dock/moduledockwidget.cpp
-    src/ui/dock/bookdockwidget.cpp
-    src/ui/dock/quickjumpdockwidget.cpp
-    src/ui/dock/advancedsearchresultdockwidget.cpp
-    
-    src/ui/interface/simple/simpleinterface.cpp
-    src/ui/interface/advanced/versetablewidget.cpp
-    src/ui/interface/advanced/versetableitemdelegate.cpp
-    src/ui/interface/advanced/mdiarea.cpp
-    src/ui/interface/advanced/mdisubwindow.cpp
-    src/ui/interface/advanced/form/bibleform.cpp
-    src/ui/interface/advanced/form/form.cpp
-    src/ui/interface/advanced/form/webform.cpp
-    src/ui/interface/advanced/form/dictionaryform.cpp
-    src/ui/interface/advanced/form/bookform.cpp
-    src/ui/interface/advanced/form/webviewform.cpp
-    src/ui/interface/advanced/form/commentaryform.cpp
-    src/ui/interface/advanced/form/treebookform.cpp
-    src/ui/interface/advanced/form/consoleform.cpp
-
-    src/ui/webview.cpp
-    src/ui/historylineedit.cpp
-    src/ui/interface/advanced/manager/windowmanager.cpp
-    src/ui/interface/advanced/manager/bookmarksmanager.cpp
-    src/ui/interface/advanced/manager/versemodulemanager.cpp
-    src/ui/interface/advanced/manager/dictionarymanager.cpp
-    src/ui/interface/advanced/manager/notesmanager.cpp
-    src/ui/interface/advanced/manager/searchmanager.cpp
-    src/ui/interface/advanced/manager/webpagemanager.cpp
-    src/ui/interface/advanced/advancedinterface.cpp
-    src/ui/interface/study/studyinterface.cpp
-    src/ui/interface/interface.cpp
-
-    src/ui/mainwindow.cpp
-    src/ui/noteseditor.cpp
-    src/ui/recursivproxymodel.cpp
-    src/ui/highlighter.cpp
-    src/ui/marklist.cpp
-    src/ui/markcategories.cpp
-    src/ui/modulemodel.cpp
-    src/ui/biblepassageframe.cpp
-	src/ui/qtwin.cpp
-    src/ui/moduleselectui.cpp
-    src/ui/web/networkaccessmanager.cpp
-    src/ui/updateschecker.cpp
-    
-    src/ui/context.cpp
-    src/core/blockrules.cpp
-    
-    )
-    
-if(WIN32)
-    set(openBibleViewer_SRCS ${openBibleViewer_SRCS} icon.rc)
-endif(WIN32)
- 
-
-set ( openBibleViewer_UIS
-    src/ui/dialog/searchdialog.ui
-    src/ui/dialog/settingsdialog.ui
-    src/ui/dialog/searchinfodialog.ui
-    src/ui/dialog/biblepassagedialog.ui
-    src/ui/dialog/aboutdialog.ui
-    src/ui/dialog/moduleconfigdialog.ui
-    src/ui/dialog/moduledownloaddialog.ui
-    src/ui/dialog/inserthtmldialog.ui
-    src/ui/dialog/insertlinkdialog.ui
-    src/ui/dialog/downloadprogressdialog.ui
-    src/ui/dialog/updatecheckerdialog.ui
-    src/ui/dialog/moduleselectdialog.ui
-
-    src/ui/dock/dictionarydockwidget.ui
-    src/ui/dock/searchresultdockwidget.ui
-    src/ui/dock/notesdockwidget.ui
-    src/ui/dock/bookmarksdockwidget.ui
-    src/ui/dock/moduledockwidget.ui
-    src/ui/dock/bookdockwidget.ui
-    src/ui/dock/quickjumpdockwidget.ui
-    src/ui/dock/advancedsearchresultdockwidget.ui
-
-    src/ui/interface/simple/simpleinterface.ui
-    src/ui/interface/advanced/advancedinterface.ui
-    src/ui/interface/study/studyinterface.ui
-
-    src/ui/interface/advanced/form/bibleform.ui
-    src/ui/interface/advanced/form/commentaryform.ui
-    src/ui/interface/advanced/form/bookform.ui
-    src/ui/interface/advanced/form/webform.ui
-    src/ui/interface/advanced/form/dictionaryform.ui
-    src/ui/interface/advanced/form/treebookform.ui
-    src/ui/interface/advanced/form/consoleform.ui
-
-    src/ui/interface/advanced/versetablewidget.ui
-
-    src/ui/mainwindow.ui
-    src/ui/noteseditor.ui
-    src/ui/marklist.ui
-    src/ui/markcategories.ui
-    src/ui/biblepassageframe.ui
-    )
-
-
-set ( openBibleViewer_RSCS
-    src/icons.qrc
-    src/data.qrc
-    )
-
-
-#set ( openBibleViewer_TRS
-    #locales/obv_de.ts
-    #locales/obv_ru.ts
-    #locales/obv_en.ts
-    #locales/obv_cs.ts
-    #)
-#QT4_ADD_TRANSLATION(TRS ${openBibleViewer_TRS})
-
-set ( openBibleViewer_MOCS
-    src/api/moduleapi.h
-    src/api/notesapi.h
-    src/api/searchapi.h
-    src/api/api.h
-    
-    src/ui/dialog/searchdialog.h
-    src/ui/dialog/settingsdialog.h
-    src/ui/dialog/aboutdialog.h
-    src/ui/dialog/searchinfodialog.h
-    src/ui/dialog/biblepassagedialog.h
-    src/ui/dialog/moduleconfigdialog.h
-    src/ui/dialog/moduledownloaddialog.h
-    src/ui/dialog/insertlinkdialog.h
-    src/ui/dialog/downloadprogressdialog.h
-    src/ui/dialog/updatecheckerdialog.h
-    src/ui/dialog/moduleselectdialog.h
-
-    src/ui/marklist.h
-    src/ui/markcategories.h
-    src/ui/mainwindow.h
-    src/ui/highlighter.h
-    src/ui/noteseditor.h
-    src/ui/recursivproxymodel.h
-    src/ui/moduleselectui.h
-    src/ui/historylineedit.h
-
-    src/ui/dock/dictionarydockwidget.h
-    src/ui/dock/searchresultdockwidget.h
-    src/ui/dock/notesdockwidget.h
-    src/ui/dock/bookmarksdockwidget.h
-    src/ui/dock/moduledockwidget.h
-    src/ui/dock/bookdockwidget.h
-    src/ui/dock/quickjumpdockwidget.h
-    src/ui/dock/dockwidget.h
-    src/ui/dock/advancedsearchresultdockwidget.h
-
-    src/ui/interface/interface.h
-    src/ui/interface/simple/simpleinterface.h
-    src/ui/interface/study/studyinterface.h
-
-    src/ui/interface/advanced/form/bibleform.h
-    src/ui/interface/advanced/form/webform.h
-    src/ui/interface/advanced/form/form.h
-    src/ui/interface/advanced/form/dictionaryform.h
-    src/ui/interface/advanced/form/bookform.h
-    src/ui/interface/advanced/form/webviewform.h
-    src/ui/interface/advanced/form/commentaryform.h
-    src/ui/interface/advanced/form/treebookform.h
-    src/ui/interface/advanced/form/consoleform.h
-
-    src/ui/interface/advanced/advancedinterface.h
-    src/ui/webview.h
-    src/ui/interface/advanced/versetablewidget.h
-    src/ui/interface/advanced/versetableitemdelegate.h
-    src/ui/interface/advanced/mdiarea.h
-    src/ui/interface/advanced/mdisubwindow.h
-    src/ui/interface/advanced/manager/windowmanager.h
-    src/ui/interface/advanced/manager/bookmarksmanager.h
-    src/ui/interface/advanced/manager/versemodulemanager.h
-    src/ui/interface/advanced/manager/dictionarymanager.h
-    src/ui/interface/advanced/manager/notesmanager.h
-    src/ui/interface/advanced/manager/searchmanager.h
-    src/ui/biblepassageframe.h
-
-    src/ui/web/networkaccessmanager.h
-    src/ui/updateschecker.h
-    src/ui/context.h
-
-    )
-
-configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
-                ${openBibleViewer_BINARY_DIR}/config.h )
-
-QT4_WRAP_CPP( MOCS ${openBibleViewer_MOCS})
-QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
-QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
-
-if (MSVC)
-    add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
-    set_source_files_properties(src/main.cpp PROPERTIES COMPILE_DEFINITIONS main=main)
-else ()
-    add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
-endif ()
-
-if(OBV_SWORD_SUPPORT)
-    set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${SWORD_LIBRARY})
+  set(SW_LIBS ${CURL_LIBRARIES} ${ICU_LIBRARIES} ${ICU_I18N_LIBRARIES} ${SWORD_LIBRARY})
+  include_directories(
+    ${SWORD_INCLUDE_DIR}
+  )
 else(OBV_SWORD_SUPPORT)
     set(SW_LIBS "")
 endif(OBV_SWORD_SUPPORT)
 
-target_link_libraries( openBibleViewer
-                        OBVCore
-                        RtfReader
-                        ${QT_LIBRARIES}
-                        ${QT_QTCORE_LIBRARY} 
-                        ${QT_QTGUI_LIBRARY} 
-                        ${QT_QTXML_LIBRARY} 
-                        ${QT_QTNETWORK_LIBRARY} 
-                        ${QT_QTWEBKIT_LIBRARY} 
-                        ${QT_QTSCRIPT_LIBRARY}
-                        ${QT_QTSQL_LIBRARY}
-                        ${CL_LIBS}
-                        ${SW_LIBS}
-                        ${ZLIB_LIBRARIES}
-                        ${QuaZip_LIBRARIES}
+include_directories(
+  ${CMAKE_SOURCE_DIR}
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${QT_QTCORE_INCLUDE_DIR}
+  ${QT_QTGUI_INCLUDE_DIR}
+  ${QT_QTXML_INCLUDE_DIR}
+  ${QT_QTNETWORK_INCLUDE_DIR}
+  ${QT_QTWEBKIT_INCLUDE_DIR}
+  ${openBibleViewer_BINARY_DIR}/src # for config file
+  ${CLUCENE1_INCLUDE_DIRS}
+  ${MCLUCENE_BIN_SHARED}
+  ${MCLUCENE_SRC_CORE}
+  ${MCLUCENE_SRC_SHARED}
+  ${QuaZip_INCLUDE_DIR}
+  ${ZLIB_INCLUDE_DIR}
 )
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
 
-install( TARGETS openBibleViewer
-         RUNTIME DESTINATION ${BIN_INSTALL_DIR} )
-message(STATUS "${PROJECT_NAME} will be installed to ${CMAKE_INSTALL_PREFIX}")
+add_subdirectory( src/extern )
+add_subdirectory( src/core )
 
-if(UNIX AND NOT WIN32)
-
-    install( FILES "${openBibleViewer_SOURCE_DIR}/src/icons/124x124/openBibleViewer.png"
-        DESTINATION "share/pixmaps/" )
-
-    install( FILES "${openBibleViewer_SOURCE_DIR}/openBibleViewer.desktop"
-        DESTINATION "share/applications/" )
-else(WIN32 AND NOT UNIX)
-
- install (FILES
-        "${QT_LIBRARY_DIR}/../bin/QtCore${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtXml${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtWebKit${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-        "${QT_LIBRARY_DIR}/../bin/QtSql${QT_VERSION_MAJOR}.dll"
-		"${MCLUCENE_DLL_SHARED}"
-		"${MCLUCENE_DLL_CORE}"
-		"${UNZIP_EXE}"
-        "${ZLIB_DLL}"
-        DESTINATION bin
-    )
-endif(UNIX AND NOT WIN32)
-
-
-
-set(CPACK_GENERATOR "TBZ2")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
-set(CPACK_PACKAGE_VENDOR "Paul Walger")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "8")
-set(CPACK_PACKAGE_VERSION_PATCH "0")
-
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer")
-#nsis
-if(WIN32)
-  # There is a bug in NSI that does not handle full unix paths properly. Make
-  # sure there is at least one set of four (4) backlasshes.
-  set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
-  set(CPACK_PACKAGE_ICON "${WIN_DEV_DIR2}openBibleViewer\\\\src\\\\icons\\\\124x124\\\\openBibleViewer.png")
-  set(CPACK_NSIS_DISPLAY_NAME "openBibleViewer")
-  set(CPACK_NSIS_HELP_LINK "http://metaxy.github.com/openBibleViewer")
-  set(CPACK_NSIS_URL_INFO_ABOUT "http://metaxy.github.com/openBibleViewer")
-  set(CPACK_NSIS_MODIFY_PATH OFF)
-elseif(APPLE)
-  set(CMAKE_INSTALL_PREFIX "/Applications")
-  set(CPACK_GENERATOR "DragNDrop")
-  set(CPACK_DMG_FORMAT "UDBZ")
-  set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-  set(CPACK_SYSTEM_NAME "OSX")
-endif()
-
-include(CPack)
-set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${BIN_INSTALL_DIR}")
-include(InstallRequiredSystemLibraries)
+# sources
+include(sources)
 
 if(APPLE)
-    set(EXECUTABLE "${PROJECT_NAME}.app")
+  include(osx)
 elseif(WIN32)
-    set(EXECUTABLE "${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+  include(windows)
 else()
-    set(EXECUTABLE "${BIN_INSTALL_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
-endif()
-
-set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/build_results/")
-if(APPLE OR WIN32)
-  include(DeployQt4)
-  install_qt4_executable("openBibleViewer")
+  include(linux)
 endif()
