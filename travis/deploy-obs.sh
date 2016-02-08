@@ -24,5 +24,6 @@ then
   osc co "home:${OBS_USER}:unstable"
   OBS_BUILDPATH=~/build/home:${OBS_USER}:unstable
 fi
+
 . deb.sh
 . rpm.sh

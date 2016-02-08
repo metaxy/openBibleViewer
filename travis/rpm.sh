@@ -1,4 +1,4 @@
-BUILDPATH=$OBS_BUILDPATH/openbibleviewer
+BUILDPATH=$OBS_BUILDPATH/openBibleViewer
 TAR=openBibleViewer-$OBS_VERSION.tar.bz2
 
 rm $BUILDPATH/openBibleViewer-*.tar.bz2 -f
