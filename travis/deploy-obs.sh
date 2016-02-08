@@ -1,3 +1,4 @@
+#!/bin/bash
 cat <<EOF > ~/.oscrc
 [general]
 apiurl = https://api.opensuse.org
@@ -13,14 +14,12 @@ OBS_REPPATH=$TRAVIS_BUILD_DIR
 mkdir -p ~/build
 cd ~/build
 
-If [$TRAVIS_BRANCH == "master"]
-then
+if [$TRAVIS_BRANCH == "master"]; then
   osc co "home:${OBS_USER}:stable"
   OBS_BUILDPATH=~/build/home:${OBS_USER}:stable
 fi
 
-If [$TRAVIS_BRANCH == "develop"]
-then
+if [$TRAVIS_BRANCH == "develop"]; then
   osc co "home:${OBS_USER}:unstable"
   OBS_BUILDPATH=~/build/home:${OBS_USER}:unstable
 fi

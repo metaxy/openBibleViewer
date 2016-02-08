@@ -12,7 +12,24 @@ Requirements:
 ================
 See file INSTALL for detailed installation instructions.
 
+Download
+================
+You can download openBibleViewer for OSX [here](https://bintray.com/metaxy/openBibleViewer/osx/view#files/bin)
 
+Stable Version
+--------------------
+ + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
+
+Unstable Version
+----------------
+ + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
+ + [openSUSE 13.2](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_13.2/openBibleViewer.ymp?base=openSUSE%3A13.2&query=openBibleViewer)
+ + [openSUSE 13.1](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_13.1/openBibleViewer.ymp?base=openSUSE%3A13.1&query=openBibleViewer)
+ + [Fedora 22](http://download.opensuse.org/repositories/home:/metaxy:/unstable/Fedora_22/)
+ + [Debian 8](http://download.opensuse.org/repositories/home:/metaxy:/unstable/Debian_8.0/)
+ + [Ubuntu 15.04](http://download.opensuse.org/repositories/home:/metaxy:/unstable/xUbuntu_15.04/)
+ + [Ubuntu 14.10](http://download.opensuse.org/repositories/home:/metaxy:/unstable/xUbuntu_14.10/)
+ 
 Features:
 =================
 + simple interface
@@ -52,7 +69,6 @@ Screenshoots:
 ![Greek Interface](https://metaxy.github.io/openBibleViewer/images/greek.png)
 
 ![Windows Version](https://metaxy.github.io/openBibleViewer/images/windows.png)
-
 
 
 Paul Walger
