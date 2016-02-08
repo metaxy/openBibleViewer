@@ -9,12 +9,12 @@ EOF
 mkdir -p ~/build
 cd ~/build
 
-if [$TRAVIS_BRANCH == "master"]; then
+if [ $TRAVIS_BRANCH == master ]; then
   osc co "home:${OBS_USER}:stable"
   OBS_BUILDPATH=~/build/home:${OBS_USER}:stable
 fi
 
-if [$TRAVIS_BRANCH == "develop"]; then
+if [ $TRAVIS_BRANCH == develop ]; then
   osc co "home:${OBS_USER}:unstable"
   OBS_BUILDPATH=~/build/home:${OBS_USER}:unstable
 fi
