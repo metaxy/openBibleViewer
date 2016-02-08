@@ -19,5 +19,6 @@ if [$TRAVIS_BRANCH == "develop"]; then
   OBS_BUILDPATH=~/build/home:${OBS_USER}:unstable
 fi
 cd $TRAVIS_BUILD_DIR
-. travis/deb.sh
-. travis/rpm.sh
+
+. $TRAVIS_BUILD_DIR/travis/deb.sh
+. $TRAVIS_BUILD_DIR/travis/rpm.sh

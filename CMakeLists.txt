@@ -22,6 +22,18 @@ else()
 
 endif()
 
+if(APPLE)
+  set(CMAKE_INSTALL_PREFIX "/Applications")
+endif()
+
+if(UNIX AND NOT APPLE)
+  string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWERCASE)
+  set(BIN_INSTALL_DIR "bin")
+  set(DOC_INSTALL_DIR "share/doc/${PROJECT_NAME_LOWERCASE}/")
+else()
+  set(BIN_INSTALL_DIR ".")
+  set(DOC_INSTALL_DIR ".")
+endif()
 
 #### options ####
 option( OBV_PORTABLE_VERSION "Build a portable version" OFF )
@@ -385,7 +397,8 @@ target_link_libraries( openBibleViewer
 )
 
 install( TARGETS openBibleViewer
-         RUNTIME DESTINATION bin )
+         RUNTIME DESTINATION ${BIN_INSTALL_DIR} )
+message(STATUS "${PROJECT_NAME} will be installed to ${CMAKE_INSTALL_PREFIX}")
 
 if(UNIX AND NOT WIN32)
 
@@ -413,9 +426,9 @@ else(WIN32 AND NOT UNIX)
     )
 endif(UNIX AND NOT WIN32)
 
-include(InstallRequiredSystemLibraries)
 
 
+set(CPACK_GENERATOR "TBZ2")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "openBibleViewer Project")
 set(CPACK_PACKAGE_VENDOR "Paul Walger")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
@@ -426,7 +439,7 @@ set(CPACK_PACKAGE_VERSION_PATCH "0")
 
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "openBibleViewer")
 #nsis
-if(WIN32 AND NOT UNIX)
+if(WIN32)
   # There is a bug in NSI that does not handle full unix paths properly. Make
   # sure there is at least one set of four (4) backlasshes.
   set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\openBibleViewer.exe")
@@ -435,8 +448,27 @@ if(WIN32 AND NOT UNIX)
   set(CPACK_NSIS_HELP_LINK "http://metaxy.github.com/openBibleViewer")
   set(CPACK_NSIS_URL_INFO_ABOUT "http://metaxy.github.com/openBibleViewer")
   set(CPACK_NSIS_MODIFY_PATH OFF)
-endif(WIN32 AND NOT UNIX)
+elseif(APPLE)
+  set(CMAKE_INSTALL_PREFIX "/Applications")
+  set(CPACK_GENERATOR "DragNDrop")
+  set(CPACK_DMG_FORMAT "UDBZ")
+  set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
+  set(CPACK_SYSTEM_NAME "OSX")
+endif()
 
-set(CPACK_PACKAGE_EXECUTABLES "openBibleViewer" "openBibleViewer")
-set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/build_results/")
 include(CPack)
+set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${BIN_INSTALL_DIR}")
+include(InstallRequiredSystemLibraries)
+
+if(APPLE)
+    set(EXECUTABLE "${PROJECT_NAME}.app")
+elseif(WIN32)
+    set(EXECUTABLE "${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+else()
+    set(EXECUTABLE "${BIN_INSTALL_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+endif()
+set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/build_results/")
+if(APPLE OR WIN32)
+  include(DeployQt4)
+  install_qt4_executable("${EXECUTABLE}" "qsqlite")
+endif()
