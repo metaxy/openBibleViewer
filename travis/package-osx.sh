@@ -1,0 +1,3 @@
+ls $TRAVIS_BUILD_DIR
+ls $TRAVIS_BUILD_DIR/build
+cpack -G OSXX11 

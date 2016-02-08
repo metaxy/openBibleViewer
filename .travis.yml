@@ -17,7 +17,7 @@ before_script:
   - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
 script:
   - make
-  - if [ $TRAVIS_OS_NAME == osx ]; then cpack -G OSXX11; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then . travis/package-osx.sh; fi
 after_success:
   - if [ $TRAVIS_OS_NAME == linux ]; then . travis/deploy-obs.sh; fi
 os:
