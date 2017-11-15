@@ -50,7 +50,7 @@ IF(OBV_USE_QUAZIP)
 endif()
 
 if(UNIX)
-  pkg_check_modules(ZLIB REQUIRED zlib)
+  include(FindZLIB)
 endif()
 
 ## Sword
