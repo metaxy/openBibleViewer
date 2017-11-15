@@ -1,4 +1,3 @@
-add_definitions(-std=c++0x)
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
   add_definitions( -Wall -Wextra -Wformat -g3)
 endif() 
@@ -11,17 +10,17 @@ target_link_libraries(
   openBibleViewer
     OBVCore
     RtfReader
-    ${qt_libraries}
-    ${qt_qtcore_library} 
-    ${qt_qtgui_library} 
-    ${qt_qtxml_library} 
-    ${qt_qtnetwork_library} 
-    ${qt_qtwebkit_library} 
-    ${qt_qtscript_library}
-    ${qt_qtsql_library}
+    ${ZLIB_LIBRARIES}
+    Qt5::Widgets
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Xml
+    Qt5::Network
+    #Qt5::WebView
+    Qt5::Sql
     ${cl_libs}
     ${sw_libs}
-    ${zlib_libraries}
+
     ${quazip_libraries}
 )
 install( 

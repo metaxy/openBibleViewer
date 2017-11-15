@@ -1,4 +1,5 @@
-add_definitions(-std=c++0x)
+set(CMAKE_AUTOMOC ON)
+
 SET(
     OBVCore_SRCS
     swordmanager.cpp
@@ -145,7 +146,7 @@ SET(
 
     raw/blocktools.cpp
 )
-QT4_AUTOMOC( ${OBVCore_SRCS} )
+
 
 set ( OBVCore_MOCS
     actions.h
@@ -161,5 +162,4 @@ set ( OBVCore_MOCS
     verse/versification/versification_zefania.h
     verse/versification/versification_cache.h
     verse/versification.h )
-QT4_WRAP_CPP( CORE_MOCS ${OBVCore_MOCS})
 ADD_LIBRARY( OBVCore STATIC ${OBVCore_SRCS} ${CORE_MOCS}) 

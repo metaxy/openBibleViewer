@@ -7,6 +7,7 @@ include_directories(
 #    list(APPEND CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 #    list(APPEND CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 #endif()
+set(CMAKE_AUTOMOC ON)
 
 set(RtfReader_LIB_SOURCES
 	rtfreader.cpp
@@ -48,7 +49,6 @@ set(RtfReader_LIB_SOURCES
     ESwordRtfOutput.cpp
 )
 
-qt4_automoc(${RtfReader_LIB_SOURCES})
 
 add_library(RtfReader STATIC ${RtfReader_LIB_SOURCES})
 target_link_libraries(RtfReader ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY})

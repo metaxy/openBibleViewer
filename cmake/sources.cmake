@@ -213,7 +213,7 @@ set ( openBibleViewer_MOCS
 configure_file( ${openBibleViewer_SOURCE_DIR}/src/config.h.cmake 
                 ${openBibleViewer_BINARY_DIR}/config.h )
 
-QT4_WRAP_CPP( MOCS ${openBibleViewer_MOCS})
-QT4_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
-QT4_WRAP_UI(UIS ${openBibleViewer_UIS})
+QT5_WRAP_CPP( MOCS ${openBibleViewer_MOCS})
+QT5_ADD_RESOURCES(RSCS ${openBibleViewer_RSCS})
+QT5_WRAP_UI(UIS ${openBibleViewer_UIS})
 

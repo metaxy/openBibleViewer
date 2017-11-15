@@ -1,5 +1,5 @@
 project( openBibleViewer )
-cmake_minimum_required( VERSION 2.6 )
+cmake_minimum_required( VERSION 3.1.0 )
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 
 MESSAGE( STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
@@ -41,7 +41,15 @@ set(OBV_VERSION_STATUS "stable")
 set(OBV_BUILD_DATE "2013-07-11")
 
 #### packages ####
-find_package( Qt4 COMPONENTS QtWebKit QtGui QtCore QtXml QtNetwork QtScript QtSql REQUIRED )
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Xml REQUIRED)
+find_package(Qt5Network REQUIRED)
+find_package(Qt5Sql REQUIRED)
+#find_package(Qt5WebView REQUIRED)
+
+
 find_package( CLucene1 REQUIRED)
 
 # optional quazip, we are using by default unzip or 7za.exe on windows
@@ -72,23 +80,26 @@ else(OBV_SWORD_SUPPORT)
     set(SW_LIBS "")
 endif(OBV_SWORD_SUPPORT)
 
+message("=> ${ZLIB_INCLUDE_DIRS}")
 include_directories(
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
-  ${QT_QTCORE_INCLUDE_DIR}
-  ${QT_QTGUI_INCLUDE_DIR}
-  ${QT_QTXML_INCLUDE_DIR}
-  ${QT_QTNETWORK_INCLUDE_DIR}
-  ${QT_QTWEBKIT_INCLUDE_DIR}
+  ${Qt5Widgets_INCLUDE_DIRS}
+  ${Qt5Core_INCLUDE_DIRS}
+  ${Qt5Gui_INCLUDE_DIRS}
+  ${Qt5Sql_INCLUDE_DIRS}
+  ${Qt5Xml_INCLUDE_DIRS}
+  ${Qt5Network_INCLUDE_DIRS}
+
   ${openBibleViewer_BINARY_DIR}/src # for config file
   ${CLUCENE1_INCLUDE_DIRS}
   ${MCLUCENE_BIN_SHARED}
   ${MCLUCENE_SRC_CORE}
   ${MCLUCENE_SRC_SHARED}
   ${QuaZip_INCLUDE_DIR}
-  ${ZLIB_INCLUDE_DIR}
+  ${ZLIB_INCLUDE_DIRS}
 )
-include(${QT_USE_FILE})
+#include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
 add_subdirectory( src/extern )
