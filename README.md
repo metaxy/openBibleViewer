@@ -3,6 +3,8 @@
 General introduction:
 ====================
 openBibleViewer is a bible study application based on C++11, Qt >= 4.6 and CLucene >= 2.3.3.4.
+[![Build Status](https://travis-ci.org/metaxy/openBibleViewer.svg?branch=master)](https://travis-ci.org/metaxy/openBibleViewer)
+
 
 If you found a bug, please report it on <https://github.com/metaxy/openBibleViewer/issues>.
 
