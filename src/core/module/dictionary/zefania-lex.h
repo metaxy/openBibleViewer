@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define ZefaniaLex_H
 #include <QDir>
 #include <QMessageBox>
-#include <QtXml/QXmlStreamReader>
+#include <QXmlStreamReader>
 
 #include "src/core/link/strongurl.h"
 

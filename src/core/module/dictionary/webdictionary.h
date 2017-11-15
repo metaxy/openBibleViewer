@@ -17,9 +17,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/simplemoduleclass.h"
 #include "src/core/settings/moduledisplaysettings.h"
 #include "src/core/module/searchablemodule.h"
-#include <QtScript/QScriptEngine>
+#include <QScriptEngine>
 #include <QUrl>
-#include <QtXml/QDomDocument>
+#include <QDomDocument>
 #include "src/core/blockrules.h"
 
 class WebDictionary : public DictionaryModule

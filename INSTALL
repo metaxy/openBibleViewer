@@ -14,7 +14,7 @@ Resolve Dependecies on openSUSE 12.2:
 ----------------------
 __sudo zypper in libquazip1 quazip-devel zlib zlib-devel libqt-devel automoc4 cmake libclucene2 clucene-core-devel__
 
-sudo apt install libquazip1 libquazip-dev zlib1g-dev libclucene-dev automoc cmake lzma pkg-config qtbase5-dev
+sudo apt install libquazip1 libquazip-dev zlib1g-dev libclucene-dev automoc cmake lzma pkg-config qtbase5-dev qtscript5-dev
 
 
 Compile openBibleViewer from git:

@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/strongurl.h"
 #include "config.h"
 #include <QTextDocument> //!!!
-#include <QtXml/QXmlStreamReader>
+#include <QXmlStreamReader>
 
 #include "src/core/obvcore.h" //???
 #include "src/core/raw/rmetadata.h"

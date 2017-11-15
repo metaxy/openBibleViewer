@@ -1,3 +1,6 @@
+set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 project( openBibleViewer )
 cmake_minimum_required( VERSION 3.1.0 )
 set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
@@ -47,7 +50,8 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Xml REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
-#find_package(Qt5WebView REQUIRED)
+find_package(Qt5Script REQUIRED)
+find_package(Qt5WebEngine REQUIRED)
 
 
 find_package( CLucene1 REQUIRED)
@@ -90,6 +94,8 @@ include_directories(
   ${Qt5Sql_INCLUDE_DIRS}
   ${Qt5Xml_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
+  ${Qt5Script_INCLUDE_DIRS}
+  ${Qt5WebEngine_INCLUDE_DIRS}
 
   ${openBibleViewer_BINARY_DIR}/src # for config file
   ${CLUCENE1_INCLUDE_DIRS}

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define XBELREADER_H
 
 #include <QIcon>
-#include <QtXml/QXmlStreamReader>
+#include <QXmlStreamReader>
 
 class QTreeWidget;
 class QTreeWidgetItem;

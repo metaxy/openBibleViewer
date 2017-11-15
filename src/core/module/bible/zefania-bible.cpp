@@ -20,7 +20,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "CLucene/clucene-config.h"
 #include "src/core/search/searchtools.h"
 #include <QTextDocument> //!!!
-#include <QtXml/QXmlStreamReader>
+#include <QXmlStreamReader>
 #include <QDir>
 
 #include "src/core/obvcore.h" //???
@@ -29,7 +29,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <src/core/raw/textfragment.h>
 #include "src/core/raw/blocktools.h"
 #include "src/core/raw/parser/rawtotextrangeparser.h"
-#include <QtConcurrentRun>
 
 using namespace lucene::analysis;
 using namespace lucene::index;
@@ -289,7 +288,6 @@ void ZefaniaXmlReader::buildIndex(const QString &indexPath)
 
                     const int bookID = m_xml->attributes().value("bnumber").toString().toInt() - 1;
                     progress.setValue(bookID);
-                    //all chaptersQFuture<void> future = QtConcurrent::run(&image, &QImage::invertPixels, QImage::InvertRgba);
                     while(m_xml->readNextStartElement()) {
                         if(cmp(m_xml->name(), Chapter)) {
                             const int chapterID = m_xml->attributes().value("cnumber").toString().toInt() - 1;
