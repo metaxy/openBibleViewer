@@ -16,6 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QStringList>
 #include <QFlags>
 #include <QMap>
+#include <QObject>
 #include "src/core/verse/versification/bookv11n.h"
 #include "src/core/verse/versificationextendeddata.h"
 class Versification : public QObject
@@ -71,4 +72,6 @@ protected:
 
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(Versification::VersificationFilterFlags)
+#include "moc_versification.cpp"
+
 #endif // VERSIFICATION_H

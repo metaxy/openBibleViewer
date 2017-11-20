@@ -1,4 +1,6 @@
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
+
 
 SET(
     OBVCore_SRCS
@@ -147,7 +149,6 @@ SET(
     raw/blocktools.cpp
 )
 
-
 set ( OBVCore_MOCS
     actions.h
     notes/notes.h
@@ -162,4 +163,6 @@ set ( OBVCore_MOCS
     verse/versification/versification_zefania.h
     verse/versification/versification_cache.h
     verse/versification.h )
+QT5_WRAP_CPP( CORE_MOCS ${OBVCore_MOCS})
+
 ADD_LIBRARY( OBVCore STATIC ${OBVCore_SRCS} ${CORE_MOCS}) 

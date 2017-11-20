@@ -16,7 +16,7 @@ target_link_libraries(
     Qt5::Gui
     Qt5::Xml
     Qt5::Network
-    #Qt5::WebView
+    Qt5::WebEngine
     Qt5::Sql
     ${cl_libs}
     ${sw_libs}
