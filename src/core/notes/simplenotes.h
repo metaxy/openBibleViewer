@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPushButton>
 #include <QLabel>
 
-#include <QtWebKit/QWebFrame>
+#include <QtWebKitWidgets>
 #include "src/core/settings/settings.h"
 #include "src/core/notes/notes.h"
 #include "src/core/verseselection.h"

@@ -12,9 +12,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webview.h"
-#include <QtWebKit/QWebFrame>
+#includQtWebKitWidgets>
 #include "src/core/dbghelper.h"
-#include <QWebElement>
 #include <QNetworkReply>
 #include <QNetworkDiskCache>
 WebView::WebView(QWidget *parent) :

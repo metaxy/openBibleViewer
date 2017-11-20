@@ -54,6 +54,8 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5Script REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
+find_package(Qt5WebKitWidgets REQUIRED)
+find_package(Qt5PrintSupport REQUIRED)
 
 
 find_package( CLucene1 REQUIRED)
@@ -98,6 +100,9 @@ include_directories(
   ${Qt5Network_INCLUDE_DIRS}
   ${Qt5Script_INCLUDE_DIRS}
   ${Qt5WebEngine_INCLUDE_DIRS}
+  ${Qt5WebKitWidgets_INCLUDE_DIRS}
+
+  ${Qt5PrintSupport_INCLUDE_DIRS}
 
   ${openBibleViewer_BINARY_DIR}/src # for config file
   ${CLUCENE1_INCLUDE_DIRS}

@@ -23,7 +23,8 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QKeyEvent>
-#include <QtWebKit/QWebView>
+#include <QtWebKitWidgets>
+
 SimpleInterface::SimpleInterface(QWidget *parent) :
     Interface(parent),
     ui(new Ui::SimpleInterface)

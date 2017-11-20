@@ -23,7 +23,7 @@
 
 #include "highlighter.h"
 
-#include <QtGui>
+#include <QtWidgets>
 
 Highlighter::Highlighter(QTextDocument *document)
     : QSyntaxHighlighter(document)

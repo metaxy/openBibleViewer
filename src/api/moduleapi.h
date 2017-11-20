@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLEAPI_H
 #define BIBLEAPI_H
 #include "src/core/basicclass.h"
-#include <QtWebKit/QWebFrame>
+#include <QtWebKitWidgets>
 /**
   ModuleAPI is a API to access to the bible and modulemanager
   */

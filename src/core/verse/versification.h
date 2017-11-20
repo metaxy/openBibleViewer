@@ -72,6 +72,5 @@ protected:
 
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(Versification::VersificationFilterFlags)
-#include "moc_versification.cpp"
 
 #endif // VERSIFICATION_H

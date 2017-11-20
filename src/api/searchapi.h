@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHAPI_H
 #include <QObject>
 #include "src/core/basicclass.h"
-#include <QtWebKit/QWebFrame>
+#include <QtWebKitWidgets>
 #include "src/core/search/search.h"
 
 class SearchApi : public QObject, public BasicClass
@@ -24,7 +24,6 @@ class SearchApi : public QObject, public BasicClass
 public:
     explicit SearchApi(QObject *parent = 0);
     QString name() const;
-signals:
     
 public slots:
     QVariantList search(const int moduleID, const QString &query);

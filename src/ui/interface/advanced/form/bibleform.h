@@ -28,9 +28,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QToolBar>
 #include <QContextMenuEvent>
 
-#include <QtWebKit/QWebFrame>
-#include <QtWebKit/QWebElementCollection>
-#include <QtWebKit/QWebInspector>
+#include <QtWebKitWidgets>
 
 #include "src/core/dbghelper.h"
 #include "src/core/moduletools.h"

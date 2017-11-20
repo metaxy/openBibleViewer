@@ -16,7 +16,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/module/response/htmlresponse.h"
-#include <QtWebKit/QWebElement>
+#include <QtWebKitWidgets>
 TreeBookForm::TreeBookForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::TreeBookForm),
