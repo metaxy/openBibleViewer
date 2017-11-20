@@ -22,7 +22,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QFileInfo>
 #include <QLibraryInfo>
-#include <QFSFileEngine>
 #include <QDir>
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
@@ -209,7 +208,7 @@ int main(int argc, char *argv[])
                 homeDataPath = QDir(QString(getenv("APPDATA"))).absolutePath() + "/openbible/";
         #endif
     #else
-         homeDataPath = QFSFileEngine::homePath() + "/.openbible/";
+         homeDataPath = QDir::homePath() + "/.openbible/";
     #endif
 
     }

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef XBELWRITER_H
 #define XBELWRITER_H
 
-#include <QtXml/QXmlStreamWriter>
+#include <QXmlStreamWriter>
 
 class QTreeWidget;
 class QTreeWidgetItem;

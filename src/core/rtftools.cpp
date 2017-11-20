@@ -117,8 +117,7 @@ QString RvfReader::readUntilLineEnd(const QByteArray &data)
         if(c == 0x0D/*13*/ && data.at(i+1) == 0x0A/*10*/) break;
         n.append(c);
     }
-    //myDebug() << "ret=" << QString::fromAscii(n).size() << "i="<< i;
-    return QString::fromAscii(n);
+    return QString::fromLatin1(n);
 }
 
 QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
@@ -134,8 +133,7 @@ QString RvfReader::readRecText(const QByteArray &data, int limit_pos)
         prev = c;
     }
     m_pos += i + 1;
-    //myDebug() << "ret" << QString::fromAscii(n);
-    return QString::fromAscii(n);
+    return QString::fromLatin1(n);
 }
 
 QString RvfReader::readText(const QByteArray &data)
@@ -167,8 +165,7 @@ QString RvfReader::readText(const QByteArray &data)
     }
     //myDebug() << "read " << i << "charachters";
     m_pos += i + 1;
-    //myDebug() << "ret" << QString::fromAscii(n);
-    return QString::fromAscii(n);
+    return QString::fromLatin1(n);
 }
 
 QString RvfReader::readRecord(const QByteArray &data)

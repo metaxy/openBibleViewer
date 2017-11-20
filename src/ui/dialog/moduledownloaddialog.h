@@ -18,7 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QStringList>
 #include <QMap>
 #include <QTreeWidgetItem>
-#include <QtNetwork/QHttp>
 #include <QFile>
 #include <QProgressDialog>
 #include "src/core/settings/settings.h"

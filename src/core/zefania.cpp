@@ -117,14 +117,14 @@ TextFragment* ZefaniaXmlReader::rawReadText(quint32 parent)
 {
     //DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
-    t->text = Qt::escape(m_xml->text().toString());
+    t->text = m_xml->text().toString().toHtmlEscaped();
     return t;
 }
 TextFragment* ZefaniaXmlReader::rawReadChildText(quint32 parent)
 {
     //DEBUG_FUNC_NAME;
     TextFragment *t = (TextFragment*) BlockTools::create(m_idGen.next(), parent, RMetaData::TextFragment);
-    t->text = Qt::escape(m_xml->readElementText(QXmlStreamReader::IncludeChildElements));
+    t->text = m_xml->readElementText(QXmlStreamReader::IncludeChildElements).toHtmlEscaped();
     return t;
 }
 BookBlock ZefaniaXmlReader::readBookBlock(const int bookID)
@@ -462,7 +462,7 @@ MediaBlock* ZefaniaXmlReader::rawReadMedia(quint32 parent)
     while(m_xml->readNextStartElement()) {
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             TextFragment *t = (TextFragment*)BlockTools::create(m_idGen.next(), id, RMetaData::TextFragment);
-            t->text = Qt::escape(m_xml->text().toString());
+            t->text = m_xml->text().toString().toHtmlEscaped();
             media->add(t);
         } else {
             m_xml->skipCurrentElement();
@@ -589,7 +589,7 @@ DivBlock* ZefaniaXmlReader::rawReadDiv(quint32 parent)
     while(m_xml->readNextStartElement()) {
         if(m_xml->tokenType() == QXmlStreamReader::Characters) {
             TextFragment *t = (TextFragment*)BlockTools::create(m_idGen.next(), id, RMetaData::TextFragment);
-            t->text = Qt::escape(m_xml->text().toString());
+            t->text = m_xml->text().toString().toHtmlEscaped();
             div->add(t);
         } else if(cmp(m_xml->name(), Style)) {
             div->add(rawReadStyle(parent));

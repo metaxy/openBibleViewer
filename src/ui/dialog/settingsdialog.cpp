@@ -25,7 +25,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/book/thewordtopic.h"
 #include "src/core/module/book/eswordtopic.h"
 #include "src/core/module/dictionary/theworddictionary.h"
-#include <QFSFileEngine>
 #include <QPointer>
 #ifdef BUILD_WITH_SWORD
 #include <stdlib.h>
@@ -195,7 +194,7 @@ void SettingsDialog::addModuleFile(void)
     m_modifedModuleSettings = true;
     QPointer<QFileDialog> dialog = new QFileDialog(this);
     dialog->setFileMode(QFileDialog::ExistingFiles);
-    dialog->setDirectory(m_set.session.getData("addModuleFile_Dir", QFSFileEngine::homePath()).toString());
+    dialog->setDirectory(m_set.session.getData("addModuleFile_Dir", QDir::homePath()).toString());
 
     if(dialog->exec()) {
         const QStringList fileName = dialog->selectedFiles();
@@ -225,7 +224,7 @@ void SettingsDialog::addModuleDir(void)
 
     dialog->setFileMode(QFileDialog::Directory);
     dialog->setOption(QFileDialog::ShowDirsOnly, true);
-    dialog->setDirectory(m_set.session.getData("addModuleDir_Dir", QFSFileEngine::homePath()).toString());
+    dialog->setDirectory(m_set.session.getData("addModuleDir_Dir", QDir::homePath()).toString());
 
     if(dialog->exec()) {
         const QStringList fileName = dialog->selectedFiles();
