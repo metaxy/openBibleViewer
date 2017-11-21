@@ -24,6 +24,7 @@ install:
 
 build:
   verbosity: detailed
+  mode: script
 
 # scripts to run before build
 before_build:
