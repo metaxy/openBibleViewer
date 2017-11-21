@@ -20,7 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 # see http://download.opensuse.org/distribution/leap/42.2/repo/oss/suse/x86_64/
 # see http://download.opensuse.org/distribution/openSUSE-current/repo/oss/suse/x86_64/
 
-BuildRequires: libqt5-qtbase-devel >= 5.6 libqt5-qtscript-devel >= 5.6 clucene-core-devel >= 2.3.3.4
+BuildRequires: libqt5-qtbase-devel >= 5.5 libqt5-qtscript-devel >= 5.5 clucene-core-devel >= 2.3.3.4
 BuildRequires: desktop-file-utils cmake >= 3.3 gcc-c++ unzip 
 
 %description
