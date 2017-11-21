@@ -1,1 +1,1 @@
-brew update && xcode-select --install && brew install qt && brew install clucene
+brew update && brew install qt && brew install clucene
