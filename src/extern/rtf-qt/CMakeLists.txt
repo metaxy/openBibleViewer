@@ -7,7 +7,7 @@ include_directories(
 #    list(APPEND CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
 #    list(APPEND CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 #endif()
-#set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOMOC ON)
 
 set(RtfReader_LIB_SOURCES
 	rtfreader.cpp
