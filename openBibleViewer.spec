@@ -40,7 +40,7 @@ make DESTDIR=%{buildroot} install
 
 %files
 %defattr(-,root,root,-)
-%doc README LICENSE
+%doc README.md LICENSE
 %{_bindir}/%{name}
 
 %{_datadir}/applications/%{name}.desktop
@@ -49,35 +49,4 @@ make DESTDIR=%{buildroot} install
 %changelog
 * Mon Nov 20 2017 Paul Walger
 - update to qt5
-* Thu Jul 21 2015 Paul Walger
-- update to 0.8.1
-- fix broken downloads
-* Sat Dec 31 2011 Paul Walger
-- update to 0.7.0
-* Fri Oct 23 2011 Paul Walger
-- update to 0.6.0
-* Mon Nov 15 2010 Paul Walger
-- update to 0.5.4
-* Mon Nov 8 2010 Paul Walger
-- update to 0.5.3
-* Sat Oct 26 2010 Paul Walger
-- update to 0.5.2
-* Sat Sep 25 2010 Paul Walger
-- update to 0.5
-* Sat Apr 17 2010 Paul Walger
-- update to 0.4.1
-* Sat Apr 10 2010 Paul Walger
-- update to 0.4
-* Sun Mar 14 2010 Paul Walger
-- update to 0.3.1
-* Sun Feb 14 2010 Paul Walger
-- update to 0.3
-* Sun Oct 18 2009 Paul Walger
-- add .desktop file,icon and translations
-* Thu Sep 17 2009 Paul Walger
-- works with Mandriva and Fedora
-* Wed Apr 29 2009 Paul Walger
-- Update to 0.2
-* Sat Mar 14 2009 Paul Walger
-- Inital Spec file
 
