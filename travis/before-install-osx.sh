@@ -1,1 +1,1 @@
-brew update && brew install qt && brew install clucene
+brew update && brew install qt --with-qtwebkit && brew install clucene
