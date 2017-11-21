@@ -53,7 +53,6 @@ find_package(Qt5Xml REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5Script REQUIRED)
-find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebKitWidgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
@@ -99,7 +98,6 @@ include_directories(
   ${Qt5Xml_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
   ${Qt5Script_INCLUDE_DIRS}
-  ${Qt5WebEngine_INCLUDE_DIRS}
   ${Qt5WebKitWidgets_INCLUDE_DIRS}
   ${Qt5PrintSupport_INCLUDE_DIRS}
 
