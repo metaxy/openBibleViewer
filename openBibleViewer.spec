@@ -21,7 +21,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 # see http://download.opensuse.org/distribution/openSUSE-current/repo/oss/suse/x86_64/
 
 BuildRequires: libqt5-qtbase-devel >= 5.5 libqt5-qtscript-devel >= 5.5 clucene-core-devel >= 2.3.3.4 libQt5WebKitWidgets-devel >= 5.5
-BuildRequires: desktop-file-utils cmake >= 3.3 gcc-c++ unzip 
+BuildRequires: desktop-file-utils cmake >= 3.3 gcc-c++ unzip zlib-devel
 
 %description
 This program allows one to work with the bible and study it.
