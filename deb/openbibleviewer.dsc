@@ -14,6 +14,7 @@ Build-Depends:
     libquazip-dev, 
     zlib1g-dev,
     qt5-default,
+    qtbase5-dev,
     qttools5-dev-tools,
     qtscript5-dev,
     libqt5webkit5-dev
