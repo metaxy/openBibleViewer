@@ -1,3 +1,8 @@
-brew update && brew install qt@5.7 --with-qtwebkit && brew install clucene
-echo $(brew --prefix qt5)
-ls $(brew --prefix qt5)
+export COLUMNS=80
+curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
+chmod +x ./macports-ci
+./macports-ci install
+PATH="/opt/local/bin:$PATH"
+brew update && brew install clucene
+
+sudo port install qt5
