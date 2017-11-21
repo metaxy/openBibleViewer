@@ -20,9 +20,8 @@ target_link_libraries(
     Qt5::PrintSupport
     Qt5::WebKitWidgets
     Qt5::Script
-    ${cl_libs}
+    ${CLUCENE1_LIBRARIES}
     ${sw_libs}
-
     ${quazip_libraries}
 )
 install( 
