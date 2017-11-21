@@ -1,7 +1,7 @@
 #
-# spec file for package openBibleViewer (Version 0.7)
+# spec file for package openBibleViewer (Version 0.8)
 #
-# Copyright 2009-2010 Paul Walger <metaxy@walger.name>
+# Copyright 2009-2017 Paul Walger <metaxy@walger.name>
 #
 # This file and all modifications and additions to the openBibleViewer  
 # package are under the same license as the package itself. 
@@ -10,43 +10,14 @@
 Summary: Bible study tool
 Name: %{name}
 License: GPLv3
-URL: http://openbv.uucyc.name
+URL: https://github.com/metaxy/openBibleViewer
 Version: 0.8.1
 Release: 810
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
-
-%if 0%{?fedora_version}
-
-%if 0%{?fedora_version} < 14
-BuildRequires: qt-devel >= 4.6 zlib 
-%endif
-
-%if 0%{?fedora_version} >= 14
-BuildRequires: qt-devel >= 4.6 zlib qt-webkit-devel >= 4.6
-%endif
-
-%endif
-
-%if 0%{?mandriva_version}
-BuildRequires: libqt4-devel >= 4.6 libz
-%endif
-
-%if 0%{?suse_version}
-BuildRequires: libqt4-devel >= 4.6 libQtWebKit-devel >= 4.6
-
-%if 0%{?suse_version} <= 1220
-BuildRequires: libz
-%endif
-
-%if 0%{?suse_version} > 1220
-BuildRequires: libz1
-%endif
-
-%endif
-
-BuildRequires: desktop-file-utils cmake gcc-c++ unzip clucene1-core clucene1-devel
+BuildRequires: libqt5-qtbase-devel >= 5.6  libqt5-qtscript-devel >= 5.6 clucene1-core-devel >= 2.3
+BuildRequires: desktop-file-utils cmake gcc-c++ unzip clucene1-core clucene1-devel 
 
 %description
 This program allows one to work with the bible and study it.
@@ -72,6 +43,8 @@ make DESTDIR=%{buildroot} install
 %{_datadir}/pixmaps/%{name}.png
 
 %changelog
+* Mon Nov 20 2017 Paul Walger
+- update to qt5
 * Thu Jul 21 2015 Paul Walger
 - update to 0.8.1
 - fix broken downloads
