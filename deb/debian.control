@@ -20,7 +20,6 @@ Build-Depends:
     libqt5webkit5-dev
 
 Package: openbibleviewer
-Section: kde
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5, zlib
+Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libsqlite3-0, zlib1g, libqt5script5
 Description: A bible study tool. 

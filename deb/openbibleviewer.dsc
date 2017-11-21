@@ -2,6 +2,7 @@ Format: 1.0
 Source: openbibleviewer
 Version: 0.9.0-1
 Binary: openBibleViewer
+Architecture: any
 Maintainer: Paul Walger <metaxy@walger.name>
 Build-Depends: 
     cdbs (>= 0.4.51), 
