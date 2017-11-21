@@ -11,13 +11,15 @@ target_link_libraries(
     OBVCore
     RtfReader
     ${ZLIB_LIBRARIES}
-    Qt5::Widgets
     Qt5::Core
     Qt5::Gui
     Qt5::Xml
     Qt5::Network
     Qt5::WebEngine
     Qt5::Sql
+    Qt5::PrintSupport
+    Qt5::WebKitWidgets
+    Qt5::Script
     ${cl_libs}
     ${sw_libs}
 
