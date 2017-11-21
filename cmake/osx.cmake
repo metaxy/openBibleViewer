@@ -10,16 +10,18 @@ target_link_libraries(
   openBibleViewer
     OBVCore
     RtfReader
-    ${QT_LIBRARIES}
-    ${QT_QTCORE_LIBRARY} 
-    ${QT_QTGUI_LIBRARY} 
-    ${QT_QTXML_LIBRARY} 
-    ${QT_QTNETWORK_LIBRARY} 
-    ${QT_QTWEBKIT_LIBRARY} 
-    ${QT_QTSCRIPT_LIBRARY}
-    ${QT_QTSQL_LIBRARY}
-    ${CL_LIBS}
     ${ZLIB_LIBRARIES}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Xml
+    Qt5::Network
+    Qt5::Sql
+    Qt5::PrintSupport
+    Qt5::WebKitWidgets
+    Qt5::Script
+    clucene-core
+    ${sw_libs}
+    ${quazip_libraries}
 )
 
 install( 
@@ -38,7 +40,7 @@ set(CPACK_PACKAGE_VENDOR "Paul Walger")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "8")
+set(CPACK_PACKAGE_VERSION_MINOR "9")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
 
 include(CPack)
@@ -49,5 +51,5 @@ include(InstallRequiredSystemLibraries)
 set(EXECUTABLE "${PROJECT_NAME}.app")
 set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/build_results/")
 
-include(DeployQt4)
-install_qt4_executable("openBibleViewer")
+include(DeployQt5)
+install_qt5_executable("openBibleViewer")
