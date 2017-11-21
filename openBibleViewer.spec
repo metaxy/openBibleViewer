@@ -1,5 +1,5 @@
 #
-# spec file for package openBibleViewer (Version 0.8)
+# spec file for package openBibleViewer (Version 0.9)
 #
 # Copyright 2009-2017 Paul Walger <metaxy@walger.name>
 #
@@ -11,13 +11,17 @@ Summary: Bible study tool
 Name: %{name}
 License: GPLv3
 URL: https://github.com/metaxy/openBibleViewer
-Version: 0.8.1
-Release: 810
+Version: 0.9.0
+Release: 900
 Group: Amusements/Teaching/Other
 Source: %{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
-BuildRequires: libqt5-qtbase-devel >= 5.6  libqt5-qtscript-devel >= 5.6 clucene1-core-devel >= 2.3
-BuildRequires: desktop-file-utils cmake gcc-c++ unzip clucene1-core clucene1-devel 
+# see http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse/x86_64/
+# see http://download.opensuse.org/distribution/leap/42.2/repo/oss/suse/x86_64/
+# see http://download.opensuse.org/distribution/openSUSE-current/repo/oss/suse/x86_64/
+
+BuildRequires: libqt5-qtbase-devel >= 5.6 libqt5-qtscript-devel >= 5.6 clucene-core-devel >= 2.3.3.4
+BuildRequires: desktop-file-utils cmake >= 3.3 gcc-c++ unzip 
 
 %description
 This program allows one to work with the bible and study it.
