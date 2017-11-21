@@ -1,1 +1,1 @@
-brew update && brew install ninech/qt/qt && brew install clucene
+brew update && brew install qt@5.7 --with-qtwebkit && brew install clucene

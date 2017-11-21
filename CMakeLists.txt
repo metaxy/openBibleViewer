@@ -101,7 +101,6 @@ include_directories(
   ${Qt5Script_INCLUDE_DIRS}
   ${Qt5WebEngine_INCLUDE_DIRS}
   ${Qt5WebKitWidgets_INCLUDE_DIRS}
-
   ${Qt5PrintSupport_INCLUDE_DIRS}
 
   ${openBibleViewer_BINARY_DIR}/src # for config file
