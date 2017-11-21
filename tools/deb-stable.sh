@@ -4,7 +4,7 @@ REPPATH=/home/paul/coding/openBibleViewer
 BUILDPATH=/home/paul/build/home:metaxy:stable/openbibleviewer
 TAR=openbibleviewer-$VERSION.tar.gz
 cd $BUILDPATH
-rm openbibleviewer-*.tar.gz
+rm -f openbibleviewer-*.tar.gz 2> /dev/null 
 cd $REPPATH
 git archive --prefix=openBibleViewer-$VERSION/ HEAD | gzip >$TAR
 cp -u $TAR $BUILDPATH
