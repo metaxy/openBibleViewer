@@ -14,7 +14,9 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then  . travis/before-install-linux.sh; fi
 before_script:
   - echo $PKG_CONFIG_PATH
-  - cmake -DCMAKE_INSTALL_PREFIX='./usr' .
+  - if [ $TRAVIS_OS_NAME == linux ]; then . cmake -DCMAKE_INSTALL_PREFIX='./usr' . ; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then  cmake -DCMAKE_INSTALL_PREFIX='./usr' -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) . ; fi
+  - 
 script:
   - make
   - if [ $TRAVIS_OS_NAME == osx ]; then . travis/package-osx.sh; fi
