@@ -1,5 +1,5 @@
 export COLUMNS=80
-xcode-select --install || true
+sudo xcode-select --install || true
 curl -LO https://raw.githubusercontent.com/GiovanniBussi/macports-ci/master/macports-ci
 chmod +x ./macports-ci
 ./macports-ci install
