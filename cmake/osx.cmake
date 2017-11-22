@@ -5,7 +5,7 @@ set(CL_LIBS clucene-core)
 #clang xcode 4.5.2 tested
 
 add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
-
+message("ZLib: ${ZLIB_LIBRARIES}"
 target_link_libraries( 
   openBibleViewer
     OBVCore
@@ -19,7 +19,7 @@ target_link_libraries(
     Qt5::PrintSupport
     Qt5::WebKitWidgets
     Qt5::Script
-    clucene-core
+    ${CL_LIBS}
     ${sw_libs}
     ${quazip_libraries}
 )

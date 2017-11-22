@@ -72,7 +72,12 @@ endif()
 if(UNIX)
   include(FindZLIB)
 endif()
-
+if(APPLE)
+  include(FindZLIB)
+endif()
+if(UNIX)
+  include(FindZLIB)
+endif()
 ## Sword
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
@@ -92,7 +97,6 @@ else(OBV_SWORD_SUPPORT)
     set(SW_LIBS "")
 endif(OBV_SWORD_SUPPORT)
 
-message("=> ${ZLIB_INCLUDE_DIRS}")
 include_directories(
   ${CMAKE_SOURCE_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
