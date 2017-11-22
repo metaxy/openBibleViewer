@@ -5,7 +5,9 @@ set(CL_LIBS clucene-core)
 #clang xcode 4.5.2 tested
 
 add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
-message("ZLib: ${ZLIB_LIBRARIES}"
+
+message("ZLib: ${ZLIB_LIBRARIES}")
+
 target_link_libraries( 
   openBibleViewer)
     OBVCore
