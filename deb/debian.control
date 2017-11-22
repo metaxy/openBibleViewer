@@ -7,7 +7,7 @@ Build-Depends:
     cdbs (>= 0.4.51), 
     debhelper (>= 9), 
     libclucene-dev (>= 2.3.3.4), 
-    cmake (>= 3.1.0), 
+    cmake (>= 2.8.12), 
     lzma,
     pkg-config,
     libquazip-dev, 
