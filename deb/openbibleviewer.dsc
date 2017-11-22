@@ -11,7 +11,7 @@ Build-Depends:
     cmake (>= 2.8.12), 
     lzma,
     pkg-config,
-    libquazip-dev, 
+    libquazip-dev | libquazip0-dev, 
     zlib1g-dev,
     qt5-default (>= 5.2.0),
     qtbase5-dev,

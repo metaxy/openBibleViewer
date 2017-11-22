@@ -72,12 +72,11 @@ endif()
 if(UNIX)
   include(FindZLIB)
 endif()
+
 if(APPLE)
   include(FindZLIB)
 endif()
-if(UNIX)
-  include(FindZLIB)
-endif()
+
 ## Sword
 if(OBV_SWORD_SUPPORT)
     include (FindSword)
