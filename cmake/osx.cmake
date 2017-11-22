@@ -9,7 +9,7 @@ add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${
 message("ZLib: ${ZLIB_LIBRARIES}")
 
 target_link_libraries( 
-  openBibleViewer)
+  openBibleViewer
     OBVCore
     RtfReader
     ${ZLIB_LIBRARIES}
