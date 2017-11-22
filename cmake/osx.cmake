@@ -51,5 +51,5 @@ include(InstallRequiredSystemLibraries)
 set(EXECUTABLE "${PROJECT_NAME}.app")
 set(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/build_results/")
 
-include(DeployQt5)
-install_qt5_executable("openBibleViewer")
+#include(DeployQt5)
+#install_qt5_executable("openBibleViewer")
