@@ -41,9 +41,9 @@ else()
 endif()
 
 #### constants ####
-set(OBV_VERSION_NUMBER "0.8.0")
+set(OBV_VERSION_NUMBER "0.9.0")
 set(OBV_VERSION_STATUS "stable")
-set(OBV_BUILD_DATE "2013-07-11")
+set(OBV_BUILD_DATE "2017-11-21")
 
 #### packages ####
 find_package(Qt5Core REQUIRED)

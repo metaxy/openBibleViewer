@@ -21,7 +21,7 @@ before_script:
   - if [ $TRAVIS_OS_NAME == osx ]; then  cmake -DCMAKE_INSTALL_PREFIX='./usr' -DCMAKE_PREFIX_PATH="/opt/local/lib/cmake/Qt5/" . ; fi
   - 
 script:
-  - make
+  - make VERBOSE=1
   - if [ $TRAVIS_OS_NAME == osx ]; then . travis/package-osx.sh; fi
 after_success:
   - if [ $TRAVIS_OS_NAME == linux ]; then . travis/deploy-obs.sh; fi
