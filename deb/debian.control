@@ -6,14 +6,13 @@ Homepage: http://metaxy.github.io/openBibleViewer/
 Build-Depends: 
     cdbs (>= 0.4.51), 
     debhelper (>= 9), 
-    libclucene-dev, 
-    cmake, 
+    libclucene-dev (>= 2.3.3.4), 
+    cmake (>= 3.1.0), 
     lzma,
     pkg-config,
-    clang,
     libquazip-dev, 
     zlib1g-dev,
-    qt5-default,
+    qt5-default (>= 5.2.0),
     qtbase5-dev,
     qttools5-dev-tools,
     qtscript5-dev,
@@ -21,5 +20,5 @@ Build-Depends:
 
 Package: openbibleviewer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libsqlite3-0, zlib1g, libqt5script5
+Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libsqlite3-0, zlib1g, libqt5script5, libquazip
 Description: A bible study tool. 
