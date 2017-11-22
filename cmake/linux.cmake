@@ -10,7 +10,7 @@ target_link_libraries(
   openBibleViewer
     OBVCore
     RtfReader
-    ${ZLIB_LIBRARIES}
+    ${ZLIB_LIBRARY}
     Qt5::Core
     Qt5::Gui
     Qt5::Xml

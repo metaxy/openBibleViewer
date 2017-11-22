@@ -6,13 +6,13 @@ set(CL_LIBS clucene-core)
 
 add_executable(openBibleViewer ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS} ${OBVCore_SRCS})
 
-message("ZLib: ${ZLIB_LIBRARIES}")
+message("ZLib: ${ZLIB_LIBRARY}")
 
 target_link_libraries( 
   openBibleViewer
     OBVCore
     RtfReader
-    ${ZLIB_LIBRARIES}
+    ${ZLIB_LIBRARY}
     Qt5::Core
     Qt5::Gui
     Qt5::Xml
