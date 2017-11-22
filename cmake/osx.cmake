@@ -1,5 +1,6 @@
 set(CMAKE_INSTALL_PREFIX "/Applications") 
 set(CL_LIBS clucene-core)
+# see https://gitlab.kitware.com/cmake/cmake/tree/master/Source/QtDialog
 
 #clang xcode 4.5.2 tested
 add_definitions(-std=c++11)
