@@ -1,8 +1,7 @@
 
-
 General introduction:
 ====================
-openBibleViewer is a bible study application based on C++11, Qt >= 4.6 and CLucene >= 2.3.3.4.
+openBibleViewer is a bible study application based on C++11, Qt5 and CLucene >= 2.3.3.4.
 [![Build Status](https://travis-ci.org/metaxy/openBibleViewer.svg?branch=master)](https://travis-ci.org/metaxy/openBibleViewer)
 
 
@@ -12,25 +11,33 @@ Read the file INSTALL how to install and compile this version of openBibleViewer
 
 Requirements:
 ================
-See file INSTALL for detailed installation instructions.
+See file INSTALL for detailed compile instructions.
 
 Download
 ================
+
+## Linux
+### openSUSE
+ + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
+ + [openSUSE Leap 42.3](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.3/openBibleViewer.ymp?base=openSUSE%3ALeap%3A42.3&query=openBibleViewer)
+ + [openSUSE Leap 42.2](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.2/openBibleViewer.ymp?base=openSUSE%3ALeap%3A42.2&query=openBibleViewer)
+ + [openSUSE Leap 42.1](https://download.opensuse.org/repositories/home:/metaxy:/stable/openSUSE_Leap_42.1/)
+
+## Debian
+ + [Debian 8][http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_8.0/]
+ + [Debian 9][http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_9.0]
+
+## Ubuntu, Kubuntu, Xubuntu
+ + [Ubuntu 17.04][http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.04/]
+ + [Ubuntu 16.10][http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.10/]
+ + [Ubuntu 16.04][http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.04]
+ 
+## macOS
 You can download openBibleViewer for OSX [here](https://bintray.com/metaxy/openBibleViewer/osx/view#files/bin)
 
-Stable Version
---------------------
- + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
+## Windows
+Currently they are no working builds for windows. See Issue [#13][https://github.com/metaxy/openBibleViewer/issues/13]
 
-Unstable Version
-----------------
- + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
- + [openSUSE 13.2](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_13.2/openBibleViewer.ymp?base=openSUSE%3A13.2&query=openBibleViewer)
- + [openSUSE 13.1](https://software.opensuse.org/ymp/home:metaxy:unstable/openSUSE_13.1/openBibleViewer.ymp?base=openSUSE%3A13.1&query=openBibleViewer)
- + [Fedora 22](http://download.opensuse.org/repositories/home:/metaxy:/unstable/Fedora_22/)
- + [Debian 8](http://download.opensuse.org/repositories/home:/metaxy:/unstable/Debian_8.0/)
- + [Ubuntu 15.04](http://download.opensuse.org/repositories/home:/metaxy:/unstable/xUbuntu_15.04/)
- + [Ubuntu 14.10](http://download.opensuse.org/repositories/home:/metaxy:/unstable/xUbuntu_14.10/)
  
 Features:
 =================
