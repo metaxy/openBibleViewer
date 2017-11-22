@@ -1,3 +1,4 @@
+version: 0.9.{build}
 # branches to build
 branches:
   # whitelist
@@ -13,8 +14,6 @@ init:
 
 # clone directory
 clone_folder: c:\projects\openBibleViewer
-
-platform: x64
 configuration: Release
 
 # scripts to run before build
@@ -23,7 +22,10 @@ before_build:
   - cd c:\projects\openBibleViewer
   
 build_script:
-  - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
-  - cmake --build . --target check
+- cmd: >-
+    dir C:\Qt\5.9\msvc2017_64\lib\cmake
 
+    cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Core;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Gui;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Xml;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Network;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Sql;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5PrintSupport;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5WebKitWidgets;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Script;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Widgets;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5WebViewWidgets"
+
+    cmake --build . --target check
 
