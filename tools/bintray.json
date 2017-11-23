@@ -13,7 +13,7 @@
     "gpgSign": false
   },
   "files": [
-    {"includePattern": "(.*).dmg", "uploadPattern": "bin/$1"}
+    {"includePattern": "build_results/(.*)", "uploadPattern": "bin/$1"}
   ],
   "publish": true
 } 
