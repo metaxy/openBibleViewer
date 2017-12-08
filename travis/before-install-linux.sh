@@ -5,5 +5,5 @@ echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$(ls
 curl -s "http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$(lsb_release -rs)/Release.key" | sudo apt-key add -
 
 sudo apt-get update -qq
-sudo apt-get install -qq --no-install-recommends clang osc libquazip-dev libquazip-dev zlib1g-dev qt5-default qttools5-dev-tools qtscript5-dev libclucene-core1 libqt5webkit5-dev
+sudo apt-get install -qq --no-install-recommends clang osc libquazip-dev libquazip-dev zlib1g-dev qt5-default qttools5-dev-tools qtscript5-dev libclucene-dev libqt5webkit5-dev
 # sudo apt-get install -qq --no-install-recommends  libqt5webengine5-dev
