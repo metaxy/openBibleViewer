@@ -16,6 +16,7 @@ Build-Depends:
     qtbase5-dev,
     qttools5-dev-tools,
     qtscript5-dev,
+    qtwebengine5-dev
     libqt5webkit5-dev
 Files:
  00000000000000000000000000000000 0 openbibleviewer-0.9.0.tar.gz 
