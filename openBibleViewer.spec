@@ -24,11 +24,14 @@ BuildRequires: clucene-core-devel >= 2.3.3.4
 BuildRequires: desktop-file-utils cmake >= 3.3 gcc-c++ unzip zlib-devel
 
 %if 0%{?is_opensuse}
-BuildRequires: qt5 qt5-qtwebkit-devel qt5-qtwebengine-devel >= 5.5 qt5-qtscript-devel >= 5.5
+BuildRequires: qt5 qt5-qtwebkit-devel qt5-qtscript-devel >= 5.5
+# BuildRequires: qt5-qtwebengine-devel >= 5.5
+
 %endif
 
 %if 0%{?fedora}
-BuildRequires: libqt5-qtbase-devel >= 5.5 libqt5-qtscript-devel >= 5.5 libQt5WebKitWidgets-devel >= 5.5 libqt5-qtwebengine-devel >= 5.5
+BuildRequires: libqt5-qtbase-devel >= 5.5 libqt5-qtscript-devel >= 5.5 libQt5WebKitWidgets-devel >= 5.5 
+# BuildRequires: libqt5-qtwebengine-devel >= 5.5
 %endif
 
 
