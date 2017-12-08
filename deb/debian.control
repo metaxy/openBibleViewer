@@ -15,8 +15,8 @@ Build-Depends:
     qtbase5-dev,
     qttools5-dev-tools,
     qtscript5-dev,
-    libqt5webkit5-dev,
-    qtwebengine5-dev
+    libqt5webkit5-dev
+
 Package: openbibleviewer
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libqt5webengine5, libqt5script5, libsqlite3-0, zlib1g, libquazip
