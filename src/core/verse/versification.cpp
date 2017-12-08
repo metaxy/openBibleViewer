@@ -22,9 +22,9 @@ Versification::~Versification()
 }
 
 
-QHash<int, QString> Versification::bookNames(VersificationFilterFlags flags) const
+QMap<int, QString> Versification::bookNames(VersificationFilterFlags flags) const
 {
-    QHash<int, QString> ret;
+    QMap<int, QString> ret;
     foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
@@ -32,9 +32,9 @@ QHash<int, QString> Versification::bookNames(VersificationFilterFlags flags) con
     }
     return ret;
 }
-QHash<int, QStringList> Versification::multipleBookShortNames(VersificationFilterFlags flags) const
+QMap<int, QStringList> Versification::multipleBookShortNames(VersificationFilterFlags flags) const
 {
-    QHash<int, QStringList> ret;
+    QMap<int, QStringList> ret;
     foreach(const BookV11N & book, m_books) {
         if(!filter(book.bookID, flags))
             continue;
@@ -42,12 +42,12 @@ QHash<int, QStringList> Versification::multipleBookShortNames(VersificationFilte
     }
     return ret;
 }
-QHash<int, QString> Versification::bookShortNames(VersificationFilterFlags flags) const
+QMap<int, QString> Versification::bookShortNames(VersificationFilterFlags flags) const
 {
-    QHash<int, QStringList> mul = multipleBookShortNames(flags);
-    QHash<int, QString> ret;
+    QMap<int, QStringList> mul = multipleBookShortNames(flags);
+    QMap<int, QString> ret;
 
-    QHashIterator<int, QStringList> i(mul);
+    QMapIterator<int, QStringList> i(mul);
     while(i.hasNext()) {
         i.next();
         if(i.value().isEmpty())
@@ -103,15 +103,15 @@ void Versification::setFlags(VersificationFilterFlags flags)
     m_filter = flags;
 }
 
-QHash<int, QString> Versification::bookNames() const
+QMap<int, QString> Versification::bookNames() const
 {
     return bookNames(m_filter);
 }
-QHash<int, QStringList> Versification::multipleBookShortNames() const
+QMap<int, QStringList> Versification::multipleBookShortNames() const
 {
     return multipleBookShortNames(m_filter);
 }
-QHash<int, QString> Versification::bookShortNames() const
+QMap<int, QString> Versification::bookShortNames() const
 {
     return bookShortNames(m_filter);
 }

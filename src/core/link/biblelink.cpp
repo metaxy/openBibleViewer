@@ -155,16 +155,16 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     }
     Q_ASSERT(!m_v11n.isNull());
 
-    QHash<int, QString> full = m_v11n->bookNames();
-    QHash<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
+    QMap<int, QString> full = m_v11n->bookNames();
+    QMap<int, QStringList> shortNames = m_v11n->multipleBookShortNames();
 
-    QMutableHashIterator<int, QString> it(full);
+    QMutableMapIterator<int, QString> it(full);
     while(it.hasNext()) {
         it.next();
         it.value().toLower();
     }
 
-    QMutableHashIterator<int, QStringList> it2(shortNames);
+    QMutableMapIterator<int, QStringList> it2(shortNames);
     while(it2.hasNext()) {
         it2.next();
         QStringList newList;
@@ -175,7 +175,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     }
     //exactly book full name
     {
-        QHashIterator<int, QString> i(full);
+        QMapIterator<int, QString> i(full);
         while(i.hasNext()) {
             i.next();
             if(i.value() == name) {
@@ -187,7 +187,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     }
     //exactly book short name
     if(bookID == -1) {
-        QHashIterator<int, QStringList> i(shortNames);
+        QMapIterator<int, QStringList> i(shortNames);
         while(i.hasNext() && bookID != -1) {
             i.next();
             foreach(const QString & n, i.value()) {
@@ -201,7 +201,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     }
     //starts with full name
     if(bookID == -1) {
-        QHashIterator<int, QString> i(full);
+        QMapIterator<int, QString> i(full);
         while(i.hasNext()) {
             i.next();
             if(i.value().startsWith(name, Qt::CaseInsensitive)) {
@@ -213,7 +213,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     }
     //starts with short name
     if(bookID == -1) {
-        QHashIterator<int, QStringList> i(shortNames);
+        QMapIterator<int, QStringList> i(shortNames);
         while(i.hasNext() && bookID != -1) {
             i.next();
             foreach(const QString & n, i.value()) {
@@ -228,7 +228,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     //leventstein
     if(bookID == -1) {
         {
-            QHashIterator<int, QString> i(full);
+            QMapIterator<int, QString> i(full);
             while(i.hasNext()) {
                 i.next();
                 const int lev = levenshteinDistance(name, i.value());
@@ -240,7 +240,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
             }
         }
         {
-            QHashIterator<int, QStringList> i(shortNames);
+            QMapIterator<int, QStringList> i(shortNames);
             while(i.hasNext() && bookID != -1) {
                 i.next();
                 foreach(const QString & n, i.value()) {

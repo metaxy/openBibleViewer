@@ -104,7 +104,7 @@ void BookDockWidget::setBooks(QSharedPointer<Versification>  v11n)
     m_bookModel->clear();
     if(v11n == NULL)
         return;
-    QHashIterator<int, QString> i(v11n->bookNames());
+    QMapIterator<int, QString> i(v11n->bookNames());
     int count = 0;
     while(i.hasNext()) {
         i.next();

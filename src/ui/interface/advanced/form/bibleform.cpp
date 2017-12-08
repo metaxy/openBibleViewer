@@ -535,14 +535,15 @@ void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::setBooks(QSharedPointer<Versification> v11n)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     bool same = true;
-    QHash<int, QString> books = v11n->bookNames();
-    QHashIterator<int, QString> i(books);
+    QMap<int, QString> books = v11n->bookNames();
+    QMapIterator<int, QString> i(books);
     int count = 0;
     if(m_ui->comboBox_books->count() == books.count()) {
         while(i.hasNext()) {
             i.next();
+            myDebug() << i.value();
             if(m_ui->comboBox_books->itemText(count) != i.value()) {
                 same = false;
                 break;
@@ -552,6 +553,7 @@ void BibleForm::setBooks(QSharedPointer<Versification> v11n)
     } else {
         same = false;
     }
+
     if(!same) {
         m_ui->comboBox_books->clear();
         m_ui->comboBox_books->insertItems(0, books.values());

@@ -34,17 +34,17 @@ public:
 
     void setFlags(VersificationFilterFlags filter);
 
-    QHash<int, QString> bookNames(VersificationFilterFlags filter) const;
-    QHash<int, QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
-    QHash<int, QString> bookShortNames(VersificationFilterFlags filter) const;
+    QMap<int, QString> bookNames(VersificationFilterFlags filter) const;
+    QMap<int, QStringList> multipleBookShortNames(VersificationFilterFlags filter) const;
+    QMap<int, QString> bookShortNames(VersificationFilterFlags filter) const;
     QList<int> bookIDs(VersificationFilterFlags filter) const;
     QHash<int, int> maxChapter(VersificationFilterFlags filter) const;
     QHash<int, QList<int> > maxVerse(VersificationFilterFlags filter) const;
     int bookCount(VersificationFilterFlags filter) const;
 
-    QHash<int, QString> bookNames() const;
-    QHash<int, QStringList> multipleBookShortNames() const;
-    QHash<int, QString> bookShortNames() const;
+    QMap<int, QString> bookNames() const;
+    QMap<int, QStringList> multipleBookShortNames() const;
+    QMap<int, QString> bookShortNames() const;
     QList<int> bookIDs() const;
 
     QHash<int, int> maxChapter() const;
