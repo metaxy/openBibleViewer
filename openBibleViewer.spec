@@ -6,6 +6,7 @@
 # This file and all modifications and additions to the openBibleViewer  
 # package are under the same license as the package itself. 
 %define name openBibleViewer
+%define debug_package %{nil}
 
 Summary: Bible study tool
 Name: %{name}
