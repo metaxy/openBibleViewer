@@ -31,9 +31,14 @@ Download
  + [Debian 9](http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_9.0])
 
 ## Ubuntu, Kubuntu, Xubuntu
+ + [Ubuntu 17.10](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.10/)
  + [Ubuntu 17.04](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.04/)
  + [Ubuntu 16.10](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.10/)
  + [Ubuntu 16.04](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.04/)
+ 
+# Fedora
+ + [Fedora 27](https://download.opensuse.org/repositories/home:/metaxy:/stable/Fedora_27/)
+ + [Fedora Rawhide](https://download.opensuse.org/repositories/home:/metaxy:/stable/Fedora_Rawhide/)
  
 ## macOS
 You can download openBibleViewer for OSX [here](https://bintray.com/metaxy/openBibleViewer/osx/view#files/bin)
