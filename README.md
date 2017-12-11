@@ -146,7 +146,7 @@ dnf install openBibleViewer
 You can download openBibleViewer for OSX [here](https://bintray.com/metaxy/openBibleViewer/osx/view#files/bin)
 
 ## Windows
-Currently they are no working builds for windows. See Issue [#13][https://github.com/metaxy/openBibleViewer/issues/13]
+Currently they are no working builds for windows. See Issue [#13](https://github.com/metaxy/openBibleViewer/issues/13)
 
 
 ## Compile
