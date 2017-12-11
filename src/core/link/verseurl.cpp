@@ -364,9 +364,9 @@ void VerseUrl::unsetParam(const QString &name)
 bool VerseUrl::contains(int moduleID, int bookID, int chapterID, int verseID) const
 {
     foreach(const VerseUrlRange & range, m_ranges) {
-        if(range.moduleID() == moduleID and
-           range.bookID() == bookID and
-           range.containsChapter(chapterID) and
+        if(range.moduleID() == moduleID &&
+           range.bookID() == bookID &&
+           range.containsChapter(chapterID) &&
            range.containsVerse(verseID))
             return true;
     }
