@@ -415,7 +415,7 @@ TextRange ZefaniaBible::rawTextRange(int bookID, int chapterID, int startVerse, 
     return ret;
 }
 
-std::pair<int, int> ZefaniaBible::minMaxVerse(int bookID, int chapterID)
+std::pair<int, int> ZefaniaBible::minMaxVerse(const int bookID, const int chapterID)
 {
     std::pair<int, int> ret;
     ret.first = 0;

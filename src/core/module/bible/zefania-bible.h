@@ -63,7 +63,7 @@ public:
 
     QString uid() const;
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
-    std::pair<int, int> minMaxVerse(int bookID, int chapterID);
+    std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
     void removeHardCache(const QString &path);
     bool hasHardCache(const QString &path);

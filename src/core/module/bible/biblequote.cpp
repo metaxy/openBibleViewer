@@ -478,7 +478,7 @@ TextRange BibleQuote::rawTextRange(int bookID, int chapterID, int startVerse, in
     return ret;
 }
 
-std::pair<int, int> BibleQuote::minMaxVerse(int bookID, int chapterID)
+std::pair<int, int> BibleQuote::minMaxVerse(const int bookID, const int chapterID)
 {
     std::pair<int, int> ret;
     if(m_book.bookID() != bookID) {

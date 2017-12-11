@@ -38,7 +38,7 @@ public:
     int readBook(const int id);
 
     TextRange rawTextRange(int bookID, int chapterID, int startVerse, int endVerse);
-    std::pair<int, int> minMaxVerse(int bookID, int chapterID);
+    std::pair<int, int> minMaxVerse(const int bookID, const int chapterID);
 
     void search(const SearchQuery &query, SearchResult *res) const;
     bool hasIndex() const;
