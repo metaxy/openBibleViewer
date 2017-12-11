@@ -62,21 +62,19 @@ find_package(Qt5WebKitWidgets REQUIRED)
 #find_package(Qt5WebEngineWidgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
-
+if(NOT MSVC)
 find_package( CLucene1 REQUIRED)
+endif()
 
 # optional quazip, we are using by default unzip or 7za.exe on windows
 IF(OBV_USE_QUAZIP)
   find_package( QuaZip REQUIRED)
 endif()
 
-if(UNIX)
+if(NOT MSVC)
   include(FindZLIB)
 endif()
 
-if(APPLE)
-  include(FindZLIB)
-endif()
 
 ## Sword
 if(OBV_SWORD_SUPPORT)
