@@ -3,19 +3,16 @@ IF(MSVC)
   #nmake definitions for less output
   #add_definitions( "/nologo /w" )
   #set path to zlib dll
-  set( WIN_DEV_DIR "C:\\Users\\paul\\")
-  set( WIN_DEV_DIR2 "C:\\\\Users\\\\paul\\\\")
   
-  set( MCLUCENE_DIR "${WIN_DEV_DIR2}clucene")
   SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
   SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
   SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
-  sddet( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
+  SET( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
   set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
   
-  set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
-  set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
+  #set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
+  #set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 endif() 
@@ -27,16 +24,16 @@ target_link_libraries(
   openBibleViewer
     OBVCore
     RtfReader
-    ${QT_LIBRARIES}
-    ${QT_QTCORE_LIBRARY} 
-    ${QT_QTGUI_LIBRARY} 
-    ${QT_QTXML_LIBRARY} 
-    ${QT_QTNETWORK_LIBRARY} 
-    ${QT_QTWEBKIT_LIBRARY} 
-    ${QT_QTSCRIPT_LIBRARY}
-    ${QT_QTSQL_LIBRARY}
+    ${ZLIB_LIBRARY}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Xml
+    Qt5::Network
+    Qt5::Sql
+    Qt5::PrintSupport
+    Qt5::WebKitWidgets
+    Qt5::Script
     ${CL_LIBS}
-    ${ZLIB_LIBRARIES}
 )
 
 install (
@@ -74,12 +71,12 @@ set(CPACK_PACKAGE_VENDOR "Paul Walger")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "8")
+set(CPACK_PACKAGE_VERSION_MINOR "9")
 set(CPACK_PACKAGE_VERSION_PATCH "0")
 
 set(EXECUTABLE "${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
 
 include(CPack)
 include(InstallRequiredSystemLibraries)
-include(DeployQt4)
-install_qt4_executable("openBibleViewer")
+include(DeployQt5)
+install_qt5_executable("openBibleViewer")
