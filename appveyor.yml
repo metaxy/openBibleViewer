@@ -33,10 +33,11 @@ install:
   - cd "%clucene_dir%"
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%cmake_generator%" ..
+  - cmake -DCMAKE_BUILD_TYPE="Release" -G "%cmake_generator%" ..
   - cmake --build .
   - dir .
   - dir bin
+  - dir bin\Debug
   # install zlib
   - cmd: mkdir c:\zlib
   - appveyor DownloadFile "https://github.com/madler/zlib/archive/v1.2.9.zip" -FileName zlib.zip
@@ -45,7 +46,7 @@ install:
   - cmd: mkdir "%zlib%"
   - cmd: mkdir C:\zlib-build
   - cmd: cd C:\zlib-build
-  - cmake -G"%cmake_generator%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%  -DCMAKE_INSTALL_PREFIX:PATH="%zlib%" C:\zlib\zlib-1.2.9
+  - cmake -G"%cmake_generator%" -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX:PATH="%zlib%" C:\zlib\zlib-1.2.9
   - msbuild zlib.sln /m
   - cmd: msbuild INSTALL.vcxproj
 
@@ -56,6 +57,6 @@ before_build:
   
 build_script:
 - cmd: >-
-    cmake -G "%cmake_generator%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets" -DMCLUCENE_DIR="%clucene_dir%" -DMQT_BIN_DIR="%qt_ver%\bin"  -DZLIB_DLL="%zlib%\bin\zlib.dll" -DZLIB_INCLUDE_DIR="%zlib%\include" -DZLIB_LIBRARY="%zlib%\lib\zlib.lib"
+    cmake -G "%cmake_generator%" -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets" -DMCLUCENE_DIR="%clucene_dir%" -DMQT_BIN_DIR="%qt_ver%\bin"  -DZLIB_DLL="%zlib%\bin\zlib.dll" -DZLIB_INCLUDE_DIR="%zlib%\include" -DZLIB_LIBRARY="%zlib%\lib\zlib.lib"
 - cmake --build .
 
