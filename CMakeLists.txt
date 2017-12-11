@@ -86,7 +86,7 @@ IF(MSVC)
   SET( MCLUCENE_SRC_SHARED ${CLUCENE_SOURCE}\\src\\shared)
   SET( MCLUCENE_DLL_SHARED "${CLUCENE_INSTALL}\\\\lib\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${CLUCENE_INSTALL}\\\\lib\\\\clucene-core.dll")
-  set( CL_LIBS "${CLUCENE_DIR}\\lib\\clucene-shared.lib" "${CLUCENE_INSTALL}\lib\\clucene-core.lib")
+  set( CL_LIBS "${CLUCENE_DIR}\\lib\\clucene-shared.lib" "${CLUCENE_INSTALL}\\lib\\clucene-core.lib")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 endif() 
