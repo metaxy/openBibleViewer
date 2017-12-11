@@ -48,8 +48,7 @@ install:
   - cmd: msbuild INSTALL.vcxproj
   - dir C:\zlib
   - dir C:\zlib\zlib-1.2.9\
-  - dir c:\zlib-install\bin
-  - dir c:\zlib-install\lib
+  - dir c:\zlib-install\include
 
 # scripts to run before build
 before_build:
