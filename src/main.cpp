@@ -30,8 +30,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <stdio.h>
 #include <shellapi.h>
-#include <QWindowsVistaStyle>
-#include <QCleanlooksStyle>
 #endif
 
 #include "src/ui/mainwindow.h"
