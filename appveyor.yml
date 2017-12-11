@@ -7,9 +7,9 @@ branches:
 environment:
   qt_ver: C:\Qt\5.5\msvc2013_64
   cmake_generator: Visual Studio 12 2013 Win64
-  BOOST_BUILD_PATH: C:\Libraries\boost\boost_1_56_0\tools\build\v2
+  BOOST_BUILD_PATH: C:\Libraries\boost\tools\build\v2
   BOOST_PATH: C:\Libraries\boost
-  BOOST_ROOT: C:\Libraries\boost\boost_1_56_0
+  BOOST_ROOT: C:\Libraries\boost
   clucene_dir: c:\projects\clucene
 
 
@@ -33,7 +33,7 @@ install:
   - cd build
   - cmake -G "%cmake_generator%" ..
   - dir .
-  - nmake
+  - cmake --build .
 # scripts to run before build
 before_build:
   - echo Running cmake...
@@ -45,5 +45,5 @@ build_script:
 
     cmake -G "%cmake_generator%" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets;%qt_ver%\lib\cmake\Qt5WebViewWidgets;%qt_ver%\lib\cmake\Qt5WebKitWidgets" -CMCLUCENE_DIR="%clucene_dir%"
 
-    nmake
+    cmake --build .
 
