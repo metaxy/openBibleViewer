@@ -371,7 +371,7 @@ void ZefaniaBible::search(const SearchQuery &query, SearchResult *res) const
     }
     reader->close();
     delete reader;
-#ifndef Q_WS_WIN //it just crashes on windows
+#ifndef Q_OS_WIN //it just crashes on windows
     delete[] queryText;
 #endif
 }

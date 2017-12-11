@@ -26,7 +26,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
 #include "src/ui/qtwin.h"
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #include <windows.h>
 #include <stdio.h>
 #include <shellapi.h>
@@ -39,7 +39,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "anyoption.h"
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 PCHAR*
     CommandLineToArgvA(
         PCHAR CmdLine,
@@ -127,7 +127,7 @@ PCHAR*
 #endif
 
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 int WINAPI WinMain(HINSTANCE v1, HINSTANCE v2, LPSTR v3, int v4)
 {
     int argc;
@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     bool win7 = false;
 
     //todo: would it be better if we use QSysInfo::windowsVersion() instead?
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
     if(opt->getValue("configPath") != NULL) {
         homeDataPath = QString::fromLocal8Bit(opt->getValue("configPath"));
     } else {
-    #ifdef Q_WS_WIN
+    #ifdef Q_OS_WIN
         //a protable version is needed only for windows
         #ifdef OBV_PORTABLE_VERSION
                 homeDataPath = QApplication::applicationDirPath() + "/";

@@ -49,12 +49,12 @@ void UpdatesChecker::replyFinished(QNetworkReply* reply)
     QDomNode n = doc.documentElement().firstChild();
 
     const QString versionType = QString(OBV_VERSION_STATUS);
-#if defined(Q_WS_X11)
+#if defined(Q_OS_LINUX)
     const QString os = "linux";
-#elif defined(O_WS_WIN)
+#elif defined(Q_OS_WIN)
     const QString os = "windows";
-#elif defined(Q_WS_MAC)
-    const QString os = "macos";
+#elif defined(Q_OS_DARWIN)
+    const QString os = "darwin";
 #else
 	const QString os = "windows";
 #endif

@@ -29,7 +29,7 @@ SettingsLoader::SettingsLoader(QSettings* settingsFile, const QString homeDataPa
     m_settings->homePath = m_homeDataPath;
     m_settings->advancedSearchDock_useCurrentModule = true;
 
-#if !defined(Q_WS_X11)
+#if !defined(Q_OS_LINUX)
     m_settings->checkForUpdates = true;
 #else
     m_settings->checkForUpdates = false;

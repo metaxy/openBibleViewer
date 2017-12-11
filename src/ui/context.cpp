@@ -94,7 +94,7 @@ void Context::showWindow()
     m_window = new MainWindow(this);
     setAll(m_window);
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     if (QtWin::isCompositionEnabled()) {
         myDebug() << "compositing enabled";
         m_window->setAttribute(Qt::WA_TranslucentBackground);
