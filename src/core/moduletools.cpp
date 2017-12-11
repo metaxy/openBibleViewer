@@ -538,9 +538,9 @@ QStringList ModuleTools::unzip(const QString &zipFile, const QString &path)
     QProcess unzip;
     #ifdef Q_OS_WIN
         unzip.start("7za.exe e \"" + zipFile + "\" -y -o\"" + path + i.baseName()+"\"");
-    #elseif Q_OS_LINUX
+    #elif defined Q_OS_LINUX
         unzip.start("unzip -o \"" + zipFile + "\" -d\"" + path + i.baseName()+"\"");
-    #elseif Q_OS_DARWIN
+    #elif defined Q_OS_DARWIN
         unzip.start("unzip -o \"" + zipFile + " -d" + path + i.baseName()+"\"");
     #else
         unzip.start("unzip -o \"" + zipFile + "\" -d\"" + path + i.baseName()+"\"");
