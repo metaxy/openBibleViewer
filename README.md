@@ -3,15 +3,12 @@ General introduction:
 ====================
 openBibleViewer is a bible study application based on C++11, Qt5 and CLucene >= 2.3.3.4.
 
-
 [![Build Status](https://travis-ci.org/metaxy/openBibleViewer.svg?branch=master)](https://travis-ci.org/metaxy/openBibleViewer)
 [![Build status](https://ci.appveyor.com/api/projects/status/3h89o1atjc6ndoh3?svg=true)](https://ci.appveyor.com/project/metaxy/openbibleviewer)
-
 
 If you found a bug, please report it on <https://github.com/metaxy/openBibleViewer/issues>.
 
 Read the file INSTALL how to install and compile this version of openBibleViewer.
-
 
 Screenshoots:
 ===============
@@ -55,8 +52,7 @@ openBibleViewer can read files in the following formats:
 
 
 
-Installtion
-================
+# Installation
 
 ## Linux
 ### openSUSE
@@ -68,7 +64,7 @@ Or direkt:
  + [openSUSE Leap 42.2](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.2/openBibleViewer.ymp)
  + [openSUSE Leap 42.1](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.1/openBibleViewer.ymp)
  + [openSUSE Factory](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp)
-## Debian
+### Debian
 [Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openbibleviewer)
 
 Debian 9.0
@@ -86,7 +82,7 @@ apt-get update
 apt-get install openbibleviewer    
 ```
 
-## Ubuntu, Kubuntu, Xubuntu
+### Ubuntu, Kubuntu, Xubuntu
 [Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openbibleviewer)
 
 Ubuntu 17.10
@@ -125,7 +121,7 @@ sudo apt-get update
 sudo apt-get install openbibleviewer
 ```
 
-# Fedora
+### Fedora
 [Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openBibleViewer)
 
 Or direct:
