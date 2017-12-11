@@ -190,7 +190,7 @@ installed_plugin_path)
                 write_qt5_conf("${qt_conf_dir}" "${qt_conf_contents}")
         endif()
 
-        fixup_bundle("${executable}" "${libs}" "${dirs}")
+        #fixup_bundle("${executable}" "${libs}" "${dirs}")
 endfunction()
 
 function(install_qt5_plugin_path plugin executable copy
