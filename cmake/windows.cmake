@@ -36,16 +36,21 @@ target_link_libraries(
     ${CL_LIBS}
 )
 
+message(STATUS "MCLUCENE_DLL_SHARED : ${MCLUCENE_DLL_SHARED}")
+message(STATUS "MCLUCENE_DLL_CORE : ${MCLUCENE_DLL_CORE}")
+message(STATUS "UNZIP_EXE : ${UNZIP_EXE}")
+message(STATUS "ZLIB_DLL : ${ZLIB_DLL}")
+message(STATUS "MQT_BIN_DIR : ${MQT_BIN_DIR}")
 install (
   FILES
-    "${QT_LIBRARY_DIR}/../bin/QtCore${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtXml${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtWebKit${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtGui${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtNetwork${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtScript${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/phonon${QT_VERSION_MAJOR}.dll"
-    "${QT_LIBRARY_DIR}/../bin/QtSql${QT_VERSION_MAJOR}.dll"
+    "${MQT_BIN_DIR}/QtCore5.dll"
+    "${MQT_BIN_DIR}/QtXml5.dll"
+    "${MQT_BIN_DIR}/QtWebKit5.dll"
+    "${MQT_BIN_DIR}/QtGui5.dll"
+    "${MQT_BIN_DIR}/QtNetwork5.dll"
+    "${MQT_BIN_DIR}/QtScript5.dll"
+    "${MQT_BIN_DIR}/phonon5.dll"
+    "${MQT_BIN_DIR}/QtSql5.dll"
     "${MCLUCENE_DLL_SHARED}"
     "${MCLUCENE_DLL_CORE}"
     "${UNZIP_EXE}"
