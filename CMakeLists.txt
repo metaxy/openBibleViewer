@@ -75,6 +75,23 @@ if(NOT MSVC)
   include(FindZLIB)
 endif()
 
+#### config paths ####
+IF(MSVC)
+  #nmake definitions for less output
+  #add_definitions( "/nologo /w" )
+  #set path to zlib dll
+  
+  SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
+  SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
+  SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
+  SET( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
+  set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
+  set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
+  # no need to change
+  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
+endif() 
+
+
 
 ## Sword
 if(OBV_SWORD_SUPPORT)

@@ -1,21 +1,3 @@
-#### config paths ####
-IF(MSVC)
-  #nmake definitions for less output
-  #add_definitions( "/nologo /w" )
-  #set path to zlib dll
-  
-  SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
-  SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
-  SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
-  SET( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-shared.dll")
-  set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
-  set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
-  
-  set( ZLIB_DLL "${MZLIB_DIR}zlib\\\\bin\\\\zlib1.dll")
-  set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
-  # no need to change
-  set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
-endif() 
 
 add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 set_source_files_properties(src/main.cpp PROPERTIES COMPILE_DEFINITIONS main=main)
