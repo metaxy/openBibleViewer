@@ -7,6 +7,9 @@ branches:
 environment:
   qt_ver: C:\Qt\5.5\msvc2013_64
   cmake_generator: Visual Studio 12 2013 Win64
+  BOOST_BUILD_PATH: C:\Libraries\boost\boost_1_56_0\tools\build\v2
+  BOOST_PATH: C:\Libraries\boost
+  BOOST_ROOT: C:\Libraries\boost\boost_1_56_0
 
 
 # Operating system (build VM template)
@@ -21,6 +24,13 @@ clone_folder: c:\projects\openBibleViewer
 configuration: Release
 install:
   - ps: (new-object net.webclient).DownloadFile('http://nirbheek.in/files/binaries/pkg-config/win32/pkg-config.exe', 'C:\projects\openBibleViewer\pkg-config.exe')
+  - cd c:\projects
+  - git clone git://clucene.git.sourceforge.net/gitroot/clucene/clucene clucene
+  - cd clucene
+  - mkdir build
+  - cd build
+  - cmake -G "%cmake_generator%" ..
+  - cmake --build . --target check
 # scripts to run before build
 before_build:
   - echo Running cmake...
