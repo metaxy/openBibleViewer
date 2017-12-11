@@ -14,7 +14,7 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 
 MESSAGE( STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
 MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${CMAKE_INCLUDE_PATH} )
-MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${ZLIB_INCLUDE_DIR} )
+
 include(InstallRequiredSystemLibraries)
 
 #### debug or release ####
@@ -80,13 +80,14 @@ IF(MSVC)
   #nmake definitions for less output
   #add_definitions( "/nologo /w" )
   #set path to zlib dll
-  
-  SET( MCLUCENE_BUILD_SHARED ${CLUCENE_SOURCE}\\build\\src\\shared)
-  SET( MCLUCENE_SRC_CORE ${CLUCENE_SOURCE}\\src\\core)
-  SET( MCLUCENE_SRC_SHARED ${CLUCENE_SOURCE}\\src\\shared)
+  MESSAGE( STATUS "CLUCENE_SOURCE: " ${CLUCENE_SOURCE} )
+  MESSAGE( STATUS "CLUCENE_INSTALL: " ${CLUCENE_INSTALL} )
+
+  SET( MCLUCENE_BUILD_SHARED "${CLUCENE_SOURCE}\\build\\src\\shared")
+  SET( CLUCENE1_INCLUDE_DIRS "${CLUCENE_INSTALL}\\include")
   SET( MCLUCENE_DLL_SHARED "${CLUCENE_INSTALL}\\\\lib\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${CLUCENE_INSTALL}\\\\lib\\\\clucene-core.dll")
-  set( CL_LIBS "${CLUCENE_DIR}\\lib\\clucene-shared.lib" "${CLUCENE_INSTALL}\\lib\\clucene-core.lib")
+  set( CL_LIBS "${CLUCENE_INSTALL}\\lib\\clucene-shared.lib" "${CLUCENE_INSTALL}\\lib\\clucene-core.lib")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 endif() 
@@ -129,8 +130,7 @@ include_directories(
   ${openBibleViewer_BINARY_DIR}/src # for config file
   ${CLUCENE1_INCLUDE_DIRS}
   ${MCLUCENE_BIN_SHARED}
-  ${MCLUCENE_SRC_CORE}
-  ${MCLUCENE_SRC_SHARED}
+  ${MCLUCENE_INCLUDE}
   ${QuaZip_INCLUDE_DIR}
 )
 #include(${QT_USE_FILE})
