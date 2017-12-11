@@ -25,7 +25,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QDir>
 #include <stdlib.h>
 #include "src/core/dbghelper.h"
-#include "src/ui/qtwin.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include <stdio.h>

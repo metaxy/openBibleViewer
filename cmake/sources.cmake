@@ -65,7 +65,6 @@ set( openBibleViewer_SRCS
     src/ui/markcategories.cpp
     src/ui/modulemodel.cpp
     src/ui/biblepassageframe.cpp
-  src/ui/qtwin.cpp
     src/ui/moduleselectui.cpp
     src/ui/web/networkaccessmanager.cpp
     src/ui/updateschecker.cpp
