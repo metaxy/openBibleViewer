@@ -26,7 +26,7 @@ FUNCTION(BUILD_TEST name exName)
                         ${QT_QTSCRIPT_LIBRARY}
                         ${QT_QTSQL_LIBRARY}
                         clucene-core
-                        ${ZLIB_LIBRARIES}
+                        ${ZLIB_LIBRARY}
 )
 
 ENDFUNCTION(BUILD_TEST)

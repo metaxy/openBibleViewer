@@ -14,7 +14,7 @@ set( CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
 
 MESSAGE( STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
 MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${CMAKE_INCLUDE_PATH} )
-
+MESSAGE( STATUS "CMAKE_INCLUDE_PATH: " ${ZLIB_INCLUDE_DIR} )
 include(InstallRequiredSystemLibraries)
 
 #### debug or release ####
@@ -125,14 +125,13 @@ include_directories(
   ${Qt5WebKitWidgets_INCLUDE_DIRS}
  # ${Qt5WebEngineWidgets_INCLUDE_DIRS}
   ${Qt5PrintSupport_INCLUDE_DIRS}
-
+  ${ZLIB_INCLUDE_DIR}
   ${openBibleViewer_BINARY_DIR}/src # for config file
   ${CLUCENE1_INCLUDE_DIRS}
   ${MCLUCENE_BIN_SHARED}
   ${MCLUCENE_SRC_CORE}
   ${MCLUCENE_SRC_SHARED}
   ${QuaZip_INCLUDE_DIR}
-  ${ZLIB_INCLUDE_DIRS}
 )
 #include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
