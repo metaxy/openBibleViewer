@@ -81,12 +81,12 @@ IF(MSVC)
   #add_definitions( "/nologo /w" )
   #set path to zlib dll
   
-  SET( MCLUCENE_BIN_SHARED   ${MCLUCENE_DIR}\\build\\src\\shared)
-  SET( MCLUCENE_SRC_CORE  ${MCLUCENE_DIR}\\src\\core)
-  SET( MCLUCENE_SRC_SHARED ${MCLUCENE_DIR}\\src\\shared)
-  SET( MCLUCENE_DLL_SHARED "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Deug\\\\clucene-shared.dll")
-  set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Debug\\\\clucene-core.dll")
-  set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Debug\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Debug\\clucene-core.lib")
+  SET( MCLUCENE_BUILD_SHARED   ${CLUCENE_SOURCE}\\build\\src\\shared)
+  SET( MCLUCENE_SRC_CORE  ${CLUCENE_SOURCE}\\src\\core)
+  SET( MCLUCENE_SRC_SHARED ${CLUCENE_SOURCE}\\src\\shared)
+  SET( MCLUCENE_DLL_SHARED "${CLUCENE_INSTALL}\\\\lib\\\\clucene-shared.dll")
+  set( MCLUCENE_DLL_CORE "${CLUCENE_INSTALL}\\\\lib\\\\clucene-core.dll")
+  set( CL_LIBS "${CLUCENE_DIR}\\lib\\clucene-shared.lib" "${CLUCENE_INSTALL}\lib\\clucene-core.lib")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 endif() 
