@@ -68,7 +68,7 @@ deploy:
   subject: johnsmith
   repo: openBibleViewer
   package: Windows
-  version: %version%
+  version: ${version}
   publish: true
   override: true
   explode: true
