@@ -21,24 +21,87 @@ Download
 
 ## Linux
 ### openSUSE
- + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp?base=openSUSE%3AFactory&query=openBibleViewer)
- + [openSUSE Leap 42.3](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.3/openBibleViewer.ymp?base=openSUSE%3ALeap%3A42.3&query=openBibleViewer)
- + [openSUSE Leap 42.2](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.2/openBibleViewer.ymp?base=openSUSE%3ALeap%3A42.2&query=openBibleViewer)
- + [openSUSE Leap 42.1](https://download.opensuse.org/repositories/home:/metaxy:/stable/openSUSE_Leap_42.1/)
+[Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openBibleViewer)
 
+Or direkt: 
+ + [openSUSE Tumbleweed](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Tumbleweed/openBibleViewer.ymp)
+ + [openSUSE Leap 42.3](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.3/openBibleViewer.ymp)
+ + [openSUSE Leap 42.2](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.2/openBibleViewer.ymp)
+ + [openSUSE Leap 42.1](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Leap_42.1/openBibleViewer.ymp)
+ + [openSUSE Factory](https://software.opensuse.org/ymp/home:metaxy:stable/openSUSE_Factory/openBibleViewer.ymp)
 ## Debian
- + [Debian 8](http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_8.0/)
- + [Debian 9](http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_9.0])
+[Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openbibleviewer)
+
+Debian 9.0
+
+```
+echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_9.0/ /' > /etc/apt/sources.list.d/openbibleviewer.list 
+apt-get update
+apt-get install openbibleviewer
+```
+
+Debian 8.0
+```bash
+echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/Debian_8.0/ /' > /etc/apt/sources.list.d/openbibleviewer.list 
+apt-get update
+apt-get install openbibleviewer    
+```
 
 ## Ubuntu, Kubuntu, Xubuntu
- + [Ubuntu 17.10](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.10/)
- + [Ubuntu 17.04](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.04/)
- + [Ubuntu 16.10](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.10/)
- + [Ubuntu 16.04](http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.04/)
+[Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openbibleviewer)
+
+Ubuntu 17.10
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.10/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
+
+Uuntu 17.04
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_17.04/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
  
+Uuntu 16.10
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.10/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
+
+Uuntu 16.04
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_16.04/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
+
+    
+Uuntu 14.04
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_14.04/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
+
 # Fedora
- + [Fedora 27](https://download.opensuse.org/repositories/home:/metaxy:/stable/Fedora_27/)
- + [Fedora Rawhide](https://download.opensuse.org/repositories/home:/metaxy:/stable/Fedora_Rawhide/)
+[Installation Guide](https://software.opensuse.org/download.html?project=home%3Ametaxy:stable&package=openBibleViewer)
+
+Or direct:
+
+For Fedora Raehide:
+```bash
+sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/home:metaxy:stable/Fedora_Rawhide/home:metaxy:stable.repo
+sudo dnf install openBibleViewer
+```
+
+For Fedora 27
+```bash
+dnf config-manager --add-repo https://download.opensuse.org/repositories/home:metaxy:stable/Fedora_27/home:metaxy:stable.repo
+dnf install openBibleViewer
+```
  
 ## macOS
 You can download openBibleViewer for OSX [here](https://bintray.com/metaxy/openBibleViewer/osx/view#files/bin)
