@@ -156,38 +156,7 @@ int main(int argc, char *argv[])
 #endif
     
 #ifdef Q_OS_WIN
-    bool win7 = false;
-
-    //todo: would it be better if we use QSysInfo::windowsVersion() instead?
-    //get the windows version
-    OSVERSIONINFO osvi;
-
-    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
-    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
-    GetVersionEx(&osvi);
-    a.setStyle("windows");
-
-    if(osvi.dwMajorVersion >= 6.1) {
-        win7 = true;
-    }
-
-    if (QtWin::isCompositionEnabled()) {
-        myDebug() << "add css files " << win7;
-        if(win7) {
-            QFile file(":/data/style/win7_transparent.css");
-            if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QTextStream in(&file);
-                a.setStyleSheet(in.readAll());
-            }
-        }
-
-        QFile file2("stylesheet.css");
-        if(file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream in2(&file2);
-            a.setStyleSheet(in2.readAll());
-        }
-    }
+   a.setStyle("windows");
 #endif
 
     QSettings *settings;

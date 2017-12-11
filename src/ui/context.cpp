@@ -92,26 +92,7 @@ void Context::showWindow()
 {
     DEBUG_FUNC_NAME
     m_window = new MainWindow(this);
-    setAll(m_window);
-
-#ifdef Q_OS_WIN
-    if (QtWin::isCompositionEnabled()) {
-        myDebug() << "compositing enabled";
-        m_window->setAttribute(Qt::WA_TranslucentBackground);
-        m_window->setAttribute(Qt::WA_NoSystemBackground, false);
-        QPalette pal = m_window->palette();
-        QColor bg = pal.window().color();
-        bg.setAlpha(180);
-        pal.setColor(QPalette::Window, bg);
-        m_window->setPalette(pal);
-        m_window->ensurePolished(); // workaround Oxygen filling the background
-        m_window->setAttribute(Qt::WA_StyledBackground, false);
-        QtWin::extendFrameIntoClientArea(m_window);
-        m_window->setContentsMargins(0, 0, 0, 0);
-    }
-
-#endif		
-		
+    setAll(m_window);	
     m_window->setTranslator(m_myappTranslator, m_qtTranslator);
     m_window->init(m_firstStart);
     m_window->show();
