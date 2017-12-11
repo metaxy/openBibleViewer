@@ -46,7 +46,7 @@ install:
   - cmd: mkdir "%zlib%"
   - cmd: mkdir C:\zlib-build
   - cmd: cd C:\zlib-build
-  - cmake -G"%cmake_generator%" -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX:PATH="%zlib%" C:\zlib\zlib-1.2.9
+  - cmake -G"%cmake_generator%" -DCMAKE_INSTALL_PREFIX:PATH="%zlib%" C:\zlib\zlib-1.2.9
   - msbuild zlib.sln /m
   - cmd: msbuild INSTALL.vcxproj
 
