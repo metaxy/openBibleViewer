@@ -4,9 +4,12 @@ branches:
   # whitelist
   only:
     - master
-
+environment:
+  qt_ver: C:\Qt\5.5\msvc2013_64
+  cmake_generator: Visual Studio 13 2013 Win64
+  
 # Operating system (build VM template)
-os: Visual Studio 2017
+os: Visual Studio 2013
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -23,9 +26,9 @@ before_build:
   
 build_script:
 - cmd: >-
-    dir C:\Qt\5.9\msvc2017_64\lib\cmake
+    dir %qt_ver%\lib\cmake
 
-    cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Core;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Gui;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Xml;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Network;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Sql;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5PrintSupport;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5WebKitWidgets;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Script;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5Widgets;C:\Qt\5.9\msvc2017_64\lib\cmake\Qt5WebViewWidgets"
+    cmake -G " %cmake_generator%" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets;%qt_ver%\lib\cmake\Qt5WebViewWidgets;%qt_ver%\lib\cmake\Qt5WebKitWidgets"
 
     cmake --build . --target check
 
