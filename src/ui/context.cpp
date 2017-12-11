@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include "src/core/notes/xmlnotes.h"
 #include "src/ui/context.h"
-#include "src/ui/qtwin.h"
 Context::Context(QObject *parent) : QObject(parent)
 {
     m_firstStart = false;
