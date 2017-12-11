@@ -19,5 +19,5 @@ Build-Depends:
 
 Package: openbibleviewer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libqt5webengine5, libqt5script5, libsqlite3-0, zlib1g, libquazip
+Depends: ${shlibs:Depends}, ${misc:Depends}, libclucene-core1 | libclucene-core1v5, libqt5webkit5, libqt5core5a, libqt5gui5, libqt5network5, libqt5printsupport5, libqt5widgets5, libqt5xml5, libqt5webengine5, libqt5script5, libsqlite3-0, zlib1g
 Description: A bible study tool. 
