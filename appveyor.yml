@@ -19,12 +19,13 @@ init:
 # clone directory
 clone_folder: c:\projects\openBibleViewer
 configuration: Release
-
+install:
+  - ps: (new-object net.webclient).DownloadFile('http://nirbheek.in/files/binaries/pkg-config/win32/pkg-config.exe', 'C:\projects\openBibleViewer\pkg-config.exe')
 # scripts to run before build
 before_build:
   - echo Running cmake...
   - cd c:\projects\openBibleViewer
-  - ps: If($Env:compiler.StartsWith('msvc')) {(new-object net.webclient).DownloadFile('http://nirbheek.in/files/binaries/pkg-config/win32/pkg-config.exe', 'C:\projects\openBibleViewer\pkg-config.exe')}
+
   
 build_script:
 - cmd: >-
