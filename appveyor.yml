@@ -35,6 +35,8 @@ install:
   - cd build
   - cmake -DCMAKE_BUILD_TYPE=%CONFIGURATION% -G "%cmake_generator%" ..
   - cmake --build .
+  - dir .
+  - dir bin
   # install zlib
   - cmd: mkdir c:\zlib
   - appveyor DownloadFile "https://github.com/madler/zlib/archive/v1.2.9.zip" -FileName zlib.zip
