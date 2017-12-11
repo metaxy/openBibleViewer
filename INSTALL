@@ -1,20 +1,23 @@
-Installation instructions for openBibleViewer 0.8:
+Installation instructions for openBibleViewer
 ---------------------------
 
 openBibleViewer requires:
 
-- Qt-devel >= 4.6
-  or libqt-devel >= 4.6
+- qt => 5.5
 - cmake
 - clucene >= 2.3.3.4
 - quazip >= 0.4.3
 - zlib
+- qt webkit
 
-Resolve Dependecies on openSUSE 12.2:
+
+Resolve Dependecies 
 ----------------------
-__sudo zypper in libquazip1 quazip-devel zlib zlib-devel libqt-devel automoc4 cmake libclucene2 clucene-core-devel__
+## Ubuntu
+sudo apt-get install -qq --no-install-recommends libquazip-dev zlib1g-dev qt5-default qttools5-dev-tools qtscript5-dev libclucene-dev libqt5webkit5-dev
 
-sudo apt install libquazip1 libquazip-dev zlib1g-dev libclucene-dev automoc cmake lzma pkg-config qtbase5-dev qtscript5-dev qtwebengine5-dev libqt5webkit5-dev
+## openSUSE
+sudo zypper in clucene-core-devel desktop-file-utils cmake gcc-c++ unzip zlib-devel libqt5-qtbase-devel libqt5-qtscript-devel libQt5WebKitWidgets-devel
 
 
 Compile openBibleViewer from git:
@@ -23,18 +26,18 @@ git clone git://github.com/metaxy/openBibleViewer.git
 cd openBibleViewer
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX='/usr' ..
+cmake -DCMAKE_INSTALL_PREFIX='/usr' -DCMAKE_BUILD_TYPE='Release' ..
 make
 sudo make install
 
-Compile openBibleViewer:
+Compile openBibleViewer from tar:
 ---------------------------
 
 tar -xjf openBibleViewer-0.8.tar.bz2
 cd ~/openBibleViewer-0.8
 mkdir build
 cd build
-cmake -DCMAKE_INSTALL_PREFIX='/usr' ..
+cmake -DCMAKE_INSTALL_PREFIX='/usr' -DCMAKE_BUILD_TYPE='Release' ..
 make
 sudo make install
 
