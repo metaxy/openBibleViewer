@@ -153,7 +153,10 @@ int main(int argc, char *argv[])
         opt->printUsage();
         return 0;
     }
-
+#ifdef Q_OS_DARWIN
+    a.setStyle("macintosh");
+#endif
+    
 #ifdef Q_OS_WIN
     bool win7 = false;
 
@@ -165,11 +168,7 @@ int main(int argc, char *argv[])
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 
     GetVersionEx(&osvi);
-    //6 is vista and 6.1 windows 7
-    if(osvi.dwMajorVersion >= 6)
-        a.setStyle(new QWindowsVistaStyle);
-    else
-        a.setStyle(new QCleanlooksStyle);
+    a.setStyle("windows");
 
     if(osvi.dwMajorVersion >= 6.1) {
         win7 = true;
