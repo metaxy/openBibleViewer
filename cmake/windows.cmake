@@ -1,3 +1,4 @@
+add_definitions( "/W3 /D_CRT_SECURE_NO_WARNINGS /wd4005 /wd4996 /nologo" )
 
 add_executable(openBibleViewer WIN32 ${openBibleViewer_SRCS} ${UIS} ${RSCS} ${MOCS})
 set_source_files_properties(src/main.cpp PROPERTIES COMPILE_DEFINITIONS main=main)

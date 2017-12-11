@@ -40,10 +40,10 @@ install:
   - appveyor DownloadFile "https://github.com/madler/zlib/archive/v1.2.9.zip" -FileName zlib.zip
   - 7z x zlib.zip -oC:\zlib
   - cmd: cd C:\zlib
-  - cmd: mkdir "%zlib%
+  - cmd: mkdir "%zlib%"
   - cmd: mkdir C:\zlib-build
   - cmd: cd C:\zlib-build
-  - cmake -G"%cmake_generator%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%  -DCMAKE_INSTALL_PREFIX:PATH="%zlib% C:\zlib\zlib-1.2.9
+  - cmake -G"%cmake_generator%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%  -DCMAKE_INSTALL_PREFIX:PATH="%zlib%" C:\zlib\zlib-1.2.9
   - msbuild zlib.sln /m
   - cmd: msbuild INSTALL.vcxproj
 
