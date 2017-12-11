@@ -24,19 +24,31 @@ init:
 clone_folder: c:\projects\openBibleViewer
 configuration: Release
 install:
-  - dir %BOOST_PATH%
-  - dir %qt_ver%
-  - dir %qt_ver%\bin
+  # install pkg config
   - ps: (new-object net.webclient).DownloadFile('http://nirbheek.in/files/binaries/pkg-config/win32/pkg-config.exe', 'C:\projects\openBibleViewer\pkg-config.exe')
+  # build clucene
   - cd c:\projects
   - git clone git://clucene.git.sourceforge.net/gitroot/clucene/clucene clucene
   - cd "%clucene_dir%"
   - mkdir build
   - cd build
-  - cmake -G "%cmake_generator%" ..
+  - cmake -DCMAKE_BUILD_TYPE=%CONFIG% -G "%cmake_generator%" ..
   - dir .
   - cmake --build .
-  - dir "%clucene_dir%\build"
+    # install zlib
+  - cmd: mkdir c:\zlib
+  - appveyor DownloadFile "https://github.com/madler/zlib/archive/v1.2.9.zip" -FileName zlib.zip
+  - 7z x zlib.zip -oC:\zlib
+  - cmd: cd C:\zlib
+  - cmd: mkdir C:\zlib-install
+  - cmd: mkdir C:\zlib-build
+  - cmd: cd C:\zlib-build
+  - cmd: dir C:\zlib
+  - cmake -G"%VS_GEN%" -DCMAKE_BUILD_TYPE=%CONFIG%  -DCMAKE_INSTALL_PREFIX:PATH=c:\zlib-install C:\zlib\zlib-1.2.9
+  - msbuild zlib.sln /m
+  - cmd: msbuild INSTALL.vcxproj
+  - dir C:\zlib
+  - dir c:\zlib-install
 
 # scripts to run before build
 before_build:
@@ -45,7 +57,6 @@ before_build:
   
 build_script:
 - cmd: >-
-    cmake -G "%cmake_generator%" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets" -DMCLUCENE_DIR="%clucene_dir%" -DMQT_BIN_DIR="%qt_ver%\bin"
-
+    cmake -G "%cmake_generator%" -DCMAKE_INSTALL_PREFIX=%P% -DCMAKE_PREFIX_PATH="%qt_ver%\lib\cmake\Qt5Core;%qt_ver%\lib\cmake\Qt5Gui;%qt_ver%\lib\cmake\Qt5Xml;%qt_ver%\lib\cmake\Qt5Network;%qt_ver%\lib\cmake\Qt5Sql;%qt_ver%\lib\cmake\Qt5PrintSupport;%qt_ver%\lib\cmake\Qt5WebKitWidgets;%qt_ver%\lib\cmake\Qt5Script;%qt_ver%\lib\cmake\Qt5Widgets" -DMCLUCENE_DIR="%clucene_dir%" -DMQT_BIN_DIR="%qt_ver%\bin" -DCMAKE_BUILD_TYPE=%CONFIG% -DZLIB_DLL="c:\zlib-install\zlib.dll" -DZLIB_INCLUDE_DIR="C:\zlib\zlib-1.2.9\include" 
     cmake --build .
 

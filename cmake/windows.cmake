@@ -11,8 +11,8 @@ IF(MSVC)
   set( MCLUCENE_DLL_CORE "${MCLUCENE_DIR}\\\\build\\\\bin\\\\Release\\\\clucene-core.dll")
   set( CL_LIBS "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-shared.lib" "${MCLUCENE_DIR}\\build\\bin\\Release\\clucene-core.lib")
   
-  #set( ZLIB_DLL "${WIN_DEV_DIR2}zlib\\\\bin\\\\zlib1.dll")
-  #set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
+  set( ZLIB_DLL "${MZLIB_DIR}zlib\\\\bin\\\\zlib1.dll")
+  set( ZLIB_INCLUDE_DIR "${WIN_DEV_DIR}zlib\\include")
   # no need to change
   set( UNZIP_EXE  "${CMAKE_SOURCE_DIR}\\\\src\\\\extern\\\\7za.exe")
 endif() 
