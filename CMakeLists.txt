@@ -81,8 +81,8 @@ IF(MSVC)
   #add_definitions( "/nologo /w" )
   #set path to zlib dll
   
-  SET( MCLUCENE_BUILD_SHARED   ${CLUCENE_SOURCE}\\build\\src\\shared)
-  SET( MCLUCENE_SRC_CORE  ${CLUCENE_SOURCE}\\src\\core)
+  SET( MCLUCENE_BUILD_SHARED ${CLUCENE_SOURCE}\\build\\src\\shared)
+  SET( MCLUCENE_SRC_CORE ${CLUCENE_SOURCE}\\src\\core)
   SET( MCLUCENE_SRC_SHARED ${CLUCENE_SOURCE}\\src\\shared)
   SET( MCLUCENE_DLL_SHARED "${CLUCENE_INSTALL}\\\\lib\\\\clucene-shared.dll")
   set( MCLUCENE_DLL_CORE "${CLUCENE_INSTALL}\\\\lib\\\\clucene-core.dll")

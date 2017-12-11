@@ -37,7 +37,8 @@ install:
   - cd build
   - cmake -DCMAKE_BUILD_TYPE="Release" -G "%cmake_generator%" -DCMAKE_INSTALL_PREFIX="%clucene_install%" ..
   - cmake --build . --config Release --target install
-  - dir "%clucene_install%"
+  - dir "%clucene_install%\lib"
+  - dir "%clucene_install%\include"
   # install zlib
   - cmd: mkdir c:\zlib
   - appveyor DownloadFile "https://github.com/madler/zlib/archive/v1.2.9.zip" -FileName zlib.zip
