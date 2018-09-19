@@ -89,6 +89,17 @@ Which Version do i have? Run the following command and look out for the release 
 ```
 lsb_release -a
 ```
+Ubuntu 18.04
+```bash
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/metaxy:/stable/xUbuntu_18.04/ /' > /etc/apt/sources.list.d/openbibleviewer.list"
+wget -nv https://download.opensuse.org/repositories/home:metaxy:stable/xUbuntu_18.04/Release.key -O Release.key
+sudo apt-key add - < Release.key
+sudo apt-get update
+sudo apt-get install openbibleviewer
+```
+
+
+
 
 Ubuntu 17.10
 ```bash
