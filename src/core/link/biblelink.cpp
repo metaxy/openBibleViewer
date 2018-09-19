@@ -161,7 +161,7 @@ int BibleLink::bookNameToBookID(QString name, int *nlev)
     QMutableMapIterator<int, QString> it(full);
     while(it.hasNext()) {
         it.next();
-        it.value().toLower();
+        it.setValue(it.value().toLower());
     }
 
     QMutableMapIterator<int, QStringList> it2(shortNames);

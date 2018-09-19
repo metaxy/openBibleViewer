@@ -38,7 +38,7 @@ bool StrongUrl::fromText(QString text)
     if(text.isEmpty())
         return false;
     m_numbers.clear();
-    text.trimmed();
+    text = text.trimmed();
     if(text.at(0).toLower() == 'g') {
         m_prefix = StrongUrl::G;
     } else if(text.at(0).toLower() == 'h') {
@@ -78,7 +78,7 @@ bool StrongUrl::fromString(QString strong)
     if(!strong.startsWith(ModuleTools::strongScheme))
         return false;
     strong.remove(0, ModuleTools::strongScheme.size());
-    strong.trimmed();
+    strong = strong.trimmed();
     if(strong.at(0).toLower() == 'g') {
         m_prefix = StrongUrl::G;
     } else if(strong.at(0).toLower() == 'h') {
