@@ -59,11 +59,10 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5Script REQUIRED)
 find_package(Qt5WebKitWidgets REQUIRED)
-#find_package(Qt5WebEngineWidgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
 if(NOT MSVC)
-find_package( CLucene1 REQUIRED)
+    find_package( CLucene1 REQUIRED)
 endif()
 
 # optional quazip, we are using by default unzip or 7za.exe on windows
@@ -124,7 +123,6 @@ include_directories(
   ${Qt5Network_INCLUDE_DIRS}
   ${Qt5Script_INCLUDE_DIRS}
   ${Qt5WebKitWidgets_INCLUDE_DIRS}
- # ${Qt5WebEngineWidgets_INCLUDE_DIRS}
   ${Qt5PrintSupport_INCLUDE_DIRS}
   ${ZLIB_INCLUDE_DIR}
   ${openBibleViewer_BINARY_DIR}/src # for config file
