@@ -129,11 +129,6 @@ void BookForm::showContextMenu(QContextMenuEvent* ev)
         actionCopy->setEnabled(false);
     }
 
-    QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
-    connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
-
-
-    contextMenu->addAction(dbg);
     contextMenu->exec(ev->globalPos());
 }
 

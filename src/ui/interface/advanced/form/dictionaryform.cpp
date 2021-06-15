@@ -411,14 +411,9 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
     QUrl url = hitTest.linkUrl();
     if(url.isEmpty()) {
 
-
-        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
-        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
-
         contextMenu->addAction(actionCopy);
         contextMenu->addAction(m_actionSelect);
         contextMenu->addSeparator();
-        contextMenu->addAction(dbg);
         contextMenu->exec(ev->globalPos());
     } else {
         myDebug() << "another menu";

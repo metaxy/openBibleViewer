@@ -40,7 +40,6 @@ public slots:
 
     virtual void zoomIn();
     virtual void zoomOut();
-    virtual void debugger();
     virtual void openInNewTab();
     virtual void openHere();
     virtual void copyLinkText();

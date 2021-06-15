@@ -909,9 +909,6 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
             actionCopyWholeVerse->setEnabled(false);
         }
 
-        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
-        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
-
         QMenu *openInCommentary = new QMenu(this);
         openInCommentary->setTitle(tr("Open in Commentary"));
         int counter = 0;
@@ -937,7 +934,6 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         contextMenu->addSeparator();
         contextMenu->addAction(m_actionBookmark);
         contextMenu->addAction(m_actionNote);
-        contextMenu->addAction(dbg);
         contextMenu->exec(ev->globalPos());
     } else {
         myDebug() << "another menu";

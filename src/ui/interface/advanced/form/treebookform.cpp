@@ -233,13 +233,8 @@ void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
     const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
     const QString url = transformUrl(hitTest.linkElement().attribute("href"));
     if(hitTest.linkUrl().isEmpty()) {
-
-        QAction *dbg = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Debugger"), contextMenu.data());
-        connect(dbg, SIGNAL(triggered()), this, SLOT(debugger()));
-
         contextMenu->addAction(actionSelect);
         contextMenu->addAction(actionCopy);
-        contextMenu->addAction(dbg);
         contextMenu->exec(ev->globalPos());
 
     } else {
