@@ -180,7 +180,7 @@ void NotesEditor::fileNew()
     ui->tabWidget->setCurrentIndex(0);
     ui->webView->setHtml("<p></p>");
     ui->webView->setFocus();
-    ui->webView->page()->setContentEditable(true);
+    //TODO: WEB ui->webView->page()->setContentEditable(true);
 
     // quirk in QWebView: need an initial mouse click to show the cursor
     int mx = ui->webView->width() / 2;

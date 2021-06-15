@@ -16,7 +16,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QNetworkReply>
 #include <QTimer>
 
-#include <QWebFrame>
 #include <QWidget>
 #include "src/core/dbghelper.h"
 
@@ -54,10 +53,10 @@ protected:
 
 #define     HIDABLE_ELEMENTS    "audio,img,embed,object,iframe,frame,video"
 
-
+/*
 static void hideBlockedElements(const QUrl& url, QWebElementCollection& collection)
 {
-    /*
+    
     for (QWebElementCollection::iterator it = collection.begin(); it != collection.end(); ++it)
     {
         const QUrl baseUrl((*it).webFrame()->baseUrl());
@@ -73,9 +72,9 @@ static void hideBlockedElements(const QUrl& url, QWebElementCollection& collecti
         {
             (*it).removeFromDocument();
         }
-    }*/
+    }
 }
-
+*/
 
 // ----------------------------------------------------------------------------------------------
 

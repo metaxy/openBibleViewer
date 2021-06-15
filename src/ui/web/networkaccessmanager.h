@@ -23,9 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include "src/core/blockrules.h"
 
-class QWebFrame;
-
-
 class NetworkAccessManager : public QNetworkAccessManager
 {
     Q_OBJECT
@@ -42,7 +39,7 @@ private Q_SLOTS:
     void applyHidingBlockedElements(bool);
     
 private:
-    QMultiHash<QWebFrame*, QUrl> m_blockedRequests;
+    //QMultiHash<QWebFrame*, QUrl> m_blockedRequests;
 
 
 };

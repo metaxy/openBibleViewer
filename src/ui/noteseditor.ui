@@ -611,7 +611,7 @@
   <customwidget>
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
-   <header>QWebEngine/QWebEngineView</header>
+   <header>QWebEngineView</header>
   </customwidget>
  </customwidgets>
  <resources>
