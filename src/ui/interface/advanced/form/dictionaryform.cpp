@@ -80,7 +80,7 @@ ModuleID DictionaryForm::moduleID() const
 
 void DictionaryForm::init()
 {
-    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
+    //TODO: Web m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), this,  SLOT(newGet(QUrl)));
@@ -155,7 +155,7 @@ void DictionaryForm::restore(const QString &key)
         setButtons();
     }
     ui->splitter->restoreState(m_settings->session.file()->value(a + "splitterSizes").toByteArray());
-    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    //TODO: Web m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -164,7 +164,7 @@ void DictionaryForm::save()
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "dictionary");
     m_settings->session.file()->setValue(a + "key", m_key);
-    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    //TODO: Web m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
     m_settings->session.file()->setValue(a + "hist2", m_browserHistory.data2());
@@ -392,6 +392,9 @@ void DictionaryForm::deleteDefaultMenu()
 
 void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 {
+    //TODO: Web
+
+    /*
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
 
@@ -537,6 +540,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 
         contextMenu->exec(ev->globalPos());
     }
+    */
 }
 void DictionaryForm::openInMenu()
 {

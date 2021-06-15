@@ -12,7 +12,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "moduleapi.h"
-#include <QWebElementCollection>
+
 ModuleApi::ModuleApi(QObject *parent) :
     QObject(parent)
 {
@@ -29,13 +29,15 @@ void ModuleApi::activateModule(const int verseTableID)
 
     m_actions->setActiveItem(verseTableID);
 
-    QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
+    //TODO: WEB
+    
+    /*QWebElementCollection collection = m_frame->documentElement().findAll("td[class~=verseTableTitle]");
     foreach(QWebElement paraElement, collection) {
         paraElement.removeClass("active");
         if(paraElement.attribute("verseTableID") == QString::number(verseTableID)) {
             paraElement.addClass("active");
         }
-    }
+    }*/
     m_actions->reloadActive();
 }
 void ModuleApi::deleteModule(const int verseTableID)
@@ -44,9 +46,9 @@ void ModuleApi::deleteModule(const int verseTableID)
     m_actions->removeModuleFromVerseTable(verseTableID);
 }
 
-void ModuleApi::setFrame(QWebFrame *frame)
+void ModuleApi::setPage(QWebEnginePage *page)
 {
-    m_frame = frame;
+    m_page = page;
 }
 int ModuleApi::getModuleIdByName(const QString &name)
 {

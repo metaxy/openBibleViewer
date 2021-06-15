@@ -59,7 +59,7 @@ void WebViewForm::print()
     QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() == QDialog::Accepted) {
-        m_view->page()->print(&printer);
+        //TODO:WEBV m_view->page()->print(&printer);
     }
     delete dialog;
 }
@@ -85,26 +85,25 @@ void WebViewForm::saveFile()
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toHtml();
+        //TODO: WEB
+        //out << m_view->page()->mainFrame()->toHtml();
         file.close();
     } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
-        QPrinter printer;
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName(fileName);
-        m_view->print(&printer);
+        m_view->page()->printToPdf(fileName);
     } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
         QTextDocumentWriter writer;
         writer.setFormat("odf");
         writer.setFileName(fileName);
         QTextDocument doc;
-        doc.setHtml(m_view->page()->mainFrame()->toHtml());
+        //TODO: WEB doc.setHtml(m_view->page()->mainFrame()->toHtml());
         writer.write(&doc);
     } else {
         QFile file(fileName);
         if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
         QTextStream out(&file);
-        out << m_view->page()->mainFrame()->toPlainText();
+        //TODO: Web
+        //out << m_view->page()->mainFrame()->toPlainText();
         file.close();
     }
 }
@@ -275,9 +274,9 @@ void WebViewForm::loadStyleSheet(QString url)
         if(url.isEmpty())
             url = "qrc:/data/css/default.css";
     }
-    m_view->settings()->setUserStyleSheetUrl(QUrl(url));
+    //TODO: WEB m_view->settings()->setUserStyleSheetUrl(QUrl(url));
 
-    myDebug() << m_view->settings()->userStyleSheetUrl();
+    //TODO: WEB myDebug() << m_view->settings()->userStyleSheetUrl();
 }
 QString WebViewForm::getStyleSheetUrl()
 {
@@ -291,7 +290,7 @@ void WebViewForm::addJS(const QString &url)
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
     QTextStream stream(&file);
-    m_view->page()->mainFrame()->evaluateJavaScript(stream.readAll());
+    //TODO: WEB m_view->page()->mainFrame()->evaluateJavaScript(stream.readAll());
     file.close();
 }
 ModuleID WebViewForm::moduleID() const

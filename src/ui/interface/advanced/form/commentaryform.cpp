@@ -21,7 +21,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/biblelink.h"
 #include "src/core/link/urlconverter2.h"
 #include <QClipboard>
-#include <QWebElement>
 #include <QDesktopServices>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
@@ -32,7 +31,7 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     ui->setupUi(this);
     ui->verticalLayout->addWidget(m_view);
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(changeLocation()));
-    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
+    //TODO: Webm_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
@@ -226,6 +225,8 @@ void CommentaryForm::setButtons()
 }
 void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
 {
+     //TODO: WEB
+     /*
     //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
     QAction * actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
@@ -367,7 +368,7 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
         contextMenu->exec(ev->globalPos());
 
     }
-
+*/
 }
 QString CommentaryForm::transformUrl(const QString &url)
 {
@@ -444,7 +445,7 @@ void CommentaryForm::save()
     m_settings->session.file()->setValue(a + "url", newUrl.toString());
 
 
-    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    //TODO: Web m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
 
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
@@ -477,7 +478,7 @@ void CommentaryForm::restore(const QString &key)
     }
 
 
-    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    //TODO: Webm_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 
    /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();

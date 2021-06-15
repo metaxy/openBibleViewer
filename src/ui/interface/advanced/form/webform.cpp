@@ -169,7 +169,7 @@ void WebForm::save()
 
     QByteArray history;
     QDataStream historyStream(&history, QIODevice::ReadWrite);
-    QWebHistory *hist  = m_view->history();
+    QWebEngineHistory *hist  = m_view->history();
     historyStream << *(hist);
     m_settings->session.file()->setValue(a + "history", history.toBase64());
 }
@@ -184,7 +184,7 @@ void WebForm::restore(const QString &key)
 
     QByteArray history = QByteArray::fromBase64(m_settings->session.file()->value(a + "history").toByteArray());
     QDataStream readingStream(&history, QIODevice::ReadOnly);
-    QWebHistory *hist  = m_view->history();
+    QWebEngineHistory *hist  = m_view->history();
     readingStream >> *(hist);
 }
 

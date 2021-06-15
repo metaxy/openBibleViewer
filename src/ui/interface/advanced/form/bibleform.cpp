@@ -28,7 +28,7 @@ BibleForm::BibleForm(QWidget *parent) :
     m_ui->setupUi(this);
     m_ui->verticalLayout->addWidget(m_view);
 
-    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
+    //TODO: Web m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
@@ -64,7 +64,7 @@ void BibleForm::init()
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
 
-    connect(m_view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
+    connect(m_view->page(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(int, QSharedPointer<Versification> )), this, SLOT(forwardSetChapters(int, QSharedPointer<Versification> )));
     connect(m_actions, SIGNAL(_updateBooks(QSharedPointer<Versification> )), this, SLOT(forwardSetBooks(QSharedPointer<Versification> )));
@@ -255,14 +255,14 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 void BibleForm::reload(bool full)
 {
     if(!verseTableLoaded()) return;
-    const QPoint p = m_view->page()->mainFrame()->scrollPosition();
+    //TODO: Web const QPoint p = m_view->page()->mainFrame()->scrollPosition();
 
     if(full) {
         m_verseTable->clearData();
     }
     parseUrl(m_url, true);
 
-    m_view->page()->mainFrame()->setScrollPosition(p);
+    //TODO: Web m_view->page()->mainFrame()->setScrollPosition(p);
 }
 void BibleForm::reloadIf(const VerseUrl &url)
 {
@@ -367,7 +367,7 @@ void BibleForm::restore(const QString &key)
         setButtons();
     }
 
-    m_view->page()->mainFrame()->setScrollPosition(scroll);
+    //TODO: Web m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -400,7 +400,7 @@ void BibleForm::save()
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "urls", urls);
     m_settings->session.file()->setValue(a + "biblePoints", QVariant(points));
-    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    //TODO: Webm_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
 
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
@@ -596,7 +596,7 @@ void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    m_api->moduleApi()->setFrame(m_view->page()->mainFrame());
+    m_api->moduleApi()->setPage(m_view->page());
     if(m_verseTable == nullptr) {
         clearChapters();
         clearBooks();
@@ -644,7 +644,6 @@ void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
     Q_ASSERT(m_moduleManager->verseTableLoaded(m_verseTable));
-    QWebFrame * frame = m_view->page()->mainFrame();
     loadStyleSheet();
     //todo: often it isn't real html but some fragments and sometimes it's a whole html page
     //eg biblequote
@@ -661,12 +660,14 @@ void BibleForm::showText(const QString &text)
 
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
-        if(m_verseTable->hasTopBar())
-            frame->scroll(0, -40 * m_view->zoomFactor());
+        //if(m_verseTable->hasTopBar())
+            //TODO: Web frame->scroll(0, -40 * m_view->zoomFactor());
     }
 
     //some BibleQuote Hacks
     if(verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
+        /*
+        TDOD: WEB
         QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = ((Bible*) verseModule())->getSearchPaths();
 
@@ -692,6 +693,7 @@ void BibleForm::showText(const QString &text)
                 }
             }
         }
+        */
     }
 
 }
@@ -716,7 +718,7 @@ void BibleForm::showTextRanges(const QString &html, const TextRanges &range, con
 }
 void BibleForm::evaluateJavaScript(const QString &js)
 {
-    m_view->page()->mainFrame()->evaluateJavaScript(js);
+    m_view->page()->runJavaScript(js);
 }
 void BibleForm::forwardSetChapters(int bookID, QSharedPointer<Versification> v11n)
 {
@@ -769,6 +771,8 @@ void BibleForm::forwardSearchInText(SearchResult *res)
 void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
+    //TODO: Web
+    /**
     if(res == nullptr)
         return;
     if(res->searchQuery.queryType == SearchQuery::Simple) {
@@ -777,7 +781,7 @@ void BibleForm::searchInText(SearchResult *res)
         s.remove('*');
         s.remove('?');
         m_view->findText(s, QWebEnginePage::HighlightAllOccurrences);
-    }
+    }*/
 }
 
 void BibleForm::createDefaultMenu()
@@ -873,8 +877,8 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     }
 
 
-    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    const QUrl url = hitTest.linkUrl();
+    //TODO: Webconst QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
+    /*const QUrl url = hitTest.linkUrl();
 
     ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
     ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
@@ -1048,6 +1052,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
         contextMenu->exec(ev->globalPos());
     }
+    */
 }
 void BibleForm::newNoteWithLink()
 {
@@ -1193,18 +1198,19 @@ void BibleForm::removeMark()
 
 VerseSelection BibleForm::verseSelection()
 {
-    QWebFrame *f = m_view->page()->mainFrame();
+    /*
+    QWebEnginePage *f = m_view->page();
     VerseSelection s;
     if(!f)
         return s;
 
-    f->evaluateJavaScript("var vS = new VerseSelection(); vS.getSelection();");
-    s.moduleID = f->evaluateJavaScript("vS.moduleID;").toInt();
-    s.bookID  = f->evaluateJavaScript("vS.bookID;").toInt();
-    s.startChapterID = f->evaluateJavaScript("vS.startChapterID;").toInt();
-    s.endChapterID = f->evaluateJavaScript("vS.endChapterID;").toInt();
-    s.startVerse = f->evaluateJavaScript("vS.startVerse;").toInt();
-    s.endVerse = f->evaluateJavaScript("vS.endVerse;").toInt();
+    f->runJavaScript("var vS = new VerseSelection(); vS.getSelection();");
+    s.moduleID = f->runJavaScript("vS.moduleID;").toInt();
+    s.bookID  = f->runJavaScript("vS.bookID;").toInt();
+    s.startChapterID = f->runJavaScript("vS.startChapterID;").toInt();
+    s.endChapterID = f->runJavaScript("vS.endChapterID;").toInt();
+    s.startVerse = f->runJavaScript("vS.startVerse;").toInt();
+    s.endVerse = f->runJavaScript("vS.endVerse;").toInt();
     myDebug() << "start verse = " << s.startVerse << " end verse = " << s.endVerse;
 
     const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.startChapterID, s.startVerse).data();
@@ -1214,7 +1220,7 @@ VerseSelection BibleForm::verseSelection()
     else
         endVerseText = startVerseText;
 
-    const QString selectedText = f->evaluateJavaScript("vS.selectedText;").toString();
+    const QString selectedText = f->runJavaScript("vS.selectedText;").toString();
     myDebug() << "selected text = " << selectedText;
     myDebug() << "startVerseText = " << startVerseText;
     myDebug() << "endVerseText = " << endVerseText;
@@ -1297,13 +1303,13 @@ VerseSelection BibleForm::verseSelection()
     //do not this stuff with BibleQuote because some modules have weird html stuff.
     if(s.canBeUsedForMarks() == false && verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
         //now the ultimative alogrithm
-        myDebug() << f->evaluateJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
-        const QString startVerseText2 = f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
+        myDebug() << f->runJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
+        //TODO: Web const QString startVerseText2 = f->runJavaScript("adVerseSelection.startVerseText;").toString();
        /* myDebug() << "adVerseSelection.startVerse" << f->evaluateJavaScript("adVerseSelection.startVerse;").toString();
         myDebug() << "adVerseSelection.startVerseText;" << f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
         myDebug() << "adVerseSelection.startVerseContent;" << f->evaluateJavaScript("adVerseSelection.startVerseContent;").toString();
         myDebug() << "adVerseSelection.selectedText;"<< f->evaluateJavaScript("adVerseSelection.selectedText;").toString();*/
-
+        /*
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
         const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
@@ -1334,10 +1340,12 @@ VerseSelection BibleForm::verseSelection()
             s.setCanBeUsedForMarks(true);
         //todo: end
         myDebug() << "longest = " << longestString << " count = " << count;
-        f->evaluateJavaScript("removeSelectionStuff()");
+        f->runJavaScript("removeSelectionStuff()");
 
     }
     return s;
+
+    */
 }
 
 bool BibleForm::verseTableLoaded()

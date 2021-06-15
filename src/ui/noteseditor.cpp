@@ -132,7 +132,7 @@ void NotesEditor::init()
     m_simpleNotes->setLinkWidget(ui->label_noteLink);
 
     m_simpleNotes->init();
-    ui->webView->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
+    //TODO: Web ui->webView->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(parseUrl(QUrl)));
     //connect(ui->plainTextEdit, SIGNAL(textChanged()), this, SLOT(adjustHtml()));
 }
@@ -162,6 +162,8 @@ void NotesEditor::adjustHtml()
 
 void NotesEditor::changeTab(int index)
 {
+    //TODO: WEB
+    /*
     DEBUG_FUNC_NAME;
     myDebug() << "dirty = " << m_sourceDirty << " index = " << index;
     if(m_sourceDirty && (index == 1)) {
@@ -170,7 +172,7 @@ void NotesEditor::changeTab(int index)
         m_sourceDirty = false;
     } else if(index == 0) {
         adjustHtml();
-    }
+    }*/
 }
 
 void NotesEditor::fileNew()
@@ -203,6 +205,8 @@ bool NotesEditor::fileSave()
 
 bool NotesEditor::fileSaveAs()
 {
+    //TODO: WEB
+    /*
     if(ui->tabWidget->currentIndex() == 1)
         adjustHtml();
 
@@ -225,7 +229,7 @@ bool NotesEditor::fileSaveAs()
         data.close();
     }
 
-    return fileSave();
+    return fileSave();*/
 }
 
 void NotesEditor::insertImage()
@@ -376,24 +380,30 @@ void NotesEditor::editSelectAll()
 
 void NotesEditor::execCommand(const QString &cmd)
 {
+    //TODO: WEB
+    /*
     QWebFrame *frame = ui->webView->page()->mainFrame();
     QString js = QString("document.execCommand(\"%1\", false, null)").arg(cmd);
-    frame->evaluateJavaScript(js);
+    frame->evaluateJavaScript(js);*/
 }
 
 void NotesEditor::execCommand(const QString &cmd, const QString &arg)
 {
+     //TODO: WEB
+     /*
     QWebFrame *frame = ui->webView->page()->mainFrame();
     QString js = QString("document.execCommand(\"%1\", false, \"%2\")").arg(cmd).arg(arg);
-    frame->evaluateJavaScript(js);
+    frame->evaluateJavaScript(js);*/
 }
 
 bool NotesEditor::queryCommandState(const QString &cmd)
 {
+     //TODO: WEB
+     /*
     QWebFrame *frame = ui->webView->page()->mainFrame();
     QString js = QString("document.queryCommandState(\"%1\", false, null)").arg(cmd);
     QVariant result = frame->evaluateJavaScript(js);
-    return result.toString().simplified().toLower() == "true";
+    return result.toString().simplified().toLower() == "true";*/
 }
 
 void NotesEditor::styleParagraph()

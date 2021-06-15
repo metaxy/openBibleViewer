@@ -84,7 +84,7 @@ protected:
 
     template <typename T> void addApi(T *t)
     {
-        m_view->page()->mainFrame()->addToJavaScriptWindowObject(t->name(), t);
+        //TODO: WEB m_view->page()->mainFrame()->addToJavaScriptWindowObject(t->name(), t);
     }
 
     QString m_contextMenuUrl;

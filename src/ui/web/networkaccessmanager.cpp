@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 
 #include <QNetworkReply>
 #include <QTimer>
-#include <QWebElement>
+
 #include <QWebFrame>
 #include <QWidget>
 #include "src/core/dbghelper.h"
@@ -57,6 +57,7 @@ protected:
 
 static void hideBlockedElements(const QUrl& url, QWebElementCollection& collection)
 {
+    /*
     for (QWebElementCollection::iterator it = collection.begin(); it != collection.end(); ++it)
     {
         const QUrl baseUrl((*it).webFrame()->baseUrl());
@@ -72,7 +73,7 @@ static void hideBlockedElements(const QUrl& url, QWebElementCollection& collecti
         {
             (*it).removeFromDocument();
         }
-    }
+    }*/
 }
 
 
@@ -92,7 +93,7 @@ void NetworkAccessManager::setBlockRules(const BlockRules &rules)
 
 QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData)
 {
-    if(!m_doBlock)  return QNetworkAccessManager::createRequest(op, req, outgoingData);
+    /*if(!m_doBlock)  return QNetworkAccessManager::createRequest(op, req, outgoingData);
 
     bool blocked = false;
 
@@ -118,13 +119,13 @@ QNetworkReply *NetworkAccessManager::createRequest(Operation op, const QNetworkR
         m_blockedRequests.insert(frame, req.url());
     }
     myDebug() << "blocked " << req.url();
-    return new NullNetworkReply(req, this);
+    return new NullNetworkReply(req, this);*/
 }
 
 
 void NetworkAccessManager::applyHidingBlockedElements(bool ok)
 {
-    if (!ok)
+   /* if (!ok)
         return;
 
     QWebFrame* frame = qobject_cast<QWebFrame*>(sender());
@@ -140,5 +141,5 @@ void NetworkAccessManager::applyHidingBlockedElements(bool ok)
         collection += frame->parentFrame()->findAllElements(HIDABLE_ELEMENTS);
 
     Q_FOREACH(const QUrl & url, urls)
-        hideBlockedElements(url, collection);
+        hideBlockedElements(url, collection);*/
 }

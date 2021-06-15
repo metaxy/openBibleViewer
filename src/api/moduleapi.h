@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef BIBLEAPI_H
 #define BIBLEAPI_H
 #include "src/core/basicclass.h"
-#include <QtWebEngineWidgets>
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
 /**
   ModuleAPI is a API to access to the bible and modulemanager
   */
@@ -31,11 +31,11 @@ signals:
 public:
     explicit ModuleApi(QObject *parent = 0);
     virtual ~ModuleApi();
-    void setFrame(QWebFrame *frame);
+    void setPage(QWebEnginePage *page);
 
     QString name() const;
 private:
-    QWebFrame *m_frame;
+    QWebEnginePage *m_page;
 };
 
 #endif // BIBLEAPI_H

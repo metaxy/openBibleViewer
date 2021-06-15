@@ -50,7 +50,7 @@ void BookForm::restore(const QString &key)
         show();
     }
 
-    m_view->page()->mainFrame()->setScrollPosition(scroll);
+     //TODO: WEB m_view->page()->mainFrame()->setScrollPosition(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -58,7 +58,7 @@ void BookForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "book");
-    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+     //TODO: WEB m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
     if(m_book != nullptr) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_book->moduleID())->moduleUID());
