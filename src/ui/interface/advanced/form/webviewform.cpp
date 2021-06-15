@@ -25,30 +25,22 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/dialog/moduleselectdialog.h"
 #include "src/api/api.h"
 WebViewForm::WebViewForm(QWidget *parent) :
-    Form(parent), m_inspector(nullptr)
+    Form(parent)
 {
     m_view = new WebView(this);
     m_view->setObjectName("webView");
     m_view->setUrl(QUrl("about:blank"));
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanOpenWindows, true);
-    m_view->settings()->setAttribute(QWebSettings::JavascriptCanAccessClipboard, true);
-    m_view->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
-#if QT_VERSION >= 0x040700
-    m_view->settings()->setAttribute(QWebSettings::OfflineStorageDatabaseEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
-    m_view->settings()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls, true);
-    m_view->settings()->setAttribute(QWebSettings::JavaEnabled, false);
-#endif
+    m_view->settings()->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, true);
+    m_view->settings()->setAttribute(QWebEngineSettings::JavascriptCanAccessClipboard, true);
+    m_view->settings()->setAttribute(QWebEngineSettings::PluginsEnabled, false);
+    m_view->settings()->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+    m_view->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+    m_view->settings()->setAttribute(QWebEngineSettings::LocalContentCanAccessFileUrls, true);
+
     m_view->setLayoutDirection(Qt::LayoutDirectionAuto);
 }
 WebViewForm::~WebViewForm()
 {
-    if(m_inspector != nullptr) {
-        delete m_inspector;
-        m_inspector = nullptr;
-    }
 }
 
 void WebViewForm::copy()
@@ -67,7 +59,7 @@ void WebViewForm::print()
     QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() == QDialog::Accepted) {
-        m_view->page()->mainFrame()->print(&printer);
+        m_view->page()->print(&printer);
     }
     delete dialog;
 }
@@ -130,18 +122,6 @@ void WebViewForm::zoomIn()
 void WebViewForm::zoomOut()
 {
     m_view->setZoomFactor(m_view->zoomFactor() - 0.1);
-}
-
-void WebViewForm::debugger()
-{
-    if(m_inspector == nullptr) {
-        m_view->page()->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
-        m_inspector = new QWebInspector;
-        m_inspector->setPage(m_view->page());
-        m_inspector->showNormal();
-    } else {
-        m_inspector->showNormal();
-    }
 }
 
 void WebViewForm::openInNewTab()

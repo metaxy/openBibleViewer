@@ -12,17 +12,18 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webview.h"
-#include <QtWebEngineWidgets>
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
 #include "src/core/dbghelper.h"
 #include <QNetworkReply>
 #include <QNetworkDiskCache>
 WebView::WebView(QWidget *parent) :
     QWebEngineView(parent), m_doBlocking(false)
 {
-    m_networManager = new NetworkAccessManager(this);
-    this->page()->setNetworkAccessManager(m_networManager);
+    //TODO: Add network mananger
+    //m_networManager = new NetworkAccessManager(this);
+    //this->page()->setNetworkAccessManager(m_networManager);
 
-    this->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+    this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
 
 }
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
@@ -32,11 +33,7 @@ void WebView::contextMenuEvent(QContextMenuEvent * ev)
 
 void WebView::scrollToAnchor(const QString &anchor)
 {
-#if QT_VERSION >= 0x040700
-    page()->mainFrame()->scrollToAnchor(anchor);
-#else
-    page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
-#endif
+    //TODO: page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
 }
 
 void WebView::mouseReleaseEvent(QMouseEvent *event)
@@ -45,13 +42,13 @@ void WebView::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         return;
     }
-    QWebView::mouseReleaseEvent(event);
+    QWebEngineView::mouseReleaseEvent(event);
 }
 bool WebView::mouseReleased(const QPoint &pos)
 {
-    const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
-    const QString url = hitTest.element().attribute("href");
-
+    //const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
+    //const QString url = hitTest.element().attribute("href");
+/*
     if (!url.isEmpty()) {
         if ((m_pressedButtons & Qt::MidButton) ||
             ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ControlModifier))) {
@@ -64,19 +61,19 @@ bool WebView::mouseReleased(const QPoint &pos)
             return true;
 
         }
-    }
+    }*/
     return false;
 }
 void WebView::mousePressEvent(QMouseEvent *event)
 {
      m_pressedButtons = event->buttons();
      m_keyboardModifiers = event->modifiers();
-     QWebView::mousePressEvent(event);
+     QWebEngineView::mousePressEvent(event);
 }
 bool WebView::hasSelection() const
 {
     #if QT_VERSION >= 0x40800
-      return QWebView::hasSelection();
+      return page()->hasSelection();
     #else
       return true;
     #endif
@@ -84,13 +81,14 @@ bool WebView::hasSelection() const
 void WebView::setBlockRules(const BlockRules &rules)
 {
     DEBUG_FUNC_NAME
-    m_networManager->setBlockRules(rules);
+    //m_networManager->setBlockRules(rules);
     //currently block only mainFrame
-    connect(this->page()->mainFrame(), SIGNAL(loadFinished(bool)), this, SLOT(applyHidingRules(bool)));
+    //connect(this->page()->mainFrame(), SIGNAL(loadFinished(bool)), this, SLOT(applyHidingRules(bool)));
 }
 
 void WebView::applyHidingRules(bool ok)
 {
+    /*
     DEBUG_FUNC_NAME
     if (!ok)
         return;
@@ -114,17 +112,17 @@ void WebView::applyHidingRules(bool ok)
             myDebug() << "Hide element: " << el.localName();
             el.removeFromDocument();
         }
-    }
+    }*/
 }
 
 void WebView::load(const QUrl &url)
 {
-    NetworkAccessManager *sep = new NetworkAccessManager(this);
+   /* NetworkAccessManager *sep = new NetworkAccessManager(this);
     connect(sep, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(filter(QNetworkReply*)));
     QNetworkRequest req(url);
     req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
-    sep->get(req);
+    sep->get(req);*/
 }
 /**
  * @brief WebView::filter filters the html from unneed elems
@@ -132,8 +130,8 @@ void WebView::load(const QUrl &url)
  */
 void WebView::filter(QNetworkReply *r)
 {
-    setContent(r->readAll(),"text/html",r->url());
+    /*setContent(r->readAll(),"text/html",r->url());
     applyHidingRules(true);
-    sender()->deleteLater();
+    sender()->deleteLater();*/
 }
 

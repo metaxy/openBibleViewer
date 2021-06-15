@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "ui_webform.h"
 #include <QToolBar>
 #include <QPrinter>
-#include <QtWebKitWidgets>
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
 #include <QPointer>
 
 WebForm::WebForm(QWidget *parent) :

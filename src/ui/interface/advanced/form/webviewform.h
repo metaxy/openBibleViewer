@@ -19,7 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/module/response/stringresponse.h"
 #include "src/core/module/response/urlresponse.h"
 #include "src/core/module/response/textrangesresponse.h"
-#include <QWebInspector>
 class WebViewForm : public Form
 {
     Q_OBJECT
@@ -93,8 +92,6 @@ protected:
 
     QString m_styleSheet;
     QUrl m_lastUrl;
-
-    QWebInspector * m_inspector;
 
 };
 

@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "qtwebenginewidgets": "cpp"
+        "qtwebenginewidgets": "cpp",
+        "qnetworkreply": "cpp",
+        "qmenu": "cpp"
     }
 }

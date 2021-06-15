@@ -14,7 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bookform.h"
 #include "ui_bookform.h"
 #include "src/core/module/response/stringresponse.h"
-#include <QWebInspector>
+
 BookForm::BookForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::BookForm)
