@@ -20,13 +20,9 @@ WebView::WebView(QWidget *parent) :
     QWebView(parent), m_doBlocking(false)
 {
     m_networManager = new NetworkAccessManager(this);
-  //  QNetworkDiskCache* diskCache = new QNetworkDiskCache(parent);
- //  QString dataPath =
-//  diskCache->setCacheDirectory("/home/paul/testaaa");
- //  diskCache->setMaximumCacheSize(5*1024*1024); // 5Mo
- //  m_networManager->setCache(diskCache);
     this->page()->setNetworkAccessManager(m_networManager);
 
+    this->page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
 
 }
 void WebView::contextMenuEvent(QContextMenuEvent * ev)

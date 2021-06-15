@@ -14,7 +14,11 @@ openBibleViewer requires:
 Resolve Dependecies 
 ----------------------
 ## Ubuntu
-sudo apt-get install -qq --no-install-recommends libquazip-dev zlib1g-dev qt5-default qttools5-dev-tools qtscript5-dev libclucene-dev libqt5webkit5-dev
+sudo apt-get install -qq --no-install-recommends libquazip-dev zlib1g-dev qt5-default qttools5-dev-tools qtscript5-dev libclucene-dev libqt5webkit5-dev#
+
+
+## Ubuntu 21.04
+sudo apt-get install -qq --no-install-recommends libquazip5-dev zlib1g-dev qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qttools5-dev-tools qtscript5-dev libclucene-dev libqt5webkit5-dev
 
 ## openSUSE
 sudo zypper in clucene-core-devel desktop-file-utils cmake gcc-c++ unzip zlib-devel libqt5-qtbase-devel libqt5-qtscript-devel libQt5WebKitWidgets-devel

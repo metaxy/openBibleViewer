@@ -23,7 +23,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QClipboard>
 #include <QWebElement>
 #include <QDesktopServices>
-#include <QCryptographicHash>
 CommentaryForm::CommentaryForm(QWidget *parent) :
     WebViewForm(parent),
     ui(new Ui::CommentaryForm),
