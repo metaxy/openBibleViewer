@@ -48,8 +48,7 @@ void ConsoleForm::restore(const QString &key)
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
     const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
-
-     //TODO: WEBm_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->scrollTo(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -57,7 +56,7 @@ void ConsoleForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "console");
-    //TODO: WEB m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
 }
 

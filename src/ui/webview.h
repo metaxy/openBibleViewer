@@ -35,6 +35,11 @@ public:
     void load(const QUrl &url);
     void insertStyleSheet(const QString &name, const QString &source, bool immediately);
     void removeStyleSheet(const QString &name, bool immediately);
+    void scrollTo(int x, int y);
+    void scrollTo(float x, float y);
+    void scrollTo(QPoint x);
+    void scrollTo(QPointF x);
+
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);

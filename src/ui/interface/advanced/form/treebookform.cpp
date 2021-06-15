@@ -77,7 +77,7 @@ void TreeBookForm::restore(const QString &key)
         showChapter(moduleID, chapter);
     }
     ui->splitter->restoreState(m_settings->session.file()->value(a + "splitterSizes").toByteArray());
-    //TODO: WEB m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->scrollTo(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -85,7 +85,7 @@ void TreeBookForm::save()
 {
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "type", "tbook");
-    //TODO: WEB m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom",  m_view->zoomFactor());
     if(m_book != NULL) {
         m_settings->session.file()->setValue(a + "uid", m_moduleManager->getModule(m_book->moduleID())->moduleUID());

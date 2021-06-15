@@ -441,7 +441,7 @@ void CommentaryForm::save()
     m_settings->session.file()->setValue(a + "url", newUrl.toString());
 
 
-    //TODO: Web m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
 
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
@@ -474,7 +474,7 @@ void CommentaryForm::restore(const QString &key)
     }
 
 
-    //TODO: Webm_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->scrollTo(scroll);
     m_view->setZoomFactor(zoom);
 
    /* QUrl url = m_settings->session.file()->value(a + "url").toUrl();

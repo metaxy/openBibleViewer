@@ -255,14 +255,14 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 void BibleForm::reload(bool full)
 {
     if(!verseTableLoaded()) return;
-    //TODO: Web const QPoint p = m_view->page()->mainFrame()->scrollPosition();
+    const QPointF p = m_view->page()->scrollPosition();
 
     if(full) {
         m_verseTable->clearData();
     }
     parseUrl(m_url, true);
 
-    //TODO: Web m_view->page()->mainFrame()->setScrollPosition(p);
+    m_view->scrollTo(p);
 }
 void BibleForm::reloadIf(const VerseUrl &url)
 {
@@ -366,8 +366,7 @@ void BibleForm::restore(const QString &key)
         m_browserHistory.setData3(m_settings->session.file()->value(a + "hist3"));
         setButtons();
     }
-
-    //TODO: Web m_view->page()->mainFrame()->setScrollPosition(scroll);
+    m_view->scrollTo(scroll);
     m_view->setZoomFactor(zoom);
 }
 
@@ -400,7 +399,7 @@ void BibleForm::save()
     const QString a = m_settings->session.id() + "/windows/" + QString::number(m_id) + "/";
     m_settings->session.file()->setValue(a + "urls", urls);
     m_settings->session.file()->setValue(a + "biblePoints", QVariant(points));
-    //TODO: Webm_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->mainFrame()->scrollPosition());
+    m_settings->session.file()->setValue(a + "scrollPosition", m_view->page()->scrollPosition());
     m_settings->session.file()->setValue(a + "zoom", m_view->zoomFactor());
 
     m_settings->session.file()->setValue(a + "hist1", m_browserHistory.data1());
@@ -660,8 +659,8 @@ void BibleForm::showText(const QString &text)
 
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
-        //if(m_verseTable->hasTopBar())
-            //TODO: Web frame->scroll(0, -40 * m_view->zoomFactor());
+        if(m_verseTable->hasTopBar())
+            m_view->scrollTo(0, -40 * m_view->zoomFactor());
     }
 
     //some BibleQuote Hacks

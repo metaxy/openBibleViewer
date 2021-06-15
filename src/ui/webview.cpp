@@ -33,9 +33,26 @@ void WebView::contextMenuEvent(QContextMenuEvent * ev)
 
 void WebView::scrollToAnchor(const QString &anchor)
 {
-    //TODO: page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
+    page()->runJavaScript("window.location.href = '" + anchor + "';");
 }
 
+void WebView::scrollTo(int x, int y)
+{
+    page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
+}
+void WebView::scrollTo(float x, float y)
+{
+    page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
+}
+
+void WebView::scrollTo(QPoint point)
+{
+    scrollTo(point.x(), point.y());
+}
+void WebView::scrollTo(QPointF point)
+{
+    scrollTo(point.x(), point.y());
+}
 void WebView::insertStyleSheet(const QString &name, const QString &source, bool immediately)
 {
     QFile file(source);
