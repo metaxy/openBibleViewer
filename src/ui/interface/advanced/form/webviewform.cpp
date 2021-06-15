@@ -261,22 +261,12 @@ void WebViewForm::showTextRangesResponse(TextRangesResponse *res)
 }
 void WebViewForm::loadStyleSheet(QString url)
 {
-    DEBUG_FUNC_NAME
-   /* if(url.isEmpty()) {
+    if(url.isEmpty()) {
         url = getStyleSheetUrl();
         if(url.isEmpty())
             url = ":/data/css/default.css";
     }
-    m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(url));
-    */
-    if(url.isEmpty()) {
-        url = getStyleSheetUrl();
-        if(url.isEmpty())
-            url = "qrc:/data/css/default.css";
-    }
-    //TODO: WEB m_view->settings()->setUserStyleSheetUrl(QUrl(url));
-
-    //TODO: WEB myDebug() << m_view->settings()->userStyleSheetUrl();
+    m_view->insertStyleSheet("style", url, true);
 }
 QString WebViewForm::getStyleSheetUrl()
 {

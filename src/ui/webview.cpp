@@ -36,6 +36,50 @@ void WebView::scrollToAnchor(const QString &anchor)
     //TODO: page()->mainFrame()->evaluateJavaScript("window.location.href = '" + anchor + "';");
 }
 
+void WebView::insertStyleSheet(const QString &name, const QString &source, bool immediately)
+{
+    QFile file(source);
+    file.open(QIODevice::ReadOnly);
+    if(!file.open(QIODevice::ReadOnly)) {
+        myDebug() << "error: " << file.errorString();
+    }
+
+    QTextStream in(&file);
+    QString cssContent = in.readAll();
+    QWebEngineScript script;
+    QString s = QString::fromLatin1("(function() {"\
+                                    "    css = document.createElement('style');"\
+                                    "    css.type = 'text/css';"\
+                                    "    css.id = '%1';"\
+                                    "    document.head.appendChild(css);"\
+                                    "    css.innerText = '%2';"\
+                                    "})()").arg(name).arg(cssContent.simplified());
+    if (immediately)
+        page()->runJavaScript(s, QWebEngineScript::ApplicationWorld);
+
+    script.setName(name);
+    script.setSourceCode(s);
+    script.setInjectionPoint(QWebEngineScript::DocumentReady);
+    script.setRunsOnSubFrames(true);
+    script.setWorldId(QWebEngineScript::ApplicationWorld);
+    page()->scripts().insert(script);
+}
+
+void WebView::removeStyleSheet(const QString &name, bool immediately)
+{
+    QString s = QString::fromLatin1("(function() {"\
+                                    "    var element = document.getElementById('%1');"\
+                                    "    element.outerHTML = '';"\
+                                    "    delete element;"\
+                                    "})()").arg(name);
+    if (immediately)
+        page()->runJavaScript(s, QWebEngineScript::ApplicationWorld);
+
+    QWebEngineScript script = page()->scripts().findScript(name);
+    page()->scripts().remove(script);
+}
+
+
 void WebView::mouseReleaseEvent(QMouseEvent *event)
 {
    if (mouseReleased(event->pos())) {

@@ -240,7 +240,7 @@ void SimpleInterface::showText(const QString &text)
     if(cssFile.isEmpty())
         cssFile = ":/data/css/default.css";
     m_view->setHtml(text);
-    //TODO: WEB m_view->settings()->setUserStyleSheetUrl(QUrl::fromLocalFile(cssFile));
+    m_view->insertStyleSheet("style", cssFile, true);
 
     if(m_module->lastTextRanges()->minVerseID() > 1)
         m_view->scrollToAnchor("currentVerse");

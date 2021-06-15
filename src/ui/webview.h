@@ -33,6 +33,8 @@ public:
     void setBlockRules(const BlockRules &rules);
 
     void load(const QUrl &url);
+    void insertStyleSheet(const QString &name, const QString &source, bool immediately);
+    void removeStyleSheet(const QString &name, bool immediately);
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
