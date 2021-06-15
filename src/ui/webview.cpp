@@ -40,7 +40,7 @@ void WebView::scrollTo(int x, int y)
 {
     page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
 }
-void WebView::scrollTo(float x, float y)
+void WebView::scrollTo(qreal x, qreal y)
 {
     page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
 }

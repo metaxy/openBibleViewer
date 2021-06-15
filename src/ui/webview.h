@@ -36,7 +36,7 @@ public:
     void insertStyleSheet(const QString &name, const QString &source, bool immediately);
     void removeStyleSheet(const QString &name, bool immediately);
     void scrollTo(int x, int y);
-    void scrollTo(float x, float y);
+    void scrollTo(qreal x, qreal y);
     void scrollTo(QPoint x);
     void scrollTo(QPointF x);
 
