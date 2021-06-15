@@ -24,7 +24,7 @@ TreeBookForm::TreeBookForm(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->splitter->addWidget(m_view);
-    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
     connect(ui->treeView, SIGNAL(activated(QModelIndex)), this, SLOT(loadChapter(QModelIndex)));
 
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));

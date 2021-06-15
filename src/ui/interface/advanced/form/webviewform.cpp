@@ -53,12 +53,12 @@ WebViewForm::~WebViewForm()
 
 void WebViewForm::copy()
 {
-    m_view->page()->triggerAction(QWebPage::Copy);
+    m_view->page()->triggerAction(QWebEnginePage::Copy);
 }
 
 void WebViewForm::selectAll()
 {
-    m_view->page()->triggerAction(QWebPage::SelectAll);
+    m_view->page()->triggerAction(QWebEnginePage::SelectAll);
 }
 
 void WebViewForm::print()

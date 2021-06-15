@@ -73,14 +73,14 @@ NotesEditor::NotesEditor(QWidget *parent)
     connect(ui->actionZoomIn, SIGNAL(triggered()), SLOT(zoomIn()));
 
 
-    FORWARD_ACTION(ui->actionEditUndo, QWebPage::Undo);
-    FORWARD_ACTION(ui->actionEditRedo, QWebPage::Redo);
-    FORWARD_ACTION(ui->actionEditCut, QWebPage::Cut);
-    FORWARD_ACTION(ui->actionEditCopy, QWebPage::Copy);
-    FORWARD_ACTION(ui->actionEditPaste, QWebPage::Paste);
-    FORWARD_ACTION(ui->actionFormatBold, QWebPage::ToggleBold);
-    FORWARD_ACTION(ui->actionFormatItalic, QWebPage::ToggleItalic);
-    FORWARD_ACTION(ui->actionFormatUnderline, QWebPage::ToggleUnderline);
+    FORWARD_ACTION(ui->actionEditUndo, QWebEnginePage::Undo);
+    FORWARD_ACTION(ui->actionEditRedo, QWebEnginePage::Redo);
+    FORWARD_ACTION(ui->actionEditCut, QWebEnginePage::Cut);
+    FORWARD_ACTION(ui->actionEditCopy, QWebEnginePage::Copy);
+    FORWARD_ACTION(ui->actionEditPaste, QWebEnginePage::Paste);
+    FORWARD_ACTION(ui->actionFormatBold, QWebEnginePage::ToggleBold);
+    FORWARD_ACTION(ui->actionFormatItalic, QWebEnginePage::ToggleItalic);
+    FORWARD_ACTION(ui->actionFormatUnderline, QWebEnginePage::ToggleUnderline);
 
 
     connect(ui->actionEditSelectAll, SIGNAL(triggered()), SLOT(editSelectAll()));
@@ -125,14 +125,14 @@ NotesEditor::NotesEditor(QWidget *parent)
 void NotesEditor::init()
 {
     setAll(m_simpleNotes);
-    m_simpleNotes->setFrameWidget(ui->webView->page()->mainFrame());
+    m_simpleNotes->setPageWidget(ui->webView->page());
     m_simpleNotes->setViewWidget(ui->treeView);
     m_simpleNotes->setTitleWidget(ui->lineEdit_noteTitle);
     m_simpleNotes->setLinkButtonWidget(ui->pushButton_editNoteLink);
     m_simpleNotes->setLinkWidget(ui->label_noteLink);
 
     m_simpleNotes->init();
-    ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    ui->webView->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
     connect(ui->webView->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(parseUrl(QUrl)));
     //connect(ui->plainTextEdit, SIGNAL(textChanged()), this, SLOT(adjustHtml()));
 }
@@ -371,7 +371,7 @@ void NotesEditor::zoomIn()
 
 void NotesEditor::editSelectAll()
 {
-    ui->webView->triggerPageAction(QWebPage::SelectAll);
+    ui->webView->triggerPageAction(QWebEnginePage::SelectAll);
 }
 
 void NotesEditor::execCommand(const QString &cmd)
@@ -535,14 +535,14 @@ void NotesEditor::formatBackgroundColor()
 
 void NotesEditor::adjustActions()
 {
-    FOLLOW_ENABLE(ui->actionEditUndo, QWebPage::Undo);
-    FOLLOW_ENABLE(ui->actionEditRedo, QWebPage::Redo);
-    FOLLOW_ENABLE(ui->actionEditCut, QWebPage::Cut);
-    FOLLOW_ENABLE(ui->actionEditCopy, QWebPage::Copy);
-    FOLLOW_ENABLE(ui->actionEditPaste, QWebPage::Paste);
-    FOLLOW_CHECK(ui->actionFormatBold, QWebPage::ToggleBold);
-    FOLLOW_CHECK(ui->actionFormatItalic, QWebPage::ToggleItalic);
-    FOLLOW_CHECK(ui->actionFormatUnderline, QWebPage::ToggleUnderline);
+    FOLLOW_ENABLE(ui->actionEditUndo, QWebEnginePage::Undo);
+    FOLLOW_ENABLE(ui->actionEditRedo, QWebEnginePage::Redo);
+    FOLLOW_ENABLE(ui->actionEditCut, QWebEnginePage::Cut);
+    FOLLOW_ENABLE(ui->actionEditCopy, QWebEnginePage::Copy);
+    FOLLOW_ENABLE(ui->actionEditPaste, QWebEnginePage::Paste);
+    FOLLOW_CHECK(ui->actionFormatBold, QWebEnginePage::ToggleBold);
+    FOLLOW_CHECK(ui->actionFormatItalic, QWebEnginePage::ToggleItalic);
+    FOLLOW_CHECK(ui->actionFormatUnderline, QWebEnginePage::ToggleUnderline);
 
     ui->actionFormatStrikethrough->setChecked(queryCommandState("strikeThrough"));
     ui->actionFormatNumberedList->setChecked(queryCommandState("insertOrderedList"));

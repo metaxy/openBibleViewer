@@ -12,12 +12,12 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 #include "webview.h"
-#include <QtWebKitWidgets>
+#include <QtWebEngineWidgets>
 #include "src/core/dbghelper.h"
 #include <QNetworkReply>
 #include <QNetworkDiskCache>
 WebView::WebView(QWidget *parent) :
-    QWebView(parent), m_doBlocking(false)
+    QWebEngineView(parent), m_doBlocking(false)
 {
     m_networManager = new NetworkAccessManager(this);
     this->page()->setNetworkAccessManager(m_networManager);

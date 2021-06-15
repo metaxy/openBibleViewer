@@ -28,9 +28,9 @@ void SimpleNotes::setDataWidget(QTextBrowser *data)
     m_textEdit_note = data;
     m_loadTextBrowser = true;
 }
-void SimpleNotes::setFrameWidget(QWebFrame *frame)
+void SimpleNotes::setPageWidget(QWebEnginePage *page)
 {
-    m_frame = frame;
+    m_page = page;
     m_loadTextBrowser = false;
 }
 void SimpleNotes::setTitleWidget(QLineEdit *title)
@@ -114,7 +114,7 @@ void SimpleNotes::setData(QString data)
             m_textEdit_note->setHtml(data);
         }
     } else {
-        m_frame->setHtml(data);
+        m_page->setHtml(data);
     }
 }
 void SimpleNotes::setRef(QMap<QString, QString> ref)
@@ -239,10 +239,13 @@ void SimpleNotes::fastSave(void)
     disconnect(m_notes, SIGNAL(dataChanged(QString, QString)), this, SLOT(changeData(QString, QString)));
     disconnect(m_notes, SIGNAL(refChanged(QString, QMap<QString, QString>)), this, SLOT(changeRef(QString, QMap<QString, QString>)));
 
-    if(m_loadTextBrowser)
+    if(m_loadTextBrowser) {
         m_notes->setData(m_noteID, m_textEdit_note->toHtml());
-    else
-        m_notes->setData(m_noteID, m_frame->toHtml());
+    } else {
+        //TODO: Web m_notes->setData(m_noteID, m_page->toHtml());
+        // https://stackoverflow.com/questions/36680604/qwebenginepage-tohtml-returns-an-empty-string
+    }
+        
 
     m_notes->setTitle(m_noteID, m_lineEdit_title->text());
     m_notes->setRef(m_noteID, m_noteRef);

@@ -15,7 +15,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #define SEARCHAPI_H
 #include <QObject>
 #include "src/core/basicclass.h"
-#include <QtWebKitWidgets>
+#include <QtWebEngineWidgets>
 #include "src/core/search/search.h"
 
 class SearchApi : public QObject, public BasicClass

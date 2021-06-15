@@ -28,7 +28,7 @@ BibleForm::BibleForm(QWidget *parent) :
     m_ui->setupUi(this);
     m_ui->verticalLayout->addWidget(m_view);
 
-    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(m_ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
@@ -776,7 +776,7 @@ void BibleForm::searchInText(SearchResult *res)
         //todo: hacky
         s.remove('*');
         s.remove('?');
-        m_view->findText(s, QWebPage::HighlightAllOccurrences);
+        m_view->findText(s, QWebEnginePage::HighlightAllOccurrences);
     }
 }
 

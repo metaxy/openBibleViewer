@@ -21,7 +21,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QPushButton>
 #include <QLabel>
 
-#include <QtWebKitWidgets>
+#include <QtWebEngineWidgets/QtWebEngineWidgets>
 #include "src/core/settings/settings.h"
 #include "src/core/notes/notes.h"
 #include "src/core/verseselection.h"
@@ -41,7 +41,7 @@ public:
     void setTitleWidget(QLineEdit *title);
 
     void setDataWidget(QTextBrowser *data);
-    void setFrameWidget(QWebFrame *frame);
+    void setPageWidget(QWebEnginePage *page);
 
     void setViewWidget(QTreeView *treeView);
     void setLinkWidget(QLabel* link);
@@ -113,7 +113,7 @@ private slots:
 private:
     QLineEdit *m_lineEdit_title;
     QTextBrowser *m_textEdit_note;
-    QWebFrame *m_frame;
+    QWebEnginePage *m_page;
     QLabel *m_label_link;
     QPushButton *m_pushButton_link;
 

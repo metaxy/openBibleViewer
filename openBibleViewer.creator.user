@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.1, 2021-06-15T12:03:00. -->
+<!-- Written by QtCreator 4.14.1, 2021-06-15T12:28:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -209,6 +209,7 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="QString" key="ProjectExplorer.CustomExecutableRunConfiguration.Executable">/home/paul/coding/openBibleViewer/build/openBibleViewer</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>

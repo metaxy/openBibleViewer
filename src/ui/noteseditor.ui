@@ -62,7 +62,7 @@
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QWebView" name="webView" native="true"/>
+             <widget class="QWebEngineView" name="webView" native="true"/>
             </item>
            </layout>
           </widget>

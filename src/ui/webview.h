@@ -14,14 +14,14 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #ifndef WEBVIEW_H
 #define WEBVIEW_H
 
-#include <QWebView>
+#include <QWebEngineView>
 #include <QMenu>
 #include <QAction>
 #include <QContextMenuEvent>
 #include "src/ui/web/networkaccessmanager.h"
 #include "src/core/blockrules.h"
 
-class WebView : public QWebView
+class WebView : public QWebEngineView
 {
     Q_OBJECT
 public:

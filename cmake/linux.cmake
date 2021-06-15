@@ -17,7 +17,7 @@ target_link_libraries(
     Qt5::Network
     Qt5::Sql
     Qt5::PrintSupport
-    Qt5::WebKitWidgets
+    Qt5::WebEngineWidgets
     Qt5::Script
     ${CLUCENE1_LIBRARIES}
     ${sw_libs}

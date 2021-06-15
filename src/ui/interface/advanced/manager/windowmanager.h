@@ -17,7 +17,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <functional>
 #include <QObject>
 #include <QMdiArea>
-#include <QtWebKitWidgets>
+#include <QtWebEngineWidgets>
 
 #include <QVBoxLayout>
 #include "src/ui/interface/advanced/mdiarea.h"

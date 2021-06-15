@@ -80,7 +80,7 @@ ModuleID DictionaryForm::moduleID() const
 
 void DictionaryForm::init()
 {
-    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), this, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), this,  SLOT(newGet(QUrl)));

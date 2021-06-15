@@ -29,14 +29,14 @@ WebForm::WebForm(QWidget *parent) :
     connect(m_view, SIGNAL(loadStarted()), this, SLOT(loadStarted()));
     connect(m_view, SIGNAL(loadFinished(bool)), m_view, SLOT(update()));
 
-    m_ui->toolButton_back->setIcon(m_view->pageAction(QWebPage::Back)->icon());
-    m_ui->toolButton_back->setToolTip(m_view->pageAction(QWebPage::Back)->toolTip());
+    m_ui->toolButton_back->setIcon(m_view->pageAction(QWebEnginePage::Back)->icon());
+    m_ui->toolButton_back->setToolTip(m_view->pageAction(QWebEnginePage::Back)->toolTip());
 
-    m_ui->toolButton_forward->setIcon(m_view->pageAction(QWebPage::Forward)->icon());
-    m_ui->toolButton_forward->setToolTip(m_view->pageAction(QWebPage::Forward)->toolTip());
+    m_ui->toolButton_forward->setIcon(m_view->pageAction(QWebEnginePage::Forward)->icon());
+    m_ui->toolButton_forward->setToolTip(m_view->pageAction(QWebEnginePage::Forward)->toolTip());
 
-    m_ui->toolButton_reloadStop->setIcon(m_view->pageAction(QWebPage::Reload)->icon());
-    m_ui->toolButton_reloadStop->setToolTip(m_view->pageAction(QWebPage::Reload)->toolTip());
+    m_ui->toolButton_reloadStop->setIcon(m_view->pageAction(QWebEnginePage::Reload)->icon());
+    m_ui->toolButton_reloadStop->setToolTip(m_view->pageAction(QWebEnginePage::Reload)->toolTip());
 
     connect(m_ui->toolButton_forward, SIGNAL(clicked()), m_view, SLOT(forward()));
     connect(m_ui->toolButton_back, SIGNAL(clicked()), m_view, SLOT(back()));

@@ -32,7 +32,7 @@ CommentaryForm::CommentaryForm(QWidget *parent) :
     ui->setupUi(this);
     ui->verticalLayout->addWidget(m_view);
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(changeLocation()));
-    m_view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    m_view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
 
     connect(ui->toolButton_backward, SIGNAL(clicked()), this, SLOT(backward()));
     connect(ui->toolButton_forward, SIGNAL(clicked()), this, SLOT(forward()));
