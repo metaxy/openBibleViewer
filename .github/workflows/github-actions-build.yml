@@ -15,8 +15,6 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Install xmllint
-        run: sudo apt-get install -qq --no-install-recommends libquazip5-dev zlib1g-dev libclucene-dev
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.9
         with:
