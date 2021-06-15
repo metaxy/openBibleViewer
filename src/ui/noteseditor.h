@@ -46,6 +46,7 @@ public:
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
+    bool acceptNavigationRequest(const QUrl & url, QWebEnginePage::NavigationType type, bool isMainFrame);
 
 private:
     void setupActions();

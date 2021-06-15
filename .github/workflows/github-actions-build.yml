@@ -37,4 +37,3 @@ jobs:
             cmake -DCMAKE_INSTALL_PREFIX='./usr' .
             make VERBOSE=1
         shell: bash
-  P
