@@ -660,7 +660,7 @@ void BibleForm::showText(const QString &text)
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
         if(m_verseTable->hasTopBar())
-            m_view->scrollTo(0, -40 * m_view->zoomFactor());
+            m_view->scrollTo(0.0, -40.0 * m_view->zoomFactor());
     }
 
     //some BibleQuote Hacks
