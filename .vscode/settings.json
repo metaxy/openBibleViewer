@@ -3,5 +3,10 @@
         "qtwebenginewidgets": "cpp",
         "qnetworkreply": "cpp",
         "qmenu": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false,
+    "cSpell.words": [
+        "jquery",
+        "qreal"
+    ]
 }

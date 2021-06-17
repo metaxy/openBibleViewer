@@ -344,7 +344,7 @@ void TextDocumentRtfOutput::appendLink(const QString &href, const QString &text)
 
     QTextCharFormat format;
     format.setAnchorHref(href2);
-    format.setAnchorName(text);
+    format.setAnchorNames(QStringList(text));
     format.setAnchor(true);
     m_cursor->insertText(text, format);
 }

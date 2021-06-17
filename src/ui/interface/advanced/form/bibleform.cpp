@@ -864,7 +864,9 @@ void BibleForm::deleteDefaultMenu()
 }
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
-    //DEBUG_FUNC_NAME
+    const QWebEngineContextMenuData &data = m_view->page()->contextMenuData();
+    Q_ASSERT(data.isValid());
+
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
     QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
@@ -875,9 +877,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         actionCopy->setEnabled(false);
     }
 
-
-    //TODO: Webconst QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    /*const QUrl url = hitTest.linkUrl();
+    const QUrl url = data.linkUrl();
 
     ModuleTools::ContentType type = ModuleTools::contentTypeFromUrl(url.toString());
     ModuleTools::ModuleClass cl = ModuleTools::moduleClassFromUrl(url.toString());
@@ -938,7 +938,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         myDebug() << "another menu";
         myDebug() << url << url.toString();
         m_contextMenuUrl = url.toString();
-        m_contextMenuText = hitTest.linkText();
+        m_contextMenuText = data.linkText();
 
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
@@ -1042,12 +1042,8 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
             contextMenu->addMenu(openIn);
             contextMenu->addMenu(openInNew);
         }
-
-
-
         contextMenu->exec(ev->globalPos());
     }
-    */
 }
 void BibleForm::newNoteWithLink()
 {
@@ -1193,6 +1189,8 @@ void BibleForm::removeMark()
 
 VerseSelection BibleForm::verseSelection()
 {
+    VerseSelection s;
+    return s;
     /*
     QWebEnginePage *f = m_view->page();
     VerseSelection s;

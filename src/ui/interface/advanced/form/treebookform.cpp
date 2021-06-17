@@ -215,9 +215,9 @@ void TreeBookForm::setButtons()
 }
 void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
 {
-     //TODO: WEB
-     /*
-    //DEBUG_FUNC_NAME
+    const QWebEngineContextMenuData &data = m_view->page()->contextMenuData();
+    Q_ASSERT(data.isValid());
+
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
     QAction * actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
     connect(actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
@@ -230,9 +230,8 @@ void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
         actionCopy->setEnabled(false);
     }
 
-    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    const QString url = transformUrl(hitTest.linkElement().attribute("href"));
-    if(hitTest.linkUrl().isEmpty()) {
+    const QString url = transformUrl(data.linkUrl().toString());
+    if(data.linkUrl().isEmpty()) {
         contextMenu->addAction(actionSelect);
         contextMenu->addAction(actionCopy);
         contextMenu->exec(ev->globalPos());
@@ -240,7 +239,7 @@ void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
     } else {
         myDebug() << "another menu";
         m_contextMenuUrl = url;
-        m_contextMenuText = hitTest.linkText();
+        m_contextMenuText = data.linkText();
 
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
@@ -352,7 +351,7 @@ void TreeBookForm::showContextMenu(QContextMenuEvent* ev)
 
         contextMenu->exec(ev->globalPos());
 
-    }*/
+    }
 
 }
 QString TreeBookForm::transformUrl(const QString &url)

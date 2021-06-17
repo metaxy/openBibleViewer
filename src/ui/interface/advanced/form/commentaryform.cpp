@@ -225,9 +225,9 @@ void CommentaryForm::setButtons()
 }
 void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
 {
-     //TODO: WEB
-     /*
-    //DEBUG_FUNC_NAME
+    const QWebEngineContextMenuData &data = m_view->page()->contextMenuData();
+    Q_ASSERT(data.isValid());
+
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
     QAction * actionSelect = new QAction(QIcon::fromTheme("edit-select-all", QIcon(":/icons/16x16/edit-select-all.png")), tr("Select All"), this);
     connect(actionSelect, SIGNAL(triggered()), this , SLOT(selectAll()));
@@ -239,19 +239,16 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
     } else {
         actionCopy->setEnabled(false);
     }
-
-    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    const QString url = transformUrl(hitTest.linkElement().attribute("href"));
-    if(hitTest.linkUrl().isEmpty()) {
-
+    
+    if(data.linkUrl().isEmpty()) {
         contextMenu->addAction(actionSelect);
         contextMenu->addAction(actionCopy);
         contextMenu->exec(ev->globalPos());
-
     } else {
         myDebug() << "another menu";
+        const QString url = transformUrl(data.linkUrl().toString());
         m_contextMenuUrl = url;
-        m_contextMenuText = hitTest.linkText();
+        m_contextMenuText = data.linkText();
 
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
@@ -359,12 +356,8 @@ void CommentaryForm::showContextMenu(QContextMenuEvent* ev)
             contextMenu->addMenu(openIn);
             contextMenu->addMenu(openInNew);
         }
-
-
         contextMenu->exec(ev->globalPos());
-
     }
-*/
 }
 QString CommentaryForm::transformUrl(const QString &url)
 {

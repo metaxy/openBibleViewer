@@ -392,10 +392,9 @@ void DictionaryForm::deleteDefaultMenu()
 
 void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 {
-    //TODO: Web
+    const QWebEngineContextMenuData &data = m_view->page()->contextMenuData();
+    Q_ASSERT(data.isValid());
 
-    /*
-    //DEBUG_FUNC_NAME
     QScopedPointer<QMenu> contextMenu(new QMenu(this));
 
     QAction *actionCopy = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy"), this);
@@ -407,8 +406,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
         actionCopy->setEnabled(false);
     }
 
-    const QWebHitTestResult hitTest = m_view->page()->mainFrame()->hitTestContent(ev->pos());
-    QUrl url = hitTest.linkUrl();
+    QUrl url = data.linkUrl();
     if(url.isEmpty()) {
 
         contextMenu->addAction(actionCopy);
@@ -424,7 +422,7 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
         }
 
         m_contextMenuUrl = url.toString();
-        m_contextMenuText = hitTest.linkText();
+        m_contextMenuText = data.linkText();
 
         QAction *openInNewTab = new QAction(QIcon::fromTheme("tab-new", QIcon(":/icons/16x16/tab-new.png")), tr("Open in new tab"), contextMenu.data());
         connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
@@ -535,7 +533,6 @@ void DictionaryForm::showContextMenu(QContextMenuEvent* ev)
 
         contextMenu->exec(ev->globalPos());
     }
-    */
 }
 void DictionaryForm::openInMenu()
 {
