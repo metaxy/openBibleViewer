@@ -168,7 +168,7 @@ void CommentaryForm::showUrlResponse(UrlResponse *res)
     m_lastUrl = QUrl(res->url());
 
     if(!res->blockRules().isEmpty()) {
-        m_view->setBlockRules(res->blockRules());
+        //m_view->setBlockRules(res->blockRules());
     }
 
     m_view->load(m_lastUrl);

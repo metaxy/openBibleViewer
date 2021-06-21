@@ -16,14 +16,9 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/dbghelper.h"
 
 WebView::WebView(QWidget *parent) :
-    QWebEngineView(parent), m_doBlocking(false)
+    QWebEngineView(parent)
 {
-    //TODO: Add network mananger
-    //m_networManager = new NetworkAccessManager(this);
-    //this->page()->setNetworkAccessManager(m_networManager);
-
-    this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
-
+    this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
 }
 
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
@@ -103,103 +98,12 @@ void WebView::removeStyleSheet(const QString &name, bool immediately)
 }
 
 
-void WebView::mouseReleaseEvent(QMouseEvent *event)
-{
-   if (mouseReleased(event->pos())) {
-        event->accept();
-        return;
-    }
-    QWebEngineView::mouseReleaseEvent(event);
-}
-bool WebView::mouseReleased(const QPoint &pos)
-{
-    //const QWebHitTestResult hitTest = page()->mainFrame()->hitTestContent(pos);
-    //const QString url = hitTest.element().attribute("href");
-/*
-    if (!url.isEmpty()) {
-        if ((m_pressedButtons & Qt::MidButton) ||
-            ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ControlModifier))) {
-            emit linkMiddleOrCtrlClicked(url);
-            return true;
-        }
-
-        if ((m_pressedButtons & Qt::LeftButton) && (m_keyboardModifiers & Qt::ShiftModifier)) {
-            emit linkShiftClicked(url);
-            return true;
-
-        }
-    }*/
-    return false;
-}
-void WebView::mousePressEvent(QMouseEvent *event)
-{
-     m_pressedButtons = event->buttons();
-     m_keyboardModifiers = event->modifiers();
-     QWebEngineView::mousePressEvent(event);
-}
 bool WebView::hasSelection() const
 {
-    #if QT_VERSION >= 0x40800
-      return page()->hasSelection();
-    #else
-      return true;
-    #endif
-}
-void WebView::setBlockRules(const BlockRules &rules)
-{
-    DEBUG_FUNC_NAME
-    //m_networManager->setBlockRules(rules);
-    //currently block only mainFrame
-    //connect(this->page()->mainFrame(), SIGNAL(loadFinished(bool)), this, SLOT(applyHidingRules(bool)));
-}
-
-void WebView::applyHidingRules(bool ok)
-{
-    /*
-    DEBUG_FUNC_NAME
-    if (!ok)
-        return;
-    if(!m_networManager->m_doBlock) {
-        return;
-    }
-    QWebFrame * frame = this->page()->mainFrame();
-
-
-    QWebElement document = frame->documentElement();
-
-    // HIDE RULES
-    Q_FOREACH(const QString & filter, m_networManager->m_blockRules.m_filterBySelector)
-    {
-        QWebElementCollection elements = document.findAll(filter);
-
-        Q_FOREACH(QWebElement el, elements)
-        {
-            if (el.isNull())
-                continue;
-            myDebug() << "Hide element: " << el.localName();
-            el.removeFromDocument();
-        }
-    }*/
+    return page()->hasSelection();
 }
 
 void WebView::load(const QUrl &url)
 {
     page()->load(url);
-   /* NetworkAccessManager *sep = new NetworkAccessManager(this);
-    connect(sep, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(filter(QNetworkReply*)));
-    QNetworkRequest req(url);
-    req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
-    sep->get(req);*/
 }
-/**
- * @brief WebView::filter filters the html from unneed elems
- * @param r
- */
-void WebView::filter(QNetworkReply *r)
-{
-    /*setContent(r->readAll(),"text/html",r->url());
-    applyHidingRules(true);
-    sender()->deleteLater();*/
-}
-

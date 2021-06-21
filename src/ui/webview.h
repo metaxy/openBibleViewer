@@ -18,8 +18,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QAction>
 #include <QContextMenuEvent>
-#include "src/ui/web/networkaccessmanager.h"
-#include "src/core/blockrules.h"
 
 class WebView : public QWebEngineView
 {
@@ -27,40 +25,26 @@ class WebView : public QWebEngineView
 public:
     explicit WebView(QWidget *parent = 0);
 
-    void scrollToAnchor(const QString &anchor);
     bool hasSelection() const;
 
-    void setBlockRules(const BlockRules &rules);
-
     void load(const QUrl &url);
+
     void insertStyleSheet(const QString &name, const QString &source, bool immediately);
     void removeStyleSheet(const QString &name, bool immediately);
+
+    void scrollToAnchor(const QString &anchor);
     void scrollTo(int x, int y);
     void scrollTo(qreal x, qreal y);
     void scrollTo(QPoint x);
     void scrollTo(QPointF x);
+
     void setContentEditable(bool &editable);
 protected:
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    //void mouseReleaseEvent(QMouseEvent *event);
+    //void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent * ev);
 signals:
     void contextMenuRequested(QContextMenuEvent * ev);
-    void linkMiddleOrCtrlClicked(const QUrl &url);
-    void linkShiftClicked(const QUrl &url);
-    void javaScriptReady(const QVariant &v);
-
-private slots:
-    void applyHidingRules(bool ok);
-
-    void filter(QNetworkReply* r);
-private:
-    bool mouseReleased(const QPoint &pos);
-    Qt::KeyboardModifiers m_keyboardModifiers;
-    Qt::MouseButtons m_pressedButtons;
-
-    NetworkAccessManager *m_networManager;
-    bool m_doBlocking;
     
 };
 

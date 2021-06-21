@@ -240,7 +240,7 @@ void WebViewForm::showUrlResponse(UrlResponse *res)
 {
     myDebug() << res->url();
     if(!res->blockRules().isEmpty()) {
-        m_view->setBlockRules(res->blockRules());
+        //m_view->setBlockRules(res->blockRules());
     }
     m_lastUrl = QUrl(res->url());
     m_view->load(m_lastUrl);
