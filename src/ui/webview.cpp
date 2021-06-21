@@ -14,8 +14,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "webview.h"
 #include <QtWebEngineWidgets/QtWebEngineWidgets>
 #include "src/core/dbghelper.h"
-#include <QNetworkReply>
-#include <QNetworkDiskCache>
+
 WebView::WebView(QWidget *parent) :
     QWebEngineView(parent), m_doBlocking(false)
 {
@@ -26,9 +25,14 @@ WebView::WebView(QWidget *parent) :
     this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
 
 }
+
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
 {
     emit contextMenuRequested(ev);
+}
+void WebView::setContentEditable(bool& editable)
+{
+    page()->runJavaScript(QString("document.documentElement.contentEditable = %1;").arg(editable));
 }
 
 void WebView::scrollToAnchor(const QString &anchor)
@@ -40,6 +44,7 @@ void WebView::scrollTo(int x, int y)
 {
     page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
 }
+
 void WebView::scrollTo(qreal x, qreal y)
 {
     page()->runJavaScript(QString("window.scrollTo(%1, %2);").arg(x).arg(y));
@@ -80,6 +85,7 @@ void WebView::insertStyleSheet(const QString &name, const QString &source, bool 
     script.setRunsOnSubFrames(true);
     script.setWorldId(QWebEngineScript::ApplicationWorld);
     page()->scripts().insert(script);
+    file.close();
 }
 
 void WebView::removeStyleSheet(const QString &name, bool immediately)
@@ -178,6 +184,7 @@ void WebView::applyHidingRules(bool ok)
 
 void WebView::load(const QUrl &url)
 {
+    page()->load(url);
    /* NetworkAccessManager *sep = new NetworkAccessManager(this);
     connect(sep, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(filter(QNetworkReply*)));

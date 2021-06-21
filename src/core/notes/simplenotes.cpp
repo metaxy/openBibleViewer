@@ -242,8 +242,7 @@ void SimpleNotes::fastSave(void)
     if(m_loadTextBrowser) {
         m_notes->setData(m_noteID, m_textEdit_note->toHtml());
     } else {
-        //TODO: Web m_notes->setData(m_noteID, m_page->toHtml());
-        // https://stackoverflow.com/questions/36680604/qwebenginepage-tohtml-returns-an-empty-string
+        m_page->toHtml([this](const QString &result){ this->m_notes->setData(this->m_noteID, result); });
     }
         
 

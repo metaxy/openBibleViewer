@@ -112,7 +112,7 @@ public:
     Range toRange() const;
 
     /**
-     * @brief convert all LoadNo* zo LoadFrist*
+     * @brief convert all LoadNo* to LoadFrist*
      */
     void removeNo();
 

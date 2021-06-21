@@ -39,7 +39,7 @@ public:
     void scrollTo(qreal x, qreal y);
     void scrollTo(QPoint x);
     void scrollTo(QPointF x);
-
+    void setContentEditable(bool &editable);
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -48,6 +48,8 @@ signals:
     void contextMenuRequested(QContextMenuEvent * ev);
     void linkMiddleOrCtrlClicked(const QUrl &url);
     void linkShiftClicked(const QUrl &url);
+    void javaScriptReady(const QVariant &v);
+
 private slots:
     void applyHidingRules(bool ok);
 
@@ -59,6 +61,7 @@ private:
 
     NetworkAccessManager *m_networManager;
     bool m_doBlocking;
+    
 };
 
 #endif // WEBVIEW_H

@@ -54,4 +54,9 @@ QString NotesApi::name() const
 {
     return "Notes";
 }
+QString NotesApi::connectorJS() const
+{
+    return "";
+}
+
 

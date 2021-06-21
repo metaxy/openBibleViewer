@@ -280,7 +280,7 @@ void WebViewForm::addJS(const QString &url)
     if(!file.open(QFile::ReadOnly | QFile::Text))
         return;
     QTextStream stream(&file);
-    //TODO: WEB m_view->page()->mainFrame()->evaluateJavaScript(stream.readAll());
+    m_view->page()->runJavaScript(stream.readAll());
     file.close();
 }
 ModuleID WebViewForm::moduleID() const
@@ -288,4 +288,9 @@ ModuleID WebViewForm::moduleID() const
     return ModuleIDNotSet;
 }
 
-
+void WebViewForm::connectWebChannels()
+{
+    DEBUG_FUNC_NAME
+    myDebug() << m_connectorJS;
+    m_view->page()->runJavaScript("console.log('loading'); new QWebChannel(qt.webChannelTransport, function(channel) {" + m_connectorJS + "}); window.WebChannelLoaded=true;");
+}

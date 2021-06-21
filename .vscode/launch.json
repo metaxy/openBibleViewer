@@ -17,9 +17,13 @@
                     "name": "PATH",
                     "value": "$PATH:${command:cmake.launchTargetDirectory}"
                 },
+                {
+                    "name":"QTWEBENGINE_REMOTE_DEBUGGING",
+                    "value": "127.0.0.1:9001"
+                }
                 
             ],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {

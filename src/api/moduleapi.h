@@ -24,18 +24,16 @@ class ModuleApi : public QObject, public BasicClass
 public slots:
     void activateModule(const int verseTableID);
     void deleteModule(const int verseTableID);
-
     int getModuleIdByName(const QString &name);
 signals:
     void setActiveItem(const int verseTableID);
 public:
     explicit ModuleApi(QObject *parent = 0);
     virtual ~ModuleApi();
-    void setPage(QWebEnginePage *page);
 
     QString name() const;
-private:
-    QWebEnginePage *m_page;
+    QString connectorJS() const;
+
 };
 
 #endif // BIBLEAPI_H

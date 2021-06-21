@@ -18,7 +18,7 @@ class Url
 {
 public:
     Url();
-    virtual QString toString();
+    virtual QString toString() const;
 };
 
 #endif // URL_H

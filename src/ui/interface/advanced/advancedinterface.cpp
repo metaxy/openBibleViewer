@@ -159,7 +159,6 @@ void AdvancedInterface::parseUrl(QString url, const Actions::OpenLinkModifiers m
         m_webPageManager->parseUrl(url);
     } else if(url.startsWith(http)) {
         m_webPageManager->parseWebUrl(url);
-        //QDesktopServices::openUrl(url);
     } else if(url.startsWith(ModuleTools::bookScheme)) {
         const int moduleID = url.remove(0, ModuleTools::bookScheme.size()).toInt();
         BookForm *f = (BookForm*) m_windowManager->getForm(m_windowManager->needWindow(Form::BookForm));

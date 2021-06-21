@@ -1,23 +1,11 @@
-function VerseSelection() {
-    this.getSelection = verseGetSelection;
-    this.startVerse = -1;
-    this.endVerse = -1;
-    this.selectedText = "";
-    this.moduleID = -1;
-    this.bookID = -1;
-    this.chapterID = -1;
-    this.startChapterID = -1;
-    this.endChapterID = -1;
-
-}
-function verseGetSelection () {
+function simpleVerseGetSelection () {
     console.log("getting verseselection");
     console.log(window.getSelection().type);
     /*if(window.getSelection().type == 'Range') {*/
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
             console.log("and range 0 is not null");
-            this.selectedText = window.getSelection().toString();
+            VerseSelection.selectedText = window.getSelection().toString();
 
             var start = a.startContainer;
             var end = a.endContainer;
@@ -28,8 +16,8 @@ function verseGetSelection () {
                 if(e == null)
                     break;
                 if(e.getAttribute("verseID") != null) {
-                    this.startVerse = e.getAttribute("verseID");
-                    this.startChapterID = e.getAttribute("chapterID");
+                    VerseSelection.startVerse = e.getAttribute("verseID");
+                    VerseSelection.startChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -43,10 +31,10 @@ function verseGetSelection () {
                 if(e == null)
                     break;
                 if(e.getAttribute("verseID") != null) {
-                    this.endVerse = e.getAttribute("verseID");
-                    this.moduleID = e.getAttribute("moduleID");
-                    this.bookID = e.getAttribute("bookID");
-                    this.endChapterID = e.getAttribute("chapterID");
+                    VerseSelection.endVerse = e.getAttribute("verseID");
+                    VerseSelection.moduleID = e.getAttribute("moduleID");
+                    VerseSelection.bookID = e.getAttribute("bookID");
+                    VerseSelection.endChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -58,28 +46,20 @@ function verseGetSelection () {
 	/*}*/
 }
 
-
-function AdVerseSelection() {
-    this.getSelect = adVerseGetSelection;
-    this.startVerse = -1;
-    this.startVerseText = "";
-    this.startVerseContent = "";
-    this.selectedText = "not exec";
-}
 function adVerseGetSelection () {
     removeSelectionStuff();
-    this.selectedText = "not a range"
+    VerseSelection.selectedText = "not a range"
     if(window.getSelection().type == 'Range') {
         var a = window.getSelection().getRangeAt(0);
-        this.selectedText = "a null";
+        VerseSelection.selectedText = "a null";
         if(a != null) {
-            this.selectedText = "not null";
+            VerseSelection.selectedText = "not null";
             var node = document.createElement('span');
             node.appendChild(document.createTextNode("!-_OPENBIBLEVIEWER_INSERT_-!"));
             node.id = 'OBV_INSERT';
             a.insertNode(node);
             
-            this.selectedText = window.getSelection().toString();
+            VerseSelection.selectedText = window.getSelection().toString();
             
             
             var start = a.startContainer;
@@ -92,9 +72,9 @@ function adVerseGetSelection () {
                     break;
                 //if we are at the verse level then save suff
                 if(e.getAttribute("verseID") != null) {
-                    this.startVerse = e.getAttribute("verseID");
-                    this.startVerseText = e.textContent;
-                    this.startVerseContent = e.innerHTML;
+                    VerseSelection.startVerse = e.getAttribute("verseID");
+                    VerseSelection.startVerseText = e.textContent;
+                    VerseSelection.startVerseContent = e.innerHTML;
                     break;
                 } else {
                     it = e;
@@ -111,7 +91,7 @@ function removeSelectionStuff() {
         x.parentNode.removeChild(x);
     }
 }
-function ReplaceContentInContainer(selector, content) {
+function replaceContentInContainer(selector, content) {
   var nodeList = document.querySelectorAll(selector);
   for (var i = 0, length = nodeList.length; i < length; i++) {
      nodeList[i].innerHTML = content;

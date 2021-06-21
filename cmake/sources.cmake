@@ -5,6 +5,7 @@ set( openBibleViewer_SRCS
     src/api/moduleapi.cpp
     src/api/notesapi.cpp
     src/api/searchapi.cpp
+    src/api/verseselectionapi.cpp
     src/api/api.cpp
 
     src/ui/dialog/searchdialog.cpp
@@ -142,6 +143,7 @@ set ( openBibleViewer_MOCS
     src/api/moduleapi.h
     src/api/notesapi.h
     src/api/searchapi.h
+    src/api/verseselectionapi.h
     src/api/api.h
     
     src/ui/dialog/searchdialog.h

@@ -47,6 +47,7 @@ public:
 
 
     QString name() const;
+    QString connectorJS() const;
 signals:
     void _previousChapter();
     void _nextChapter();
@@ -146,10 +147,10 @@ public slots:
     void searchInText();
 
     void setActiveItem(const int verseTableID);
-    // updates the ui if full screen was enabled/disabled
-    void setFullScreen(bool enable);
-    // tiggers full screen or not
-    void toggleFullScreen();
+    
+    void setFullScreen(bool enable); // updates the ui if full screen was enabled/disabled
+    
+    void toggleFullScreen(); // toggles full screen or not
 
     void removeModuleFromVerseTable(const int itemID);
 

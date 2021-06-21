@@ -71,10 +71,10 @@ void ConsoleForm::attach()
     addJS(":/data/js/jquery-1.4.2.min.js");
     addJS(":/data/js/underscore-min.js");
 
-    addApi(m_api->searchApi());
-    addApi(m_api->moduleApi());
-    addApi(m_api->notesApi());
-    addApi(m_actions);
+    addWebChannel(m_api->searchApi());
+    addWebChannel(m_api->moduleApi());
+    addWebChannel(m_api->notesApi());
+    addWebChannel(m_actions);
 }
 void ConsoleForm::showContextMenu(QContextMenuEvent* ev)
 {

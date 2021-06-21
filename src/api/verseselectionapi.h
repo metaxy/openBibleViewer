@@ -11,33 +11,47 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef API_H
-#define API_H
+#ifndef VERSESELECTIONAPI_H
+#define VERSESELECTIONAPI_H
 #include <QObject>
 #include "src/core/basicclass.h"
+#include "src/core/verseselection.h"
+#include "src/core/verse/textranges.h"
 
-class ModuleApi;
-class NotesApi;
-class SearchApi;
-class VerseSelectionApi;
 
-class Api : public QObject, public BasicClass
+class VerseSelectionApi : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
-    explicit Api(QObject *parent = 0);
-    ~Api();
-    void init();
-    NotesApi* notesApi() const;
-    ModuleApi* moduleApi() const;
-    SearchApi* searchApi() const;
-    VerseSelectionApi* verseSelectionApi() const;
+    explicit VerseSelectionApi(QObject *parent = 0);
+    QString name() const;
+    QString connectorJS() const;
 
-private:
-    NotesApi *m_notesApi;
-    ModuleApi *m_moduleApi;
-    SearchApi *m_searchApi;
-    VerseSelectionApi *m_verseSelectionApi;
+    void getCurrentSelection(TextRanges textRanges);
+
+    int m_simpleStartVerse;
+    int m_simpleEndVerse;
+    QString m_simpleSelectedText;
+    int m_simpleModuleID;
+    int m_simpleBookID;
+    int m_simpleChapterID;
+    int m_simpleStartChapterID;
+    int m_simpleEndChapterID;
+
+    int m_adStartVerse = -1;
+    QString m_adStartVerseText;
+    QString m_adStartVerseContent;
+    QString m_adSelectedText;
+
+    TextRanges m_textRanges;
+    
+signals:
+    void getSelection();
+    void verseSelectionReady(VerseSelection);
+
+public slots:
+    VerseSelection rawSelectionReady();
+
 };
 
-#endif // API_H
+#endif // VERSESELECTIONAPI_H

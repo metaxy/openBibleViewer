@@ -55,3 +55,12 @@ QString SearchApi::name() const
 {
     return "Search";
 }
+
+
+QString SearchApi::connectorJS() const
+{
+    return "";
+}
+
+
+

@@ -3,7 +3,6 @@ General introduction:
 ====================
 openBibleViewer is a bible study application based on C++11, Qt5 and CLucene >= 2.3.3.4.
 
-[![Build Status](https://travis-ci.org/metaxy/openBibleViewer.svg?branch=master)](https://travis-ci.org/metaxy/openBibleViewer)
 [![Build status](https://ci.appveyor.com/api/projects/status/3h89o1atjc6ndoh3?svg=true)](https://ci.appveyor.com/project/metaxy/openbibleviewer)
 
 If you found a bug, please report it on <https://github.com/metaxy/openBibleViewer/issues>.
@@ -11,6 +10,7 @@ If you found a bug, please report it on <https://github.com/metaxy/openBibleView
 Read the file INSTALL how to install and compile this version of openBibleViewer.
 
 Screenshoots:
+
 ===============
 ![Simple Interace](https://metaxy.github.io/openBibleViewer/images/german.png)
 
@@ -22,6 +22,7 @@ Screenshoots:
 
 Features:
 =================
+
 + Quick startup time (less then 2 seconds)
 + Simple interface
 + Strong numbers and Robinsons Morphological Analysis Codes available
@@ -39,6 +40,7 @@ Features:
 
 File Formats:
 ================
+
 openBibleViewer can read files in the following formats:
 + [Zefania XML](http://sourceforge.net/projects/zefania-sharp/files/)
 + [BibleQuote](http://jesuschrist.ru/software/)

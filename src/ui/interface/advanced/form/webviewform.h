@@ -26,7 +26,7 @@ public:
     explicit WebViewForm(QWidget *parent = 0);
     virtual ~WebViewForm();
     //hack needed by biblequote scrool to in advancedinterface.cpp
-    //todo: make proctected
+    //todo: make protected
     WebView *m_view;
 signals:
     
@@ -81,10 +81,17 @@ protected:
 
     virtual void addJS(const QString &url);
 
-    template <typename T> void addApi(T *t)
+    template <typename T> void addWebChannel(T *t)
     {
-        //TODO: WEB m_view->page()->mainFrame()->addToJavaScriptWindowObject(t->name(), t);
+        QWebChannel *channel = new QWebChannel(m_view->page());
+        channel->registerObject(t->name(), t);
+        m_view->page()->setWebChannel(channel);
+        m_connectorJS += t->connectorJS();
+        
     }
+    void connectWebChannels();
+
+    QString m_connectorJS;
 
     QString m_contextMenuUrl;
     QString m_contextMenuText;

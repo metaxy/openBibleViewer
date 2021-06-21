@@ -17,7 +17,7 @@ Url::Url()
 {
 }
 
-QString Url::toString()
+QString Url::toString() const
 {
     return QString();
 }

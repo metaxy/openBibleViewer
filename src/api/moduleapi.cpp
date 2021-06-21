@@ -46,10 +46,6 @@ void ModuleApi::deleteModule(const int verseTableID)
     m_actions->removeModuleFromVerseTable(verseTableID);
 }
 
-void ModuleApi::setPage(QWebEnginePage *page)
-{
-    m_page = page;
-}
 int ModuleApi::getModuleIdByName(const QString &name)
 {
     foreach(ModuleSettings *set, m_settings->m_moduleSettings) {
@@ -60,4 +56,8 @@ int ModuleApi::getModuleIdByName(const QString &name)
 QString ModuleApi::name() const
 {
     return "Module";
+}
+QString ModuleApi::connectorJS() const
+{
+    return "";
 }

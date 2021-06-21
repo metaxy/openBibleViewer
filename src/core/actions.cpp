@@ -21,6 +21,10 @@ QString Actions::name() const
 {
     return "Actions";
 }
+QString Actions::connectorJS() const
+{
+    return "";
+}
 void Actions::debug(const QString &s)
 {
     qDebug() << s;

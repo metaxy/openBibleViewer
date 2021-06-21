@@ -14,11 +14,13 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "bibleform.h"
 #include "ui_bibleform.h"
 #include <QPointer>
+
 #include "src/core/verse/reftext.h"
 #include "src/core/link/urlconverter2.h"
 #include "src/core/module/response/textrangesresponse.h"
 #include "src/api/api.h"
 #include "src/api/moduleapi.h"
+#include "src/api/verseselectionapi.h"
 
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
@@ -411,10 +413,12 @@ void BibleForm::save()
 
 void BibleForm::attachApi()
 {
-    addJS(":/data/js/tools.js");
-    addJS(":/data/js/jquery-1.4.2.min.js");
-    addJS(":/data/js/underscore-min.js");
-    addApi(m_api->moduleApi());
+    //addJS(":/data/js/tools.js");
+    //addJS(":/data/js/jquery-1.4.2.min.js");
+    //addJS(":/data/js/underscore-min.js");
+    addWebChannel(m_api->moduleApi());
+    addWebChannel(m_api->verseSelectionApi());
+
 }
 
 void BibleForm::historySetUrl(QString url)
@@ -534,7 +538,6 @@ void BibleForm::setCurrentChapter(const QSet<int> &chapterID)
 
 void BibleForm::setBooks(QSharedPointer<Versification> v11n)
 {
-    DEBUG_FUNC_NAME
     bool same = true;
     QMap<int, QString> books = v11n->bookNames();
     QMapIterator<int, QString> i(books);
@@ -542,7 +545,6 @@ void BibleForm::setBooks(QSharedPointer<Versification> v11n)
     if(m_ui->comboBox_books->count() == books.count()) {
         while(i.hasNext()) {
             i.next();
-            myDebug() << i.value();
             if(m_ui->comboBox_books->itemText(count) != i.value()) {
                 same = false;
                 break;
@@ -595,7 +597,7 @@ void BibleForm::activated()
 {
     //DEBUG_FUNC_NAME
     //myDebug() << " windowID = " << m_id;
-    m_api->moduleApi()->setPage(m_view->page());
+    //TODO: WEBCHANNEL m_api->moduleApi()->setPage(m_view->page());
     if(m_verseTable == nullptr) {
         clearChapters();
         clearBooks();
@@ -643,19 +645,19 @@ void BibleForm::showText(const QString &text)
 {
     //DEBUG_FUNC_NAME
     Q_ASSERT(m_moduleManager->verseTableLoaded(m_verseTable));
-    loadStyleSheet();
+    //loadStyleSheet();
     //todo: often it isn't real html but some fragments and sometimes it's a whole html page
     //eg biblequote
 
     //this make it probably a bit better than append it every attachapi()
     //but does not work with biblequote see above
 
-    /*QString showText;
-    if(!text.contains("<html>")) {
-        showText = "<html><head><script type='text/javascript' src='qrc:/data/js/tools.js'></script></head><body>"+text + "</body></html>";
-    }*/
+    QString showText;
+    myDebug() << "load url qrc:/data/html/bibleform.html";
+    m_view->load(QUrl("qrc:/data/html/bibleform.html"));
+    //m_view->setHtml(showText);
 
-    m_view->setHtml(text);
+    connectWebChannels();
 
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
@@ -666,7 +668,8 @@ void BibleForm::showText(const QString &text)
     //some BibleQuote Hacks
     if(verseModule()->moduleType() == ModuleTools::BibleQuoteModule) {
         /*
-        TDOD: WEB
+        TODO: WEB
+        reimplement as js
         QWebElementCollection collection = frame->documentElement().findAll("img");
         const QStringList searchPaths = ((Bible*) verseModule())->getSearchPaths();
 
@@ -701,13 +704,12 @@ void BibleForm::showText(const QString &text)
 void BibleForm::showTextRanges(const QString &html, const TextRanges &range, const VerseUrl &url)
 {
     if(!html.contains("<html")) {
-       QString f = html;
-       f.prepend("<div class='verseModule'>");
-       f.append("</div>");
-       showText(f);
-
+        QString f = html;
+        f.prepend("<div class='verseModule'>");
+        f.append("</div>");
+        showText(f);
     } else {
-         showText(html);
+        showText(html);
     }
 
     m_lastTextRanges = range;
@@ -770,8 +772,7 @@ void BibleForm::forwardSearchInText(SearchResult *res)
 void BibleForm::searchInText(SearchResult *res)
 {
     DEBUG_FUNC_NAME
-    //TODO: Web
-    /**
+
     if(res == nullptr)
         return;
     if(res->searchQuery.queryType == SearchQuery::Simple) {
@@ -779,8 +780,8 @@ void BibleForm::searchInText(SearchResult *res)
         //todo: hacky
         s.remove('*');
         s.remove('?');
-        m_view->findText(s, QWebEnginePage::HighlightAllOccurrences);
-    }*/
+        //TODO: WEB connect searchApi to hightlight text in webengine view
+    }
 }
 
 void BibleForm::createDefaultMenu()
@@ -862,8 +863,34 @@ void BibleForm::deleteDefaultMenu()
     delete m_actionNote;
     m_actionNote = 0;
 }
+
+void BibleForm::updateContextMenuCopy(QAction* action, VerseSelection selection)
+{
+    DEBUG_FUNC_NAME
+    myDebug() << selection.bookID;
+    m_lastSelection = selection;
+    if(selection.startVerse != -1) {
+        QString addText;
+        if(selection.startVerse != selection.endVerse)
+            addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
+        else
+            addText = " " + QString::number(selection.startVerse + 1);
+        if(selection.startVerse < 0 || selection.endVerse < 0) {
+            action->setText(tr("Copy Verse"));
+            action->setEnabled(false);
+        } else {
+            action->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
+            action->setEnabled(true);
+            connect(action, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        }
+    } else {
+        action->setEnabled(false);
+    }
+}
+
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
 {
+    DEBUG_FUNC_NAME
     const QWebEngineContextMenuData &data = m_view->page()->contextMenuData();
     Q_ASSERT(data.isValid());
 
@@ -887,26 +914,8 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
     if(url.isEmpty()) {
         QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
-        VerseSelection selection = verseSelection();
-        m_lastSelection = selection;
-        if(selection.startVerse != -1) {
-            QString addText;
-            if(selection.startVerse != selection.endVerse)
-                addText = " " + QString::number(selection.startVerse + 1) + " - " + QString::number(selection.endVerse + 1);
-            else
-                addText = " " + QString::number(selection.startVerse + 1);
-            if(selection.startVerse < 0 || selection.endVerse < 0) {
-                actionCopyWholeVerse->setText(tr("Copy Verse"));
-                actionCopyWholeVerse->setEnabled(false);
-            } else {
-                actionCopyWholeVerse->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
-                actionCopyWholeVerse->setEnabled(true);
-
-                connect(actionCopyWholeVerse, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
-            }
-        } else {
-            actionCopyWholeVerse->setEnabled(false);
-        }
+        connect(m_api->verseSelectionApi(), &VerseSelectionApi::verseSelectionReady, this, [this, &actionCopyWholeVerse](VerseSelection s){this->updateContextMenuCopy(actionCopyWholeVerse, s);});
+        m_api->verseSelectionApi()->getCurrentSelection(m_lastTextRanges);
 
         QMenu *openInCommentary = new QMenu(this);
         openInCommentary->setTitle(tr("Open in Commentary"));
@@ -1062,7 +1071,6 @@ void BibleForm::newBookmark()
 
 void BibleForm::copyWholeVerse(void)
 {
-    //DEBUG_FUNC_NAME
     VerseSelection selection = m_lastSelection;
     if(selection.startVerse != -1) {
         Ranges ranges;
@@ -1102,8 +1110,7 @@ void BibleForm::copyWholeVerse(void)
         stext = doc2.toPlainText();
         RefText refText(m_settings);
         refText.setShowModuleName(true);
-        //todo: new line on windows
-        const QString text = refText.toString(ranges) + "\n" + stext;
+        const QString text = refText.toString(ranges) + QChar(QChar::LineSeparator) + stext;
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(text);
     }
@@ -1191,13 +1198,14 @@ VerseSelection BibleForm::verseSelection()
 {
     VerseSelection s;
     return s;
-    /*
-    QWebEnginePage *f = m_view->page();
+    
+    /*QWebEnginePage *f = m_view->page();
     VerseSelection s;
     if(!f)
         return s;
 
     f->runJavaScript("var vS = new VerseSelection(); vS.getSelection();");
+
     s.moduleID = f->runJavaScript("vS.moduleID;").toInt();
     s.bookID  = f->runJavaScript("vS.bookID;").toInt();
     s.startChapterID = f->runJavaScript("vS.startChapterID;").toInt();
@@ -1296,13 +1304,9 @@ VerseSelection BibleForm::verseSelection()
     //do not this stuff with BibleQuote because some modules have weird html stuff.
     if(s.canBeUsedForMarks() == false && verseModule()->moduleType() != ModuleTools::BibleQuoteModule) {
         //now the ultimative alogrithm
-        myDebug() << f->runJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
-        //TODO: Web const QString startVerseText2 = f->runJavaScript("adVerseSelection.startVerseText;").toString();
-       /* myDebug() << "adVerseSelection.startVerse" << f->evaluateJavaScript("adVerseSelection.startVerse;").toString();
-        myDebug() << "adVerseSelection.startVerseText;" << f->evaluateJavaScript("adVerseSelection.startVerseText;").toString();
-        myDebug() << "adVerseSelection.startVerseContent;" << f->evaluateJavaScript("adVerseSelection.startVerseContent;").toString();
-        myDebug() << "adVerseSelection.selectedText;"<< f->evaluateJavaScript("adVerseSelection.selectedText;").toString();*/
-        /*
+        f->runJavaScript("var adVerseSelection = new AdVerseSelection(); adVerseSelection.getSelect();");
+        const QString startVerseText2 = f->runJavaScript("adVerseSelection.startVerseText;").toString();
+       
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
         const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
 
@@ -1331,14 +1335,13 @@ VerseSelection BibleForm::verseSelection()
         s.longestString = longestString;
         if(!s.longestString.isEmpty())
             s.setCanBeUsedForMarks(true);
-        //todo: end
         myDebug() << "longest = " << longestString << " count = " << count;
         f->runJavaScript("removeSelectionStuff()");
 
     }
     return s;
+*/
 
-    */
 }
 
 bool BibleForm::verseTableLoaded()

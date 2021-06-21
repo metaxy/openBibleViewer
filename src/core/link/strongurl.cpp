@@ -103,7 +103,7 @@ bool StrongUrl::fromString(QString strong)
     return true;
 }
 
-QString StrongUrl::toString()
+QString StrongUrl::toString() const
 {
     QString ret;
     ret = ModuleTools::strongScheme;

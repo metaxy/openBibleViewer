@@ -162,17 +162,14 @@ void NotesEditor::adjustHtml()
 
 void NotesEditor::changeTab(int index)
 {
-    //TODO: WEB
-    /*
     DEBUG_FUNC_NAME;
     myDebug() << "dirty = " << m_sourceDirty << " index = " << index;
     if(m_sourceDirty && (index == 1)) {
-        QString content = ui->webView->page()->mainFrame()->toHtml();
-        ui->plainTextEdit->setPlainText(content);
+        ui->webView->page()->toHtml([this](const QString &result){ this->ui->plainTextEdit->setPlainText(result); });
         m_sourceDirty = false;
     } else if(index == 0) {
         adjustHtml();
-    }*/
+    }
 }
 
 void NotesEditor::fileNew()
@@ -180,7 +177,7 @@ void NotesEditor::fileNew()
     ui->tabWidget->setCurrentIndex(0);
     ui->webView->setHtml("<p></p>");
     ui->webView->setFocus();
-    //TODO: WEB ui->webView->page()->setContentEditable(true);
+    ui->webView->page()->runJavaScript(QString("document.documentElement.contentEditable = true"));
 
     // quirk in QWebView: need an initial mouse click to show the cursor
     int mx = ui->webView->width() / 2;

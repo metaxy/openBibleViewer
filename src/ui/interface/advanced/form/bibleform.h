@@ -168,6 +168,8 @@ private:
     void deleteDefaultMenu();
     void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false, bool ignoreModuleID = true);
 
+    void updateContextMenuCopy(QAction* action, VerseSelection selection);
+
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;
 

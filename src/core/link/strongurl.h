@@ -29,7 +29,7 @@ public:
     void setPrefix(StrongPrefix prefix);
     bool fromText(QString text);
     bool fromString(QString strong);
-    QString toString();
+    QString toString() const;
     QString toText();
 
     QString toKey();
