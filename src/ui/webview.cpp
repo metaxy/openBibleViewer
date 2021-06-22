@@ -19,6 +19,7 @@ WebView::WebView(QWidget *parent) :
     QWebEngineView(parent)
 {
     this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
+    connect(this->page(), &QWebEnginePage::loadFinished, this, &WebView::loadFinished);
 }
 
 void WebView::contextMenuEvent(QContextMenuEvent * ev)
@@ -32,7 +33,7 @@ void WebView::setContentEditable(bool& editable)
 
 void WebView::scrollToAnchor(const QString &anchor)
 {
-    page()->runJavaScript("window.location.href = '" + anchor + "';");
+    page()->runJavaScript("document.querySelector('."+anchor+"').scrollIntoView({behavior: 'smooth' });");
 }
 
 void WebView::scrollTo(int x, int y)

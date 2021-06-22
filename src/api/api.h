@@ -19,7 +19,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 class ModuleApi;
 class NotesApi;
 class SearchApi;
-class VerseSelectionApi;
 
 class Api : public QObject, public BasicClass
 {
@@ -31,13 +30,11 @@ public:
     NotesApi* notesApi() const;
     ModuleApi* moduleApi() const;
     SearchApi* searchApi() const;
-    VerseSelectionApi* verseSelectionApi() const;
 
 private:
     NotesApi *m_notesApi;
     ModuleApi *m_moduleApi;
     SearchApi *m_searchApi;
-    VerseSelectionApi *m_verseSelectionApi;
 };
 
 #endif // API_H

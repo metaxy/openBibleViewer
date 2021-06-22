@@ -27,6 +27,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include <QCloseEvent>
 #include <QToolBar>
 #include <QContextMenuEvent>
+#include <QVariantMap>
 
 #include <QtWebEngineWidgets/QtWebEngineWidgets>
 
@@ -40,7 +41,7 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/ui/webview.h"
 #include "src/ui/interface/advanced/form/webviewform.h"
 #include "src/ui/interface/advanced/versetablewidget.h"
-
+#include "src/api/biblewebchannel.h"
 
 #include "form.h"
 namespace Ui
@@ -156,6 +157,8 @@ protected:
 private:
     History m_browserHistory;
 
+    QPointer<BibleWebChannel> m_bibleWebChannel;
+
     QMenu *m_menuMark;
     QAction *m_actionCopy;
     QAction *m_actionSelect;
@@ -168,7 +171,9 @@ private:
     void deleteDefaultMenu();
     void showRanges(const Ranges &ranges, const VerseUrl &url, bool showStart = false, bool ignoreModuleID = true);
 
-    void updateContextMenuCopy(QAction* action, VerseSelection selection);
+    void updateContextMenuCopy(const QSharedPointer<QAction> &action, QVariant selection);
+
+    VerseSelection selectionDataToVerseSelection(QVariantMap data);
 
     TextRanges m_lastTextRanges;
     VerseUrl m_lastUrl;

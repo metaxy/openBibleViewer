@@ -11,34 +11,37 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#include "verseselectionapi.h"
-VerseSelectionApi::VerseSelectionApi(QObject *parent) :
+#include "biblewebchannel.h"
+
+BibleWebChannel::BibleWebChannel(QObject *parent) :
     QObject(parent)
 {
 }
-
-QString VerseSelectionApi::name() const
+BibleWebChannel::~BibleWebChannel()
 {
-    return "VerseSelection";
+
+}
+QString BibleWebChannel::name() const
+{
+    return "BibleWebChannel";
+}
+
+void BibleWebChannel::setContent(const QString &html, const int &verseTableId)
+{
+    emit newContent(html, verseTableId);
 }
 
 
-QString VerseSelectionApi::connectorJS() const
-{
-    return "window.VerseSelection = channel.objects.VerseSelection;" \
-        "VerseSelection.getSelection.connect(function() { simpleVerseGetSelection(); adVerseGetSelection(); VerseSelection.rawSelectionReady();});";
-}
-
-VerseSelection VerseSelectionApi::rawSelectionReady()
+VerseSelection BibleWebChannel::rawSelectionReady(int moduleId, int bookId, int startChapterId, int endChapterId, int startVerse, int endVerse, QString selectedText, QString adStartVerseText)
 {
     DEBUG_FUNC_NAME
     VerseSelection s;
-    s.moduleID = m_simpleModuleID;
-    s.bookID  = m_simpleBookID;
-    s.startChapterID = m_simpleStartChapterID;
-    s.endChapterID = m_simpleEndChapterID;
-    s.startVerse = m_simpleStartVerse;
-    s.endVerse = m_simpleEndVerse;
+    s.moduleID = moduleId;
+    s.bookID  = bookId;
+    s.startChapterID = startChapterId;
+    s.endChapterID = endChapterId;
+    s.startVerse = startVerse;
+    s.endVerse = endVerse;
     myDebug() << "start verse = " << s.startVerse << " end verse = " << s.endVerse;
 
     const QString startVerseText = m_textRanges.getVerse(s.bookID, s.startChapterID, s.startVerse).data();
@@ -48,7 +51,6 @@ VerseSelection VerseSelectionApi::rawSelectionReady()
     else
         endVerseText = startVerseText;
 
-    const QString selectedText = m_simpleSelectedText;
     myDebug() << "selected text = " << selectedText;
     myDebug() << "startVerseText = " << startVerseText;
     myDebug() << "endVerseText = " << endVerseText;
@@ -133,7 +135,7 @@ VerseSelection VerseSelectionApi::rawSelectionReady()
     if(s.canBeUsedForMarks() == false) {
         //now the ultimative algo
 
-        const QString startVerseText2 = m_adStartVerseText;
+        const QString startVerseText2 = adStartVerseText;
        
         const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
         const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
@@ -170,25 +172,9 @@ VerseSelection VerseSelectionApi::rawSelectionReady()
     return s;
 }
 
-void VerseSelectionApi::getCurrentSelection(TextRanges textRanges)
+void BibleWebChannel::getCurrentSelection(TextRanges textRanges)
 {
     DEBUG_FUNC_NAME
-    m_simpleStartVerse = -1;
-    m_simpleEndVerse = -1;
-    m_simpleSelectedText = "";
-    m_simpleModuleID = -1;
-    m_simpleBookID = -1;
-    m_simpleChapterID = -1;
-    m_simpleStartChapterID = -1;
-    m_simpleEndChapterID = -1;
     m_textRanges = textRanges;
-    m_adStartVerse = -1;
-    m_adStartVerseText = "";
-    m_adStartVerseContent = "";
-    m_adSelectedText = "not exec";
-
     emit getSelection();
 }
-
-
-

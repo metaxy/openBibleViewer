@@ -1,11 +1,12 @@
 function simpleVerseGetSelection () {
+    let simple = {};
     console.log("getting verseselection");
     console.log(window.getSelection().type);
     /*if(window.getSelection().type == 'Range') {*/
         var a = window.getSelection().getRangeAt(0);
         if(a != null) {
             console.log("and range 0 is not null");
-            VerseSelection.selectedText = window.getSelection().toString();
+            simple.selectedText = window.getSelection().toString();
 
             var start = a.startContainer;
             var end = a.endContainer;
@@ -16,8 +17,8 @@ function simpleVerseGetSelection () {
                 if(e == null)
                     break;
                 if(e.getAttribute("verseID") != null) {
-                    VerseSelection.startVerse = e.getAttribute("verseID");
-                    VerseSelection.startChapterID = e.getAttribute("chapterID");
+                    simple.startVerse = e.getAttribute("verseID");
+                    simple.startChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -31,10 +32,10 @@ function simpleVerseGetSelection () {
                 if(e == null)
                     break;
                 if(e.getAttribute("verseID") != null) {
-                    VerseSelection.endVerse = e.getAttribute("verseID");
-                    VerseSelection.moduleID = e.getAttribute("moduleID");
-                    VerseSelection.bookID = e.getAttribute("bookID");
-                    VerseSelection.endChapterID = e.getAttribute("chapterID");
+                    simple.endVerse = e.getAttribute("verseID");
+                    simple.moduleID = e.getAttribute("moduleID");
+                    simple.bookID = e.getAttribute("bookID");
+                    simple.endChapterID = e.getAttribute("chapterID");
                     break;
                 } else {
                     it = e;
@@ -43,23 +44,24 @@ function simpleVerseGetSelection () {
 
         }
 
-	/*}*/
+	return simple;
 }
 
 function adVerseGetSelection () {
+    let advanced = {};
     removeSelectionStuff();
-    VerseSelection.selectedText = "not a range"
+    advanced.selectedText = "not a range"
     if(window.getSelection().type == 'Range') {
         var a = window.getSelection().getRangeAt(0);
-        VerseSelection.selectedText = "a null";
+        advanced.selectedText = "a null";
         if(a != null) {
-            VerseSelection.selectedText = "not null";
+            advanced.selectedText = "not null";
             var node = document.createElement('span');
             node.appendChild(document.createTextNode("!-_OPENBIBLEVIEWER_INSERT_-!"));
             node.id = 'OBV_INSERT';
             a.insertNode(node);
             
-            VerseSelection.selectedText = window.getSelection().toString();
+            advanced.selectedText = window.getSelection().toString();
             
             
             var start = a.startContainer;
@@ -72,9 +74,9 @@ function adVerseGetSelection () {
                     break;
                 //if we are at the verse level then save suff
                 if(e.getAttribute("verseID") != null) {
-                    VerseSelection.startVerse = e.getAttribute("verseID");
-                    VerseSelection.startVerseText = e.textContent;
-                    VerseSelection.startVerseContent = e.innerHTML;
+                    advanced.startVerse = e.getAttribute("verseID");
+                    advanced.startVerseText = e.textContent;
+                    advanced.startVerseContent = e.innerHTML;
                     break;
                 } else {
                     it = e;
@@ -84,6 +86,7 @@ function adVerseGetSelection () {
             removeSelectionStuff();
         }
     }
+    return advanced;
 }
 function removeSelectionStuff() {
     var x = document.getElementById("OBV_INSERT");

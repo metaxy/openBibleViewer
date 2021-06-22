@@ -11,47 +11,40 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program; if not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
-#ifndef VERSESELECTIONAPI_H
-#define VERSESELECTIONAPI_H
-#include <QObject>
+#pragma once
+
 #include "src/core/basicclass.h"
 #include "src/core/verseselection.h"
 #include "src/core/verse/textranges.h"
 
-
-class VerseSelectionApi : public QObject, public BasicClass
+/**
+  ModuleAPI is a API to access to the bible and modulemanager
+  */
+class BibleWebChannel : public QObject, public BasicClass
 {
     Q_OBJECT
 public:
-    explicit VerseSelectionApi(QObject *parent = 0);
-    QString name() const;
-    QString connectorJS() const;
+    explicit BibleWebChannel(QObject *parent = 0);
+    virtual ~BibleWebChannel();
 
+    QString name() const;
+
+    void setContent(const QString &html, const int &verseTableId);
     void getCurrentSelection(TextRanges textRanges);
 
-    int m_simpleStartVerse;
-    int m_simpleEndVerse;
-    QString m_simpleSelectedText;
-    int m_simpleModuleID;
-    int m_simpleBookID;
-    int m_simpleChapterID;
-    int m_simpleStartChapterID;
-    int m_simpleEndChapterID;
 
-    int m_adStartVerse = -1;
-    QString m_adStartVerseText;
-    QString m_adStartVerseContent;
-    QString m_adSelectedText;
-
-    TextRanges m_textRanges;
-    
 signals:
+
+    void newContent(const QString &html, const int &verseTableId);
     void getSelection();
     void verseSelectionReady(VerseSelection);
 
 public slots:
-    VerseSelection rawSelectionReady();
+    VerseSelection rawSelectionReady(int moduleId, int bookId, int startChapterId, int endChapterId, int startVerse, int endVerse, QString selectedText, QString startVerseText);
+
+
+private: 
+    TextRanges m_textRanges;
 
 };
 
-#endif // VERSESELECTIONAPI_H

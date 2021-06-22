@@ -2,7 +2,8 @@
     "files.associations": {
         "qtwebenginewidgets": "cpp",
         "qnetworkreply": "cpp",
-        "qmenu": "cpp"
+        "qmenu": "cpp",
+        "qmap": "cpp"
     },
     "cmake.configureOnOpen": false,
     "cSpell.words": [

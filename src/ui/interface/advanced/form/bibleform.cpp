@@ -19,13 +19,11 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "src/core/link/urlconverter2.h"
 #include "src/core/module/response/textrangesresponse.h"
 #include "src/api/api.h"
-#include "src/api/moduleapi.h"
-#include "src/api/verseselectionapi.h"
 
 BibleForm::BibleForm(QWidget *parent) :
     WebViewForm(parent),
     m_verseTable(nullptr),
-    m_ui(new Ui::BibleForm)
+    m_ui(new Ui::BibleForm) 
 {
     m_ui->setupUi(this);
     m_ui->verticalLayout->addWidget(m_view);
@@ -43,6 +41,7 @@ BibleForm::BibleForm(QWidget *parent) :
     connect(m_ui->comboBox_chapters, SIGNAL(activated(int)), this, SLOT(readChapter(int)));
 
     setButtons();
+
 }
 BibleForm::~BibleForm()
 {
@@ -59,14 +58,19 @@ Form::FormType BibleForm::type() const
 
 void BibleForm::init()
 {
-    //DEBUG_FUNC_NAME
     m_verseTable = m_moduleManager->newVerseTable();
-    attachApi();
+
+    m_bibleWebChannel = new BibleWebChannel(this);
+    QWebChannel *channel = new QWebChannel(m_view->page());
+    channel->registerObject("BibleWebChannel", m_bibleWebChannel);
+    m_view->page()->setWebChannel(channel);
+
+    m_view->load(QUrl("qrc:/data/html/bibleform.html"));
+
+    connect(m_view, &WebView::loadFinished, this, &BibleForm::attachApi);
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
-
-    connect(m_view->page(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(attachApi()));
 
     connect(m_actions, SIGNAL(_updateChapters(int, QSharedPointer<Versification> )), this, SLOT(forwardSetChapters(int, QSharedPointer<Versification> )));
     connect(m_actions, SIGNAL(_updateBooks(QSharedPointer<Versification> )), this, SLOT(forwardSetBooks(QSharedPointer<Versification> )));
@@ -85,6 +89,12 @@ void BibleForm::init()
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
 }
+
+void BibleForm::attachApi()
+{
+    
+}
+
 ModuleID BibleForm::newModule(const ModuleID moduleID)
 {
     myDebug() << moduleID;
@@ -411,16 +421,6 @@ void BibleForm::save()
     m_settings->session.file()->setValue(a + "type", "bible");
 }
 
-void BibleForm::attachApi()
-{
-    //addJS(":/data/js/tools.js");
-    //addJS(":/data/js/jquery-1.4.2.min.js");
-    //addJS(":/data/js/underscore-min.js");
-    addWebChannel(m_api->moduleApi());
-    addWebChannel(m_api->verseSelectionApi());
-
-}
-
 void BibleForm::historySetUrl(QString url)
 {
     m_browserHistory.setCurrent(url);
@@ -652,13 +652,9 @@ void BibleForm::showText(const QString &text)
     //this make it probably a bit better than append it every attachapi()
     //but does not work with biblequote see above
 
-    QString showText;
-    myDebug() << "load url qrc:/data/html/bibleform.html";
-    m_view->load(QUrl("qrc:/data/html/bibleform.html"));
-    //m_view->setHtml(showText);
+    m_bibleWebChannel->setContent(text, m_verseTable->activeItem());
 
-    connectWebChannels();
-
+    
     if(m_lastTextRanges.verseCount() > 1) {
         m_view->scrollToAnchor("currentEntry");
         if(m_verseTable->hasTopBar())
@@ -863,11 +859,150 @@ void BibleForm::deleteDefaultMenu()
     delete m_actionNote;
     m_actionNote = 0;
 }
-
-void BibleForm::updateContextMenuCopy(QAction* action, VerseSelection selection)
+VerseSelection BibleForm::selectionDataToVerseSelection(QVariantMap data)
 {
     DEBUG_FUNC_NAME
-    myDebug() << selection.bookID;
+    VerseSelection s;
+    s.moduleID = data["moduleID"].toInt();
+    s.bookID  = data["bookID"].toInt();
+    s.startChapterID = data["startChapterID"].toInt();
+    s.endChapterID = data["endChapterID"].toInt();
+    s.startVerse = data["startVerse"].toInt();
+    s.endVerse = data["endVerse"].toInt();
+    myDebug() << "start verse = " << s.startVerse << " end verse = " << s.endVerse;
+
+    const QString startVerseText = m_lastTextRanges.getVerse(s.bookID, s.startChapterID, s.startVerse).data();
+    QString endVerseText;
+    if(s.startVerse != s.endVerse || s.startChapterID != s.endChapterID)
+        endVerseText = m_lastTextRanges.getVerse(s.bookID, s.endChapterID, s.endVerse).data();
+    else
+        endVerseText = startVerseText;
+    QString selectedText = data["selectedText"].toString();
+    myDebug() << "selected text = " << selectedText;
+    myDebug() << "startVerseText = " << startVerseText;
+    myDebug() << "endVerseText = " << endVerseText;
+    {
+        QString sText;
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText += selectedText.at(i);
+            const int pos = startVerseText.indexOf(sText);
+            if(pos != -1 && startVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInStartVerse = sText;
+                break;
+            }
+        }
+        if(s.shortestStringInStartVerse.isEmpty() && s.startVerse != s.endVerse) {
+            //find the last long string if the selection is over more than one verse long
+            //todo: it isn't alway unique
+            QString lastLongest = selectedText;
+            int lastPos = -2;
+            for(int i = selectedText.size() - 1; i > 0; i--) {
+                const int pos = startVerseText.lastIndexOf(lastLongest);
+                if(pos != -1) {
+                    lastPos = pos;
+                    break;
+                }
+                lastLongest.remove(i, selectedText.size());
+            }
+            //and shorten it
+            sText.clear();
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText += selectedText.at(i);
+                const int pos = startVerseText.lastIndexOf(sText);
+                if(pos != -1 && lastPos == pos) {
+                    s.shortestStringInStartVerse = sText;
+                    break;
+                }
+            }
+
+
+        }
+        sText.clear();
+        for(int i = 0; i < selectedText.size() - 1; i++) {
+            sText.prepend(selectedText.at(selectedText.size() - i - 1));
+            const int pos = endVerseText.indexOf(sText);
+            if(pos != -1 && endVerseText.lastIndexOf(sText) == pos) {
+                s.shortestStringInEndVerse = sText;
+                break;
+            }
+        }
+        if(s.shortestStringInEndVerse.isEmpty() && s.startVerse != s.endVerse) {
+            //find the first longest string if the selection is over more than one verse long
+            QString firstLongest = selectedText;
+            int firstPos = -2;
+            for(int i = 0; i < selectedText.size(); i++) {
+                const int pos = endVerseText.indexOf(firstLongest);
+                if(pos != -1) {
+                    firstPos = pos;
+                    break;
+                }
+                firstLongest.remove(0, 1);
+            }
+            //and shorten it
+            sText.clear();
+            for(int i = 0; i < selectedText.size() - 1; i++) {
+                sText.prepend(selectedText.at(selectedText.size() - i - 1));
+                const int pos = endVerseText.indexOf(sText);
+                if(pos != -1 && firstPos == pos) {
+                    s.shortestStringInEndVerse = sText;
+                    break;
+                }
+            }
+        }
+        s.type = VerseSelection::ShortestString;
+        if(s.shortestStringInStartVerse.isEmpty() || s.shortestStringInEndVerse.isEmpty()) {
+            s.setCanBeUsedForMarks(false);
+        } else {
+            s.setCanBeUsedForMarks(true);
+        }
+    }
+    myDebug() << s.shortestStringInStartVerse << s.shortestStringInEndVerse;
+    //do not this stuff with BibleQuote because some modules have weird html stuff.
+    
+    if(s.canBeUsedForMarks() == false) {
+        //now the ultimative algo
+
+        const QString startVerseText2 = data["startVerseText"].toString();;
+       
+        const QString uniqueString = "!-_OPENBIBLEVIEWER_INSERT_-!";
+        const int posOfInsert = startVerseText2.lastIndexOf(uniqueString);
+
+        QString back = selectedText;
+        QString longestString;
+        for(int i = selectedText.size() - 1; i > 0; --i) {
+            const int pos = startVerseText2.indexOf(back);
+            if(pos != -1) {
+                longestString = back;
+                break;
+            }
+            back.remove(i, selectedText.size());
+        }
+
+        int count = 0;
+        int currentPos = 0;
+        while(true) {
+            currentPos = startVerseText2.indexOf(longestString, currentPos + 1);
+            if(currentPos > posOfInsert || currentPos == -1) {
+                break;
+            }
+            count++;
+        }
+        s.type = VerseSelection::RepeatOfLongestString;
+        s.repeat = count;
+        s.longestString = longestString;
+        if(!s.longestString.isEmpty())
+            s.setCanBeUsedForMarks(true);
+        myDebug() << "longest = " << longestString << " count = " << count;
+        //TODO: f->runJavaScript("removeSelectionStuff()");
+    }
+    return s;
+}
+void BibleForm::updateContextMenuCopy(const QSharedPointer<QAction> &sharedAction, QVariant data)
+{
+    DEBUG_FUNC_NAME
+    if(sharedAction.isNull() ) return;
+    QAction *action = sharedAction.get();
+    VerseSelection selection = this->selectionDataToVerseSelection(data.toMap());
     m_lastSelection = selection;
     if(selection.startVerse != -1) {
         QString addText;
@@ -881,11 +1016,12 @@ void BibleForm::updateContextMenuCopy(QAction* action, VerseSelection selection)
         } else {
             action->setText(tr("Copy Verse %1", "e.g Copy Verse 1-2 or Copy Verse 2").arg(addText));
             action->setEnabled(true);
-            connect(action, SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+
         }
     } else {
         action->setEnabled(false);
     }
+
 }
 
 void BibleForm::showContextMenu(QContextMenuEvent* ev)
@@ -913,9 +1049,16 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
     qSort(list.begin(), list.end(), ModuleManager::sortModuleByPop);
 
     if(url.isEmpty()) {
-        QAction *actionCopyWholeVerse = new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data());
-        connect(m_api->verseSelectionApi(), &VerseSelectionApi::verseSelectionReady, this, [this, &actionCopyWholeVerse](VerseSelection s){this->updateContextMenuCopy(actionCopyWholeVerse, s);});
-        m_api->verseSelectionApi()->getCurrentSelection(m_lastTextRanges);
+        QSharedPointer<QAction> actionCopyWholeVerse(new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data()));
+        connect(actionCopyWholeVerse.get(), SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        m_view->page()->runJavaScript(
+            "simpleVerseGetSelection();", 
+            [this, actionCopyWholeVerse](QVariant ret) 
+            {
+                this->updateContextMenuCopy(actionCopyWholeVerse, ret);
+            }
+        );
+
 
         QMenu *openInCommentary = new QMenu(this);
         openInCommentary->setTitle(tr("Open in Commentary"));
@@ -933,7 +1076,7 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
         }
 
         contextMenu->addAction(actionCopy);
-        contextMenu->addAction(actionCopyWholeVerse);
+        contextMenu->addAction(actionCopyWholeVerse.get());
         contextMenu->addAction(m_actionSelect);
         contextMenu->addMenu(openInCommentary);
         contextMenu->addSeparator();

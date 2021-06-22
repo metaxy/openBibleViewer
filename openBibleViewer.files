@@ -337,6 +337,8 @@ src/api/notesapi.cpp
 src/api/notesapi.h
 src/api/searchapi.cpp
 src/api/searchapi.h
+src/api/biblewebchannel.cpp
+src/api/biblewebchannel.h
 src/core/actions.cpp
 src/core/actions.h
 src/core/basicclass.cpp

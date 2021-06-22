@@ -6,10 +6,23 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="qrc:/data/css/default.css">
     <script type='text/javascript' src='qrc:///qtwebchannel/qwebchannel.js'></script>
+    <script type='text/javascript' src='qrc:/data/js/jquery-3.6.0.min.js'></script>
     <script type='text/javascript' src='qrc:/data/js/tools.js'></script>
   </head>
   <body>
     <div id="content"></div>
+    <script type="text/javascript">
+    $(function() {
+      new QWebChannel(qt.webChannelTransport, function(channel) {
+            console.error(channel.objects);
+            window.BibleWebChannel = channel.objects.BibleWebChannel;
+
+            BibleWebChannel.newContent.connect(function(html, verseTableId) {
+              console.error(html); document.getElementById('content').innerHTML = html;
+            });
+        });
+    });
+    </script>
   </body>
 
 </html> 

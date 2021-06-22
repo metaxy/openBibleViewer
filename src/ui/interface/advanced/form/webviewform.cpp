@@ -290,7 +290,5 @@ ModuleID WebViewForm::moduleID() const
 
 void WebViewForm::connectWebChannels()
 {
-    DEBUG_FUNC_NAME
-    myDebug() << m_connectorJS;
-    m_view->page()->runJavaScript("console.log('loading'); new QWebChannel(qt.webChannelTransport, function(channel) {" + m_connectorJS + "}); window.WebChannelLoaded=true;");
+
 }

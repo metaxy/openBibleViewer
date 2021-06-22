@@ -15,7 +15,6 @@ this program; if not, see <http://www.gnu.org/licenses/>.
 #include "moduleapi.h"
 #include "notesapi.h"
 #include "searchapi.h"
-#include "verseselectionapi.h"
 
 Api::Api(QObject *parent) :
     QObject(parent), m_notesApi(nullptr), m_moduleApi(nullptr), m_searchApi(nullptr)
@@ -32,10 +31,6 @@ void Api::init()
 
     m_searchApi = new SearchApi(this);
     setAll(m_searchApi);
-
-    m_verseSelectionApi = new VerseSelectionApi(this);
-    setAll(m_verseSelectionApi);
-
 }
 Api::~Api()
 {
@@ -51,12 +46,7 @@ Api::~Api()
         delete m_searchApi;
         m_searchApi = nullptr;
     }
-    if(m_verseSelectionApi != nullptr) {
-        delete m_verseSelectionApi;
-        m_verseSelectionApi = nullptr;
-    }
 }
-
 ModuleApi* Api::moduleApi() const
 {
     return m_moduleApi;
@@ -68,8 +58,4 @@ NotesApi* Api::notesApi() const
 SearchApi* Api::searchApi() const
 {
     return m_searchApi;
-}
-VerseSelectionApi* Api::verseSelectionApi() const
-{
-    return m_verseSelectionApi;
 }
