@@ -12,10 +12,12 @@ Build-Depends:
     lzma,
     pkg-config,
     zlib1g-dev,
-    qt5-default (>= 5.2.0),
     qtbase5-dev,
     qttools5-dev-tools,
     qtscript5-dev,
-    libqt5webkit5-dev
+    libqt5webkit5-dev,
+    qtwebengine5-dev,
+    libavcodec58 | libavcodec57,
+    libavformat58 | libavformat57
 Files:
  00000000000000000000000000000000 0 openbibleviewer-0.9.0.tar.gz 

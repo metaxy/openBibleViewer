@@ -93,7 +93,6 @@ private slots:
     void showBibleListMenu();
     void readBook(int id);
     void readChapter(int id);
-    void attachApi();
 signals:
     void onClose();
 

@@ -45,7 +45,6 @@ protected:
     void contextMenuEvent(QContextMenuEvent * ev);
 signals:
     void contextMenuRequested(QContextMenuEvent * ev);
-    void loadFinished(bool ok);
     
 };
 

@@ -24,9 +24,6 @@ public:
     explicit NotesApi(QObject* parent = 0);
     virtual ~NotesApi();
     void init();
-    QString name() const;
-    QString connectorJS() const;
-    
 public slots:
     QString addTextNote(const QString &title, const QString &text);
     void removeNote(const QString &noteID);

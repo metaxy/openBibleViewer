@@ -21,27 +21,8 @@ ModuleApi::~ModuleApi()
 {
 
 }
-QString ModuleApi::name() const
-{
-    return "Module";
-}
-
-QString ModuleApi::connectorJS() const
-{
-   return "console.error(channel.objects); window.Module = channel.objects.Module;"
-          "Module.newContent.connect(function(html, verseTableId) {console.error(html); document.getElementById('content').innerHTML = html;});";
-}
-
-void ModuleApi::setContent(const QString &html, const int &verseTableId)
-{
-    emit newContent(html, verseTableId);
-}
-
 void ModuleApi::activateModule(const int verseTableID)
 {
-    //DEBUG_FUNC_NAME;
-    //myDebug() << verseTableID;
-
     m_actions->setActiveItem(verseTableID);
 
     //TODO: WEB

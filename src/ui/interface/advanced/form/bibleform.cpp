@@ -58,6 +58,7 @@ Form::FormType BibleForm::type() const
 
 void BibleForm::init()
 {
+    DEBUG_FUNC_NAME
     m_verseTable = m_moduleManager->newVerseTable();
 
     m_bibleWebChannel = new BibleWebChannel(this);
@@ -67,7 +68,8 @@ void BibleForm::init()
 
     m_view->load(QUrl("qrc:/data/html/bibleform.html"));
 
-    connect(m_view, &WebView::loadFinished, this, &BibleForm::attachApi);
+    connect(m_view, &WebView::loadFinished, this, &BibleForm::reload);
+
 
     connect(m_view->page(), SIGNAL(linkClicked(QUrl)), m_actions, SLOT(get(QUrl)));
     connect(m_view, SIGNAL(linkMiddleOrCtrlClicked(QUrl)), m_actions, SLOT(newGet(QUrl)));
@@ -88,11 +90,6 @@ void BibleForm::init()
 
     connect(m_view, SIGNAL(contextMenuRequested(QContextMenuEvent*)), this, SLOT(showContextMenu(QContextMenuEvent*)));
     createDefaultMenu();
-}
-
-void BibleForm::attachApi()
-{
-    
 }
 
 ModuleID BibleForm::newModule(const ModuleID moduleID)
@@ -266,6 +263,7 @@ void BibleForm::showRanges(const Ranges &ranges, const VerseUrl &url, bool showS
 }
 void BibleForm::reload(bool full)
 {
+    DEBUG_FUNC_NAME
     if(!verseTableLoaded()) return;
     const QPointF p = m_view->page()->scrollPosition();
 
@@ -344,6 +342,8 @@ void BibleForm::previousChapter()
 
 void BibleForm::restore(const QString &key)
 {
+    DEBUG_FUNC_NAME;
+
     const QString a = m_settings->session.id() + "/windows/" + key + "/";
     const qreal zoom = m_settings->session.file()->value(a + "zoom").toReal();
     const QPoint scroll = m_settings->session.file()->value(a + "scrollPosition").toPoint();
@@ -643,14 +643,13 @@ QString BibleForm::getStyleSheetUrl()
 
 void BibleForm::showText(const QString &text)
 {
-    //DEBUG_FUNC_NAME
+    DEBUG_FUNC_NAME
     Q_ASSERT(m_moduleManager->verseTableLoaded(m_verseTable));
-    //loadStyleSheet();
+
+    myDebug() << text;
+   
     //todo: often it isn't real html but some fragments and sometimes it's a whole html page
     //eg biblequote
-
-    //this make it probably a bit better than append it every attachapi()
-    //but does not work with biblequote see above
 
     m_bibleWebChannel->setContent(text, m_verseTable->activeItem());
 
@@ -1050,14 +1049,14 @@ void BibleForm::showContextMenu(QContextMenuEvent* ev)
 
     if(url.isEmpty()) {
         QSharedPointer<QAction> actionCopyWholeVerse(new QAction(QIcon::fromTheme("edit-copy", QIcon(":/icons/16x16/edit-copy.png")), tr("Copy Verse"), contextMenu.data()));
-        connect(actionCopyWholeVerse.get(), SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
-        m_view->page()->runJavaScript(
+        //connect(actionCopyWholeVerse.get(), SIGNAL(triggered()), this , SLOT(copyWholeVerse()));
+        /*m_view->page()->runJavaScript(
             "simpleVerseGetSelection();", 
             [this, actionCopyWholeVerse](QVariant ret) 
             {
                 this->updateContextMenuCopy(actionCopyWholeVerse, ret);
             }
-        );
+        );*/
 
 
         QMenu *openInCommentary = new QMenu(this);

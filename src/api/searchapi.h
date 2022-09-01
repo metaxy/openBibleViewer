@@ -23,8 +23,6 @@ class SearchApi : public QObject, public BasicClass
     Q_OBJECT
 public:
     explicit SearchApi(QObject *parent = 0);
-    QString name() const;
-    QString connectorJS() const;
     
 public slots:
     QVariantList search(const int moduleID, const QString &query);

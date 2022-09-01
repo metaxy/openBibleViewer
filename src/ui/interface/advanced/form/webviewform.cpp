@@ -55,13 +55,13 @@ void WebViewForm::selectAll()
 
 void WebViewForm::print()
 {
-    QPrinter printer;
-    QPointer<QPrintDialog> dialog = new QPrintDialog(&printer, this);
+    //TODO: WEB
+   /* QSharedPointer<QPrinter> printer(new QPrinter());
+    QSharedPointer<QPrintDialog> dialog(new QPrintDialog(printer.data(), this));
     dialog->setWindowTitle(tr("Print"));
     if(dialog->exec() == QDialog::Accepted) {
-        //TODO:WEBV m_view->page()->print(&printer);
-    }
-    delete dialog;
+        m_view->page()->print(&printer, [&dialog, &printer](bool success){dialog.clear(); printer.clear();});
+    }*/
 }
 
 void WebViewForm::printPreview()
@@ -81,30 +81,35 @@ void WebViewForm::saveFile()
     m_settings->session.setData("lastSaveFilePlace", fi.path());
     if(fi.suffix().compare("html", Qt::CaseInsensitive) == 0 ||
             fi.suffix().compare("htm", Qt::CaseInsensitive) == 0) {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        //TODO: WEB
-        //out << m_view->page()->mainFrame()->toHtml();
-        file.close();
+        m_view->page()->toHtml([&fileName](const QString &html){
+           QFile file(fileName);
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+                return;
+            QTextStream out(&file);
+            out << html;
+            file.close();
+        }); 
+        
     } else if(fi.suffix().compare("pdf", Qt::CaseInsensitive) == 0) {
         m_view->page()->printToPdf(fileName);
     } else if(fi.suffix().compare("odt", Qt::CaseInsensitive) == 0) {
-        QTextDocumentWriter writer;
-        writer.setFormat("odf");
-        writer.setFileName(fileName);
-        QTextDocument doc;
-        //TODO: WEB doc.setHtml(m_view->page()->mainFrame()->toHtml());
-        writer.write(&doc);
+        m_view->page()->toHtml([&fileName](const QString &html){
+            QTextDocumentWriter writer;
+            writer.setFormat("odf");
+            writer.setFileName(fileName);
+            QTextDocument doc;
+            doc.setHtml(html);
+            writer.write(&doc);
+        }); 
     } else {
-        QFile file(fileName);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
-        QTextStream out(&file);
-        //TODO: Web
-        //out << m_view->page()->mainFrame()->toPlainText();
-        file.close();
+        m_view->page()->toPlainText([&fileName](const QString &text){
+            QFile file(fileName);
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+                return;
+            QTextStream out(&file);
+            out << text;
+            file.close();
+        }); 
     }
 }
 
@@ -286,9 +291,4 @@ void WebViewForm::addJS(const QString &url)
 ModuleID WebViewForm::moduleID() const
 {
     return ModuleIDNotSet;
-}
-
-void WebViewForm::connectWebChannels()
-{
-
 }

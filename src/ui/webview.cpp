@@ -19,7 +19,6 @@ WebView::WebView(QWidget *parent) :
     QWebEngineView(parent)
 {
     this->page()->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
-    connect(this->page(), &QWebEnginePage::loadFinished, this, &WebView::loadFinished);
 }
 
 void WebView::contextMenuEvent(QContextMenuEvent * ev)

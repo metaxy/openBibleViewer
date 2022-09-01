@@ -10,16 +10,16 @@
     <script type='text/javascript' src='qrc:/data/js/tools.js'></script>
   </head>
   <body>
-    <div id="content"></div>
+    <div id="content"><span></span></div>
     <script type="text/javascript">
     $(function() {
       new QWebChannel(qt.webChannelTransport, function(channel) {
-            console.error(channel.objects);
-            window.BibleWebChannel = channel.objects.BibleWebChannel;
-
-            BibleWebChannel.newContent.connect(function(html, verseTableId) {
-              console.error(html); document.getElementById('content').innerHTML = html;
-            });
+          console.error("channels setup");
+          window.BibleWebChannel = channel.objects.BibleWebChannel;
+          BibleWebChannel.newContent.connect(function(html, verseTableId) {
+            console.error("new Content to set", html); 
+            document.getElementById('content').innerHTML = html;
+          });
         });
     });
     </script>

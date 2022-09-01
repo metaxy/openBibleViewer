@@ -50,17 +50,3 @@ QVariantList SearchApi::search(const int moduleID, const QString &queryString)
     }
     return res;
 }
-
-QString SearchApi::name() const
-{
-    return "Search";
-}
-
-
-QString SearchApi::connectorJS() const
-{
-    return "";
-}
-
-
-

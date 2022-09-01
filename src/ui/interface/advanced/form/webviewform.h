@@ -78,20 +78,7 @@ public slots:
 
 
 protected:
-
     virtual void addJS(const QString &url);
-
-    template <typename T> void addWebChannel(T *t)
-    {
-        QWebChannel *channel = new QWebChannel(m_view->page());
-        channel->registerObject(t->name(), t);
-        m_view->page()->setWebChannel(channel);
-        m_connectorJS += t->connectorJS();
-        
-    }
-    void connectWebChannels();
-
-    QString m_connectorJS;
 
     QString m_contextMenuUrl;
     QString m_contextMenuText;
